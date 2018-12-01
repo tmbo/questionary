@@ -47,5 +47,6 @@ questions = [
     },
 ]
 
-answers = prompt(questions, style=custom_style_dope)
-pprint(answers)
+if __name__ == '__main__':
+    answers = prompt(questions, style=custom_style_dope)
+    pprint(answers)

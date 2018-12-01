@@ -15,53 +15,14 @@ questions = [
         'message': 'Select toppings',
         'name': 'toppings',
         'choices': [
-            Separator('= The Meats ='),
-            {
-                'name': 'Ham'
-            },
-            {
-                'name': 'Ground Meat'
-            },
-            {
-                'name': 'Bacon'
-            },
-            Separator('= The Cheeses ='),
-            {
-                'name': 'Mozzarella',
-                'checked': True
-            },
-            {
-                'name': 'Cheddar'
-            },
-            {
-                'name': 'Parmesan'
-            },
-            Separator('= The usual ='),
-            {
-                'name': 'Mushroom'
-            },
-            {
-                'name': 'Tomato'
-            },
-            {
-                'name': 'Pepperoni'
-            },
-            Separator('= The extras ='),
-            {
-                'name': 'Pineapple'
-            },
-            {
-                'name': 'Olives',
-                'disabled': 'out of stock'
-            },
-            {
-                'name': 'Extra cheese'
-            }
-        ],
-        'validate': lambda answer: ('You must choose at least one topping.'
-                                    if len(answer) == 0 else True)
+            {"name": "foo", "checked": True},
+            Separator(),
+            {"name": "bar", "disabled": "nope"},
+            'bazz',
+            Separator("--END--")]
     }
 ]
 
-answers = prompt(questions, style=custom_style_dope)
-pprint(answers)
+if __name__ == '__main__':
+    answers = prompt(questions, style=custom_style_dope)
+    pprint(answers)

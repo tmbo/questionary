@@ -26,5 +26,6 @@ questions = [
     },
 ]
 
-answers = prompt(questions, style=custom_style_fancy)
-pprint(answers)
+if __name__ == '__main__':
+    answers = prompt(questions, style=custom_style_fancy)
+    pprint(answers)

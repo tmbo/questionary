@@ -30,8 +30,6 @@ def prompt(questions,
             raise PromptParameterException('type')
         if 'name' not in question:
             raise PromptParameterException('name')
-        if 'message' not in question:
-            raise PromptParameterException('message')
 
         choices = question.get('choices')
         if choices is not None and callable(choices):

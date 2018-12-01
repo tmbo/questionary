@@ -15,7 +15,6 @@ from prompt_toolkit.styles import merge_styles
 
 from questionary.constants import DEFAULT_STYLE
 from questionary.prompts.common import Separator, InquirerControl
-from questionary.prompts.common import setup_simple_validator
 
 
 def question(message,
@@ -27,7 +26,6 @@ def question(message,
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     ic = InquirerControl(choices, default)
-    validator = setup_simple_validator(kwargs)
 
     def get_prompt_tokens():
         tokens = []

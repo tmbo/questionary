@@ -2,7 +2,7 @@
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
-from questionary import prompts
+from questionary import prompts, prompt
 
 
 class KeyInputs(object):
@@ -14,6 +14,7 @@ class KeyInputs(object):
     ESCAPE = '\x1b'
     CONTROLC = '\x03'
     BACK = '\x7f'
+    SPACE = ' '
 
 
 def feed_cli_with_input(_type, message, text, **kwargs):
@@ -34,6 +35,23 @@ def feed_cli_with_input(_type, message, text, **kwargs):
 
         result = application.run()
         return result, application
+
+    finally:
+        inp.close()
+
+
+def patched_prompt(questions, text, **kwargs):
+    """Create a prompt where the input and output are predefined."""
+
+    inp = create_pipe_input()
+
+    try:
+        inp.send_text(text)
+        result = prompt(questions,
+                        input=inp,
+                        output=DummyOutput(),
+                        **kwargs)
+        return result
 
     finally:
         inp.close()
