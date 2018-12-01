@@ -15,7 +15,9 @@ from examples import custom_style_dope
 class PhoneNumberValidator(Validator):
     def validate(self, document):
         ok = re.match(
-            '^([01])?[-.\s]?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})\s?((?:#|ext\.?\s?|x\.?\s?)(?:\d+)?)?$',
+            '^([01])?[-.\s]?\(?(\d{3})\)?'
+            '[-.\s]?(\d{3})[-.\s]?(\d{4})\s?'
+            '((?:#|ext\.?\s?|x\.?\s?)(?:\d+)?)?$',
             document.text)
         if not ok:
             raise ValidationError(
