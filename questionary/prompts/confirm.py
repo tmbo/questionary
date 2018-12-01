@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import (
     to_formatted_text)

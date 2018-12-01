@@ -2,12 +2,10 @@
 """
 * password question example
 """
-from __future__ import print_function, unicode_literals
-
 from pprint import pprint
 
-from questionary import prompt
 from examples import custom_style_dope
+from questionary import prompt
 
 questions = [
     {

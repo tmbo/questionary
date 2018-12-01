@@ -1,35 +1,21 @@
 # -*- coding: utf-8 -*-
-from __future__ import print_function
-
 import inspect
 
 
 def default_values_of(func):
     """Return the defaults of the function `func`."""
 
-    try:
-        # python 3.x is used
-        signature = inspect.signature(func)
-        return [k
-                for k, v in signature.parameters.items()
-                if v.default is not inspect.Parameter.empty or
-                v.kind != inspect.Parameter.POSITIONAL_OR_KEYWORD]
-    except AttributeError:
-        # python 2.x is used
-        # noinspection PyDeprecation
-        return list(inspect.getargspec(func).defaults)
+    signature = inspect.signature(func)
+    return [k
+            for k, v in signature.parameters.items()
+            if v.default is not inspect.Parameter.empty or
+            v.kind != inspect.Parameter.POSITIONAL_OR_KEYWORD]
 
 
 def arguments_of(func):
     """Return the parameters of the function `func`."""
 
-    try:
-        # python 3.x is used
-        return list(inspect.signature(func).parameters.keys())
-    except AttributeError:
-        # python 2.x is used
-        # noinspection PyDeprecation
-        return list(inspect.getargspec(func).args)
+    return list(inspect.signature(func).parameters.keys())
 
 
 def required_arguments(func):

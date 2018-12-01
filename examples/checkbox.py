@@ -3,12 +3,10 @@
 * Checkbox question example
 * run example by typing `python example/checkbox.py` in your console
 """
-from __future__ import print_function, unicode_literals
-
 from pprint import pprint
 
-from questionary import prompt, Separator
 from examples import custom_style_dope
+from questionary import prompt, Separator
 
 questions = [
     {

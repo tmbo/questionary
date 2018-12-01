@@ -3,12 +3,10 @@
 * Confirm question example
 * run example by typing `python example/confirm.py` in your console
 """
-from __future__ import print_function
-
 from pprint import pprint
 
-from questionary import prompt
 from examples import custom_style_fancy
+from questionary import prompt
 
 questions = [
     {

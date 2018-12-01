@@ -1,10 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-import sys
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.filters import IsDone
@@ -21,11 +15,6 @@ from prompt_toolkit.styles import merge_styles
 
 from questionary.constants import DEFAULT_STYLE
 from questionary.prompts.common import InquirerControl
-
-PY3 = sys.version_info[0] >= 3
-
-if PY3:
-    basestring = str
 
 
 def question(message,

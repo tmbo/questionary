@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import absolute_import, print_function
-
 from prompt_toolkit.output import ColorDepth
 
 from questionary import prompts, utils
@@ -103,6 +101,3 @@ def prompt(questions,
             print('')
             return {}
     return answers
-
-# TODO:
-# Bottom Bar - inquirer.ui.BottomBar

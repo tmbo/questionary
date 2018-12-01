@@ -1,20 +1,9 @@
 # -*- coding: utf-8 -*-
-"""
-common prompt functionality
-"""
-
-import sys
-
 from prompt_toolkit.layout import FormattedTextControl
 from prompt_toolkit.validation import Validator, ValidationError
 
 from questionary.constants import (SELECTED_POINTER, INDICATOR_SELECTED,
                                    INDICATOR_UNSELECTED)
-
-PY3 = sys.version_info[0] >= 3
-
-if PY3:
-    basestring = str
 
 
 class Choice(object):
@@ -64,7 +53,7 @@ class InquirerControl(FormattedTextControl):
             if isinstance(c, Separator):
                 choice = c
             else:
-                if isinstance(c, basestring):
+                if isinstance(c, str):
                     choice = Choice(c, c, False)
                 else:
                     choice = Choice(c.get('name'),
@@ -178,7 +167,7 @@ def setup_validator(kwargs):
                 def validate(self, document):
                     # print('validation!!')
                     verdict = validate_prompt(document.text)
-                    if isinstance(verdict, basestring):
+                    if isinstance(verdict, str):
                         raise ValidationError(
                             message=verdict,
                             cursor_position=len(document.text))
@@ -210,7 +199,7 @@ def setup_simple_validator(kwargs):
 
     def _validator(answer):
         verdict = validate(answer)
-        if isinstance(verdict, basestring):
+        if isinstance(verdict, str):
             raise ValidationError(
                 message=verdict
             )
