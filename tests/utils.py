@@ -27,8 +27,6 @@ def feed_cli_with_input(_type, message, text, **kwargs):
     object.
     This returns a (result, Application) tuple.
     """
-    # If the given text doesn't end with a newline, the interface won't finish.
-    assert text.endswith('\r')
 
     inp = create_pipe_input()
 

@@ -50,7 +50,7 @@ def question(message,
 
         return tokens
 
-    ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0)
+    ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
 
     layout = Layout(HSplit([
         ps.layout.container,
