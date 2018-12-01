@@ -34,7 +34,7 @@ setup(
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: Apache Software License",
+        "License :: OSI Approved :: MIT License",
         # supported python versions
         "Programming Language :: Python",
         "Programming Language :: Python :: 2.7",
@@ -55,7 +55,7 @@ setup(
     author_email="tombocklisch@gmail.com",
     maintainer="Tom Bocklisch",
     maintainer_email="tombocklisch@gmail.com",
-    license="Apache 2.0",
+    license="MIT",
     keywords="cli ui inquirer questions prompt",
     url="https://github/tmbo/questionary",
     download_url="https://github/tmbo/questionary/archive/{}.tar.gz"
