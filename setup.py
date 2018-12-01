@@ -57,11 +57,11 @@ setup(
     maintainer_email="tombocklisch@gmail.com",
     license="MIT",
     keywords="cli ui inquirer questions prompt",
-    url="https://github/tmbo/questionary",
-    download_url="https://github/tmbo/questionary/archive/{}.tar.gz"
+    url="https://github.com/tmbo/questionary",
+    download_url="https://github.com/tmbo/questionary/archive/{}.tar.gz"
                  "".format(__version__),
     project_urls={
-        "Bug Reports": "https://github/tmbo/questionary/issues",
-        "Source": "https://github/tmbo/questionary",
+        "Bug Reports": "https://github.com/tmbo/questionary/issues",
+        "Source": "https://github.com/tmbo/questionary",
     },
 )
