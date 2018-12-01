@@ -41,7 +41,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Topic :: Software Development :: Libraries",
     ],
-    packages=find_packages(exclude=["tests", "tools"]),
+    packages=find_packages(exclude=["tests", "examples"]),
     version=__version__,
     install_requires=install_requires,
     tests_require=tests_requires,
