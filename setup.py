@@ -21,7 +21,8 @@ tests_requires = [
 ]
 
 install_requires = [
-    "prompt_toolkit~=2.0"
+    "prompt_toolkit~=2.0",
+    "typing"
 ]
 
 extras_requires = {
