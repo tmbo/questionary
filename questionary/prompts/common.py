@@ -46,7 +46,7 @@ class Choice(object):
 class Separator(Choice):
     """Used to space/separate choices group."""
 
-    default_separator: Text = '-' * 15
+    default_separator = '-' * 15
 
     def __init__(self, line: Optional[Text] = None):
         self.line = line or self.default_separator
