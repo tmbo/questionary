@@ -70,10 +70,10 @@ class InquirerControl(FormattedTextControl):
         self.use_shortcuts = use_shortcuts
         self.default = default
 
-        self.pointed_at: Optional[int] = None
-        self.is_answered: bool = False
-        self.choices: List[Choice] = []
-        self.selected_options: List[Text] = []
+        self.pointed_at = None
+        self.is_answered = False
+        self.choices = []
+        self.selected_options = []
 
         self._init_choices(choices, default)
         self._assign_shortcut_keys()
