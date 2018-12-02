@@ -9,7 +9,7 @@
 
 Python library to build pretty command line user prompts ✨
 
-## Installation
+## Quickstart
 
 To install `questionary`, simply use [pipenv](http://pipenv.org/) (or pip, of
 course):
@@ -19,7 +19,12 @@ $ pipenv install questionary
 ✨🎂✨
 ```
 
-Satisfaction guaranteed.
+Satisfaction guaranteed. Let's create a first question:
+
+```python
+
+```
+
 
 ## Documentation
 
