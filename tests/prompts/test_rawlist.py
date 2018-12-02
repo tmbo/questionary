@@ -55,9 +55,9 @@ def test_duplicated_shortcuts():
     message = 'Foo message'
     kwargs = {
         'choices': [
-            {"name": "foo", "shortcut": 1},
+            {"name": "foo", "key": 1},
             Separator(),
-            {"name": "bar", "shortcut": 1},
+            {"name": "bar", "key": 1},
             'bazz',
             Separator("--END--")]
     }
@@ -71,9 +71,9 @@ def test_invalid_shortcuts():
     message = 'Foo message'
     kwargs = {
         'choices': [
-            {"name": "foo", "shortcut": "asd"},
+            {"name": "foo", "key": "asd"},
             Separator(),
-            {"name": "bar", "shortcut": "1"},
+            {"name": "bar", "key": "1"},
             'bazz',
             Separator("--END--")]
     }

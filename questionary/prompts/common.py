@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
+import inspect
 from typing import Optional, Any, List, Text, Dict, Union
 
 from prompt_toolkit.layout import FormattedTextControl
+from prompt_toolkit.validation import Validator, ValidationError
 
 from questionary.constants import (SELECTED_POINTER, INDICATOR_SELECTED,
                                    INDICATOR_UNSELECTED)
@@ -38,7 +40,7 @@ class Choice(object):
                           c.get('value', c.get('name')),
                           c.get('disabled', None),
                           c.get('checked'),
-                          c.get('shortcut'))
+                          c.get('key'))
 
 
 class Separator(Choice):
@@ -211,3 +213,22 @@ class InquirerControl(FormattedTextControl):
                 for c in self.choices
                 if (not isinstance(c, Separator) and
                     c.value in self.selected_options)]
+
+
+def build_validator(validate) -> Optional[Validator]:
+    if validate:
+        if inspect.isclass(validate) and issubclass(validate, Validator):
+            return validate()
+        elif callable(validate):
+            class _InputValidator(Validator):
+                def validate(self, document):
+                    verdict = validate(document.text)
+                    if verdict is not True:
+                        if verdict is False:
+                            verdict = 'invalid input'
+                        raise ValidationError(
+                            message=verdict,
+                            cursor_position=len(document.text))
+
+            return _InputValidator()
+    return None

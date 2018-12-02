@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-import inspect
 
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
 from prompt_toolkit.styles import merge_styles
-from prompt_toolkit.validation import Validator, ValidationError
 
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
+from questionary.prompts.common import build_validator
 
 
 def question(message,
@@ -17,27 +16,12 @@ def question(message,
              style=None,
              **kwargs):
     merged_style = merge_styles([DEFAULT_STYLE, style])
-    validator = None
 
-    if validate:
-        if inspect.isclass(validate) and issubclass(validate, Validator):
-            validator = validate()
-        elif callable(validate):
-            class _InputValidator(Validator):
-                def validate(self, document):
-                    verdict = validate(document.text)
-                    if verdict is not True:
-                        if verdict is False:
-                            verdict = 'invalid input'
-                        raise ValidationError(
-                            message=verdict,
-                            cursor_position=len(document.text))
-
-            validator = _InputValidator()
+    validator = build_validator(validate)
 
     def get_prompt_tokens():
         return [("class:qmark", qmark),
-                ("class:question", ' {} '.format(message))]
+                ("class:question", f' {message} ')]
 
     p = PromptSession(get_prompt_tokens,
                       style=merged_style,
