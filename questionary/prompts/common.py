@@ -96,11 +96,11 @@ class InquirerControl(FormattedTextControl):
                 if c.shortcut_key in available_shortcuts:
                     available_shortcuts.remove(c.shortcut_key)
                 else:
-                    raise ValueError(f"Invalid shortcut '{c.shortcut_key}'"
-                                     f"for choice '{c.title}'. Shortcuts "
+                    raise ValueError("Invalid shortcut '{}'"
+                                     "for choice '{}'. Shortcuts "
                                      "should be single characters or numbers. "
                                      "Make sure that all your shortcuts are "
-                                     "unique.")
+                                     "unique.".format(c.shortcut_key, c.title))
 
         shortcut_idx = 0
         for c in self.choices:
@@ -139,19 +139,21 @@ class InquirerControl(FormattedTextControl):
             selected = (choice.value in self.selected_options)
 
             if index == self.pointed_at:
-                tokens.append(("class:pointer", f" {SELECTED_POINTER} "))
+                tokens.append(("class:pointer",
+                               " {} ".format(SELECTED_POINTER)))
                 tokens.append(("[SetCursorPosition]", ""))
             else:
                 tokens.append(("", "   "))
 
             if isinstance(choice, Separator):
-                tokens.append(("class:separator", f"{choice.title}"))
+                tokens.append(("class:separator", "{}".format(choice.title)))
             elif choice.disabled:  # disabled
                 tokens.append(("class:selected" if selected else "",
-                               f"- {choice.title} ({choice.disabled})"))
+                               "- {} ({})".format(choice.title,
+                                                  choice.disabled)))
             else:
                 if self.use_shortcuts and choice.shortcut_key is not None:
-                    shortcut = f"{choice.shortcut_key}) "
+                    shortcut = "{}) ".format(choice.shortcut_key)
                 else:
                     shortcut = ""
 
@@ -162,7 +164,9 @@ class InquirerControl(FormattedTextControl):
                         indicator = ""
 
                     tokens.append(("class:selected",
-                                   f"{indicator}{shortcut}{choice.title}"))
+                                   "{}{}{}".format(indicator,
+                                                   shortcut,
+                                                   choice.title)))
                 else:
                     if self.use_indicator:
                         indicator = INDICATOR_UNSELECTED + " "
@@ -170,7 +174,9 @@ class InquirerControl(FormattedTextControl):
                         indicator = ""
 
                     tokens.append(("",
-                                   f"{indicator}{shortcut}{choice.title}"))
+                                   "{}{}{}".format(indicator,
+                                                   shortcut,
+                                                   choice.title)))
 
             tokens.append(("", "\n"))
 
@@ -180,7 +186,8 @@ class InquirerControl(FormattedTextControl):
 
         if self.use_shortcuts:
             tokens.append(("",
-                           f'  Answer: {self.get_pointed_at().shortcut_key}'))
+                           '  Answer: {}'
+                           ''.format(self.get_pointed_at().shortcut_key)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens

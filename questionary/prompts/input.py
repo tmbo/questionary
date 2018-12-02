@@ -21,7 +21,7 @@ def question(message,
 
     def get_prompt_tokens():
         return [("class:qmark", qmark),
-                ("class:question", f' {message} ')]
+                ("class:question", ' {} '.format(message))]
 
     p = PromptSession(get_prompt_tokens,
                       style=merged_style,

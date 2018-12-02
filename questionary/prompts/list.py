@@ -27,11 +27,12 @@ def question(message,
              **kwargs):
 
     if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
-        raise ValueError('A list with shortcuts supports a maximum of '
-                         f'{len(InquirerControl.SHORTCUT_KEYS)} '
+        raise ValueError('A list with shortcuts supports a maximum of {} '
                          'choices as this is the maximum number '
                          'of keyboard shortcuts that are available. You'
-                         f'provided {len(choices)} choices!')
+                         'provided {} choices!'
+                         ''.format(len(InquirerControl.SHORTCUT_KEYS),
+                                   len(choices)))
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
