@@ -10,7 +10,7 @@ from questionary import prompt, Separator
 
 def get_delivery_options(answers):
     options = ['bike', 'car', 'truck']
-    if answers['size'] == 'jumbo':
+    if answers.get('size') == 'jumbo':
         options.append('helicopter')
     return options
 
@@ -37,13 +37,15 @@ questions = [
         'name': 'size',
         'message': 'What size do you need?',
         'choices': ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
-        'filter': lambda val: val.lower()
+        'filter': lambda val: val.lower(),
+        'when': lambda a: a['theme'] == 'Order a pizza'
     },
     {
         'type': 'list',
         'name': 'delivery',
         'message': 'Which vehicle you want to use for delivery?',
         'choices': get_delivery_options,
+        'when': lambda a: a['theme'] == 'Order a pizza'
     },
 ]
 
