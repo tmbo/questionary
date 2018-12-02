@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-* Checkbox question example
-* run example by typing `python example/checkbox.py` in your console
-"""
+"""Example for a checkbox question type.
+
+Run example by typing `python -m examples.checkbox` in your console."""
 from pprint import pprint
 
 from examples import custom_style_dope

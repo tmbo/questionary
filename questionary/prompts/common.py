@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
+from typing import Optional, Any, List, Text, Dict, Union
+
 from prompt_toolkit.layout import FormattedTextControl
-from prompt_toolkit.validation import Validator, ValidationError
 
 from questionary.constants import (SELECTED_POINTER, INDICATOR_SELECTED,
                                    INDICATOR_UNSELECTED)
@@ -8,61 +9,119 @@ from questionary.constants import (SELECTED_POINTER, INDICATOR_SELECTED,
 
 class Choice(object):
 
-    def __init__(self, title, value, disabled):
+    def __init__(self,
+                 title: Text,
+                 value: Any,
+                 disabled: Optional[Text] = None,
+                 is_initially_selected: bool = False,
+                 shortcut_key: Optional[Text] = None):
         self.disabled = disabled
         self.value = value
         self.title = title
+        self.is_initially_selected = is_initially_selected
+
+        if shortcut_key is not None:
+            self.shortcut_key = str(shortcut_key)
+        else:
+            self.shortcut_key = None
+
+    @staticmethod
+    def build(c: Union[Text, 'Choice', Dict[Text, Any]]) -> 'Choice':
+        """Create a choice object from different representations."""
+
+        if isinstance(c, Choice):
+            return c
+        elif isinstance(c, str):
+            return Choice(c, c)
+        else:
+            return Choice(c.get('name'),
+                          c.get('value', c.get('name')),
+                          c.get('disabled', None),
+                          c.get('checked'),
+                          c.get('shortcut'))
 
 
 class Separator(Choice):
-    """Used to space/separate choices group"""
+    """Used to space/separate choices group."""
 
-    line = '-' * 15
+    default_separator: Text = '-' * 15
 
-    def __init__(self, line=None):
-        if line:
-            self.line = line
-        super(Separator, self).__init__(self.line, None, True)
+    def __init__(self, line: Optional[Text] = None):
+        self.line = line or self.default_separator
+        super(Separator, self).__init__(self.line, None, "-")
 
 
 class InquirerControl(FormattedTextControl):
-    def __init__(self, choices, default, use_indicator=True, **kwargs):
-        self.selected_option_index = 0
-        self.answered = False
+    SHORTCUT_KEYS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+                     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                     'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+                     'u', 'v', 'w', 'x', 'y', 'z']
+
+    def __init__(self,
+                 choices: List[Union[Text, Choice, Dict[Text, Any]]],
+                 default: Optional[Any] = None,
+                 use_indicator: bool = True,
+                 use_shortcuts: bool = False,
+                 **kwargs):
+
         self.use_indicator = use_indicator
+        self.use_shortcuts = use_shortcuts
         self.default = default
-        self.choices = []  # type: List[Choice]
-        self.selected_options = []  # list of names
+
+        self.pointed_at: Optional[int] = None
+        self.is_answered: bool = False
+        self.choices: List[Choice] = []
+        self.selected_options: List[Text] = []
+
         self._init_choices(choices, default)
+        self._assign_shortcut_keys()
+
         super(InquirerControl, self).__init__(self._get_choice_tokens,
                                               **kwargs)
 
-    def _is_selected(self, checked, choice):
-        return ((checked or choice.value == self.default and
+    def _is_selected(self, choice):
+        return ((choice.is_initially_selected or
+                 choice.value == self.default and
                  self.default is not None) and
                 not choice.disabled)
 
+    def _assign_shortcut_keys(self):
+        available_shortcuts = self.SHORTCUT_KEYS[:]
+
+        # first, make sure we do not double assign a shortcut
+        for c in self.choices:
+            if c.shortcut_key is not None:
+                if c.shortcut_key in available_shortcuts:
+                    available_shortcuts.remove(c.shortcut_key)
+                else:
+                    raise ValueError(f"Invalid shortcut '{c.shortcut_key}'"
+                                     f"for choice '{c.title}'. Shortcuts "
+                                     "should be single characters or numbers. "
+                                     "Make sure that all your shortcuts are "
+                                     "unique.")
+
+        shortcut_idx = 0
+        for c in self.choices:
+            if c.shortcut_key is None and not c.disabled:
+                c.shortcut_key = available_shortcuts[shortcut_idx]
+                shortcut_idx += 1
+
+            if shortcut_idx == len(available_shortcuts):
+                break  # fail gracefully if we run out of shortcuts
+
     def _init_choices(self, choices, default=None):
         # helper to convert from question format to internal format
-        self.choices = []  # list (name, value, disabled)
-        searching_first_choice = True
-        for i, c in enumerate(choices):
-            if isinstance(c, Separator):
-                choice = c
-            else:
-                if isinstance(c, str):
-                    choice = Choice(c, c, False)
-                else:
-                    choice = Choice(c.get('name'),
-                                    c.get('value', c.get('name')),
-                                    c.get('disabled', None))
-                    if self._is_selected(c.get('checked'), choice):
-                        self.selected_options.append(choice.value)
+        self.choices = []
 
-                if searching_first_choice and not choice.disabled:
-                    # find the first (available) choice
-                    self.selected_option_index = i
-                    searching_first_choice = False
+        for i, c in enumerate(choices):
+            choice = Choice.build(c)
+
+            if self._is_selected(choice):
+                self.selected_options.append(choice.value)
+
+            if self.pointed_at is None and not choice.disabled:
+                # find the first (available) choice
+                self.pointed_at = i
 
             self.choices.append(choice)
 
@@ -76,30 +135,32 @@ class InquirerControl(FormattedTextControl):
         def append(index, choice):
             # use value to check if option has been selected
             selected = (choice.value in self.selected_options)
-            pointed_at = (index == self.selected_option_index)
 
-            if pointed_at:
-                tokens.append(("class:pointer",
-                               ' {} '.format(SELECTED_POINTER)))
-                tokens.append(('[SetCursorPosition]', ''))
+            if index == self.pointed_at:
+                tokens.append(("class:pointer", f" {SELECTED_POINTER} "))
+                tokens.append(("[SetCursorPosition]", ""))
             else:
-                tokens.append(("", '   '))
+                tokens.append(("", "   "))
 
             if isinstance(choice, Separator):
-                tokens.append(("class:separator",
-                               "{}".format(choice.title)))
+                tokens.append(("class:separator", f"{choice.title}"))
             elif choice.disabled:  # disabled
                 tokens.append(("class:selected" if selected else "",
-                               '- {} ({})'.format(choice.title,
-                                                  choice.disabled)))
+                               f"- {choice.title} ({choice.disabled})"))
             else:
+                if self.use_shortcuts and choice.shortcut_key is not None:
+                    shortcut = f"{choice.shortcut_key}) "
+                else:
+                    shortcut = ""
+
                 if selected:
                     if self.use_indicator:
                         indicator = INDICATOR_SELECTED + " "
                     else:
                         indicator = ""
+
                     tokens.append(("class:selected",
-                                   "{}{}".format(indicator, choice.title)))
+                                   f"{indicator}{shortcut}{choice.title}"))
                 else:
                     if self.use_indicator:
                         indicator = INDICATOR_UNSELECTED + " "
@@ -107,37 +168,42 @@ class InquirerControl(FormattedTextControl):
                         indicator = ""
 
                     tokens.append(("",
-                                   "{}{}".format(indicator, choice.title)))
+                                   f"{indicator}{shortcut}{choice.title}"))
 
-            tokens.append(("", '\n'))
+            tokens.append(("", "\n"))
 
         # prepare the select choices
-        for i, choice in enumerate(self.choices):
-            append(i, choice)
-        tokens.pop()  # Remove last newline.
+        for i, c in enumerate(self.choices):
+            append(i, c)
+
+        if self.use_shortcuts:
+            tokens.append(("",
+                           f'  Answer: {self.get_pointed_at().shortcut_key}'))
+        else:
+            tokens.pop()  # Remove last newline.
         return tokens
 
     def is_selection_a_separator(self):
-        selected = self.choices[self.selected_option_index]
+        selected = self.choices[self.pointed_at]
         return isinstance(selected, Separator)
 
     def is_selection_disabled(self):
-        return self.choices[self.selected_option_index].disabled
+        return self.choices[self.pointed_at].disabled
 
     def is_selection_valid(self):
         return (not self.is_selection_disabled() and
                 not self.is_selection_a_separator())
 
     def select_previous(self):
-        self.selected_option_index = (
-                (self.selected_option_index - 1) % self.choice_count)
+        self.pointed_at = (
+                (self.pointed_at - 1) % self.choice_count)
 
     def select_next(self):
-        self.selected_option_index = (
-                (self.selected_option_index + 1) % self.choice_count)
+        self.pointed_at = (
+                (self.pointed_at + 1) % self.choice_count)
 
     def get_pointed_at(self):
-        return self.choices[self.selected_option_index]
+        return self.choices[self.pointed_at]
 
     def get_selected_values(self):
         # get values not labels

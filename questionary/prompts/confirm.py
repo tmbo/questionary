@@ -6,11 +6,12 @@ from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import NO_OR_YES, YES, NO, YES_OR_NO, DEFAULT_STYLE
+from questionary.constants import NO_OR_YES, YES, NO, YES_OR_NO, DEFAULT_STYLE, \
+    DEFAULT_QUESTION_PREFIX
 
 
 def question(message,
-             qmark="?",
+             qmark=DEFAULT_QUESTION_PREFIX,
              default=True,
              style=None,
              **kwargs):

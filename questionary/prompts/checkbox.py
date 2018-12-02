@@ -13,14 +13,14 @@ from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
 from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import DEFAULT_STYLE
+from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
 from questionary.prompts.common import Separator, InquirerControl
 
 
 def question(message,
              choices,
              default=None,
-             qmark="?",
+             qmark=DEFAULT_QUESTION_PREFIX,
              style=None,
              **kwargs):
     merged_style = merge_styles([DEFAULT_STYLE, style])
@@ -32,7 +32,7 @@ def question(message,
 
         tokens.append(("class:qmark", qmark))
         tokens.append(("class:question", ' {} '.format(message)))
-        if ic.answered:
+        if ic.is_answered:
             nbr_selected = len(ic.selected_options)
             if nbr_selected == 0:
                 tokens.append(("class:answer", ' done'))
@@ -112,7 +112,7 @@ def question(message,
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-        ic.answered = True
+        ic.is_answered = True
         event.app.exit(result=[c.value for c in ic.get_selected_values()])
 
     @bindings.add(Keys.Any)

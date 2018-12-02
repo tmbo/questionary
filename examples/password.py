@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-* password question example
-"""
+"""Example for a password question type.
+
+Run example by typing `python -m examples.password` in your console."""
 from pprint import pprint
 
 from examples import custom_style_dope

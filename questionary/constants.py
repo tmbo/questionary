@@ -16,6 +16,8 @@ INDICATOR_SELECTED = "●"
 
 INDICATOR_UNSELECTED = "○"
 
+DEFAULT_QUESTION_PREFIX = "?"
+
 DEFAULT_STYLE = Style([
     ('qmark', 'fg:#5f819d'),
     ('question', 'bold'),

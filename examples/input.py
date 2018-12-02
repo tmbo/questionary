@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-* Input prompt example
-* run example by writing `python example/input.py` in your console
-"""
+"""Example for a list question type.
+
+Run example by typing `python -m examples.input` in your console."""
 import re
 from pprint import pprint
 

@@ -13,29 +13,44 @@ from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
 from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import DEFAULT_STYLE
-from questionary.prompts.common import InquirerControl
+from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
+from questionary.prompts.common import InquirerControl, Separator
 
 
 def question(message,
              choices,
              default=None,
-             qmark="?",
+             qmark=DEFAULT_QUESTION_PREFIX,
              style=None,
+             use_shortcuts=False,
+             use_indicator=False,
              **kwargs):
+
+    if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
+        raise ValueError('A list with shortcuts supports a maximum of '
+                         f'{len(InquirerControl.SHORTCUT_KEYS)} '
+                         'choices as this is the maximum number '
+                         'of keyboard shortcuts that are available. You'
+                         f'provided {len(choices)} choices!')
+
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    ic = InquirerControl(choices, default, use_indicator=False)
+    ic = InquirerControl(choices, default,
+                         use_indicator=use_indicator,
+                         use_shortcuts=use_shortcuts)
 
     def get_prompt_tokens():
         tokens = []
 
         tokens.append(("class:qmark", qmark))
         tokens.append(("class:question", ' {} '.format(message)))
-        if ic.answered:
+        if ic.is_answered:
             tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
-            tokens.append(("class:instruction", ' (Use arrow keys)'))
+            if use_shortcuts:
+                tokens.append(("class:instruction", ' (Use shortcuts)'))
+            else:
+                tokens.append(("class:instruction", ' (Use arrow keys)'))
 
         return tokens
 
@@ -56,21 +71,36 @@ def question(message,
     def _(event):
         event.app.exit(exception=KeyboardInterrupt, style='class:aborting')
 
-    @bindings.add(Keys.Down, eager=True)
-    def move_cursor_down(event):
-        ic.select_next()
-        while not ic.is_selection_valid():
-            ic.select_next()
+    if use_shortcuts:
+        # add key bindings for choices
+        for i, c in enumerate(ic.choices):
+            if isinstance(c, Separator):
+                continue
 
-    @bindings.add(Keys.Up, eager=True)
-    def move_cursor_up(event):
-        ic.select_previous()
-        while not ic.is_selection_valid():
+            def _reg_binding(i, keys):
+                # trick out late evaluation with a "function factory":
+                # https://stackoverflow.com/a/3431699
+                @bindings.add(keys, eager=True)
+                def select_choice(event):
+                    ic.pointed_at = i
+
+            _reg_binding(i, c.shortcut_key)
+    else:
+        @bindings.add(Keys.Down, eager=True)
+        def move_cursor_down(event):
+            ic.select_next()
+            while not ic.is_selection_valid():
+                ic.select_next()
+
+        @bindings.add(Keys.Up, eager=True)
+        def move_cursor_up(event):
             ic.select_previous()
+            while not ic.is_selection_valid():
+                ic.select_previous()
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-        ic.answered = True
+        ic.is_answered = True
         event.app.exit(result=ic.get_pointed_at().value)
 
     @bindings.add(Keys.Any)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-list prompt example
-"""
+"""Example for a list question type.
+
+Run example by typing `python -m examples.list` in your console."""
 from pprint import pprint
 
 from examples import custom_style_dope

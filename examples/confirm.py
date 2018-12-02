@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-* Confirm question example
-* run example by typing `python example/confirm.py` in your console
-"""
+"""Example for a confirm question type.
+
+Run example by typing `python -m examples.confirm` in your console."""
 from pprint import pprint
 
 from examples import custom_style_fancy

@@ -30,6 +30,14 @@ def test_list_example():
                       'theme': 'Order a pizza'}
 
 
+def test_rawlist_example():
+    from examples.rawlist import questions
+    text = "3" + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
+
+    result = patched_prompt(questions, text)
+    assert result == {'theme': 'Ask opening hours', 'size': 'jumbo'}
+
+
 def test_checkbox_example():
     from examples.checkbox import questions
     text = "n" + KeyInputs.ENTER + KeyInputs.ENTER + KeyInputs.ENTER + "\r"

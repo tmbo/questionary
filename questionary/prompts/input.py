@@ -7,11 +7,11 @@ from prompt_toolkit.shortcuts.prompt import (
 from prompt_toolkit.styles import merge_styles
 from prompt_toolkit.validation import Validator, ValidationError
 
-from questionary.constants import DEFAULT_STYLE
+from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
 
 
 def question(message,
-             qmark="?",
+             qmark=DEFAULT_QUESTION_PREFIX,
              default="",
              validate=None,
              style=None,
