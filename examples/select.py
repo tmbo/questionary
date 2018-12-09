@@ -17,7 +17,7 @@ def get_delivery_options(answers):
 
 questions = [
     {
-        'type': 'list',
+        'type': 'select',
         'name': 'theme',
         'message': 'What do you want to do?',
         'choices': [
@@ -33,7 +33,7 @@ questions = [
         ]
     },
     {
-        'type': 'list',
+        'type': 'select',
         'name': 'size',
         'message': 'What size do you need?',
         'choices': ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
@@ -41,7 +41,7 @@ questions = [
         'when': lambda a: a['theme'] == 'Order a pizza'
     },
     {
-        'type': 'list',
+        'type': 'select',
         'name': 'delivery',
         'message': 'Which vehicle you want to use for delivery?',
         'choices': get_delivery_options,

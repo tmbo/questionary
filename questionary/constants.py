@@ -18,6 +18,8 @@ INDICATOR_UNSELECTED = "○"
 
 DEFAULT_QUESTION_PREFIX = "?"
 
+DEFAULT_KBI_MESSAGE = "Cancelled by user"
+
 DEFAULT_STYLE = Style([
     ('qmark', 'fg:#5f819d'),
     ('question', 'bold'),

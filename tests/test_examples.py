@@ -10,7 +10,7 @@ def test_confirm_example():
 
 
 def test_input_example():
-    from examples.input import questions
+    from examples.text import questions
     text = (KeyInputs.ENTER + KeyInputs.ENTER + "1234567890" +
             KeyInputs.ENTER + "\r")
 
@@ -21,7 +21,7 @@ def test_input_example():
 
 
 def test_list_example():
-    from examples.list import questions
+    from examples.select import questions
     text = "n" + KeyInputs.ENTER + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
     result = patched_prompt(questions, text)
@@ -31,7 +31,7 @@ def test_list_example():
 
 
 def test_rawlist_example():
-    from examples.rawlist import questions
+    from examples.rawselect import questions
     text = "3" + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
     result = patched_prompt(questions, text)

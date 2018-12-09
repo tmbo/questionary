@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from typing import Any, Optional, Text, List, Union, Dict
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.filters import IsDone
@@ -11,20 +12,22 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
-from prompt_toolkit.styles import merge_styles
+from prompt_toolkit.styles import merge_styles, Style
 
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
-from questionary.prompts.common import InquirerControl, Separator
+from questionary.prompts.common import InquirerControl, Separator, Choice
+from questionary.question import Question
 
 
-def question(message,
-             choices,
-             default=None,
-             qmark=DEFAULT_QUESTION_PREFIX,
-             style=None,
-             use_shortcuts=False,
-             use_indicator=False,
-             **kwargs):
+def select(message: Text,
+           choices: List[Union[Text, Choice, Dict[Text, Any]]],
+           default: Optional[Text] = None,
+           qmark: Text = DEFAULT_QUESTION_PREFIX,
+           style: Optional[Style] = None,
+           use_shortcuts: bool = False,
+           use_indicator: bool = False,
+           **kwargs: Any) -> Question:
+    """Prompt the user to select an item from the list of choices."""
 
     if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
         raise ValueError('A list with shortcuts supports a maximum of {} '
@@ -41,10 +44,10 @@ def question(message,
                          use_shortcuts=use_shortcuts)
 
     def get_prompt_tokens():
-        tokens = []
+        # noinspection PyListCreation
+        tokens = [("class:qmark", qmark),
+                  ("class:question", ' {} '.format(message))]
 
-        tokens.append(("class:qmark", qmark))
-        tokens.append(("class:question", ' {} '.format(message)))
         if ic.is_answered:
             tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
@@ -78,6 +81,7 @@ def question(message,
             if isinstance(c, Separator):
                 continue
 
+            # noinspection PyShadowingNames
             def _reg_binding(i, keys):
                 # trick out late evaluation with a "function factory":
                 # https://stackoverflow.com/a/3431699
@@ -109,9 +113,9 @@ def question(message,
         """Disallow inserting other text. """
         pass
 
-    return Application(
+    return Question(Application(
         layout=layout,
         key_bindings=bindings,
         style=merged_style,
         **kwargs
-    )
+    ))

@@ -2,7 +2,8 @@
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
-from questionary import prompts, prompt
+from questionary import prompt
+from questionary.prompts import prompt_by_name
 
 
 class KeyInputs(object):
@@ -28,12 +29,13 @@ def feed_cli_with_input(_type, message, text, **kwargs):
 
     try:
         inp.send_text(text)
-        application = getattr(prompts, _type).question(message,
-                                                       input=inp,
-                                                       output=DummyOutput(),
-                                                       **kwargs)
+        prompter = prompt_by_name(_type)
+        application = prompter(message,
+                               input=inp,
+                               output=DummyOutput(),
+                               **kwargs)
 
-        result = application.run()
+        result = application.unsafe_ask()
         return result, application
 
     finally:

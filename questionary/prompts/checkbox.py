@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from typing import Text, List, Union, Dict, Any, Optional
+
 from prompt_toolkit.application import Application
 from prompt_toolkit.filters import IsDone
 from prompt_toolkit.key_binding import KeyBindings
@@ -11,18 +13,19 @@ from prompt_toolkit.layout.containers import (
 from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
-from prompt_toolkit.styles import merge_styles
+from prompt_toolkit.styles import merge_styles, Style
 
+from questionary.question import Question
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
-from questionary.prompts.common import Separator, InquirerControl
+from questionary.prompts.common import Separator, InquirerControl, Choice
 
 
-def question(message,
-             choices,
-             default=None,
-             qmark=DEFAULT_QUESTION_PREFIX,
-             style=None,
-             **kwargs):
+def checkbox(message: Text,
+             choices: List[Union[Text, Choice, Dict[Text, Any]]],
+             default: Optional[Text] = None,
+             qmark: Text = DEFAULT_QUESTION_PREFIX,
+             style: Optional[Style] = None,
+             **kwargs: Any) -> Question:
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     ic = InquirerControl(choices, default)
@@ -89,7 +92,7 @@ def question(message,
     def all(event):
         all_selected = True  # all choices have been selected
         for c in ic.choices:
-            if(not isinstance(c, Separator) and
+            if (not isinstance(c, Separator) and
                     c.value not in ic.selected_options and
                     not c.disabled):
                 # add missing ones
@@ -120,9 +123,9 @@ def question(message,
         """Disallow inserting other text. """
         pass
 
-    return Application(
+    return Question(Application(
         layout=layout,
         key_bindings=bindings,
         style=merged_style,
         **kwargs
-    )
+    ))

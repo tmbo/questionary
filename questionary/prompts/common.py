@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import inspect
-from typing import Optional, Any, List, Text, Dict, Union
+from typing import Optional, Any, List, Text, Dict, Union, Callable, Type
 
 from prompt_toolkit.layout import FormattedTextControl
 from prompt_toolkit.validation import Validator, ValidationError
@@ -222,7 +222,10 @@ class InquirerControl(FormattedTextControl):
                     c.value in self.selected_options)]
 
 
-def build_validator(validate) -> Optional[Validator]:
+def build_validator(validate: Union[Type[Validator],
+                                    Callable[[Text], bool],
+                                    None]
+                    ) -> Optional[Validator]:
     if validate:
         if inspect.isclass(validate) and issubclass(validate, Validator):
             return validate()

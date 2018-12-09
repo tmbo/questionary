@@ -2,8 +2,9 @@
 
 from prompt_toolkit.output import ColorDepth
 
-from questionary import prompts, utils
-import prompt_toolkit.patch_stdout
+from questionary import utils
+from questionary.constants import DEFAULT_KBI_MESSAGE
+from questionary.prompts import AVAILABLE_PROMPTS, prompt_by_name
 
 
 class PromptParameterException(ValueError):
@@ -17,31 +18,31 @@ def prompt(questions,
            answers=None,
            patch_stdout=False,
            true_color=False,
-           kbi_msg='Cancelled by user',
+           kbi_msg=DEFAULT_KBI_MESSAGE,
            **kwargs):
     if isinstance(questions, dict):
         questions = [questions]
 
     answers = answers or {}
 
-    for question in questions:
+    for question_config in questions:
         # import the question
-        if 'type' not in question:
+        if 'type' not in question_config:
             raise PromptParameterException('type')
-        if 'name' not in question:
+        if 'name' not in question_config:
             raise PromptParameterException('name')
 
-        choices = question.get('choices')
+        choices = question_config.get('choices')
         if choices is not None and callable(choices):
-            question['choices'] = choices(answers)
+            question_config['choices'] = choices(answers)
 
-        _kwargs = {}
-        _kwargs.update(kwargs)
-        _kwargs.update(question)
+        _kwargs = kwargs.copy()
+        _kwargs.update(question_config)
+
         _type = _kwargs.pop('type')
+        _filter = _kwargs.pop('filter', None)
         name = _kwargs.pop('name')
         when = _kwargs.pop('when', None)
-        _filter = _kwargs.pop('filter', None)
 
         if true_color:
             _kwargs["color_depth"] = ColorDepth.TRUE_COLOR
@@ -49,9 +50,9 @@ def prompt(questions,
         try:
             if when:
                 # at least a little sanity check!
-                if callable(question['when']):
+                if callable(question_config['when']):
                     try:
-                        if not question['when'](answers):
+                        if not question_config['when'](answers):
                             continue
                     except Exception as e:
                         raise ValueError("Problem in 'when' check of {} "
@@ -65,22 +66,24 @@ def prompt(questions,
                     raise ValueError("'filter' needs to be function that "
                                      "accepts an argument")
 
-            if callable(question.get('default')):
-                _kwargs['default'] = question['default'](answers)
+            if callable(question_config.get('default')):
+                _kwargs['default'] = question_config['default'](answers)
 
-            question_f = getattr(prompts, _type).question
+            create_question_func = prompt_by_name(_type)
 
-            missing_args = list(utils.missing_arguments(question_f, _kwargs))
+            if not create_question_func:
+                raise ValueError("No question type '{}' found. "
+                                 "Known question types are {}."
+                                 "".format(_type, ", ".join(AVAILABLE_PROMPTS)))
+
+            missing_args = list(utils.missing_arguments(create_question_func,
+                                                        _kwargs))
             if missing_args:
                 raise PromptParameterException(missing_args[0])
 
-            application = question_f(**_kwargs)
+            question = create_question_func(**_kwargs)
 
-            if patch_stdout:
-                with prompt_toolkit.patch_stdout.patch_stdout():
-                    answer = application.run()
-            else:
-                answer = application.run()
+            answer = question.unsafe_ask(patch_stdout)
 
             if answer is not None:
                 if _filter:
@@ -90,9 +93,6 @@ def prompt(questions,
                         raise ValueError("Problem processing 'filter' of {} "
                                          "question: {}".format(name, e))
                 answers[name] = answer
-        except AttributeError as e:
-            print(e)
-            raise ValueError("No question type '{}'".format(_type))
         except KeyboardInterrupt:
             print('')
             print(kbi_msg)

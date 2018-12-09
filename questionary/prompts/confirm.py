@@ -1,21 +1,24 @@
 # -*- coding: utf-8 -*-
+from typing import Optional, Text, Any
+
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import (
     to_formatted_text)
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.styles import merge_styles
+from prompt_toolkit.styles import merge_styles, Style
 
 from questionary.constants import (NO_OR_YES, YES, NO, YES_OR_NO,
                                    DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX)
+from questionary.question import Question
 
 
-def question(message,
-             qmark=DEFAULT_QUESTION_PREFIX,
-             default=True,
-             style=None,
-             **kwargs):
-    """Create a `PromptSession` object for the 'confirm' function."""
+def confirm(message: Text,
+            qmark: Text = DEFAULT_QUESTION_PREFIX,
+            default: Optional[Text] = True,
+            style: Optional[Style] = None,
+            **kwargs: Any) -> Question:
+    """Prompt the user to enter a free text message."""
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
@@ -65,7 +68,7 @@ def question(message,
         """Disallow inserting other text."""
         pass
 
-    return PromptSession(get_prompt_tokens,
-                         key_bindings=bindings,
-                         style=merged_style,
-                         **kwargs).app
+    return Question(PromptSession(get_prompt_tokens,
+                                  key_bindings=bindings,
+                                  style=merged_style,
+                                  **kwargs).app)

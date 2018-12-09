@@ -24,19 +24,19 @@ class PhoneNumberValidator(Validator):
 
 questions = [
     {
-        'type': 'input',
+        'type': 'text',
         'name': 'first_name',
         'message': 'What\'s your first name',
     },
     {
-        'type': 'input',
+        'type': 'text',
         'name': 'last_name',
         'message': 'What\'s your last name',
         'default': lambda a: 'Smith' if a['first_name'] == 'Dave' else 'Doe',
         'validate': lambda val: val == 'Doe' or 'is your last name Doe?'
     },
     {
-        'type': 'input',
+        'type': 'text',
         'name': 'phone',
         'message': 'What\'s your phone number',
         'validate': PhoneNumberValidator

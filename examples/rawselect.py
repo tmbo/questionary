@@ -9,7 +9,7 @@ from questionary import Separator, prompt
 
 questions = [
     {
-        'type': 'rawlist',
+        'type': 'rawselect',
         'name': 'theme',
         'message': 'What do you want to do?',
         'choices': [
@@ -21,7 +21,7 @@ questions = [
         ]
     },
     {
-        'type': 'rawlist',
+        'type': 'rawselect',
         'name': 'size',
         'message': 'What size do you need',
         'choices': ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
