@@ -12,9 +12,9 @@ from questionary import Validator, ValidationError, prompt
 class PhoneNumberValidator(Validator):
     def validate(self, document):
         ok = re.match(
-            '^([01])?[-.\s]?\(?(\d{3})\)?'
-            '[-.\s]?(\d{3})[-.\s]?(\d{4})\s?'
-            '((?:#|ext\.?\s?|x\.?\s?)(?:\d+)?)?$',
+            r'^([01])?[-.\s]?\(?(\d{3})\)?'
+            r'[-.\s]?(\d{3})[-.\s]?(\d{4})\s?'
+            r'((?:#|ext\.?\s?|x\.?\s?)(?:\d+)?)?$',
             document.text)
         if not ok:
             raise ValidationError(

@@ -204,12 +204,10 @@ class InquirerControl(FormattedTextControl):
                 not self.is_selection_a_separator())
 
     def select_previous(self):
-        self.pointed_at = (
-                (self.pointed_at - 1) % self.choice_count)
+        self.pointed_at = (self.pointed_at - 1) % self.choice_count
 
     def select_next(self):
-        self.pointed_at = (
-                (self.pointed_at + 1) % self.choice_count)
+        self.pointed_at = (self.pointed_at + 1) % self.choice_count
 
     def get_pointed_at(self):
         return self.choices[self.pointed_at]
