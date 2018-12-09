@@ -22,9 +22,19 @@ $ pipenv install questionary
 Satisfaction guaranteed. Let's create a first question:
 
 ```python
+import questionary
 
+questionary.select("What do you want to do?",
+                   choices=[
+                       'Order a pizza',
+                       'Make a reservation',
+                       'Ask for opening hours'
+                   ]).ask()   # returns value of selected item
 ```
 
+This will create the following list, allowing the user to choose an option:
+
+![select](docs/images/select.png)
 
 ## Documentation
 
