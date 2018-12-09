@@ -14,7 +14,7 @@ def password(message: Text,
              default: Text = "",
              validate: Union[Type[Validator],
                              Callable[[Text], bool],
-                             None] = None,
+                             None] = None,  # noqa
              style: Optional[Style] = None,
              **kwargs: Any) -> Question:
     return text.text(message, qmark, default, validate, style,

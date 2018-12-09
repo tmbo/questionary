@@ -18,8 +18,8 @@ def text(message: Text,
          default: Text = "",
          validate: Union[Type[Validator],
                          Callable[[Text], bool],
-                         None] = None,
-         style: Optional[Style]=None,
+                         None] = None,  # noqa
+         style: Optional[Style] = None,
          **kwargs: Any) -> Question:
     """Prompt the user to enter a free text message."""
 
