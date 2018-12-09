@@ -20,7 +20,7 @@ def example_form(inp):
 
 def test_form_creation():
     inp = create_pipe_input()
-    text = "y" + KeyInputs.ENTER + "\r"
+    text = "Y" + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
     try:
         inp.send_text(text)
