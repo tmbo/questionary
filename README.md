@@ -30,7 +30,7 @@ questionary.select(
         'Order a pizza',
         'Make a reservation',
         'Ask for opening hours'
-    ]).ask()   # returns value of selected item
+    ]).ask()  # returns value of selection
 ```
 
 This will create the following list, allowing the user to choose an option:
