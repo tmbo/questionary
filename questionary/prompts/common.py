@@ -13,12 +13,13 @@ class Choice(object):
 
     def __init__(self,
                  title: Text,
-                 value: Any,
+                 value: Optional[Any] = None,
                  disabled: Optional[Text] = None,
                  is_initially_selected: bool = False,
                  shortcut_key: Optional[Text] = None):
+
         self.disabled = disabled
-        self.value = value
+        self.value = value if value is None else title
         self.title = title
         self.is_initially_selected = is_initially_selected
 
@@ -37,7 +38,7 @@ class Choice(object):
             return Choice(c, c)
         else:
             return Choice(c.get('name'),
-                          c.get('value', c.get('name')),
+                          c.get('value'),
                           c.get('disabled', None),
                           c.get('checked'),
                           c.get('key'))

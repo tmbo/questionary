@@ -4,24 +4,21 @@
 Run example by typing `python -m examples.checkbox` in your console."""
 from pprint import pprint
 
+import questionary
 from examples import custom_style_dope
-from questionary import prompt, Separator
+from questionary import Separator, Choice
 
-questions = [
-    {
-        'type': 'checkbox',
-        'qmark': '😃',
-        'message': 'Select toppings',
-        'name': 'toppings',
-        'choices': [
-            {"name": "foo", "checked": True},
-            Separator(),
-            {"name": "bar", "disabled": "nope"},
-            'bazz',
-            Separator("--END--")]
-    }
-]
+question = questionary.checkbox(
+    'Select toppings',
+    qmark='😃',
+    choices=[
+        Choice("foo", is_initially_selected=True),
+        Separator(),
+        Choice("bar", disabled="nope"),
+        'bazz',
+        Separator("--END--")],
+    style=custom_style_dope)
 
 if __name__ == '__main__':
-    answers = prompt(questions, style=custom_style_dope)
+    answers = question.ask()
     pprint(answers)

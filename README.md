@@ -40,6 +40,47 @@ This will create the following list, allowing the user to choose an option:
 ## Documentation
 
 
+### Different question types:
+
+1. text
+    
+    A free text input for the user. 
+    
+    ```python
+    questionary.text("What's your first name").ask()
+    ```
+2. password
+
+    A free text input for the user where the input is not
+    shown but replaced with `***`. 
+    
+    ```python
+    questionary.password("What's your secret?").ask()
+    ```
+3. confirm
+
+    A yes or no question. The user can either confirm or deny. 
+    
+    ```python
+    questionary.confirm("Are you amazed?").ask()
+    ```
+4. select
+    A list of items to select a choice from. The user can pick
+    one option and confirm it.
+    
+    ```python
+    questionary.select(
+        "What do you want to do?",
+        choices=[
+            'Order a pizza',
+            'Make a reservation',
+            'Ask for opening hours'
+        ]).ask()
+    ```
+    
+    ![select](docs/images/select.png)
+5. rawlist
+6. checkbox
 
 ## How to Contribute
 
