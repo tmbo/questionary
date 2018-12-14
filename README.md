@@ -37,7 +37,7 @@ questionary.select(
 
 This will create the following list, allowing the user to choose an option:
 
-<img src="docs/images/example.gif" width="500">
+<img src="docs/images/example.gif" width="800">
 
 ## Documentation
 
