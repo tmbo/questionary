@@ -45,7 +45,7 @@ This will create the following list, allowing the user to choose an option:
    
    The available question types are [text](#text), [password](#password), [confirm](#confirm), [select](#select), [rawselect](#rawselect) and [checkbox](#checkbox).
 
-2. [Styling your prompts](#2-Styling-your-prompt)
+2. [Styling your prompts](#2-Styling-your-prompts)
 
    Customize how your questions look.
 
