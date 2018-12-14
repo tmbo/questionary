@@ -43,7 +43,7 @@ This will create the following list, allowing the user to choose an option:
 
 The package contains different prompts for different use cases: [text](#1-text), [password](#2-password), [confirm](#3-confirm), [select](#4-select), [rawselect](#5-rawselect) and [checkbox](#6-checkbox).
 
-### Different question types:
+### Different question types
 
 #### 1. text
     
@@ -120,6 +120,28 @@ The package contains different prompts for different use cases: [text](#1-text),
        ]).ask()
    ```
    ![checkbox](docs/images/checkbox.png)
+
+### Styling your prompts
+
+You can customize all the colors used for the prompts. Every part of the prompt has an identifier, which you can use to style it. Let's create our own custom style:
+```python
+from prompt_toolkit.styles import Style
+
+custom_style_fancy = Style([
+    ('qmark', 'fg:#673ab7 bold'),     # token in front of the question
+    ('question', 'bold'),             # question text
+    ('answer', 'fg:#f44336 bold'),    # submitted answer text behind the question
+    ('pointer', 'fg:#673ab7 bold'),   # pointer used in select and checkbox prompts
+    ('selected', 'fg:#cc5454'),       # style for a selected item of a checkbox
+    ('separator', 'fg:#cc5454'),      # separator in lists
+    ('instruction', '')               # user instructions for select, rawselect, checkbox
+])
+```
+
+To use our custom style, we need to pass it to the question type:
+```python
+questionary.text("What's your phone number", style=custom_style_fancy).ask()
+```
 
 ## How to Contribute
 
