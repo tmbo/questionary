@@ -5,6 +5,7 @@ Run example by typing `python -m examples.input` in your console."""
 import re
 from pprint import pprint
 
+import questionary
 from examples import custom_style_dope
 from questionary import Validator, ValidationError, prompt
 
@@ -22,27 +23,30 @@ class PhoneNumberValidator(Validator):
                 cursor_position=len(document.text))  # Move cursor to end
 
 
-questions = [
-    {
-        'type': 'text',
-        'name': 'first_name',
-        'message': 'What\'s your first name',
-    },
-    {
-        'type': 'text',
-        'name': 'last_name',
-        'message': 'What\'s your last name',
-        'default': lambda a: 'Smith' if a['first_name'] == 'Dave' else 'Doe',
-        'validate': lambda val: val == 'Doe' or 'is your last name Doe?'
-    },
-    {
-        'type': 'text',
-        'name': 'phone',
-        'message': 'What\'s your phone number',
-        'validate': PhoneNumberValidator
-    }
-]
+def ask_pystyle(**kwargs):
+    # create the question object
+    question = questionary.text(
+        "What's your phone number",
+        validate=PhoneNumberValidator,
+        style=custom_style_dope,
+        **kwargs)
+
+    # prompt the user for an answer
+    return question.ask()
+
+
+def ask_dictstyle(**kwargs):
+    questions = [
+        {
+            'type': 'text',
+            'name': 'phone',
+            'message': "What's your phone number",
+            'validate': PhoneNumberValidator
+        }
+    ]
+
+    return prompt(questions, style=custom_style_dope, **kwargs)
+
 
 if __name__ == '__main__':
-    answers = prompt(questions, style=custom_style_dope)
-    pprint(answers)
+    pprint(ask_pystyle())

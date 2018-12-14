@@ -44,43 +44,79 @@ This will create the following list, allowing the user to choose an option:
 
 1. text
     
-    A free text input for the user. 
+   A free text input for the user. 
     
-    ```python
-    questionary.text("What's your first name").ask()
-    ```
+   ```python
+   questionary.text("What's your first name").ask()
+   ```
+   
+   ![text](docs/images/text.png)
 2. password
 
-    A free text input for the user where the input is not
-    shown but replaced with `***`. 
+   A free text input for the user where the input is not
+   shown but replaced with `***`. 
     
-    ```python
-    questionary.password("What's your secret?").ask()
-    ```
+   ```python
+   questionary.password("What's your secret?").ask()
+   ```
+   
+   ![password](docs/images/password.png)
 3. confirm
 
-    A yes or no question. The user can either confirm or deny. 
+   A yes or no question. The user can either confirm or deny. 
     
-    ```python
-    questionary.confirm("Are you amazed?").ask()
-    ```
+   ```python
+   questionary.confirm("Are you amazed?").ask()
+   ```
+   
+   ![confirm](docs/images/confirm.png)
 4. select
-    A list of items to select a choice from. The user can pick
-    one option and confirm it.
+
+   A list of items to select a choice from. The user can pick
+   one option and confirm it.
     
-    ```python
-    questionary.select(
-        "What do you want to do?",
-        choices=[
-            'Order a pizza',
-            'Make a reservation',
-            'Ask for opening hours'
-        ]).ask()
-    ```
-    
-    ![select](docs/images/select.png)
-5. rawlist
+   ```python
+   questionary.select(
+       "What do you want to do?",
+       choices=[
+           "Order a pizza",
+           "Make a reservation",
+           "Ask for opening hours"
+       ]).ask()
+   ```
+   
+   ![select](docs/images/select.png)
+5. rawselect
+
+   A list of items to select a choice from. The user can pick
+   one option using shortcuts and confirm it.
+
+   ```python
+   questionary.rawselect(
+       "What do you want to do?",
+       choices=[
+           "Order a pizza",
+           "Make a reservation",
+           "Ask for opening hours"
+       ]).ask()
+   ```
+
+   ![rawselect](docs/images/rawselect.png)
 6. checkbox
+
+   A list of items to select multiple choices from. The user can pick
+   none, one or multiple options and confirm the selection.
+
+   ```python
+   questionary.checkbox(
+       'Select toppings',
+       choices=[
+           "foo",
+           "bar",
+           "bazz"
+       ]).ask()
+   ```
+   ![checkbox](docs/images/checkbox.png)
 
 ## How to Contribute
 

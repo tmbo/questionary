@@ -1,62 +1,81 @@
-from tests.utils import KeyInputs, patched_prompt
+from prompt_toolkit.input.defaults import create_pipe_input
+from prompt_toolkit.output import DummyOutput
+
+from tests.utils import KeyInputs
+
+
+def ask_with_patched_input(q, text):
+    inp = create_pipe_input()
+    try:
+        inp.send_text(text)
+        return q(input=inp, output=DummyOutput())
+    finally:
+        inp.close()
 
 
 def test_confirm_example():
-    from examples.dict_style.confirm import questions
+    from examples.confirm import ask_dictstyle, ask_pystyle
     text = "n" + KeyInputs.ENTER + "\r"
 
-    result = patched_prompt(questions, text)
-    assert result == {'continue': False, 'exit': False}
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
+
+    assert result_dict == {'continue': False}
+    assert result_dict['continue'] == result_py
 
 
-def test_input_example():
-    from examples.dict_style.text import questions
-    text = (KeyInputs.ENTER + KeyInputs.ENTER + "1234567890" +
-            KeyInputs.ENTER + "\r")
+def test_text_example():
+    from examples.text import ask_dictstyle, ask_pystyle
+    text = "1234567890" + KeyInputs.ENTER + "\r"
 
-    result = patched_prompt(questions, text)
-    assert result == {'first_name': '',
-                      'last_name': 'Doe',
-                      'phone': '1234567890'}
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
 
-
-def test_list_example():
-    from examples.dict_style.select import questions
-    text = "n" + KeyInputs.ENTER + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
-
-    result = patched_prompt(questions, text)
-    assert result == {'delivery': 'bike',
-                      'size': 'jumbo',
-                      'theme': 'Order a pizza'}
+    assert result_dict == {'phone': '1234567890'}
+    assert result_dict['phone'] == result_py
 
 
-def test_rawlist_example():
-    from examples.dict_style.rawselect import questions
+def test_select_example():
+    from examples.select import ask_dictstyle, ask_pystyle
+    text = KeyInputs.DOWN + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
+
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
+
+    assert result_dict == {'theme': 'Make a reservation'}
+    assert result_dict['theme'] == result_py
+
+
+def test_rawselect_example():
+    from examples.rawselect import (
+        ask_dictstyle,
+        ask_pystyle)
     text = "3" + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
-    result = patched_prompt(questions, text)
-    assert result == {'theme': 'Ask opening hours', 'size': 'jumbo'}
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
+
+    assert result_dict == {'theme': 'Ask opening hours'}
+    assert result_dict['theme'] == result_py
 
 
-def test_checkbox_example_dict():
-    from examples.dict_style.checkbox import questions
+def test_checkbox_example():
+    from examples.checkbox import ask_dictstyle, ask_pystyle
     text = "n" + KeyInputs.ENTER + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
-    result = patched_prompt(questions, text)
-    assert result == {'toppings': ['foo']}
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
 
-
-def test_checkbox_example_dict():
-    from examples.checkbox import question
-    text = "n" + KeyInputs.ENTER + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
-
-    result = patched_prompt(question, text)
-    assert result == {'toppings': ['foo']}
+    assert result_dict == {'toppings': ['foo']}
+    assert result_dict['toppings'] == result_py
 
 
 def test_password_example():
-    from examples.dict_style.password import questions
+    from examples.password import ask_dictstyle, ask_pystyle
     text = "asdf" + KeyInputs.ENTER + "\r"
 
-    result = patched_prompt(questions, text)
-    assert result == {'password': 'asdf'}
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
+
+    assert result_dict == {'password': 'asdf'}
+    assert result_dict['password'] == result_py

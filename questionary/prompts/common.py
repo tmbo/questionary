@@ -15,13 +15,13 @@ class Choice(object):
                  title: Text,
                  value: Optional[Any] = None,
                  disabled: Optional[Text] = None,
-                 is_initially_selected: bool = False,
+                 checked: bool = False,
                  shortcut_key: Optional[Text] = None):
 
         self.disabled = disabled
-        self.value = value if value is None else title
+        self.value = value if value is not None else title
         self.title = title
-        self.is_initially_selected = is_initially_selected
+        self.checked = checked
 
         if shortcut_key is not None:
             self.shortcut_key = str(shortcut_key)
@@ -83,7 +83,7 @@ class InquirerControl(FormattedTextControl):
                                               **kwargs)
 
     def _is_selected(self, choice):
-        return ((choice.is_initially_selected or
+        return ((choice.checked or
                  choice.value == self.default and
                  self.default is not None) and
                 not choice.disabled)
