@@ -59,6 +59,7 @@ This will create the following list, allowing the user to choose an option:
    questionary.text("What's your first name").ask()
    ```
    <img src="docs/images/text.png" width="500">
+
 #### password
 
    A free text input for the user where the input is not
@@ -69,6 +70,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    <img src="docs/images/password.png" width="500">
+
 #### confirm
 
    A yes or no question. The user can either confirm or deny. 
@@ -78,6 +80,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    <img src="docs/images/confirm.png" width="500">
+
 #### select
 
    A list of items to select a choice from. The user can pick
@@ -94,6 +97,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    <img src="docs/images/select.png" width="500">
+
 #### rawselect
 
    A list of items to select a choice from. The user can pick
@@ -110,6 +114,7 @@ This will create the following list, allowing the user to choose an option:
    ```
 
    <img src="docs/images/rawselect.png" width="500">
+
 #### checkbox
 
    A list of items to select multiple choices from. The user can pick
