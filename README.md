@@ -45,7 +45,11 @@ This will create the following list, allowing the user to choose an option:
    
    The available question types are [text](#text), [password](#password), [confirm](#confirm), [select](#select), [rawselect](#rawselect) and [checkbox](#checkbox).
 
-2. [Styling your prompts](#2-Styling-your-prompts)
+2. [Dict style question formulation](#2-Dict-style-question-formulation)
+
+   Alterative style to create questions using a configuration dictionary. 
+
+3. [Styling your prompts](#3-Styling-your-prompts)
 
    Customize how your questions look.
 
@@ -131,7 +135,30 @@ This will create the following list, allowing the user to choose an option:
    ```
    <img src="docs/images/checkbox.png" width="700">
 
-### 2. Styling your prompts
+### 2. Dict style question formulation
+
+Instead of creating questions using the python functions, you can also create them using a configuration dictionary. 
+```python
+questions = [
+    {
+        'type': 'text',
+        'name': 'phone',
+        'message': "What's your phone number",
+    },
+    {
+        'type': 'confirm',
+        'message': 'Do you want to continue?',
+        'name': 'continue',
+        'default': True,
+    }
+]
+
+answers = prompt(questions)
+```
+
+The returned `answers` will be a dict containing the responses, e.g. `{"phone": "0123123", "continue": False, ""}`. The questions will be prompted one after another and `prompt` will return once all of them are answered.
+
+### 3. Styling your prompts
 
 You can customize all the colors used for the prompts. Every part of the prompt has an identifier, which you can use to style it. Let's create our own custom style:
 ```python
