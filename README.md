@@ -199,5 +199,17 @@ questionary.text("What's your phone number", style=custom_style_fancy).ask()
 
 `questionary` is written and maintained by Tom Bocklisch. It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer). 
 
+## Changelog
+
+#### 1.0.0 
+Initial public release of the library
+
+Release Date: 14.12.18
+
+* Added python interface
+* Added dict style question creation
+* Improved the documentation
+* More tests and automatic travis test execution
+
 ## License
 Licensed under the MIT License. Copyright 2018 Tom Bocklisch. [Copy of the license](LICENSE).
