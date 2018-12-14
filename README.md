@@ -41,15 +41,15 @@ This will create the following list, allowing the user to choose an option:
 
 ## Documentation
 
-1. [Different question types](Different-question-types) 
+1. [Different question types](#1-Different-question-types) 
    
    The available question types are [text](#text), [password](#password), [confirm](#confirm), [select](#select), [rawselect](#rawselect) and [checkbox](#checkbox).
 
-2. [Styling your prompts](#Styling-your-prompt)
+2. [Styling your prompts](#2-Styling-your-prompt)
 
    Customize how your questions look.
 
-### 1 Different question types
+### 1. Different question types
 
 #### text
     
@@ -127,7 +127,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    ![checkbox](docs/images/checkbox.png)
 
-### 2 Styling your prompts
+### 2. Styling your prompts
 
 You can customize all the colors used for the prompts. Every part of the prompt has an identifier, which you can use to style it. Let's create our own custom style:
 ```python
