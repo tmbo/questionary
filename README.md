@@ -201,8 +201,11 @@ questionary.text("What's your phone number", style=custom_style_fancy).ask()
 
 ## Changelog
 
-#### 1.0.0 (14.12.18)
-Initial release
+#### 1.0.0 
+Initial public release of the library
+
+Release Date: 14.12.18
+
 * Added python interface
 * Added dict style question creation
 * Improved the documentation
