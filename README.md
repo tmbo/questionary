@@ -41,7 +41,7 @@ This will create the following list, allowing the user to choose an option:
 
 ## Documentation
 
-The package contains different prompts for different use cases: [text](https://github.com/tmbo/questionary#different-question-types)
+The package contains different prompts for different use cases: [text](#1-text), [password](#2-password), [confirm](#3-confirm), [select](#4-select), [rawselect](#5-rawselect) and [checkbox](#6-checkbox).
 
 ### Different question types:
 
