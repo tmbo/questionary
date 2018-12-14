@@ -27,7 +27,36 @@ def select(message: Text,
            use_shortcuts: bool = False,
            use_indicator: bool = False,
            **kwargs: Any) -> Question:
-    """Prompt the user to select an item from the list of choices."""
+    """Prompt the user to select one item from the list of choices.
+
+    The user can only select one option.
+
+    Args:
+        message: Question text
+
+        choices: Items shown in the selection, this can contain `Choice` or
+                 or `Separator` objects or simple items as strings. Passing
+                 `Choice` objects, allows you to configure the item more
+                 (e.g. preselecting it or disabeling it).
+
+        default: Default return value (single value).
+
+        qmark: Question prefix displayed in front of the question.
+               By default this is a `?`
+
+        style: A custom color and style for the question parts. You can
+               configure colors as well as font types for different elements.
+
+        use_indicator: Flag to enable the small indicator in front of the
+                       list highlighting the current location of the selection
+                       cursor.
+
+        use_shortcuts: Allow the user to select items from the list using
+                       shortcuts. The shortcuts will be displayed in front of
+                       the list items.
+    Returns:
+        Question: Question instance, ready to be prompted (using `.ask()`).
+    """
 
     if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
         raise ValueError('A list with shortcuts supports a maximum of {} '

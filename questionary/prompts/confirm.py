@@ -1,24 +1,44 @@
 # -*- coding: utf-8 -*-
-from typing import Optional, Text, Any
-
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import (
     to_formatted_text)
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import merge_styles, Style
+from typing import Optional, Text, Any
 
-from questionary.constants import (NO_OR_YES, YES, NO, YES_OR_NO,
-                                   DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX)
+from questionary.constants import (
+    NO_OR_YES, YES, NO, YES_OR_NO,
+    DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX)
 from questionary.question import Question
 
 
 def confirm(message: Text,
+            default: bool = True,
             qmark: Text = DEFAULT_QUESTION_PREFIX,
-            default: Optional[Text] = True,
             style: Optional[Style] = None,
             **kwargs: Any) -> Question:
-    """Prompt the user to enter a free text message."""
+    """Prompt the user to confirm or reject.
+
+       This question type can be used to prompt the user for a confirmation
+       of a yes-or-no question. If the user just hits enter, the default
+       value will be returned.
+
+       Args:
+           message: Question text
+
+           default: Default value will be returned if the user just hits
+                    enter.
+
+           qmark: Question prefix displayed in front of the question.
+                  By default this is a `?`
+
+           style: A custom color and style for the question parts. You can
+                  configure colors as well as font types for different elements.
+
+       Returns:
+           Question: Question instance, ready to be prompted (using `.ask()`).
+       """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 

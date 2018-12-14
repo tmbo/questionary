@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from prompt_toolkit.output import ColorDepth
+from typing import Any, Text, Dict, Optional, List
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
@@ -14,12 +15,14 @@ class PromptParameterException(ValueError):
             'You must provide a `%s` value' % message, errors)
 
 
-def prompt(questions,
-           answers=None,
-           patch_stdout=False,
-           true_color=False,
-           kbi_msg=DEFAULT_KBI_MESSAGE,
+def prompt(questions: List[Dict[Text, Any]],
+           answers: Optional[Dict[Text, Any]] = None,
+           patch_stdout: bool = False,
+           true_color: bool = False,
+           kbi_msg: Text = DEFAULT_KBI_MESSAGE,
            **kwargs):
+    """Prompt the user for input on all the questions."""
+
     if isinstance(questions, dict):
         questions = [questions]
 

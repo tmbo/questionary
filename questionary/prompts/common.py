@@ -1,22 +1,38 @@
 # -*- coding: utf-8 -*-
 import inspect
-from typing import Optional, Any, List, Text, Dict, Union, Callable, Type
-
 from prompt_toolkit.layout import FormattedTextControl
 from prompt_toolkit.validation import Validator, ValidationError
+from typing import Optional, Any, List, Text, Dict, Union, Callable, Type
 
-from questionary.constants import (SELECTED_POINTER, INDICATOR_SELECTED,
-                                   INDICATOR_UNSELECTED)
+from questionary.constants import (
+    SELECTED_POINTER, INDICATOR_SELECTED,
+    INDICATOR_UNSELECTED)
 
 
 class Choice(object):
+    """One choice in a select, rawselect or checkbox."""
 
     def __init__(self,
                  title: Text,
                  value: Optional[Any] = None,
                  disabled: Optional[Text] = None,
                  checked: bool = False,
-                 shortcut_key: Optional[Text] = None):
+                 shortcut_key: Optional[Text] = None) -> None:
+        """Create a new choice.
+
+        Args:
+            title: Text shown in the selection list.
+
+            value: Value returned, when the choice is selected.
+
+            disabled: If set, the choice can not be selected by the user. The
+                      provided text is used to explain, why the selection is
+                      disabled.
+
+            checked: Preselect this choice when displaying the options.
+
+            shortcut_key: Key shortcut used to select this item.
+        """
 
         self.disabled = disabled
         self.value = value if value is not None else title
@@ -50,6 +66,12 @@ class Separator(Choice):
     default_separator = '-' * 15
 
     def __init__(self, line: Optional[Text] = None):
+        """Create a separator in a list.
+
+        Args:
+            line: Text to be displayed in the list, by default uses `---`.
+        """
+
         self.line = line or self.default_separator
         super(Separator, self).__init__(self.line, None, "-")
 
@@ -76,7 +98,7 @@ class InquirerControl(FormattedTextControl):
         self.choices = []
         self.selected_options = []
 
-        self._init_choices(choices, default)
+        self._init_choices(choices)
         self._assign_shortcut_keys()
 
         super(InquirerControl, self).__init__(self._get_choice_tokens,
@@ -112,7 +134,7 @@ class InquirerControl(FormattedTextControl):
             if shortcut_idx == len(available_shortcuts):
                 break  # fail gracefully if we run out of shortcuts
 
-    def _init_choices(self, choices, default=None):
+    def _init_choices(self, choices):
         # helper to convert from question format to internal format
         self.choices = []
 

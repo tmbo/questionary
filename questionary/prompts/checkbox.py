@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from typing import Text, List, Union, Dict, Any, Optional
-
 from prompt_toolkit.application import Application
 from prompt_toolkit.filters import IsDone
 from prompt_toolkit.key_binding import KeyBindings
@@ -14,10 +12,11 @@ from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
 from prompt_toolkit.styles import merge_styles, Style
+from typing import Text, List, Union, Dict, Any, Optional
 
-from questionary.question import Question
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
 from questionary.prompts.common import Separator, InquirerControl, Choice
+from questionary.question import Question
 
 
 def checkbox(message: Text,
@@ -26,6 +25,32 @@ def checkbox(message: Text,
              qmark: Text = DEFAULT_QUESTION_PREFIX,
              style: Optional[Style] = None,
              **kwargs: Any) -> Question:
+    """Ask the user to select from a list of items.
+
+    This is a multiselect, the user can choose one, none or many of the
+    items.
+
+    Args:
+        message: Question text
+
+        choices: Items shown in the selection, this can contain `Choice` or
+                 or `Separator` objects or simple items as strings. Passing
+                 `Choice` objects, allows you to configure the item more
+                 (e.g. preselecting it or disabeling it).
+
+        default: Default return value (single value). If you want to preselect
+                 multiple items, use `Choice("foo", checked=True)` instead.
+
+        qmark: Question prefix displayed in front of the question.
+               By default this is a `?`
+
+        style: A custom color and style for the question parts. You can
+               configure colors as well as font types for different elements.
+
+    Returns:
+        Question: Question instance, ready to be prompted (using `.ask()`).
+    """
+
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     ic = InquirerControl(choices, default)
@@ -93,8 +118,7 @@ def checkbox(message: Text,
         all_selected = True  # all choices have been selected
         for c in ic.choices:
             if (not isinstance(c, Separator) and
-                    c.value not in ic.selected_options and
-                    not c.disabled):
+                    c.value not in ic.selected_options and not c.disabled):
                 # add missing ones
                 ic.selected_options.append(c.value)
                 all_selected = False

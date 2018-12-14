@@ -1,4 +1,5 @@
 import questionary
+from examples import custom_style_dope
 
 if __name__ == '__main__':
     questionary.text("What's your first name").ask()
@@ -23,4 +24,4 @@ if __name__ == '__main__':
         choices=[
             "foo",
             "bar",
-            'bazz']).ask()
+            'bazz'], style=custom_style_dope).ask()
