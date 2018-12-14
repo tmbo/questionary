@@ -197,7 +197,9 @@ questionary.text("What's your phone number", style=custom_style_fancy).ask()
     
 ## Contributors
 
-`questionary` is written and maintained by Tom Bocklisch. It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer). 
+`questionary` is written and maintained by Tom Bocklisch. 
+
+It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat). 
 
 ## Changelog
 
