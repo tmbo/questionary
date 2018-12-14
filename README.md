@@ -41,11 +41,17 @@ This will create the following list, allowing the user to choose an option:
 
 ## Documentation
 
-The package contains different prompts for different use cases: [text](#1-text), [password](#2-password), [confirm](#3-confirm), [select](#4-select), [rawselect](#5-rawselect) and [checkbox](#6-checkbox).
+1. [Different question types](Different-question-types) 
+   
+   The available question types are [text](#text), [password](#password), [confirm](#confirm), [select](#select), [rawselect](#rawselect) and [checkbox](#checkbox).
 
-### Different question types
+2. [Styling your prompts](#Styling-your-prompt)
 
-#### 1. text
+   Customize how your questions look.
+
+### 1 Different question types
+
+#### text
     
    A free text input for the user. 
     
@@ -54,7 +60,7 @@ The package contains different prompts for different use cases: [text](#1-text),
    ```
    
    ![text](docs/images/text.png)
-#### 2. password
+#### password
 
    A free text input for the user where the input is not
    shown but replaced with `***`. 
@@ -64,7 +70,7 @@ The package contains different prompts for different use cases: [text](#1-text),
    ```
    
    ![password](docs/images/password.png)
-#### 3. confirm
+#### confirm
 
    A yes or no question. The user can either confirm or deny. 
     
@@ -73,7 +79,7 @@ The package contains different prompts for different use cases: [text](#1-text),
    ```
    
    ![confirm](docs/images/confirm.png)
-#### 4. select
+#### select
 
    A list of items to select a choice from. The user can pick
    one option and confirm it.
@@ -89,7 +95,7 @@ The package contains different prompts for different use cases: [text](#1-text),
    ```
    
    ![select](docs/images/select.png)
-#### 5. rawselect
+#### rawselect
 
    A list of items to select a choice from. The user can pick
    one option using shortcuts and confirm it.
@@ -105,7 +111,7 @@ The package contains different prompts for different use cases: [text](#1-text),
    ```
 
    ![rawselect](docs/images/rawselect.png)
-#### 6. checkbox
+#### checkbox
 
    A list of items to select multiple choices from. The user can pick
    none, one or multiple options and confirm the selection.
@@ -121,7 +127,7 @@ The package contains different prompts for different use cases: [text](#1-text),
    ```
    ![checkbox](docs/images/checkbox.png)
 
-### Styling your prompts
+### 2 Styling your prompts
 
 You can customize all the colors used for the prompts. Every part of the prompt has an identifier, which you can use to style it. Let's create our own custom style:
 ```python
