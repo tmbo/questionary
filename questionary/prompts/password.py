@@ -47,5 +47,5 @@ def password(message: Text,
            Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
-    return text.text(message, qmark, default, validate, style,
+    return text.text(message, default, validate, qmark, style,
                      is_password=True, **kwargs)
