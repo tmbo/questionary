@@ -9,6 +9,8 @@
 
 Python library to build pretty command line user prompts ✨
 
+You need input from a user, e.g. how an output file should be named or if he really wants to execute that dangerous operation? This library will help you make the input prompts easy to read and answer for the user.
+
 ## Quickstart
 
 To install `questionary`, simply use [pipenv](http://pipenv.org/) (or pip, of
@@ -39,10 +41,11 @@ This will create the following list, allowing the user to choose an option:
 
 ## Documentation
 
+The package contains different prompts for different use cases: [text](https://github.com/tmbo/questionary#different-question-types)
 
 ### Different question types:
 
-1. text
+#### 1. text
     
    A free text input for the user. 
     
@@ -51,7 +54,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    ![text](docs/images/text.png)
-2. password
+#### 2. password
 
    A free text input for the user where the input is not
    shown but replaced with `***`. 
@@ -61,7 +64,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    ![password](docs/images/password.png)
-3. confirm
+#### 3. confirm
 
    A yes or no question. The user can either confirm or deny. 
     
@@ -70,7 +73,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    ![confirm](docs/images/confirm.png)
-4. select
+#### 4. select
 
    A list of items to select a choice from. The user can pick
    one option and confirm it.
@@ -86,7 +89,7 @@ This will create the following list, allowing the user to choose an option:
    ```
    
    ![select](docs/images/select.png)
-5. rawselect
+#### 5. rawselect
 
    A list of items to select a choice from. The user can pick
    one option using shortcuts and confirm it.
@@ -102,7 +105,7 @@ This will create the following list, allowing the user to choose an option:
    ```
 
    ![rawselect](docs/images/rawselect.png)
-6. checkbox
+#### 6. checkbox
 
    A list of items to select multiple choices from. The user can pick
    none, one or multiple options and confirm the selection.
