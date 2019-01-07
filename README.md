@@ -207,6 +207,9 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 ## Changelog
 
+#### unreleased (master branch)
+* Fixed unclosed file handle in `setup.py`
+
 #### 1.0.0 
 Initial public release of the library
 
