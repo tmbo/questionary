@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
+import time
+
+from questionary.prompts import common
 from typing import Any, Optional, Text, List, Union, Dict
 
 from prompt_toolkit.application import Application
-from prompt_toolkit.filters import IsDone
+from prompt_toolkit.filters import IsDone, Never, Always
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.layout import Layout
@@ -87,15 +90,7 @@ def select(message: Text,
 
         return tokens
 
-    ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
-
-    layout = Layout(HSplit([
-        ps.layout.container,
-        ConditionalContainer(
-            Window(ic),
-            filter=~IsDone()
-        )
-    ]))
+    layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
 

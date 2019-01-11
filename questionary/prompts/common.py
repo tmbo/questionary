@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import inspect
-from prompt_toolkit.layout import FormattedTextControl
+from prompt_toolkit import PromptSession
+from prompt_toolkit.filters import IsDone, Always
+from prompt_toolkit.layout import (
+    FormattedTextControl, Layout, HSplit,
+    ConditionalContainer, Window)
 from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Text, Dict, Union, Callable, Type
+from typing import Optional, Any, List, Text, Dict, Union, Callable, Type, Tuple
 
 from questionary.constants import (
     SELECTED_POINTER, INDICATOR_SELECTED,
@@ -263,3 +267,39 @@ def build_validator(validate: Union[Type[Validator],
 
             return _InputValidator()
     return None
+
+
+def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
+    """This is a fix for additional empty lines added by prompt toolkit.
+
+    This assumes the layout of the default session doesn't change, if it
+    does, this needs an update."""
+
+    default_container = ps.layout.container
+
+    default_buffer_window = \
+        default_container.get_children()[0].content.get_children()[1].content
+
+    assert isinstance(default_buffer_window, Window)
+    # this forces the main window to stay as small as possible, avoiding
+    # empty lines in selections
+    default_buffer_window.dont_extend_height = Always()
+
+
+def create_inquirer_layout(
+        ic: InquirerControl,
+        get_prompt_tokens: Callable[[], List[Tuple[Text, Text]]],
+        **kwargs) -> Layout:
+    """Create a layout combining question and inquirer selection."""
+
+    ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
+
+    _fix_unecessary_blank_lines(ps)
+
+    return Layout(HSplit([
+        ps.layout.container,
+        ConditionalContainer(
+            Window(ic),
+            filter=~IsDone()
+        )
+    ]))

@@ -12,6 +12,7 @@ from prompt_toolkit.layout.containers import Window
 from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
 from prompt_toolkit.styles import merge_styles, Style
+from questionary.prompts import common
 from typing import Text, List, Union, Dict, Any, Optional
 
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
@@ -80,15 +81,7 @@ def checkbox(message: Text,
                            '<i> to invert)'))
         return tokens
 
-    ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
-
-    layout = Layout(HSplit([
-        ps.layout.container,
-        ConditionalContainer(
-            Window(ic),
-            filter=~IsDone()
-        )
-    ]))
+    layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
 

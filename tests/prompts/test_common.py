@@ -1,6 +1,9 @@
 import pytest
 from prompt_toolkit.document import Document
+from prompt_toolkit.input.defaults import create_pipe_input
+from prompt_toolkit.output import DummyOutput
 from prompt_toolkit.validation import ValidationError
+from questionary.prompts import common
 
 from questionary.prompts.common import InquirerControl, build_validator
 
@@ -31,3 +34,26 @@ def test_validator_bool_function_fails():
         validator.validate(Document("fooooo"))
 
     assert e.value.message == 'invalid input'
+
+
+def test_blank_line_fix():
+    def get_prompt_tokens():
+        return [("class:question", "What is your favourite letter?")]
+
+    ic = InquirerControl(["a", "b", "c"])
+
+    inp = create_pipe_input()
+
+    try:
+        inp.send_text("")
+        layout = common.create_inquirer_layout(ic, get_prompt_tokens,
+                                               input=inp,
+                                               output=DummyOutput())
+
+        # usually this would be 2000000000000000000000000000000
+        # but `common._fix_unecessary_blank_lines` makes sure
+        # the main window is not as greedy (avoiding blank lines)
+        assert layout.container.preferred_height(100, 200).max == \
+            1000000000000000000000000000001
+    finally:
+        inp.close()
