@@ -44,8 +44,9 @@ def test_select_first_and_third_choice():
     kwargs = {
         'choices': ['foo', 'bar', 'bazz']
     }
+    # DOWN and `j` should do the same
     text = (KeyInputs.SPACE + KeyInputs.DOWN + KeyInputs.SPACE +
-            KeyInputs.DOWN + KeyInputs.ENTER + "\r")
+            "j" + KeyInputs.ENTER + "\r")
 
     result, cli = feed_cli_with_input('checkbox', message, text, **kwargs)
     assert result == ["foo", "bar"]
@@ -90,7 +91,8 @@ def test_separator_up():
     kwargs = {
         'choices': ['foo', Separator(), 'bazz', Separator("--END--")]
     }
-    text = (KeyInputs.UP + KeyInputs.UP + KeyInputs.SPACE +
+    # UP and `k` should do the same
+    text = (KeyInputs.UP + "k" + KeyInputs.SPACE +
             KeyInputs.ENTER + "\r")
 
     result, cli = feed_cli_with_input('checkbox', message, text, **kwargs)

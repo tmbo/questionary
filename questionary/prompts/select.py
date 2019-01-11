@@ -116,12 +116,14 @@ def select(message: Text,
             _reg_binding(i, c.shortcut_key)
     else:
         @bindings.add(Keys.Down, eager=True)
+        @bindings.add("j", eager=True)
         def move_cursor_down(event):
             ic.select_next()
             while not ic.is_selection_valid():
                 ic.select_next()
 
         @bindings.add(Keys.Up, eager=True)
+        @bindings.add("k", eager=True)
         def move_cursor_up(event):
             ic.select_previous()
             while not ic.is_selection_valid():

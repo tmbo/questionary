@@ -38,6 +38,17 @@ def test_select_second_choice():
     assert result == 'bar'
 
 
+def test_select_second_choice_using_j():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', 'bar', 'bazz']
+    }
+    text = "j" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input('select', message, text, **kwargs)
+    assert result == 'bar'
+
+
 def test_select_third_choice():
     message = 'Foo message'
     kwargs = {
@@ -67,6 +78,17 @@ def test_cycle_backwards():
         'choices': ['foo', 'bar', 'bazz']
     }
     text = KeyInputs.UP + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input('select', message, text, **kwargs)
+    assert result == 'bazz'
+
+
+def test_cycle_backwards_using_k():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', 'bar', 'bazz']
+    }
+    text = "k" + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == 'bazz'

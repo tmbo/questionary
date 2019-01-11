@@ -208,6 +208,10 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 ## Changelog
 
 #### unreleased (master branch)
+* Added shortcut keys `j` (move down the list) and `k` (move up) to
+  the prompts `select` and `checkbox` (fixes [#2](https://github.com/tmbo/questionary/issues/2))
+  
+
 * Fixed unclosed file handle in `setup.py`
 * Fixed unecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
 
