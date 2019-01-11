@@ -209,6 +209,7 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 #### unreleased (master branch)
 * Fixed unclosed file handle in `setup.py`
+* Fixed unecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
 
 #### 1.0.0 
 Initial public release of the library
