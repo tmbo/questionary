@@ -11,6 +11,10 @@ Python library to build pretty command line user prompts ✨
 
 You need input from a user, e.g. how an output file should be named or if he really wants to execute that dangerous operation? This library will help you make the input prompts easy to read and answer for the user.
 
+Used and Supported by: 
+
+[<img src="https://rasa.com/docs/_static/rasa_logo.svg" width="60">](https://github.com/RasaHQ/rasa_core)
+
 ## Quickstart
 
 To install `questionary`, simply use [pipenv](http://pipenv.org/) (or pip, of
@@ -37,7 +41,7 @@ questionary.select(
 
 This will create the following list, allowing the user to choose an option:
 
-<img src="docs/images/example.gif" width="500">
+<img src="docs/images/example.gif" width="800">
 
 ## Documentation
 
@@ -197,9 +201,14 @@ questionary.text("What's your phone number", style=custom_style_fancy).ask()
     
 ## Contributors
 
-`questionary` is written and maintained by Tom Bocklisch. It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer). 
+`questionary` is written and maintained by Tom Bocklisch. 
+
+It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat). 
 
 ## Changelog
+
+#### unreleased (master branch)
+* Fixed unclosed file handle in `setup.py`
 
 #### 1.0.0 
 Initial public release of the library
