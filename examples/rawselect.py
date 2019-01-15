@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Example for rawlist question type.
+"""Example for rawselect question type.
 
-Run example by typing `python -m examples.rawlist` in your console."""
+Run example by typing `python -m examples.rawselect` in your console."""
 from pprint import pprint
 
 import questionary
