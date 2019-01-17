@@ -114,3 +114,14 @@ def test_select_ctr_c():
 
     with pytest.raises(KeyboardInterrupt):
         feed_cli_with_input('select', message, text, **kwargs)
+
+
+def test_select_empty_choices():
+    message = 'Foo message'
+    kwargs = {
+        'choices': []
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input('select', message, text, **kwargs)
