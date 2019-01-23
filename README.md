@@ -210,6 +210,15 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 #### unreleased (master branch)
 
+#### 1.0.2
+Bug fix release.
+
+Release Date: 23.01.19
+
+* Fixed odd behaviour if select is created without providing any choices
+  instead, we will raise a `ValueError` now. ([#6](https://github.com/tmbo/questionary/pull/6))
+
+
 #### 1.0.1 
 Bug fix release, adding some convenience shortcuts.
 
@@ -231,7 +240,7 @@ Release Date: 14.12.18
 * More tests and automatic travis test execution
 
 ## License
-Licensed under the MIT License. Copyright 2018 Tom Bocklisch. [Copy of the license](LICENSE).
+Licensed under the MIT License. Copyright 2019 Tom Bocklisch. [Copy of the license](LICENSE).
 
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_large)
