@@ -60,6 +60,8 @@ def select(message: Text,
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
+    if choices is None or len(choices) == 0:
+        raise ValueError('A list of choices needs to be provided.')
 
     if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
         raise ValueError('A list with shortcuts supports a maximum of {} '
