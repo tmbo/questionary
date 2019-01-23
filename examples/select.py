@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Example for a list question type.
+"""Example for a select question type.
 
-Run example by typing `python -m examples.list` in your console."""
+Run example by typing `python -m examples.select` in your console."""
 from pprint import pprint
 
 import questionary
