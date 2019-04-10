@@ -24,24 +24,30 @@ def test_ask_should_catch_keyboard_exception():
 
 
 def test_skipping_of_questions():
-    question = text("Hello?",
-                    input=inp,
-                    output=DummyOutput()).skip_if(condition=True, default=42)
-    response = question.ask()
-    assert response == 42
-
-
-async def test_async_skipping_of_questions():
-    question = text("Hello?",
-                    input=inp,
-                    output=DummyOutput()).skip_if(condition=True, default=42)
-    response = await question.ask_async()
-    assert response == 42
+    inp = create_pipe_input()
+    try:
+        question = text("Hello?",
+                        input=inp,
+                        output=DummyOutput()
+                        ).skip_if(condition=True, default=42)
+        response = question.ask()
+        assert response == 42
+    finally:
+        inp.close()
 
 
 def test_skipping_of_skipping_of_questions():
-    question = text("Hello?").skip_if(condition=False, default=42)
-    response = "World"
-    result = ask_with_patched_input(question, response)
+    inp = create_pipe_input()
+    try:
+        inp.send_text("World" + KeyInputs.ENTER + "\r")
 
-    assert result == response and not result == 42
+        question = text("Hello?",
+                        input=inp,
+                        output=DummyOutput()
+                        ).skip_if(condition=False, default=42)
+
+        response = question.ask()
+
+        assert response == "World" and not response == 42
+    finally:
+        inp.close()
