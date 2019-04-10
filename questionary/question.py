@@ -4,6 +4,7 @@ import prompt_toolkit.patch_stdout
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
+from typing import Any
 
 
 class Question:
@@ -57,7 +58,7 @@ class Question:
         else:
             return self.application.run()
 
-    def skip_if(self, condition: bool, default: Any = None) -> Question:
+    def skip_if(self, condition: bool, default: Any = None) -> 'Question':
         """Skip the question if flag is set and return the default instead."""
 
         self.should_skip_question = condition
