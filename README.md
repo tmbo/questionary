@@ -226,6 +226,14 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 #### unreleased (master branch)
 
+#### 1.1.0
+Feature release.
+
+Release Date: 10.03.19
+
+* Added `skip_if` to questions to allow skipping questions using a flag
+
+
 #### 1.0.2
 Bug fix release.
 
