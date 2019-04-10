@@ -137,7 +137,7 @@ This will create the following list, allowing the user to choose an option:
 </details>
 
 ### Additional Features
-<details><summary>Skipping questions using conditions.</summary>
+<details><summary>Skipping questions using conditions</summary>
 
 Sometimes it is helpfull to e.g. provide a command line flag to your app
 to skip any prompts, to avoid the need for an if around any question you 
@@ -154,7 +154,7 @@ skipped and the default value gets returned, otherwise the user will be
 prompted as usual and the default value will be ignored.
 </details>
 
-<details><summary>Alterative style to create questions using a configuration dictionary.</summary>
+<details><summary>Alterative style to create questions using a configuration dictionary</summary>
 
 Instead of creating questions using the python functions, you can also create them using a configuration dictionary. 
 ```python
