@@ -46,21 +46,9 @@ This will create the following list, allowing the user to choose an option:
 
 ## Documentation
 
-1. [Different question types](#1-Different-question-types) 
-   
-   The available question types are [text](#text), [password](#password), [confirm](#confirm), [select](#select), [rawselect](#rawselect) and [checkbox](#checkbox).
+### Different question types
 
-2. [Dict style question formulation](#2-Dict-style-question-formulation)
-
-   Alterative style to create questions using a configuration dictionary. 
-
-3. [Styling your prompts](#3-Styling-your-prompts)
-
-   Customize how your questions look.
-
-### 1. Different question types
-
-#### text
+<details><summary>text</summary>
     
    A free text input for the user. 
     
@@ -69,7 +57,8 @@ This will create the following list, allowing the user to choose an option:
    ```
    <img src="docs/images/text.png" width="500">
 
-#### password
+</details>
+<details><summary>password</summary>
 
    A free text input for the user where the input is not
    shown but replaced with `***`. 
@@ -80,7 +69,8 @@ This will create the following list, allowing the user to choose an option:
    
    <img src="docs/images/password.png" width="500">
 
-#### confirm
+</details>
+<details><summary>confirm</summary>
 
    A yes or no question. The user can either confirm or deny. 
     
@@ -90,7 +80,8 @@ This will create the following list, allowing the user to choose an option:
    
    <img src="docs/images/confirm.png" width="500">
 
-#### select
+</details>
+<details><summary>select</summary>
 
    A list of items to select a choice from. The user can pick
    one option and confirm it.
@@ -107,7 +98,8 @@ This will create the following list, allowing the user to choose an option:
    
    <img src="docs/images/select.png" width="500">
 
-#### rawselect
+</details>
+<details><summary>rawselect</summary>
 
    A list of items to select a choice from. The user can pick
    one option using shortcuts and confirm it.
@@ -124,7 +116,9 @@ This will create the following list, allowing the user to choose an option:
 
    <img src="docs/images/rawselect.png" width="500">
 
-#### checkbox
+</details>
+
+<details><summary>checkbox</summary>
 
    A list of items to select multiple choices from. The user can pick
    none, one or multiple options and confirm the selection.
@@ -140,7 +134,10 @@ This will create the following list, allowing the user to choose an option:
    ```
    <img src="docs/images/checkbox.png" width="700">
 
-### 2. Dict style question formulation
+</details>
+
+### Additional Features
+<details><summary>Alterative style to create questions using a configuration dictionary.</summary>
 
 Instead of creating questions using the python functions, you can also create them using a configuration dictionary. 
 ```python
@@ -162,8 +159,9 @@ answers = prompt(questions)
 ```
 
 The returned `answers` will be a dict containing the responses, e.g. `{"phone": "0123123", "continue": False, ""}`. The questions will be prompted one after another and `prompt` will return once all of them are answered.
+</details>
 
-### 3. Styling your prompts
+<details><summary>Styling your prompts with your favorite colors</summary>
 
 You can customize all the colors used for the prompts. Every part of the prompt has an identifier, which you can use to style it. Let's create our own custom style:
 ```python
@@ -184,6 +182,7 @@ To use our custom style, we need to pass it to the question type:
 ```python
 questionary.text("What's your phone number", style=custom_style_fancy).ask()
 ```
+</details>
 
 ## How to Contribute
 
