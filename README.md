@@ -224,44 +224,49 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 ## Changelog
 
-#### unreleased (master branch)
+<details><summary>unreleased (master branch)</summary>
 
-#### 1.1.0
+</details>
+
+<details><summary>1.1.0 (10.03.2019)</summary>
+
 Feature release.
-
-Release Date: 10.03.19
 
 * Added `skip_if` to questions to allow skipping questions using a flag
 
 
-#### 1.0.2
-Bug fix release.
+</details>
 
-Release Date: 23.01.19
+<details><summary>1.0.2 (23.01.2019)</summary>
+
+Bug fix release.
 
 * Fixed odd behaviour if select is created without providing any choices
   instead, we will raise a `ValueError` now. ([#6](https://github.com/tmbo/questionary/pull/6))
 
 
-#### 1.0.1 
-Bug fix release, adding some convenience shortcuts.
+</details>
 
-Release Date: 12.01.19
+<details><summary>1.0.1 (12.01.2019)</summary>
+
+Bug fix release, adding some convenience shortcuts.
 
 * Added shortcut keys `j` (move down^ the list) and `k` (move up) to
   the prompts `select` and `checkbox` (fixes [#2](https://github.com/tmbo/questionary/issues/2))
 * Fixed unclosed file handle in `setup.py`
 * Fixed unecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
 
-#### 1.0.0 
-Initial public release of the library
+</details>
 
-Release Date: 14.12.18
+<details><summary>1.0.0 (14.12.2018)</summary>
+
+Initial public release of the library
 
 * Added python interface
 * Added dict style question creation
 * Improved the documentation
 * More tests and automatic travis test execution
+</details>
 
 ## License
 Licensed under the MIT License. Copyright 2019 Tom Bocklisch. [Copy of the license](LICENSE).
