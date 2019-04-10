@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import inspect
 
+ACTIVATED_ASYNC_MODE = False
+
 
 def default_values_of(func):
     """Return the defaults of the function `func`."""
@@ -31,3 +33,16 @@ def required_arguments(func):
 def missing_arguments(func, argdict):
     """Return all arguments that are missing to call func."""
     return set(required_arguments(func)) - set(argdict.keys())
+
+
+async def activate_prompt_toolkit_async_mode():
+    """Configure prompt toolkit to use the asyncio event loop.
+
+    Needs to be async, so we use the right event loop in py 3.5"""
+    from prompt_toolkit.eventloop import use_asyncio_event_loop
+
+    global ACTIVATED_ASYNC_MODE
+
+    # Tell prompt_toolkit to use asyncio for the event loop.
+    use_asyncio_event_loop()
+    ACTIVATED_ASYNC_MODE = True
