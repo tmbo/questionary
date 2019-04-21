@@ -228,6 +228,14 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 </details>
 
+<details><summary>1.1.1 (21.04.2019)</summary>
+
+Bug fix release.
+
+* Fixed compatibility with python 3.5.2 by removing `Type` annotation
+
+</details>
+
 <details><summary>1.1.0 (10.03.2019)</summary>
 
 Feature release.
