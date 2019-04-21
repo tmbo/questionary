@@ -6,7 +6,7 @@ from prompt_toolkit.layout import (
     FormattedTextControl, Layout, HSplit,
     ConditionalContainer, Window)
 from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Text, Dict, Union, Callable, Type, Tuple
+from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple
 
 from questionary.constants import (
     SELECTED_POINTER, INDICATOR_SELECTED,
@@ -247,10 +247,7 @@ class InquirerControl(FormattedTextControl):
                     c.value in self.selected_options)]
 
 
-def build_validator(validate: Union[Type[Validator],
-                                    Callable[[Text], bool],
-                                    None]
-                    ) -> Optional[Validator]:
+def build_validator(validate: Any) -> Optional[Validator]:
     if validate:
         if inspect.isclass(validate) and issubclass(validate, Validator):
             return validate()
