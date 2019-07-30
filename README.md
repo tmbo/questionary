@@ -228,6 +228,14 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 </details>
 
+<details><summary>1.2.0 (30.07.2019)</summary>
+
+Feature release.
+
+* Allow a user to pass in a validator as an instance https://github.com/tmbo/questionary/pull/10
+
+</details>
+
 <details><summary>1.1.1 (21.04.2019)</summary>
 
 Bug fix release.
