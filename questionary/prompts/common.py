@@ -251,6 +251,8 @@ def build_validator(validate: Any) -> Optional[Validator]:
     if validate:
         if inspect.isclass(validate) and issubclass(validate, Validator):
             return validate()
+        elif isinstance(validate, Validator):
+            return validate
         elif callable(validate):
             class _InputValidator(Validator):
                 def validate(self, document):

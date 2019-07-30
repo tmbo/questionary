@@ -2,7 +2,7 @@ import pytest
 from prompt_toolkit.document import Document
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
-from prompt_toolkit.validation import ValidationError
+from prompt_toolkit.validation import ValidationError, Validator
 from questionary.prompts import common
 
 from questionary.prompts.common import InquirerControl, build_validator
@@ -30,6 +30,27 @@ def test_validator_bool_function_fails():
         return len(t) == 3
 
     validator = build_validator(validate)
+    with pytest.raises(ValidationError) as e:
+        validator.validate(Document("fooooo"))
+
+    assert e.value.message == 'invalid input'
+
+
+def test_validator_instance():
+    def validate(t):
+        return len(t) == 3
+
+    validator = Validator.from_callable(validate)
+
+    validator = build_validator(validator)
+    assert validator.validate(Document("foo")) is None  # should not raise
+
+
+def test_validator_instance_fails():
+    def validate(t):
+        return len(t) == 3
+
+    validator = Validator.from_callable(validate, error_message="invalid input")
     with pytest.raises(ValidationError) as e:
         validator.validate(Document("fooooo"))
 
