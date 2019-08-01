@@ -91,10 +91,12 @@ class InquirerControl(FormattedTextControl):
                  default: Optional[Any] = None,
                  use_indicator: bool = True,
                  use_shortcuts: bool = False,
+                 use_pointer: bool = True,
                  **kwargs):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
+        self.use_pointer = use_pointer
         self.default = default
 
         self.pointed_at = None
@@ -166,8 +168,12 @@ class InquirerControl(FormattedTextControl):
             selected = (choice.value in self.selected_options)
 
             if index == self.pointed_at:
-                tokens.append(("class:pointer",
-                               " {} ".format(SELECTED_POINTER)))
+                if self.use_pointer:
+                    tokens.append(("class:pointer",
+                                " {} ".format(SELECTED_POINTER)))
+                else:
+                    tokens.append(("", "   "))
+
                 tokens.append(("[SetCursorPosition]", ""))
             else:
                 tokens.append(("", "   "))
