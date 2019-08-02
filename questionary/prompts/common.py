@@ -172,11 +172,11 @@ class InquirerControl(FormattedTextControl):
                     tokens.append(("class:pointer",
                                    " {} ".format(SELECTED_POINTER)))
                 else:
-                    tokens.append(("", "   "))
+                    tokens.append(("class:text", "   "))
 
                 tokens.append(("[SetCursorPosition]", ""))
             else:
-                tokens.append(("", "   "))
+                tokens.append(("class:text", "   "))
 
             if isinstance(choice, Separator):
                 tokens.append(("class:separator", "{}".format(choice.title)))
@@ -204,7 +204,7 @@ class InquirerControl(FormattedTextControl):
                     else:
                         indicator = ""
 
-                    tokens.append(("",
+                    tokens.append(("class:text",
                                    "{}".format(indicator)))
 
                 if index == self.pointed_at:
@@ -216,7 +216,7 @@ class InquirerControl(FormattedTextControl):
                                    "{}{}".format(shortcut,
                                                  choice.title)))
                 else:
-                    tokens.append(("",
+                    tokens.append(("class:text",
                                    "{}{}".format(shortcut,
                                                  choice.title)))
 
@@ -227,7 +227,7 @@ class InquirerControl(FormattedTextControl):
             append(i, c)
 
         if self.use_shortcuts:
-            tokens.append(("",
+            tokens.append(("class:text",
                            '  Answer: {}'
                            ''.format(self.get_pointed_at().shortcut_key)))
         else:
