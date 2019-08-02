@@ -181,10 +181,16 @@ class InquirerControl(FormattedTextControl):
             if isinstance(choice, Separator):
                 tokens.append(("class:separator", "{}".format(choice.title)))
             elif choice.disabled:  # disabled
+                if isinstance(choice.title, list):
+                    tokens.append(("class:selected" if selected else "class:disabled", "- "))
+                    tokens.extend(choice.title)
+                else:
+                    tokens.append(("class:selected" if selected else "class:disabled",
+                                   "- {}".format(choice.title)))
+
                 tokens.append(("class:selected" if selected else "class:disabled",
-                               "- {}{}".format(choice.title,
-                                               "" if isinstance(choice.disabled, bool)
-                                               else " ({})".format(choice.disabled))))
+                               "{}".format("" if isinstance(choice.disabled, bool)
+                                           else " ({})".format(choice.disabled))))
             else:
                 if self.use_shortcuts and choice.shortcut_key is not None:
                     shortcut = "{}) ".format(choice.shortcut_key)
@@ -208,7 +214,9 @@ class InquirerControl(FormattedTextControl):
                     tokens.append(("class:text",
                                    "{}".format(indicator)))
 
-                if index == self.pointed_at:
+                if isinstance(choice.title, list):
+                    tokens.extend(choice.title)
+                elif index == self.pointed_at and not self.use_pointer:
                     tokens.append(("class:highlighted",
                                    "{}{}".format(shortcut,
                                                  choice.title)))

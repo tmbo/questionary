@@ -88,7 +88,11 @@ def select(message: Text,
                   ("class:question", ' {} '.format(message))]
 
         if ic.is_answered:
-            tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
+            if isinstance(ic.get_pointed_at().title, list):
+                tokens.append(("class:answer",
+                               "".join([token[1] for token in ic.get_pointed_at().title])))
+            else:
+                tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
             if use_shortcuts:
                 tokens.append(("class:instruction", ' (Use shortcuts)'))

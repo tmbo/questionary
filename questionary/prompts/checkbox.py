@@ -71,9 +71,14 @@ def checkbox(message: Text,
             if nbr_selected == 0:
                 tokens.append(("class:answer", ' done'))
             elif nbr_selected == 1:
-                tokens.append(("class:answer",
-                               ' [{}]'.format(
-                                   ic.get_selected_values()[0].title)))
+                if isinstance(ic.get_selected_values()[0].title, list):
+                    tokens.append(("class:answer",
+                                   "".join([token[1] for token in
+                                       ic.get_selected_values()[0].title])))
+                else:
+                    tokens.append(("class:answer",
+                                   ' [{}]'.format(
+                                       ic.get_selected_values()[0].title)))
             else:
                 tokens.append(("class:answer",
                                ' done ({} selections)'.format(
