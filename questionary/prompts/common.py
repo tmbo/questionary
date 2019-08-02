@@ -197,9 +197,7 @@ class InquirerControl(FormattedTextControl):
                         indicator = ""
 
                     tokens.append(("class:selected",
-                                   "{}{}{}".format(indicator,
-                                                   shortcut,
-                                                   choice.title)))
+                                   "{}".format(indicator)))
                 else:
                     if self.use_indicator:
                         indicator = INDICATOR_UNSELECTED + " "
@@ -207,9 +205,20 @@ class InquirerControl(FormattedTextControl):
                         indicator = ""
 
                     tokens.append(("",
-                                   "{}{}{}".format(indicator,
-                                                   shortcut,
-                                                   choice.title)))
+                                   "{}".format(indicator)))
+
+                if index == self.pointed_at:
+                    tokens.append(("class:highlighted",
+                                   "{}{}".format(shortcut,
+                                                 choice.title)))
+                elif selected:
+                    tokens.append(("class:selected",
+                                   "{}{}".format(shortcut,
+                                                 choice.title)))
+                else:
+                    tokens.append(("",
+                                   "{}{}".format(shortcut,
+                                                 choice.title)))
 
             tokens.append(("", "\n"))
 
