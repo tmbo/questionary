@@ -182,8 +182,9 @@ class InquirerControl(FormattedTextControl):
                 tokens.append(("class:separator", "{}".format(choice.title)))
             elif choice.disabled:  # disabled
                 tokens.append(("class:selected" if selected else "class:disabled",
-                               "- {} ({})".format(choice.title,
-                                                  choice.disabled)))
+                               "- {}{}".format(choice.title,
+                                               "" if isinstance(choice.disabled, bool)
+                                               else " ({})".format(choice.disabled))))
             else:
                 if self.use_shortcuts and choice.shortcut_key is not None:
                     shortcut = "{}) ".format(choice.shortcut_key)
