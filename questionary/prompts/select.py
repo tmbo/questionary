@@ -90,7 +90,8 @@ def select(message: Text,
         if ic.is_answered:
             if isinstance(ic.get_pointed_at().title, list):
                 tokens.append(("class:answer",
-                               "".join([token[1] for token in ic.get_pointed_at().title])))
+                               "".join([token[1] for token in
+                                       ic.get_pointed_at().title])))
             else:
                 tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
