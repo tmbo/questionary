@@ -5,7 +5,7 @@ from prompt_toolkit.shortcuts.prompt import (
     PromptSession)
 from prompt_toolkit.styles import merge_styles, Style
 from prompt_toolkit.validation import Validator
-from typing import Text, Type, Union, Callable, Optional, Any
+from typing import Text, Union, Callable, Optional, Any
 
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
 from questionary.prompts.common import build_validator
@@ -14,9 +14,7 @@ from questionary.question import Question
 
 def text(message: Text,
          default: Text = "",
-         validate: Union[Type[Validator],
-                         Callable[[Text], bool],
-                         None] = None,  # noqa
+         validate: Any = None,
          qmark: Text = DEFAULT_QUESTION_PREFIX,
          style: Optional[Style] = None,
          **kwargs: Any) -> Question:
