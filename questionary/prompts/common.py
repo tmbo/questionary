@@ -39,9 +39,15 @@ class Choice(object):
         """
 
         self.disabled = disabled
-        self.value = value if value is not None else title
         self.title = title
         self.checked = checked
+
+        if value is not None:
+            self.value = value
+        elif isinstance(title, list):
+            self.value = "".join([token[1] for token in title])
+        else:
+            self.value = title
 
         if shortcut_key is not None:
             self.shortcut_key = str(shortcut_key)
