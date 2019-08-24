@@ -38,7 +38,7 @@ def test_select_first_choice_with_token_title():
     }
     text = KeyInputs.ENTER + "\r"
 
-    result, cli = feed_cli_with_input('checkbox', message, text, **kwargs)
+    result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == ["foo"]
 
 
