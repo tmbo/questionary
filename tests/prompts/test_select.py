@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from questionary import Separator
+from questionary import Separator, Choice
 from tests.utils import feed_cli_with_input, KeyInputs
 
 
@@ -25,6 +25,21 @@ def test_select_first_choice():
 
     result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == 'foo'
+
+
+def test_select_first_choice_with_token_title():
+    message = 'Foo message'
+    kwargs = {
+        'choices': [
+            Choice(title=[('class:text', 'foo')]),
+            Choice(title=[('class:text', 'bar')]),
+            Choice(title=[('class:text', 'bazz')])
+        ]
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input('checkbox', message, text, **kwargs)
+    assert result == ["foo"]
 
 
 def test_select_second_choice():
