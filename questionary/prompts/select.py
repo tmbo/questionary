@@ -29,6 +29,7 @@ def select(message: Text,
            style: Optional[Style] = None,
            use_shortcuts: bool = False,
            use_indicator: bool = False,
+           use_pointer: bool = True,
            **kwargs: Any) -> Question:
     """Prompt the user to select one item from the list of choices.
 
@@ -57,6 +58,9 @@ def select(message: Text,
         use_shortcuts: Allow the user to select items from the list using
                        shortcuts. The shortcuts will be displayed in front of
                        the list items.
+
+        use_pointer: Flag to enable the pointer in front of the currently
+                     highlighted element.
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -75,7 +79,8 @@ def select(message: Text,
 
     ic = InquirerControl(choices, default,
                          use_indicator=use_indicator,
-                         use_shortcuts=use_shortcuts)
+                         use_shortcuts=use_shortcuts,
+                         use_pointer=use_pointer)
 
     def get_prompt_tokens():
         # noinspection PyListCreation
@@ -83,7 +88,12 @@ def select(message: Text,
                   ("class:question", ' {} '.format(message))]
 
         if ic.is_answered:
-            tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
+            if isinstance(ic.get_pointed_at().title, list):
+                tokens.append(("class:answer",
+                               "".join([token[1] for token in
+                                       ic.get_pointed_at().title])))
+            else:
+                tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
             if use_shortcuts:
                 tokens.append(("class:instruction", ' (Use shortcuts)'))

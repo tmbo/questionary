@@ -25,6 +25,7 @@ def checkbox(message: Text,
              default: Optional[Text] = None,
              qmark: Text = DEFAULT_QUESTION_PREFIX,
              style: Optional[Style] = None,
+             use_pointer: bool = True,
              **kwargs: Any) -> Question:
     """Ask the user to select from a list of items.
 
@@ -48,13 +49,17 @@ def checkbox(message: Text,
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
+        use_pointer: Flag to enable the pointer in front of the currently
+                     highlighted element.
+
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    ic = InquirerControl(choices, default)
+    ic = InquirerControl(choices, default,
+                         use_pointer=use_pointer)
 
     def get_prompt_tokens():
         tokens = []
@@ -66,9 +71,14 @@ def checkbox(message: Text,
             if nbr_selected == 0:
                 tokens.append(("class:answer", ' done'))
             elif nbr_selected == 1:
-                tokens.append(("class:answer",
-                               ' [{}]'.format(
-                                   ic.get_selected_values()[0].title)))
+                if isinstance(ic.get_selected_values()[0].title, list):
+                    tokens.append(("class:answer",
+                                   "".join([token[1] for token in
+                                           ic.get_selected_values()[0].title])))
+                else:
+                    tokens.append(("class:answer",
+                                   ' [{}]'.format(
+                                       ic.get_selected_values()[0].title)))
             else:
                 tokens.append(("class:answer",
                                ' done ({} selections)'.format(

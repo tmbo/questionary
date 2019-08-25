@@ -6,7 +6,10 @@ custom_style_fancy = Style([
     ('question', ''),
     ('selected', 'fg:#cc5454'),
     ('pointer', 'fg:#673ab7 bold'),
+    ('highlighted', 'fg:#673ab7 bold'),
     ('answer', 'fg:#f44336 bold'),
+    ('text', ''),
+    ('disabled', 'fg:#858585 italic'),
 ])
 
 custom_style_dope = Style([

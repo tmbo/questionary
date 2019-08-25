@@ -39,9 +39,15 @@ class Choice(object):
         """
 
         self.disabled = disabled
-        self.value = value if value is not None else title
         self.title = title
         self.checked = checked
+
+        if value is not None:
+            self.value = value
+        elif isinstance(title, list):
+            self.value = "".join([token[1] for token in title])
+        else:
+            self.value = title
 
         if shortcut_key is not None:
             self.shortcut_key = str(shortcut_key)
@@ -91,10 +97,12 @@ class InquirerControl(FormattedTextControl):
                  default: Optional[Any] = None,
                  use_indicator: bool = True,
                  use_shortcuts: bool = False,
+                 use_pointer: bool = True,
                  **kwargs):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
+        self.use_pointer = use_pointer
         self.default = default
 
         self.pointed_at = None
@@ -166,18 +174,33 @@ class InquirerControl(FormattedTextControl):
             selected = (choice.value in self.selected_options)
 
             if index == self.pointed_at:
-                tokens.append(("class:pointer",
-                               " {} ".format(SELECTED_POINTER)))
+                if self.use_pointer:
+                    tokens.append(("class:pointer",
+                                   " {} ".format(SELECTED_POINTER)))
+                else:
+                    tokens.append(("class:text", "   "))
+
                 tokens.append(("[SetCursorPosition]", ""))
             else:
-                tokens.append(("", "   "))
+                tokens.append(("class:text", "   "))
 
             if isinstance(choice, Separator):
                 tokens.append(("class:separator", "{}".format(choice.title)))
             elif choice.disabled:  # disabled
-                tokens.append(("class:selected" if selected else "",
-                               "- {} ({})".format(choice.title,
-                                                  choice.disabled)))
+                if isinstance(choice.title, list):
+                    tokens.append(("class:selected" if selected
+                                   else "class:disabled", "- "))
+                    tokens.extend(choice.title)
+                else:
+                    tokens.append(("class:selected" if selected
+                                   else "class:disabled",
+                                   "- {}".format(choice.title)))
+
+                tokens.append(("class:selected" if selected
+                               else "class:disabled",
+                               "{}".format(
+                                   "" if isinstance(choice.disabled, bool)
+                                   else " ({})".format(choice.disabled))))
             else:
                 if self.use_shortcuts and choice.shortcut_key is not None:
                     shortcut = "{}) ".format(choice.shortcut_key)
@@ -191,19 +214,30 @@ class InquirerControl(FormattedTextControl):
                         indicator = ""
 
                     tokens.append(("class:selected",
-                                   "{}{}{}".format(indicator,
-                                                   shortcut,
-                                                   choice.title)))
+                                   "{}".format(indicator)))
                 else:
                     if self.use_indicator:
                         indicator = INDICATOR_UNSELECTED + " "
                     else:
                         indicator = ""
 
-                    tokens.append(("",
-                                   "{}{}{}".format(indicator,
-                                                   shortcut,
-                                                   choice.title)))
+                    tokens.append(("class:text",
+                                   "{}".format(indicator)))
+
+                if isinstance(choice.title, list):
+                    tokens.extend(choice.title)
+                elif index == self.pointed_at and not self.use_pointer:
+                    tokens.append(("class:highlighted",
+                                   "{}{}".format(shortcut,
+                                                 choice.title)))
+                elif selected:
+                    tokens.append(("class:selected",
+                                   "{}{}".format(shortcut,
+                                                 choice.title)))
+                else:
+                    tokens.append(("class:text",
+                                   "{}{}".format(shortcut,
+                                                 choice.title)))
 
             tokens.append(("", "\n"))
 
@@ -212,7 +246,7 @@ class InquirerControl(FormattedTextControl):
             append(i, c)
 
         if self.use_shortcuts:
-            tokens.append(("",
+            tokens.append(("class:text",
                            '  Answer: {}'
                            ''.format(self.get_pointed_at().shortcut_key)))
         else:

@@ -12,7 +12,7 @@ Python library to build pretty command line user prompts ✨
 
 You need input from a user, e.g. how an output file should be named or if he really wants to execute that dangerous operation? This library will help you make the input prompts easy to read and answer for the user.
 
-Used and Supported by: 
+Used and Supported by:
 
 [<img src="https://rasa.com/docs/_static/rasa_logo.svg" width="60">](https://github.com/RasaHQ/rasa)
 
@@ -49,9 +49,9 @@ This will create the following list, allowing the user to choose an option:
 ### Different question types
 
 <details><summary>text</summary>
-    
-   A free text input for the user. 
-    
+
+   A free text input for the user.
+
    ```python
    questionary.text("What's your first name").ask()
    ```
@@ -61,23 +61,23 @@ This will create the following list, allowing the user to choose an option:
 <details><summary>password</summary>
 
    A free text input for the user where the input is not
-   shown but replaced with `***`. 
-    
+   shown but replaced with `***`.
+
    ```python
    questionary.password("What's your secret?").ask()
    ```
-   
+
    <img src="docs/images/password.png" width="500">
 
 </details>
 <details><summary>confirm</summary>
 
-   A yes or no question. The user can either confirm or deny. 
-    
+   A yes or no question. The user can either confirm or deny.
+
    ```python
    questionary.confirm("Are you amazed?").ask()
    ```
-   
+
    <img src="docs/images/confirm.png" width="500">
 
 </details>
@@ -85,7 +85,7 @@ This will create the following list, allowing the user to choose an option:
 
    A list of items to select a choice from. The user can pick
    one option and confirm it.
-    
+
    ```python
    questionary.select(
        "What do you want to do?",
@@ -95,7 +95,7 @@ This will create the following list, allowing the user to choose an option:
            "Ask for opening hours"
        ]).ask()
    ```
-   
+
    <img src="docs/images/select.png" width="500">
 
 </details>
@@ -140,8 +140,8 @@ This will create the following list, allowing the user to choose an option:
 <details><summary>Skipping questions using conditions</summary>
 
 Sometimes it is helpfull to e.g. provide a command line flag to your app
-to skip any prompts, to avoid the need for an if around any question you 
-can pass that flag when you create the question: 
+to skip any prompts, to avoid the need for an if around any question you
+can pass that flag when you create the question:
 
 ```python
 DISABLED = True
@@ -150,13 +150,13 @@ response = questionary.confirm("Are you amazed?").skip_if(DISABLED, default=True
 ```
 
 If the condition (in this case `DISABLED`) is `True`, the question will be
-skipped and the default value gets returned, otherwise the user will be 
+skipped and the default value gets returned, otherwise the user will be
 prompted as usual and the default value will be ignored.
 </details>
 
 <details><summary>Alterative style to create questions using a configuration dictionary</summary>
 
-Instead of creating questions using the python functions, you can also create them using a configuration dictionary. 
+Instead of creating questions using the python functions, you can also create them using a configuration dictionary.
 ```python
 questions = [
     {
@@ -185,13 +185,16 @@ You can customize all the colors used for the prompts. Every part of the prompt 
 from prompt_toolkit.styles import Style
 
 custom_style_fancy = Style([
-    ('qmark', 'fg:#673ab7 bold'),     # token in front of the question
-    ('question', 'bold'),             # question text
-    ('answer', 'fg:#f44336 bold'),    # submitted answer text behind the question
-    ('pointer', 'fg:#673ab7 bold'),   # pointer used in select and checkbox prompts
-    ('selected', 'fg:#cc5454'),       # style for a selected item of a checkbox
-    ('separator', 'fg:#cc5454'),      # separator in lists
-    ('instruction', '')               # user instructions for select, rawselect, checkbox
+    ('qmark', 'fg:#673ab7 bold'),       # token in front of the question
+    ('question', 'bold'),               # question text
+    ('answer', 'fg:#f44336 bold'),      # submitted answer text behind the question
+    ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
+    ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts if use_pointer=False
+    ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
+    ('separator', 'fg:#cc5454'),        # separator in lists
+    ('instruction', ''),                # user instructions for select, rawselect, checkbox
+    ('text', ''),                       # plain text
+    ('disabled', 'fg:#858585 italic')   # disabled choices for select and checkbox prompts
 ])
 ```
 
@@ -199,6 +202,22 @@ To use our custom style, we need to pass it to the question type:
 ```python
 questionary.text("What's your phone number", style=custom_style_fancy).ask()
 ```
+
+It is also possible to use a list of token tuples as a `Choice` title. This
+example assumes there is a style token named `bold` in the custom style you are
+using:
+```python
+Choice(
+    title=[
+        ('class:text', 'plain text '),
+        ('class:bold', 'bold text')
+    ]
+)
+```
+As you can see it is possible to use custom style tokens for this purpose as
+well. Note that Choices with token tuple titles will not be styled by the
+`selected` or `highlighted` tokens. If not provided, the `value` of the Choice
+will be the text concatenated (`'plain text bold text'` in the above example).
 </details>
 
 ## How to Contribute
@@ -215,12 +234,12 @@ questionary.text("What's your phone number", style=custom_style_fancy).ask()
     works as expected.
 4.  Send a pull request and bug the maintainer until it gets merged and
     published. 🙂
-    
+
 ## Contributors
 
-`questionary` is written and maintained by Tom Bocklisch. 
+`questionary` is written and maintained by Tom Bocklisch.
 
-It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat). 
+It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
