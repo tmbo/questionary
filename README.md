@@ -247,6 +247,14 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 </details>
 
+<details><summary>1.3.0 (25.08.2019)</summary>
+
+Feature release.
+
+* Add additional options to style checkboxe and select prompts https://github.com/tmbo/questionary/pull/14
+
+</details>
+
 <details><summary>1.2.1 (19.08.2019)</summary>
 
 Bug fix release.
