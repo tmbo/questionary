@@ -26,6 +26,7 @@ def checkbox(message: Text,
              qmark: Text = DEFAULT_QUESTION_PREFIX,
              style: Optional[Style] = None,
              use_pointer: bool = True,
+             start: Optional[Union[Text, int, None]] = None,
              **kwargs: Any) -> Question:
     """Ask the user to select from a list of items.
 
@@ -52,6 +53,9 @@ def checkbox(message: Text,
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
 
+        start: The choice where the pointer starts. Can be int (index of the choice) or a
+               str (title of the choice)
+
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -59,7 +63,8 @@ def checkbox(message: Text,
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     ic = InquirerControl(choices, default,
-                         use_pointer=use_pointer)
+                         use_pointer=use_pointer,
+                         pointed_at=start)
 
     def get_prompt_tokens():
         tokens = []
