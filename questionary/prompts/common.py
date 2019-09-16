@@ -60,7 +60,6 @@ class Choice(object):
             self.shortcut_key = None
             self.auto_shortcut = True
 
-
     @staticmethod
     def build(c: Union[Text, 'Choice', Dict[Text, Any]]) -> 'Choice':
         """Create a choice object from different representations."""
@@ -123,14 +122,17 @@ class InquirerControl(FormattedTextControl):
             except IndexError:
                 raise IndexError("Choice {} is out of range".format(pointed_at))
             except TypeError:  # now attempt to index by title
-                available = {c if isinstance(c, str) else c[0] if isinstance(c, (list, tuple)) else c.title:
-                                 c for c in choices}
+                available = {c if isinstance(c, str) else
+                             c[0] if isinstance(c, (list, tuple)) else
+                             c.title: c for c in choices}
                 try:
                     c = available[pointed_at]
                 except KeyError:
-                    raise KeyError("There is not choice with title {}".format(pointed_at))
+                    raise KeyError("There is not choice with title {}"
+                                   .format(pointed_at))
             if getattr(c, 'disabled', False):
-                raise ValueError('Choice {} is disabled. You cannot start from there'.format(pointed_at))
+                raise ValueError('Choice {} is disabled. You cannot '
+                                 'start from there'.format(pointed_at))
             self.pointed_at = choices.index(c)
         self.is_answered = False
         self.choices = []
@@ -277,7 +279,8 @@ class InquirerControl(FormattedTextControl):
                 string = '{}) '.format(current.shortcut_key)
             else:
                 string = ' '
-            string += current.title if isinstance(current.title, str) else current.title[0][1]
+            string += current.title if isinstance(current.title, str) else \
+                      current.title[0][1]
             tokens.append(("class:text",
                            '  Answer: {}'
                            ''.format(string)))

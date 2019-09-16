@@ -70,16 +70,17 @@ def select(message: Text,
                        arrow keys. Arrow keys and shortcuts are NOT mutually
                        exclusive
 
-        show_selected: Display the current selection choice at the bottom of the list
+        show_selected: Display current selection choice at the bottom of list
 
-        start: The choice where the pointer starts. Can be int (index of the choice) or a
-               str (title of the choice)
+        start: The choice where the pointer starts. Can be int
+               (index of the choice) or a str (title of the choice)
 
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
     if not (use_arrow_keys or use_shortcuts):
-        raise ValueError('Some option to move the selection is required. Arrow keys or shortcuts')
+        raise ValueError('Some option to move the selection is required. '
+                         'Arrow keys or shortcuts')
     if choices is None or len(choices) == 0:
         raise ValueError('A list of choices needs to be provided.')
 
@@ -135,7 +136,8 @@ def select(message: Text,
         for i, c in enumerate(ic.choices):
             if c.shortcut_key is None and not use_arrow_keys:
                 raise RuntimeError("{} does not have a shortcut and arrow keys for movement "
-                                   "are disabled. This choice is not reachable.".format(c.title))
+                                   "are disabled. This choice is not reachable."
+                                   .format(c.title))
             if isinstance(c, Separator) or c.shortcut_key is None:
                 continue
 

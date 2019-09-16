@@ -53,8 +53,8 @@ def checkbox(message: Text,
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
 
-        start: The choice where the pointer starts. Can be int (index of the choice) or a
-               str (title of the choice)
+        start: The choice where the pointer starts. Can be int
+               (index of the choice) or a str (title of the choice)
 
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
