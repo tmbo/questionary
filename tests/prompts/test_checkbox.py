@@ -183,6 +183,7 @@ def test_list_ctr_c():
     with pytest.raises(KeyboardInterrupt):
         feed_cli_with_input('checkbox', message, text, **kwargs)
 
+
 def test_start_at_second_choice_with_int():
     message = 'Foo message'
     kwargs = {
@@ -217,6 +218,7 @@ def test_fails_on_bad_title_start():
 
     with pytest.raises(KeyError):
         feed_cli_with_input('checkbox', message, text, **kwargs)
+
 
 def test_fails_on_bad_index_start():
     message = 'Foo message'

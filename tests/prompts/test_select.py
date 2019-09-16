@@ -63,6 +63,7 @@ def test_select_third_choice():
     result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == 'bazz'
 
+
 def test_select_third_choice_using_shortcuts_and_arrows():
     message = 'Foo message'
     kwargs = {
@@ -152,6 +153,7 @@ def test_select_empty_choices():
     with pytest.raises(ValueError):
         feed_cli_with_input('select', message, text, **kwargs)
 
+
 def test_start_at_second_choice_with_int():
     message = 'Foo message'
     kwargs = {
@@ -187,6 +189,7 @@ def test_fails_on_bad_title_start():
     with pytest.raises(KeyError):
         feed_cli_with_input('select', message, text, **kwargs)
 
+
 def test_fails_on_bad_index_start():
     message = 'Foo message'
     kwargs = {
@@ -197,6 +200,7 @@ def test_fails_on_bad_index_start():
 
     with pytest.raises(IndexError):
         feed_cli_with_input('select', message, text, **kwargs)
+
 
 def test_disallow_shortcut_key():
     message = 'Foo message'
