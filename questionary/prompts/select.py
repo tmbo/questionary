@@ -133,7 +133,7 @@ def select(message: Text,
     if use_shortcuts:
         # add key bindings for choices
         for i, c in enumerate(ic.choices):
-            if isinstance(c, Separator):
+            if isinstance(c, Separator) or c.shortcut_key is None:
                 continue
 
             # noinspection PyShadowingNames

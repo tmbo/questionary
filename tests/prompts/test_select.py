@@ -197,3 +197,26 @@ def test_fails_on_bad_index_start():
 
     with pytest.raises(IndexError):
         feed_cli_with_input('select', message, text, **kwargs)
+
+def test_disallow_shortcut_key():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', 'bar', Choice('bazz', shortcut_key=False)],
+        'use_shortcuts': True
+    }
+    text = KeyInputs.THREE + "\r"
+
+    result, cli = feed_cli_with_input('select', message, text, **kwargs)
+    assert result == 'foo'
+
+
+def test_allow_shortcut_key_with_True():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', 'bar', Choice('bazz', shortcut_key=True)],
+        'use_shortcuts': True
+    }
+    text = KeyInputs.THREE + "\r"
+
+    result, cli = feed_cli_with_input('select', message, text, **kwargs)
+    assert result == 'bazz'

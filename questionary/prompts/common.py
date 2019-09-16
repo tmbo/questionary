@@ -21,7 +21,7 @@ class Choice(object):
                  value: Optional[Any] = None,
                  disabled: Optional[Text] = None,
                  checked: bool = False,
-                 shortcut_key: Optional[Text] = None) -> None:
+                 shortcut_key: Optional[Union[Text, bool]] = None) -> None:
         """Create a new choice.
 
         Args:
@@ -50,9 +50,16 @@ class Choice(object):
             self.value = title
 
         if shortcut_key is not None:
-            self.shortcut_key = str(shortcut_key)
+            if isinstance(shortcut_key, bool):
+                self.auto_shortcut = shortcut_key
+                self.shortcut_key = None
+            else:
+                self.shortcut_key = str(shortcut_key)
+                self.auto_shortcut = False
         else:
             self.shortcut_key = None
+            self.auto_shortcut = True
+
 
     @staticmethod
     def build(c: Union[Text, 'Choice', Dict[Text, Any]]) -> 'Choice':
@@ -158,7 +165,7 @@ class InquirerControl(FormattedTextControl):
 
         shortcut_idx = 0
         for c in self.choices:
-            if c.shortcut_key is None and not c.disabled:
+            if c.auto_shortcut and not c.disabled:
                 c.shortcut_key = available_shortcuts[shortcut_idx]
                 shortcut_idx += 1
 
@@ -224,7 +231,7 @@ class InquirerControl(FormattedTextControl):
                 if self.use_shortcuts and choice.shortcut_key is not None:
                     shortcut = "{}) ".format(choice.shortcut_key)
                 else:
-                    shortcut = ""
+                    shortcut = "-) "
 
                 if selected:
                     if self.use_indicator:
@@ -264,10 +271,16 @@ class InquirerControl(FormattedTextControl):
         for i, c in enumerate(self.choices):
             append(i, c)
 
-        if self.use_shortcuts and self.show_selected:
+        if self.show_selected:
+            current = self.get_pointed_at()
+            if self.use_shortcuts and current.shortcut_key is not None:
+                string = '{}) '.format(current.shortcut_key)
+            else:
+                string = ' '
+            string += current.title if isinstance(current.title, str) else current.title[0][1]
             tokens.append(("class:text",
                            '  Answer: {}'
-                           ''.format(self.get_pointed_at().shortcut_key)))
+                           ''.format(string)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens
