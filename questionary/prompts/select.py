@@ -111,9 +111,10 @@ def select(message: Text,
             if isinstance(ic.get_pointed_at().title, list):
                 tokens.append(("class:answer",
                                "".join([token[1] for token in
-                                       ic.get_pointed_at().title])))
+                                        ic.get_pointed_at().title])))
             else:
-                tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
+                tokens.append(
+                    ("class:answer", ' ' + ic.get_pointed_at().title))
         else:
             if use_shortcuts:
                 tokens.append(("class:instruction", ' (Use shortcuts)'))
@@ -135,8 +136,9 @@ def select(message: Text,
         # add key bindings for choices
         for i, c in enumerate(ic.choices):
             if c.shortcut_key is None and not use_arrow_keys:
-                raise RuntimeError("{} does not have a shortcut and arrow keys for movement "
-                                   "are disabled. This choice is not reachable."
+                raise RuntimeError("{} does not have a shortcut and arrow keys "
+                                   "for movement are disabled. "
+                                   "This choice is not reachable."
                                    .format(c.title))
             if isinstance(c, Separator) or c.shortcut_key is None:
                 continue

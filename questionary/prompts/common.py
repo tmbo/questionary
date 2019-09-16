@@ -120,7 +120,8 @@ class InquirerControl(FormattedTextControl):
             try:
                 c = choices[pointed_at]
             except IndexError:
-                raise IndexError("Choice {} is out of range".format(pointed_at))
+                raise IndexError(
+                    "Choice {} is out of range".format(pointed_at))
             except TypeError:  # now attempt to index by title
                 available = {c if isinstance(c, str) else
                              c[0] if isinstance(c, (list, tuple)) else
@@ -280,7 +281,7 @@ class InquirerControl(FormattedTextControl):
             else:
                 string = ' '
             string += current.title if isinstance(current.title, str) else \
-                      current.title[0][1]
+                current.title[0][1]
             tokens.append(("class:text",
                            '  Answer: {}'
                            ''.format(string)))
