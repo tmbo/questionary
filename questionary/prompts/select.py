@@ -133,6 +133,9 @@ def select(message: Text,
     if use_shortcuts:
         # add key bindings for choices
         for i, c in enumerate(ic.choices):
+            if c.shortcut_key is None and not use_arrow_keys:
+                raise RuntimeError("{} does not have a shortcut and arrow keys for movement "
+                                   "are disabled. This choice is not reachable.".format(c.title))
             if isinstance(c, Separator) or c.shortcut_key is None:
                 continue
 

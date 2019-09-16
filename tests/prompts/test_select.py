@@ -220,3 +220,16 @@ def test_allow_shortcut_key_with_True():
 
     result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == 'bazz'
+
+
+def test_fail_for_unreachable_choice():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', 'bar', Choice('bazz', shortcut_key=False)],
+        'use_shortcuts': True,
+        'use_arrow_keys': False,
+    }
+    text = KeyInputs.THREE + "\r"
+
+    with pytest.raises(RuntimeError):
+        feed_cli_with_input('select', message, text, **kwargs)
