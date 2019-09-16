@@ -21,7 +21,7 @@ class Choice(object):
                  value: Optional[Any] = None,
                  disabled: Optional[Text] = None,
                  checked: bool = False,
-                 shortcut_key: Optional[Union[Text, bool]] = None) -> None:
+                 shortcut_key: Optional[Union[Text, bool]] = True) -> None:
         """Create a new choice.
 
         Args:
