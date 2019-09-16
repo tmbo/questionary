@@ -78,8 +78,8 @@ def checkbox(message: Text,
             elif nbr_selected == 1:
                 if isinstance(ic.get_selected_values()[0].title, list):
                     tokens.append(("class:answer",
-                                   "".join([token[1] for token in
-                                            ic.get_selected_values()[0].title])))
+                                   "".join([token[1] for token in ic.
+                                           get_selected_values()[0].title])))
                 else:
                     tokens.append(("class:answer",
                                    ' [{}]'.format(
