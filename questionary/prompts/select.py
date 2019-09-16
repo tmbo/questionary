@@ -30,6 +30,9 @@ def select(message: Text,
            use_shortcuts: bool = False,
            use_indicator: bool = False,
            use_pointer: bool = True,
+           use_arrow_keys: bool = True,
+           show_selected: bool = True,
+           start: Optional[Union[Text, int, None]] = None,
            **kwargs: Any) -> Question:
     """Prompt the user to select one item from the list of choices.
 
@@ -57,13 +60,26 @@ def select(message: Text,
 
         use_shortcuts: Allow the user to select items from the list using
                        shortcuts. The shortcuts will be displayed in front of
-                       the list items.
+                       the list items. Arrow keys and shortcuts are NOT mutually
+                       exclusive
 
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
+
+        use_arrow_keys: Allow the user to select items from the list using
+                       arrow keys. Arrow keys and shortcuts are NOT mutually
+                       exclusive
+
+        show_selected: Display the current selection choice at the bottom of the list
+
+        start: The choice where the pointer starts. Can be int (index of the choice) or a
+               str (title of the choice)
+
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
+    if not (use_arrow_keys or use_shortcuts):
+        raise ValueError('Some option to move the selection is required. Arrow keys or shortcuts')
     if choices is None or len(choices) == 0:
         raise ValueError('A list of choices needs to be provided.')
 
@@ -80,7 +96,10 @@ def select(message: Text,
     ic = InquirerControl(choices, default,
                          use_indicator=use_indicator,
                          use_shortcuts=use_shortcuts,
-                         use_pointer=use_pointer)
+                         use_pointer=use_pointer,
+                         show_selected=show_selected,
+                         pointed_at=start,
+                         )
 
     def get_prompt_tokens():
         # noinspection PyListCreation
@@ -97,7 +116,7 @@ def select(message: Text,
         else:
             if use_shortcuts:
                 tokens.append(("class:instruction", ' (Use shortcuts)'))
-            else:
+            if use_arrow_keys:
                 tokens.append(("class:instruction", ' (Use arrow keys)'))
 
         return tokens
@@ -126,16 +145,14 @@ def select(message: Text,
                     ic.pointed_at = i
 
             _reg_binding(i, c.shortcut_key)
-    else:
+    if use_arrow_keys:
         @bindings.add(Keys.Down, eager=True)
-        @bindings.add("j", eager=True)
         def move_cursor_down(event):
             ic.select_next()
             while not ic.is_selection_valid():
                 ic.select_next()
 
         @bindings.add(Keys.Up, eager=True)
-        @bindings.add("k", eager=True)
         def move_cursor_up(event):
             ic.select_previous()
             while not ic.is_selection_valid():

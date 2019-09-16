@@ -98,14 +98,33 @@ class InquirerControl(FormattedTextControl):
                  use_indicator: bool = True,
                  use_shortcuts: bool = False,
                  use_pointer: bool = True,
+                 show_selected: bool = True,
+                 pointed_at: Optional[Union[Text, int, None]] = None,
                  **kwargs):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
         self.use_pointer = use_pointer
+        self.show_selected = show_selected
         self.default = default
 
-        self.pointed_at = None
+        if pointed_at is None:
+            self.pointed_at = None
+        else:
+            try:
+                c = choices[pointed_at]
+            except IndexError:
+                raise IndexError("Choice {} is out of range".format(pointed_at))
+            except TypeError:  # now attempt to index by title
+                available = {c if isinstance(c, str) else c[0] if isinstance(c, (list, tuple)) else c.title:
+                                 c for c in choices}
+                try:
+                    c = available[pointed_at]
+                except KeyError:
+                    raise KeyError("There is not choice with title {}".format(pointed_at))
+            if getattr(c, 'disabled', False):
+                raise ValueError('Choice {} is disabled. You cannot start from there'.format(pointed_at))
+            self.pointed_at = choices.index(c)
         self.is_answered = False
         self.choices = []
         self.selected_options = []
@@ -245,7 +264,7 @@ class InquirerControl(FormattedTextControl):
         for i, c in enumerate(self.choices):
             append(i, c)
 
-        if self.use_shortcuts:
+        if self.use_shortcuts and self.show_selected:
             tokens.append(("class:text",
                            '  Answer: {}'
                            ''.format(self.get_pointed_at().shortcut_key)))

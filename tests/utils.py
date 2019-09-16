@@ -16,6 +16,9 @@ class KeyInputs(object):
     CONTROLC = '\x03'
     BACK = '\x7f'
     SPACE = ' '
+    ONE = '1'
+    TWO = '2'
+    THREE = '3'
 
 
 def feed_cli_with_input(_type, message, text, **kwargs):
