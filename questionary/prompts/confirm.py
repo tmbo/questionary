@@ -91,4 +91,4 @@ def confirm(message: Text,
     return Question(PromptSession(get_prompt_tokens,
                                   key_bindings=bindings,
                                   style=merged_style,
-                                  **kwargs).app)
+                                  **kwargs).app, default=default)

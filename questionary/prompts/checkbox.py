@@ -152,9 +152,13 @@ def checkbox(message: Text,
         """Disallow inserting other text. """
         pass
 
+    if default is None:
+        return_default = tuple(getattr(c, 'value') for c in choices
+                               if getattr(c, 'checked', False))
+    else:
+        return_default = default
     return Question(Application(
         layout=layout,
         key_bindings=bindings,
         style=merged_style,
-        **kwargs
-    ))
+        **kwargs), default=return_default)

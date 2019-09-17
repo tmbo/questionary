@@ -60,4 +60,4 @@ def text(message: Text,
                       **kwargs)
     p.default_buffer.reset(Document(default))
 
-    return Question(p.app)
+    return Question(p.app, default=default)

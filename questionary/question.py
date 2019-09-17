@@ -13,10 +13,10 @@ class Question:
     This is an internal class. Questions should be created using the
     predefined questions (e.g. text or password)."""
 
-    def __init__(self, application: prompt_toolkit.Application):
+    def __init__(self, application: prompt_toolkit.Application, default=None):
         self.application = application
         self.should_skip_question = False
-        self.default = None
+        self.default = default
 
     async def ask_async(self,
                         patch_stdout: bool = False,

@@ -155,5 +155,4 @@ def select(message: Text,
         layout=layout,
         key_bindings=bindings,
         style=merged_style,
-        **kwargs
-    ))
+        **kwargs), default=default)
