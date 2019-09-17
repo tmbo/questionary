@@ -17,6 +17,8 @@ def example_form(inp):
                                       output=DummyOutput(),
                                       default='default'
                                       )).skip_if(q2=lambda x: not x['q1'])
+
+
 def test_form_creation():
     inp = create_pipe_input()
     text = "Y" + KeyInputs.ENTER + "\r"
@@ -46,6 +48,7 @@ def test_ask_should_catch_keyboard_exception():
     finally:
         inp.close()
 
+
 def test_select_skip_on_condition():
     inp = create_pipe_input()
     text = "N" + KeyInputs.ENTER + "\r"
@@ -71,11 +74,11 @@ def test_checkbox_default_on_condition():
                                         input=inp,
                                         output=DummyOutput()),
                  q2=questionary.checkbox("World?",
-                                       choices=["foo", "bar"],
-                                       input=inp,
-                                       output=DummyOutput(),
-                                       default='default'
-                                       )).skip_if(q2=lambda x: not x['q1'])
+                                         choices=["foo", "bar"],
+                                         input=inp,
+                                         output=DummyOutput(),
+                                         default='default'
+                                         )).skip_if(q2=lambda x: not x['q1'])
 
         result = f.unsafe_ask()
 
