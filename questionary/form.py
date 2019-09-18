@@ -1,8 +1,8 @@
 from collections import namedtuple
-from typing import Callable
+from typing import Callable, Union
 
 from questionary.constants import DEFAULT_KBI_MESSAGE
-from questionary.question import Question
+from questionary.question import Question, FrozenOperationMixin
 
 FormField = namedtuple("FormField", ["key", "question"])
 
@@ -24,7 +24,7 @@ class Form:
         self.form_fields = form_fields
         self.skip_conditions = {}
 
-    def skip_if(self, **conditions: Callable):
+    def skip_if(self, **conditions: Union[Callable, FrozenOperationMixin]):
         for k, condition in conditions.items():
             self.skip_conditions[k] = condition
         return self
@@ -32,7 +32,11 @@ class Form:
     def unsafe_ask(self, patch_stdout=False):
         answers = {}
         for f in self.form_fields:
-            if not self.skip_conditions.get(f.key, lambda x: False)(answers):
+            values = {f.question: answers[f.key] for f in self.form_fields
+                      if f.key in answers}
+            values.update(answers)  # question and keys as keys in values
+            skip = self.skip_conditions.get(f.key, lambda x: False)(values)
+            if not skip:
                 answers[f.key] = f.question.unsafe_ask(patch_stdout)
             else:
                 answers[f.key] = f.question.default
