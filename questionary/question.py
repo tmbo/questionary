@@ -68,7 +68,8 @@ class Question(FrozenOperationMixin):
         self.default = default
 
     def __hash__(self):
-        return hash(str(hash(self.application)) + str(self.default) + str(self.should_skip_question))
+        return hash(str(hash(self.application)) + str(self.default) +
+                    str(self.should_skip_question))
 
     async def ask_async(self,
                         patch_stdout: bool = False,
