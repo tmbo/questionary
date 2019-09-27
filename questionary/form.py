@@ -15,6 +15,10 @@ def form(**kwargs: Question):
     return Form(*(FormField(k, q) for k, q in kwargs.items()))
 
 
+class DependencyError(Exception):
+    pass
+
+
 class Form:
     """Multi question prompts. Questions are asked one after another.
 
@@ -31,15 +35,34 @@ class Form:
 
     def unsafe_ask(self, patch_stdout=False):
         answers = {}
-        for f in self.form_fields:
-            values = {f.question: answers[f.key] for f in self.form_fields
-                      if f.key in answers}
-            values.update(answers)  # question and keys as keys in values
-            skip = self.skip_conditions.get(f.key, lambda x: False)(values)
-            if not skip:
-                answers[f.key] = f.question.unsafe_ask(patch_stdout)
+        previous_count = 0
+        while not all(f.key in answers for f in self.form_fields):
+            for field in self.form_fields:
+                if field.key in answers:
+                    skip = lambda x: True
+                else:
+                    skip = self.skip_conditions.get(field.key, lambda x: False)
+                values = {f.question: answers[f.key] for f in self.form_fields
+                          if f.key in answers}
+                values.update(answers)  # question and keys as keys in values
+                try:
+                    if not skip(values):
+                        answer = field.question.unsafe_ask(patch_stdout)
+                        answers[field.key] = answer
+                    else:
+                        answers[field.key] = field.question.default
+                except KeyError:
+                    # if the skip_if requires another question's answer,
+                    # loop until we have that required answer
+                    continue
             else:
-                answers[f.key] = f.question.default
+                if previous_count == len(answers):
+                    raise DependencyError("Dependencies in conditional "
+                                          "skip_if cannot be resolved. "
+                                          "please make sure there are no "
+                                          "circular dependencies in your "
+                                          "skip_if conditions")
+                previous_count = len(answers)
         return answers
 
     def ask(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):

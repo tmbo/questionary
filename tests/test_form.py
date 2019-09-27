@@ -5,6 +5,7 @@ from pytest import fail
 
 import questionary
 from questionary import form, Choice
+from questionary.form import DependencyError
 from tests.utils import KeyInputs
 
 
@@ -272,5 +273,50 @@ def test_form_skip_using_arithmetic(in1, calc, in2):
 
         assert result['q1'] == in1
         assert result['q2'] == 'skipped'
+    finally:
+        inp.close()
+
+
+def test_resolve_unordered_skip_if_dependencies():
+    inp = create_pipe_input()
+    text = KeyInputs.ENTER + "\r"
+    f = form(q2=questionary.confirm("Hello?",
+                                    input=inp,
+                                    output=DummyOutput()),
+             q1=questionary.select("World?",
+                                   choices=["foo", "bar"],
+                                   input=inp,
+                                   output=DummyOutput(),
+                                   default='default'
+                                   )).skip_if(q1=lambda x: not x['q2'])
+    try:
+        inp.send_text(text)
+        result = f.unsafe_ask()
+
+        assert result == {'q2': True, 'q1': 'foo'}
+    finally:
+        inp.close()
+
+
+def test_resolve_unordered_skip_if_dependencies_fails_with_circular_deps():
+    inp = create_pipe_input()
+    text = KeyInputs.ENTER + "\r" + KeyInputs.ENTER + "\r"
+    f = form(q2=questionary.confirm("Hello?",
+                                    input=inp,
+                                    output=DummyOutput()),
+             q3=questionary.confirm("Hello again?",
+                                    input=inp,
+                                    output=DummyOutput()),
+             q1=questionary.select("World?",
+                                   choices=["foo", "bar"],
+                                   input=inp,
+                                   output=DummyOutput(),
+                                   default='default'
+                                   )).skip_if(q1=lambda x: not x['q2'],
+                                              q2=lambda x: not x['q1'])
+    try:
+        with pytest.raises(DependencyError):
+            inp.send_text(text)
+            f.unsafe_ask()
     finally:
         inp.close()
