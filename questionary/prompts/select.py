@@ -31,6 +31,7 @@ def select(message: Text,
            use_indicator: bool = False,
            use_pointer: bool = True,
            use_arrow_keys: bool = True,
+           use_ij_keys: bool = True,
            show_selected: bool = True,
            start: Optional[Union[Text, int, None]] = None,
            **kwargs: Any) -> Question:
@@ -70,6 +71,10 @@ def select(message: Text,
                        arrow keys. Arrow keys and shortcuts are NOT mutually
                        exclusive
 
+        use_ij_keys: Allow the user to select items from the list using
+                     i and j keys. Arrow keys and shortcuts are NOT mutually
+                     exclusive
+
         show_selected: Display current selection choice at the bottom of list
 
         start: The choice where the pointer starts. Can be int
@@ -81,6 +86,11 @@ def select(message: Text,
     if not (use_arrow_keys or use_shortcuts):
         raise ValueError('Some option to move the selection is required. '
                          'Arrow keys or shortcuts')
+    if use_shortcuts and use_ij_keys:
+        if any(getattr(c, "shortcut_key", "") in ['i', 'j'] for c in choices):
+            raise ValueError("A choice is trying to register i/j as a "
+                             "shortcut key when they are in use as arrow keys "
+                             "disable one or the other.")
     if choices is None or len(choices) == 0:
         raise ValueError('A list of choices needs to be provided.')
 
@@ -152,18 +162,23 @@ def select(message: Text,
                     ic.pointed_at = i
 
             _reg_binding(i, c.shortcut_key)
-    if use_arrow_keys:
-        @bindings.add(Keys.Down, eager=True)
-        def move_cursor_down(event):
-            ic.select_next()
-            while not ic.is_selection_valid():
-                ic.select_next()
 
-        @bindings.add(Keys.Up, eager=True)
-        def move_cursor_up(event):
+    def move_cursor_down(event):
+        ic.select_next()
+        while not ic.is_selection_valid():
+            ic.select_next()
+
+    def move_cursor_up(event):
+        ic.select_previous()
+        while not ic.is_selection_valid():
             ic.select_previous()
-            while not ic.is_selection_valid():
-                ic.select_previous()
+
+    if use_arrow_keys:
+        bindings.add(Keys.Down, eager=True)(move_cursor_down)
+        bindings.add(Keys.Up, eager=True)(move_cursor_up)
+    if use_ij_keys:
+        bindings.add("k", eager=True)(move_cursor_down)
+        bindings.add("j", eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
