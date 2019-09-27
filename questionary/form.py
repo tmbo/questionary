@@ -39,10 +39,8 @@ class Form:
         while not all(f.key in answers for f in self.form_fields):
             for field in self.form_fields:
                 if field.key in answers:
-                    def skip(values):
-                        return True
-                else:
-                    skip = self.skip_conditions.get(field.key, lambda x: False)
+                    continue
+                skip = self.skip_conditions.get(field.key, lambda x: False)
                 values = {f.question: answers[f.key] for f in self.form_fields
                           if f.key in answers}
                 values.update(answers)  # question and keys as keys in values
