@@ -237,3 +237,30 @@ def test_fail_for_unreachable_choice():
 
     with pytest.raises(RuntimeError):
         feed_cli_with_input('select', message, text, **kwargs)
+
+
+def test_fail_for_starting_at_disabled_choice():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', Choice('bar', disabled='bad'), 'bazz'],
+        'use_shortcuts': True,
+        'use_arrow_keys': False,
+        'start': 1,
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(RuntimeError):
+        feed_cli_with_input('select', message, text, **kwargs)
+
+
+def test_fail_on_no_method_to_move_selection():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', Choice('bar', disabled='bad'), 'bazz'],
+        'use_shortcuts': False,
+        'use_arrow_keys': False,
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input('select', message, text, **kwargs)

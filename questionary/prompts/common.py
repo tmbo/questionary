@@ -132,7 +132,7 @@ class InquirerControl(FormattedTextControl):
                     raise KeyError("There is not choice with title {}"
                                    .format(pointed_at))
             if getattr(c, 'disabled', False):
-                raise ValueError('Choice {} is disabled. You cannot '
+                raise RuntimeError('Choice {} is disabled. You cannot '
                                  'start from there'.format(pointed_at))
             self.pointed_at = choices.index(c)
         self.is_answered = False
