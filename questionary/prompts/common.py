@@ -133,7 +133,7 @@ class InquirerControl(FormattedTextControl):
                                    .format(pointed_at))
             if getattr(c, 'disabled', False):
                 raise RuntimeError('Choice {} is disabled. You cannot '
-                                 'start from there'.format(pointed_at))
+                                   'start from there'.format(pointed_at))
             self.pointed_at = choices.index(c)
         self.is_answered = False
         self.choices = []
