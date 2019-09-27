@@ -39,7 +39,7 @@ class Form:
         while not all(f.key in answers for f in self.form_fields):
             for field in self.form_fields:
                 if field.key in answers:
-                    def skip(): return True
+                    def skip(x): return True
                 else:
                     skip = self.skip_conditions.get(field.key, lambda x: False)
                 values = {f.question: answers[f.key] for f in self.form_fields
