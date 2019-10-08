@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from typing import Any, Optional, Text, List, Dict
 
-from prompt_toolkit.shortcuts.prompt import (
-    PromptSession)
+from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import merge_styles, Style
 
 from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
@@ -52,9 +51,9 @@ class QuestionaryCompleter(Completer):
             index = word_matches(word)
             if index != -1:
                 display_meta = self.meta_dict.get(word, '')
-                from prompt_toolkit.formatted_text import HTML
-                display = HTML(f'{word[:index]}<b><u>{word[index:index + len(word_before_cursor)]}</u></b>'
-                               f'{word[index + len(word_before_cursor):len(word)]}')
+                display = HTML('%s<b><u>%s</u></b>%s') % \
+                    (word[:index], word[index:index + len(word_before_cursor)],
+                     word[index + len(word_before_cursor):len(word)])
 
                 yield Completion(
                     word,
@@ -66,7 +65,7 @@ class QuestionaryCompleter(Completer):
 
 
 def autocomplete(message: Text,
-                 choices: List[Text],
+                 choices: List[Text] = None,
                  default: Optional[Text] = "",
                  qmark: Text = DEFAULT_QUESTION_PREFIX,
                  completer: Completer = QuestionaryCompleter,
@@ -89,7 +88,8 @@ def autocomplete(message: Text,
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
 
-        completer: A Subclass of Completer prompt_toolkit. If default not used, style wont work.
+        completer: A Subclass of Completer prompt_toolkit. If default not used,
+                   style wont work.
 
         meta_dict: A dictionary with information/anything about choices.
 
@@ -99,7 +99,7 @@ def autocomplete(message: Text,
                       not only in string begin.
 
         complete_style: How autocomplete menu would be shown, it could be
-                        COLUMN, MULTICOLUMN_COLUMN or READLINE_LIKE
+                        COLUMN, MULTI_COLUMN or READLINE_LIKE
 
         validate: Require the entered value to pass a validation. The
                   value can not be submited until the validator accepts

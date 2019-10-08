@@ -1,0 +1,107 @@
+# -*- coding: utf-8 -*-
+import pytest
+
+from tests.utils import feed_cli_with_input, KeyInputs
+
+
+def test_autocomplete():
+    message = "Pick your poison "
+    text = "python3\r"
+    kwargs = {
+        "choices": ["python3", "python2"],
+    }
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
+    assert result == "python3"
+
+
+def test_no_choices_autocomplete():
+    message = "Pick your poison "
+    text = "python2\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("autocomplete", message, text)
+
+
+def test_validate_autocomplete():
+    message = "Pick your poison"
+    text = "python123"
+
+    kwargs = {
+        "choices": ["python3", "python2", "python123"],
+    }
+    result, cli = feed_cli_with_input("autocomplete", message, text,
+                                      validate=lambda x: 'c++' not in x or "?",
+                                      **kwargs)
+    assert result == "python123"
+
+
+def test_use_tab_autocomplete():
+    message = "Pick your poison"
+    text = KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER + "\r"
+    kwargs = {
+        "choices": ["python3", "python2", "python123"],
+    }
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
+    assert result == "python3"
+
+
+def test_use_key_tab_autocomplete():
+    message = "Pick your poison"
+    text = "p" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.TAB + \
+           KeyInputs.ENTER + "\r"
+    kwargs = {
+        "choices": ["python3", "python2", "python123", "c++"],
+    }
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
+    assert result == "python123"
+
+
+def test_column_autocomplete():
+    message = "Pick"
+    kwargs = {
+        "choices": ["a", "b", "c"]
+    }
+    text = KeyInputs.TAB + KeyInputs.DOWN
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
+    assert result == "b"
+
+
+def test_multi_column_autocomplete():
+    message = "Pick"
+    kwargs = {
+        "choices": ["a", "b", "c"]
+    }
+    text = KeyInputs.TAB + KeyInputs.RIGHT
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
+                                      complete_style="MULTI_COLUMN")
+    assert result == "b"
+
+
+def test_ignore_case_autocomplete():
+    message = "Pick your poison",
+    kwargs = {
+        "choices": ["python3", "python2"],
+    }
+    text = "PY" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
+                                      ignore_case=False)
+    assert result == "PY"
+
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
+                                      ignore_case=True)
+    assert result == "python2"
+
+
+def test_match_middle_autocomplete():
+    message = "Pick your poison",
+    kwargs = {
+        "choices": ["python3", "python2"],
+    }
+    text = "th" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
+                                      match_middle=False)
+    assert result == "th"
+
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
+                                      match_middle=True)
+    assert result == "python2"

@@ -20,13 +20,19 @@ class PolyergusValidator(Validator):
 
 
 meta_dict = {
-    'Camponotus pennsylvanicus': 'This is an important, destructive pest that attacks fences, poles and buildings',
-    'Linepithema humile': "It is an invasive species that has been established in many Mediterranean climate areas",
-    "Eciton burchellii": "Known as army ants, moves almost incessantly over the time it exists",
-    "Atta colombica": "They are known for cutting grasses and leaves, carrying them to their colonies' nests, "
-                      "and growing fungi on them which they later feed on",
-    "Polyergus lucidus": "It is an obligatory social parasite, unable to feed itself or look after its brood and "
-                         "reliant on ants of another species of the genus Formica to undertake these tasks.",
+    'Camponotus pennsylvanicus': "This is an important, destructive pest that"
+                                 " attacks fences, poles and buildings",
+    'Linepithema humile': "It is an invasive species that has been established"
+                          " in many Mediterranean climate areas",
+    "Eciton burchellii": "Known as army ants, moves almost incessantly"
+                         " over the time it exists",
+    "Atta colombica": "They are known for cutting grasses and leaves, carrying"
+                      " them to their colonies' nests, and growing fungi on"
+                      " them which they later feed on",
+    "Polyergus lucidus": "It is an obligatory social parasite, unable to feed"
+                         " itself or look after its brood and reliant on ants"
+                         " of another species of the genus Formica to undertake"
+                         " these tasks.",
     "Polyergus rufescens": "Is another specie of slave-making ant.",
 }
 
@@ -45,6 +51,7 @@ def ask_pystyle(**kwargs):
             'Polyergus lucidus',
             'Polyergus rufescens',
         ],
+        complete_style='MULTI_COLUMN',
         style=custom_style_fancy,
         **kwargs)
 
