@@ -51,7 +51,6 @@ def ask_pystyle(**kwargs):
             'Polyergus lucidus',
             'Polyergus rufescens',
         ],
-        complete_style='MULTI_COLUMN',
         style=custom_style_fancy,
         **kwargs)
 

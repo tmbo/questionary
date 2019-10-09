@@ -131,7 +131,7 @@ def autocomplete(message: Text,
     def get_meta_style(meta_dict):
         if meta_dict:
             for key in meta_dict:
-                meta_dict[key] = HTML(f"<text>{meta_dict[key]}</text>")
+                meta_dict[key] = HTML("<text>%s</text>") % meta_dict[key]
 
         return meta_dict
 
