@@ -51,6 +51,7 @@ def ask_pystyle(**kwargs):
             'Polyergus lucidus',
             'Polyergus rufescens',
         ],
+        ignore_case=False,
         style=custom_style_fancy,
         **kwargs)
 

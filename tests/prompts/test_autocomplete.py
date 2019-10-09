@@ -24,7 +24,7 @@ def test_no_choices_autocomplete():
 
 def test_validate_autocomplete():
     message = "Pick your poison"
-    text = "python123"
+    text = "python123\r"
 
     kwargs = {
         "choices": ["python3", "python2", "python123"],
@@ -37,18 +37,19 @@ def test_validate_autocomplete():
 
 def test_use_tab_autocomplete():
     message = "Pick your poison"
-    text = KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER + "\r"
+    text = (KeyInputs.TAB + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER +
+            "\r")
     kwargs = {
         "choices": ["python3", "python2", "python123"],
     }
     result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
-    assert result == "python3"
+    assert result == "python2"
 
 
 def test_use_key_tab_autocomplete():
     message = "Pick your poison"
-    text = "p" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.TAB + \
-           KeyInputs.ENTER + "\r"
+    text = ("p" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.TAB +
+            KeyInputs.ENTER + "\r")
     kwargs = {
         "choices": ["python3", "python2", "python123", "c++"],
     }
@@ -61,19 +62,9 @@ def test_column_autocomplete():
     kwargs = {
         "choices": ["a", "b", "c"]
     }
-    text = KeyInputs.TAB + KeyInputs.DOWN
+    text = (KeyInputs.TAB + KeyInputs.DOWN + KeyInputs.DOWN + KeyInputs.ENTER +
+            "\r")
     result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
-    assert result == "b"
-
-
-def test_multi_column_autocomplete():
-    message = "Pick"
-    kwargs = {
-        "choices": ["a", "b", "c"]
-    }
-    text = KeyInputs.TAB + KeyInputs.RIGHT
-    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
-                                      complete_style="MULTI_COLUMN")
     assert result == "b"
 
 
@@ -82,10 +73,12 @@ def test_ignore_case_autocomplete():
     kwargs = {
         "choices": ["python3", "python2"],
     }
-    text = "PY" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER
+    text = "P" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER + "\r"
     result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
                                       ignore_case=False)
-    assert result == "PY"
+    assert result == "P"
+
+    text = "p" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
                                       ignore_case=True)
@@ -97,10 +90,10 @@ def test_match_middle_autocomplete():
     kwargs = {
         "choices": ["python3", "python2"],
     }
-    text = "th" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER
+    text = "t" + KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER + "\r"
     result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
                                       match_middle=False)
-    assert result == "th"
+    assert result == "t"
 
     result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs,
                                       match_middle=True)

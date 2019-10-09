@@ -88,5 +88,5 @@ def test_autocomplete_example():
     result_dict = ask_with_patched_input(ask_dictstyle, text)
     result_py = ask_with_patched_input(ask_pystyle, text)
 
-    assert result_dict == {"ants", "Polyergus lucidus"}
+    assert result_dict == {"ants": "Polyergus lucidus"}
     assert result_py == "Polyergus lucidus"
