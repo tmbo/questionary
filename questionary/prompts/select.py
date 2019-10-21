@@ -104,7 +104,7 @@ def select(message: Text,
                 tokens.append(("class:instruction", instruction))
             else:
                 tokens.append((
-                    "class:instruction", 
+                    "class:instruction",
                     ' (Use shortcuts)' if use_shortcuts else ' (Use arrow keys)'
                 ))
 
