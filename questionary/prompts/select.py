@@ -101,7 +101,7 @@ def select(message: Text,
                 tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
             if instruction:
-                tokens.append(("class:instruction", instruction)
+                tokens.append(("class:instruction", instruction))
             else:
                 tokens.append((
                     "class:instruction", 
