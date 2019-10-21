@@ -26,11 +26,11 @@ def select(message: Text,
            choices: List[Union[Text, Choice, Dict[Text, Any]]],
            default: Optional[Text] = None,
            qmark: Text = DEFAULT_QUESTION_PREFIX,
-           instruction: Text = None,
            style: Optional[Style] = None,
            use_shortcuts: bool = False,
            use_indicator: bool = False,
            use_pointer: bool = True,
+           instruction: Text = None,
            **kwargs: Any) -> Question:
     """Prompt the user to select one item from the list of choices.
 
