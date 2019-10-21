@@ -48,7 +48,7 @@ def select(message: Text,
 
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
-        
+
         instruction: A hint on how to navigate the menu.
                      It's `(Use arrow keys)` if `use_shortcuts` is not set
                      to True and`(Use shortcuts)` otherwise by default
