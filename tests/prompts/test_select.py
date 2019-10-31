@@ -74,6 +74,17 @@ def test_select_third_choice():
     result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == 'bazz'
 
+def test_select_with_instruction():
+    message = 'Foo message'
+    kwargs = {
+        'choices': ['foo', 'bar', 'bazz'],
+        'instruction': 'sample instruction'
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input('select', message, text, **kwargs)
+    assert result == 'foo'
+
 
 def test_cycle_to_first_choice():
     message = 'Foo message'
