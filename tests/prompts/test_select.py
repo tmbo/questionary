@@ -74,6 +74,7 @@ def test_select_third_choice():
     result, cli = feed_cli_with_input('select', message, text, **kwargs)
     assert result == 'bazz'
 
+
 def test_select_with_instruction():
     message = 'Foo message'
     kwargs = {
