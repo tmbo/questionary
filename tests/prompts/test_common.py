@@ -78,3 +78,38 @@ def test_blank_line_fix():
             1000000000000000000000000000001
     finally:
         inp.close()
+
+
+def test_prompt_highlight_coexist():
+    ic = InquirerControl(["a", "b", "c"])
+
+    expected_tokens = [('class:pointer', ' » '),
+                       ('[SetCursorPosition]', ''),
+                       ('class:text', '○ '),
+                       ('class:highlighted', 'a'),
+                       ('', '\n'),
+                       ('class:text', '   '),
+                       ('class:text', '○ '),
+                       ('class:text', 'b'),
+                       ('', '\n'),
+                       ('class:text', '   '),
+                       ('class:text', '○ '),
+                       ('class:text', 'c')]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    ic.select_previous()
+    expected_tokens = [('class:text', '   '),
+                       ('class:text', '○ '),
+                       ('class:text', 'a'),
+                       ('', '\n'),
+                       ('class:text', '   '),
+                       ('class:text', '○ '),
+                       ('class:text', 'b'),
+                       ('', '\n'),
+                       ('class:pointer', ' » '),
+                       ('[SetCursorPosition]', ''),
+                       ('class:text', '○ '),
+                       ('class:highlighted', 'c')]
+    assert ic.pointed_at == 2
+    assert ic._get_choice_tokens() == expected_tokens
