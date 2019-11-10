@@ -30,6 +30,7 @@ def select(message: Text,
            use_shortcuts: bool = False,
            use_indicator: bool = False,
            use_pointer: bool = True,
+           instruction: Text = None,
            **kwargs: Any) -> Question:
     """Prompt the user to select one item from the list of choices.
 
@@ -47,6 +48,10 @@ def select(message: Text,
 
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
+
+        instruction: A hint on how to navigate the menu.
+                     It's `(Use arrow keys)` if `use_shortcuts` is not set
+                     to True and`(Use shortcuts)` otherwise by default
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -95,10 +100,13 @@ def select(message: Text,
             else:
                 tokens.append(("class:answer", ' ' + ic.get_pointed_at().title))
         else:
-            if use_shortcuts:
-                tokens.append(("class:instruction", ' (Use shortcuts)'))
+            if instruction:
+                tokens.append(("class:instruction", instruction))
             else:
-                tokens.append(("class:instruction", ' (Use arrow keys)'))
+                tokens.append((
+                    "class:instruction",
+                    ' (Use shortcuts)' if use_shortcuts else ' (Use arrow keys)'
+                ))
 
         return tokens
 

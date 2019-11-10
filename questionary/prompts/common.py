@@ -226,7 +226,7 @@ class InquirerControl(FormattedTextControl):
 
                 if isinstance(choice.title, list):
                     tokens.extend(choice.title)
-                elif index == self.pointed_at and not self.use_pointer:
+                elif index == self.pointed_at:
                     tokens.append(("class:highlighted",
                                    "{}{}".format(shortcut,
                                                  choice.title)))

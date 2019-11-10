@@ -136,6 +136,26 @@ This will create the following list, allowing the user to choose an option:
 
 </details>
 
+<details><summary>autocomplete</summary>
+
+   Text input with autocomplete help.
+
+   ```python
+   questionary.autocomplete(
+       'Choose ant specie',
+       choices=[
+            'Camponotus pennsylvanicus',
+            'Linepithema humile',
+            'Eciton burchellii',
+            "Atta colombica",
+            'Polyergus lucidus',
+            'Polyergus rufescens',
+       ]).ask()
+   ```
+   <img src="docs/images/autocomplete.png" width="700">
+
+</details>
+
 ### Additional Features
 <details><summary>Skipping questions using conditions</summary>
 
@@ -189,7 +209,7 @@ custom_style_fancy = Style([
     ('question', 'bold'),               # question text
     ('answer', 'fg:#f44336 bold'),      # submitted answer text behind the question
     ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
-    ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts if use_pointer=False
+    ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts
     ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
     ('separator', 'fg:#cc5454'),        # separator in lists
     ('instruction', ''),                # user instructions for select, rawselect, checkbox
@@ -245,6 +265,8 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 <details><summary>unreleased (master branch)</summary>
 
+* added additional question type `autocomplete`
+* allow pointer and highlight in select question type
 </details>
 
 <details><summary>1.3.0 (25.08.2019)</summary>

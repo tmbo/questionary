@@ -8,7 +8,7 @@ custom_style_fancy = Style([
     ('pointer', 'fg:#673ab7 bold'),
     ('highlighted', 'fg:#673ab7 bold'),
     ('answer', 'fg:#f44336 bold'),
-    ('text', ''),
+    ('text', 'fg:#FBE9E7'),
     ('disabled', 'fg:#858585 italic'),
 ])
 
