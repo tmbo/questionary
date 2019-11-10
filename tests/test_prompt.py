@@ -5,7 +5,7 @@ from questionary.prompt import PromptParameterException, prompt
 
 def test_missing_message():
     with pytest.raises(PromptParameterException):
-        prompt([{"type": "confirm", "name": "continue", "default": True,}])
+        prompt([{"type": "confirm", "name": "continue", "default": True}])
 
 
 def test_missing_type():
