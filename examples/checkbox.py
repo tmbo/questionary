@@ -12,16 +12,18 @@ from questionary import Separator, Choice, prompt
 def ask_pystyle(**kwargs):
     # create the question object
     question = questionary.checkbox(
-        'Select toppings',
-        qmark='😃',
+        "Select toppings",
+        qmark="😃",
         choices=[
             Choice("foo", checked=True),
             Separator(),
             Choice("bar", disabled="nope"),
-            'bazz',
-            Separator("--END--")],
+            "bazz",
+            Separator("--END--"),
+        ],
         style=custom_style_dope,
-        **kwargs)
+        **kwargs,
+    )
 
     # prompt the user for an answer
     return question.ask()
@@ -30,21 +32,22 @@ def ask_pystyle(**kwargs):
 def ask_dictstyle(**kwargs):
     questions = [
         {
-            'type': 'checkbox',
-            'qmark': '😃',
-            'message': 'Select toppings',
-            'name': 'toppings',
-            'choices': [
+            "type": "checkbox",
+            "qmark": "😃",
+            "message": "Select toppings",
+            "name": "toppings",
+            "choices": [
                 {"name": "foo", "checked": True},
                 Separator(),
                 {"name": "bar", "disabled": "nope"},
-                'bazz',
-                Separator("--END--")]
+                "bazz",
+                Separator("--END--"),
+            ],
         }
     ]
 
     return prompt(questions, style=custom_style_dope, **kwargs)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pprint(ask_pystyle())

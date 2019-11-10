@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
-from typing import Text, Union, Callable, Optional, Any
+from typing import Any, Optional, Text
 
 from prompt_toolkit.styles import Style
-from prompt_toolkit.validation import Validator
 
-from questionary.question import Question
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.prompts import text
+from questionary.question import Question
 
 
 def password(

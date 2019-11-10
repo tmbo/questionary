@@ -12,10 +12,8 @@ from questionary import prompt
 def ask_pystyle(**kwargs):
     # create the question object
     question = questionary.confirm(
-        'Do you want to continue?',
-        default=True,
-        style=custom_style_dope,
-        **kwargs)
+        "Do you want to continue?", default=True, style=custom_style_dope, **kwargs
+    )
 
     # prompt the user for an answer
     return question.ask()
@@ -24,15 +22,15 @@ def ask_pystyle(**kwargs):
 def ask_dictstyle(**kwargs):
     questions = [
         {
-            'type': 'confirm',
-            'message': 'Do you want to continue?',
-            'name': 'continue',
-            'default': True,
+            "type": "confirm",
+            "message": "Do you want to continue?",
+            "name": "continue",
+            "default": True,
         }
     ]
 
     return prompt(questions, style=custom_style_dope, **kwargs)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     pprint(ask_pystyle())

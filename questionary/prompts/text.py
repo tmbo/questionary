@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from typing import Any, Optional, Text, List, Tuple
+
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts.prompt import PromptSession
-from prompt_toolkit.styles import merge_styles, Style
-from prompt_toolkit.validation import Validator
-from typing import Text, Union, Callable, Optional, Any
+from prompt_toolkit.styles import Style, merge_styles
 
-from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
 
@@ -51,7 +51,7 @@ def text(
 
     validator = build_validator(validate)
 
-    def get_prompt_tokens():
+    def get_prompt_tokens() -> List[Tuple[Text, Text]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
     p = PromptSession(

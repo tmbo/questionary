@@ -1,80 +1,96 @@
 # -*- coding: utf-8 -*-
-from typing import Any, Optional, Text, List, Dict
+from typing import Any, Callable, Dict, Generator, List, Optional, Text, Tuple, Union
 
-from prompt_toolkit.shortcuts.prompt import PromptSession
-from prompt_toolkit.styles import merge_styles, Style
-
-from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
+from prompt_toolkit.completion import CompleteEvent, Completer, Completion
 from prompt_toolkit.document import Document
+from prompt_toolkit.formatted_text import HTML
+from prompt_toolkit.shortcuts.prompt import PromptSession
+from prompt_toolkit.styles import Style, merge_styles
+
+from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
 
-from prompt_toolkit.completion import Completer, Completion
-from prompt_toolkit.formatted_text import HTML
 
-
-class QuestionaryCompleter(Completer):
+class WordCompleter(Completer):
     def __init__(
-        self, words, ignore_case=True, meta_dict=None, sentence=True, match_middle=True
+        self,
+        choices: Union[List[Text], Callable[[], List[Text]]],
+        ignore_case: bool = True,
+        meta_information: Optional[Dict[Text, Any]] = None,
+        match_middle: bool = True,
     ):
 
-        self.words = words
+        self.choices_source = choices
         self.ignore_case = ignore_case
-        self.meta_dict = meta_dict or {}
-        self.sentence = sentence
+        self.meta_information = meta_information or {}
         self.match_middle = match_middle
 
-    def get_completions(self, document, complete_event):
-        words = self.words
-        if callable(words):
-            words = words()
+    def _choices(self) -> List[Text]:
+        return (
+            self.choices_source()
+            if callable(self.choices_source)
+            else self.choices_source
+        )
+
+    def _choice_matches(self, word_before_cursor: Text, choice: Text) -> int:
+        """Match index if found, -1 if not. """
+
+        if self.ignore_case:
+            choice = choice.lower()
+
+        if self.match_middle:
+            return choice.find(word_before_cursor)
+        elif choice.startswith(word_before_cursor):
+            return 0
+        else:
+            return -1
+
+    @staticmethod
+    def _display_for_choice(choice: Text, index: int, word_before_cursor: Text) -> HTML:
+        return HTML("{}<b><u>{}</u></b>{}").format(
+            choice[:index],
+            choice[index : index + len(word_before_cursor)],
+            choice[index + len(word_before_cursor) : len(choice)],
+        )
+
+    def get_completions(
+        self, document: Document, complete_event: CompleteEvent
+    ) -> Generator[Completion, None, None]:
+        choices = self._choices()
 
         # Get word/text before cursor.
-        if self.sentence:
-            word_before_cursor = document.text_before_cursor
-        else:
-            word_before_cursor = document.get_word_before_cursor()
+        word_before_cursor = document.text_before_cursor
 
         if self.ignore_case:
             word_before_cursor = word_before_cursor.lower()
 
-        def word_matches(word):
-            """Match index if found, -1 if not. """
-            if self.ignore_case:
-                word = word.lower()
+        for choice in choices:
+            index = self._choice_matches(word_before_cursor, choice)
+            if index == -1:
+                # didn't find a match
+                continue
 
-            if self.match_middle:
-                return word.find(word_before_cursor)
-            else:
-                return 0 if word.startswith(word_before_cursor) else -1
+            display_meta = self.meta_information.get(choice, "")
+            display = self._display_for_choice(choice, index, word_before_cursor)
 
-        for word in words:
-            index = word_matches(word)
-            if index != -1:
-                display_meta = self.meta_dict.get(word, "")
-                display = HTML("%s<b><u>%s</u></b>%s") % (
-                    word[:index],
-                    word[index : index + len(word_before_cursor)],
-                    word[index + len(word_before_cursor) : len(word)],
-                )
-
-                yield Completion(
-                    word,
-                    start_position=-len(word),
-                    display=display,
-                    display_meta=display_meta,
-                    style="class:answer",
-                    selected_style="class:selected",
-                )
+            yield Completion(
+                choice,
+                start_position=-len(choice),
+                display=display,
+                display_meta=display_meta,
+                style="class:answer",
+                selected_style="class:selected",
+            )
 
 
 def autocomplete(
     message: Text,
-    choices: List[Text] = None,
-    default: Optional[Text] = "",
+    choices: List[Text],
+    default: Text = "",
     qmark: Text = DEFAULT_QUESTION_PREFIX,
-    completer: Completer = QuestionaryCompleter,
-    meta_dict: Dict = None,
+    completer: Optional[Completer] = None,
+    meta_information: Optional[Dict[Text, Any]] = None,
     ignore_case: bool = True,
     match_middle: bool = True,
     complete_style: Text = "COLUMN",
@@ -94,10 +110,10 @@ def autocomplete(
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
 
-        completer: A Subclass of Completer prompt_toolkit. If default not used,
-                   style wont work.
+        completer: A prompt_toolkit `Completer` implementation. If not set, a
+                questionary completer implementation will be used.
 
-        meta_dict: A dictionary with information/anything about choices.
+        meta_information: A dictionary with information/anything about choices.
 
         ignore_case: If true autocomplete would ignore case.
 
@@ -108,7 +124,7 @@ def autocomplete(
                         COLUMN, MULTI_COLUMN or READLINE_LIKE
 
         validate: Require the entered value to pass a validation. The
-                  value can not be submited until the validator accepts
+                  value can not be submitted until the validator accepts
                   it (e.g. to check minimum password length).
 
                   This can either be a function accepting the input and
@@ -121,36 +137,37 @@ def autocomplete(
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
-    if choices is None or len(choices) == 0:
+
+    if not choices:
         raise ValueError("No choices is given, you should use Text question.")
-    if completer is not QuestionaryCompleter and style:
-        print("It is possible that style would not be used.")
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    def get_prompt_tokens():
-        tokens = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
+    def get_prompt_tokens() -> List[Tuple[Text, Text]]:
+        return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
-        return tokens
+    def get_meta_style(meta: Dict[Text, Any]):
+        if meta:
+            for key in meta:
+                meta[key] = HTML("<text>{}</text>").format(meta[key])
 
-    def get_meta_style(meta_dict):
-        if meta_dict:
-            for key in meta_dict:
-                meta_dict[key] = HTML("<text>%s</text>") % meta_dict[key]
-
-        return meta_dict
+        return meta
 
     validator = build_validator(validate)
-    my_completer = completer(
-        choices,
-        meta_dict=get_meta_style(meta_dict),
-        ignore_case=ignore_case,
-        match_middle=match_middle,
-    )
+
+    if completer is None:
+        # use the default completer
+        completer = WordCompleter(
+            choices,
+            ignore_case=ignore_case,
+            meta_information=get_meta_style(meta_information),
+            match_middle=match_middle,
+        )
+
     p = PromptSession(
         get_prompt_tokens,
         style=merged_style,
-        completer=my_completer,
+        completer=completer,
         validator=validator,
         complete_style=complete_style,
         **kwargs,

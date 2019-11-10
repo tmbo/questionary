@@ -17,16 +17,12 @@ tests_requires = [
     "pytest~=4.0",
     "pytest-pycodestyle~=1.3",
     "pytest-cov~=2.6",
-    "coveralls~=1.3"
+    "coveralls~=1.3",
 ]
 
-install_requires = [
-    "prompt_toolkit~=2.0"
-]
+install_requires = ["prompt_toolkit~=2.0"]
 
-extras_requires = {
-    "test": tests_requires
-}
+extras_requires = {"test": tests_requires}
 
 setup(
     name="questionary",
@@ -58,7 +54,7 @@ setup(
     keywords="cli ui inquirer questions prompt",
     url="https://github.com/tmbo/questionary",
     download_url="https://github.com/tmbo/questionary/archive/{}.tar.gz"
-                 "".format(__version__),
+    "".format(__version__),
     project_urls={
         "Bug Reports": "https://github.com/tmbo/questionary/issues",
         "Source": "https://github.com/tmbo/questionary",
