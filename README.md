@@ -136,6 +136,26 @@ This will create the following list, allowing the user to choose an option:
 
 </details>
 
+<details><summary>autocomplete</summary>
+
+   Text input with autocomplete help.
+
+   ```python
+   questionary.autocomplete(
+       'Choose ant specie',
+       choices=[
+            'Camponotus pennsylvanicus',
+            'Linepithema humile',
+            'Eciton burchellii',
+            "Atta colombica",
+            'Polyergus lucidus',
+            'Polyergus rufescens',
+       ]).ask()
+   ```
+   <img src="docs/images/autocomplete.png" width="700">
+
+</details>
+
 ### Additional Features
 <details><summary>Skipping questions using conditions</summary>
 

@@ -10,6 +10,7 @@ from questionary.prompts.common import Separator
 from questionary.question import Question
 
 # import the shortcuts to create single question prompts
+from questionary.prompts.autocomplete import autocomplete
 from questionary.prompts.select import select
 from questionary.prompts.checkbox import checkbox
 from questionary.prompts.text import text

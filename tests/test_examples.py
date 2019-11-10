@@ -79,3 +79,14 @@ def test_password_example():
 
     assert result_dict == {'password': 'asdf'}
     assert result_dict['password'] == result_py
+
+
+def test_autocomplete_example():
+    from examples.autocomplete import ask_dictstyle, ask_pystyle
+    text = "Polyergus lucidus" + KeyInputs.ENTER + "\r"
+
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
+
+    assert result_dict == {"ants": "Polyergus lucidus"}
+    assert result_py == "Polyergus lucidus"
