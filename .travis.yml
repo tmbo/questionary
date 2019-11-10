@@ -14,6 +14,7 @@ install:
 - pip list
 script:
 - py.test --codestyle -m codestyle
+- black --check .
 - travis_wait py.test tests --cov questionary -v
 after_success:
 - coveralls
