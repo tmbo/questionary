@@ -265,8 +265,14 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 <details><summary>unreleased (master branch)</summary>
 
-* added additional question type `autocomplete`
-* allow pointer and highlight in select question type
+</details>
+
+<details><summary>1.4.0 (10.11.2019)</summary>
+
+Feature release.
+
+* Added additional question type `autocomplete`
+* Allow pointer and highlight in select question type
 </details>
 
 <details><summary>1.3.0 (25.08.2019)</summary>
