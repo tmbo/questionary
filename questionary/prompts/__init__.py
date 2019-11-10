@@ -14,7 +14,6 @@ AVAILABLE_PROMPTS = {
     "rawselect": rawselect.rawselect,
     "password": password.password,
     "checkbox": checkbox.checkbox,
-
     # backwards compatible names
     "list": select.select,
     "rawlist": rawselect.rawselect,

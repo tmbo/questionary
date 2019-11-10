@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from prompt_toolkit.document import Document
-from prompt_toolkit.shortcuts.prompt import (
-    PromptSession)
+from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import merge_styles, Style
 from prompt_toolkit.validation import Validator
 from typing import Text, Union, Callable, Optional, Any
@@ -12,12 +11,14 @@ from questionary.prompts.common import build_validator
 from questionary.question import Question
 
 
-def text(message: Text,
-         default: Text = "",
-         validate: Any = None,
-         qmark: Text = DEFAULT_QUESTION_PREFIX,
-         style: Optional[Style] = None,
-         **kwargs: Any) -> Question:
+def text(
+    message: Text,
+    default: Text = "",
+    validate: Any = None,
+    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    style: Optional[Style] = None,
+    **kwargs: Any
+) -> Question:
     """Prompt the user to enter a free text message.
 
        This question type can be used to prompt the user for some text input.
@@ -51,13 +52,11 @@ def text(message: Text,
     validator = build_validator(validate)
 
     def get_prompt_tokens():
-        return [("class:qmark", qmark),
-                ("class:question", ' {} '.format(message))]
+        return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
-    p = PromptSession(get_prompt_tokens,
-                      style=merged_style,
-                      validator=validator,
-                      **kwargs)
+    p = PromptSession(
+        get_prompt_tokens, style=merged_style, validator=validator, **kwargs
+    )
     p.default_buffer.reset(Document(default))
 
     return Question(p.app)

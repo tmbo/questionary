@@ -14,8 +14,9 @@ from prompt_toolkit.formatted_text import HTML
 
 
 class QuestionaryCompleter(Completer):
-    def __init__(self, words, ignore_case=True, meta_dict=None,
-                 sentence=True, match_middle=True):
+    def __init__(
+        self, words, ignore_case=True, meta_dict=None, sentence=True, match_middle=True
+    ):
 
         self.words = words
         self.ignore_case = ignore_case
@@ -50,32 +51,37 @@ class QuestionaryCompleter(Completer):
         for word in words:
             index = word_matches(word)
             if index != -1:
-                display_meta = self.meta_dict.get(word, '')
-                display = HTML('%s<b><u>%s</u></b>%s') % \
-                    (word[:index], word[index:index + len(word_before_cursor)],
-                     word[index + len(word_before_cursor):len(word)])
+                display_meta = self.meta_dict.get(word, "")
+                display = HTML("%s<b><u>%s</u></b>%s") % (
+                    word[:index],
+                    word[index : index + len(word_before_cursor)],
+                    word[index + len(word_before_cursor) : len(word)],
+                )
 
                 yield Completion(
                     word,
                     start_position=-len(word),
                     display=display,
                     display_meta=display_meta,
-                    style='class:answer',
-                    selected_style='class:selected')
+                    style="class:answer",
+                    selected_style="class:selected",
+                )
 
 
-def autocomplete(message: Text,
-                 choices: List[Text] = None,
-                 default: Optional[Text] = "",
-                 qmark: Text = DEFAULT_QUESTION_PREFIX,
-                 completer: Completer = QuestionaryCompleter,
-                 meta_dict: Dict = None,
-                 ignore_case: bool = True,
-                 match_middle: bool = True,
-                 complete_style: Text = 'COLUMN',
-                 validate: Any = None,
-                 style: Optional[Style] = None,
-                 **kwargs: Any) -> Question:
+def autocomplete(
+    message: Text,
+    choices: List[Text] = None,
+    default: Optional[Text] = "",
+    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    completer: Completer = QuestionaryCompleter,
+    meta_dict: Dict = None,
+    ignore_case: bool = True,
+    match_middle: bool = True,
+    complete_style: Text = "COLUMN",
+    validate: Any = None,
+    style: Optional[Style] = None,
+    **kwargs: Any
+) -> Question:
     """Prompt the user to enter a message with autocomplete help.
 
     Args:
@@ -116,15 +122,14 @@ def autocomplete(message: Text,
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
     if choices is None or len(choices) == 0:
-        raise ValueError('No choices is given, you should use Text question.')
+        raise ValueError("No choices is given, you should use Text question.")
     if completer is not QuestionaryCompleter and style:
         print("It is possible that style would not be used.")
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     def get_prompt_tokens():
-        tokens = [("class:qmark", qmark),
-                  ("class:question", ' {} '.format(message))]
+        tokens = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
         return tokens
 
@@ -136,15 +141,19 @@ def autocomplete(message: Text,
         return meta_dict
 
     validator = build_validator(validate)
-    my_completer = completer(choices, meta_dict=get_meta_style(meta_dict),
-                             ignore_case=ignore_case, match_middle=match_middle)
+    my_completer = completer(
+        choices,
+        meta_dict=get_meta_style(meta_dict),
+        ignore_case=ignore_case,
+        match_middle=match_middle,
+    )
     p = PromptSession(
         get_prompt_tokens,
         style=merged_style,
         completer=my_completer,
         validator=validator,
         complete_style=complete_style,
-        **kwargs
+        **kwargs,
     )
     p.default_buffer.reset(Document(default))
 

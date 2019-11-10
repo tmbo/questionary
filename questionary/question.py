@@ -18,9 +18,9 @@ class Question:
         self.should_skip_question = False
         self.default = None
 
-    async def ask_async(self,
-                        patch_stdout: bool = False,
-                        kbi_msg: str = DEFAULT_KBI_MESSAGE) -> Any:
+    async def ask_async(
+        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+    ) -> Any:
         """Ask the question using asyncio and return user response."""
 
         if self.should_skip_question:
@@ -33,9 +33,9 @@ class Question:
             print("\n{}\n".format(kbi_msg))
             return None
 
-    def ask(self,
-            patch_stdout: bool = False,
-            kbi_msg: str = DEFAULT_KBI_MESSAGE) -> Any:
+    def ask(
+        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+    ) -> Any:
         """Ask the question synchronously and return user response."""
 
         if self.should_skip_question:
@@ -58,7 +58,7 @@ class Question:
         else:
             return self.application.run()
 
-    def skip_if(self, condition: bool, default: Any = None) -> 'Question':
+    def skip_if(self, condition: bool, default: Any = None) -> "Question":
         """Skip the question if flag is set and return the default instead."""
 
         self.should_skip_question = condition

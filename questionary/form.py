@@ -32,7 +32,7 @@ class Form:
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
-            print('')
+            print("")
             print(kbi_msg)
-            print('')
+            print("")
             return {}

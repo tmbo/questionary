@@ -5,12 +5,9 @@ from prompt_toolkit.filters import IsDone
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.layout import Layout
-from prompt_toolkit.layout.containers import (
-    ConditionalContainer,
-    HSplit)
+from prompt_toolkit.layout.containers import ConditionalContainer, HSplit
 from prompt_toolkit.layout.containers import Window
-from prompt_toolkit.shortcuts.prompt import (
-    PromptSession)
+from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import merge_styles, Style
 from questionary.prompts import common
 from typing import Text, List, Union, Dict, Any, Optional
@@ -20,13 +17,15 @@ from questionary.prompts.common import Separator, InquirerControl, Choice
 from questionary.question import Question
 
 
-def checkbox(message: Text,
-             choices: List[Union[Text, Choice, Dict[Text, Any]]],
-             default: Optional[Text] = None,
-             qmark: Text = DEFAULT_QUESTION_PREFIX,
-             style: Optional[Style] = None,
-             use_pointer: bool = True,
-             **kwargs: Any) -> Question:
+def checkbox(
+    message: Text,
+    choices: List[Union[Text, Choice, Dict[Text, Any]]],
+    default: Optional[Text] = None,
+    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    style: Optional[Style] = None,
+    use_pointer: bool = True,
+    **kwargs: Any
+) -> Question:
     """Ask the user to select from a list of items.
 
     This is a multiselect, the user can choose one, none or many of the
@@ -58,37 +57,51 @@ def checkbox(message: Text,
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    ic = InquirerControl(choices, default,
-                         use_pointer=use_pointer)
+    ic = InquirerControl(choices, default, use_pointer=use_pointer)
 
     def get_prompt_tokens():
         tokens = []
 
         tokens.append(("class:qmark", qmark))
-        tokens.append(("class:question", ' {} '.format(message)))
+        tokens.append(("class:question", " {} ".format(message)))
         if ic.is_answered:
             nbr_selected = len(ic.selected_options)
             if nbr_selected == 0:
-                tokens.append(("class:answer", ' done'))
+                tokens.append(("class:answer", " done"))
             elif nbr_selected == 1:
                 if isinstance(ic.get_selected_values()[0].title, list):
-                    tokens.append(("class:answer",
-                                   "".join([token[1] for token in
-                                           ic.get_selected_values()[0].title])))
+                    tokens.append(
+                        (
+                            "class:answer",
+                            "".join(
+                                [
+                                    token[1]
+                                    for token in ic.get_selected_values()[0].title
+                                ]
+                            ),
+                        )
+                    )
                 else:
-                    tokens.append(("class:answer",
-                                   ' [{}]'.format(
-                                       ic.get_selected_values()[0].title)))
+                    tokens.append(
+                        (
+                            "class:answer",
+                            " [{}]".format(ic.get_selected_values()[0].title),
+                        )
+                    )
             else:
-                tokens.append(("class:answer",
-                               ' done ({} selections)'.format(
-                                   nbr_selected)))
+                tokens.append(
+                    ("class:answer", " done ({} selections)".format(nbr_selected))
+                )
         else:
-            tokens.append(("class:instruction",
-                           ' (Use arrow keys to move, '
-                           '<space> to select, '
-                           '<a> to toggle, '
-                           '<i> to invert)'))
+            tokens.append(
+                (
+                    "class:instruction",
+                    " (Use arrow keys to move, "
+                    "<space> to select, "
+                    "<a> to toggle, "
+                    "<i> to invert)",
+                )
+            )
         return tokens
 
     layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
@@ -98,9 +111,9 @@ def checkbox(message: Text,
     @bindings.add(Keys.ControlQ, eager=True)
     @bindings.add(Keys.ControlC, eager=True)
     def _(event):
-        event.app.exit(exception=KeyboardInterrupt, style='class:aborting')
+        event.app.exit(exception=KeyboardInterrupt, style="class:aborting")
 
-    @bindings.add(' ', eager=True)
+    @bindings.add(" ", eager=True)
     def toggle(event):
         pointed_choice = ic.get_pointed_at().value
         if pointed_choice in ic.selected_options:
@@ -108,20 +121,26 @@ def checkbox(message: Text,
         else:
             ic.selected_options.append(pointed_choice)
 
-    @bindings.add('i', eager=True)
+    @bindings.add("i", eager=True)
     def invert(event):
-        inverted_selection = [c.value for c in ic.choices if
-                              not isinstance(c, Separator) and
-                              c.value not in ic.selected_options and
-                              not c.disabled]
+        inverted_selection = [
+            c.value
+            for c in ic.choices
+            if not isinstance(c, Separator)
+            and c.value not in ic.selected_options
+            and not c.disabled
+        ]
         ic.selected_options = inverted_selection
 
-    @bindings.add('a', eager=True)
+    @bindings.add("a", eager=True)
     def all(event):
         all_selected = True  # all choices have been selected
         for c in ic.choices:
-            if (not isinstance(c, Separator) and
-                    c.value not in ic.selected_options and not c.disabled):
+            if (
+                not isinstance(c, Separator)
+                and c.value not in ic.selected_options
+                and not c.disabled
+            ):
                 # add missing ones
                 ic.selected_options.append(c.value)
                 all_selected = False
@@ -152,9 +171,6 @@ def checkbox(message: Text,
         """Disallow inserting other text. """
         pass
 
-    return Question(Application(
-        layout=layout,
-        key_bindings=bindings,
-        style=merged_style,
-        **kwargs
-    ))
+    return Question(
+        Application(layout=layout, key_bindings=bindings, style=merged_style, **kwargs)
+    )

@@ -9,12 +9,14 @@ from questionary.prompts.common import Choice
 from questionary.question import Question
 
 
-def rawselect(message: Text,
-              choices: List[Union[Text, Choice, Dict[Text, Any]]],
-              default: Optional[Text] = None,
-              qmark: Text = DEFAULT_QUESTION_PREFIX,
-              style: Optional[Style] = None,
-              **kwargs: Any) -> Question:
+def rawselect(
+    message: Text,
+    choices: List[Union[Text, Choice, Dict[Text, Any]]],
+    default: Optional[Text] = None,
+    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    style: Optional[Style] = None,
+    **kwargs: Any
+) -> Question:
     """Ask the user to select one item from a list of choices using shortcuts.
 
        The user can only select one option.
@@ -38,6 +40,6 @@ def rawselect(message: Text,
        Returns:
            Question: Question instance, ready to be prompted (using `.ask()`).
        """
-    return select.select(message, choices, default, qmark, style,
-                         use_shortcuts=True,
-                         **kwargs)
+    return select.select(
+        message, choices, default, qmark, style, use_shortcuts=True, **kwargs
+    )
