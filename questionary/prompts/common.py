@@ -278,13 +278,13 @@ class InquirerControl(FormattedTextControl):
 
                 if isinstance(choice.title, list):
                     tokens.extend(choice.title)
-                elif index == self.pointed_at:
-                    tokens.append(
-                        ("class:highlighted", "{}{}".format(shortcut, choice.title))
-                    )
                 elif selected:
                     tokens.append(
                         ("class:selected", "{}{}".format(shortcut, choice.title))
+                    )
+                elif index == self.pointed_at:
+                    tokens.append(
+                        ("class:highlighted", "{}{}".format(shortcut, choice.title))
                     )
                 else:
                     tokens.append(("class:text", "{}{}".format(shortcut, choice.title)))
