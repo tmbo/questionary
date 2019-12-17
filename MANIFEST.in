@@ -1,1 +1,6 @@
-include LICENSE README.md requirements.txt
+include LICENSE NOTICE README.md requirements.txt
+include pyproject.toml
+recursive-include docs *.gif
+recursive-include docs *.png
+recursive-include examples *.py
+recursive-include tests *.py
