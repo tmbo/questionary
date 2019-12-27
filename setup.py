@@ -37,7 +37,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Topic :: Software Development :: Libraries",
     ],
-    packages=find_packages(exclude=["tests", "examples"]),
+    packages=find_packages(exclude=["tests", "tests.*", "examples"]),
     version=__version__,
     install_requires=install_requires,
     tests_require=tests_requires,
