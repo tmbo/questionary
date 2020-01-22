@@ -29,6 +29,7 @@ def feed_cli_with_input(_type, message, text, **kwargs):
     inp = create_pipe_input()
 
     try:
+        # noinspection PyUnresolvedReferences
         inp.send_text(text)
         prompter = prompt_by_name(_type)
         application = prompter(message, input=inp, output=DummyOutput(), **kwargs)

@@ -20,7 +20,7 @@ tests_requires = [
     "coveralls~=1.3",
 ]
 
-install_requires = ["prompt_toolkit~=2.0"]
+install_requires = ["prompt_toolkit>=2.0,<4.0"]
 
 extras_requires = {"test": tests_requires}
 

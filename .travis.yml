@@ -5,12 +5,15 @@ cache:
   directories:
   - "$HOME/.cache/pip"
 python:
-- '3.5'
-- '3.6'
+- "3.6"
 - "3.7"
+env:
+- PROMTTOOLKITVER=3.*
+- PROMTTOOLKITVER=2.*
 install:
 - pip install -r requirements_dev.txt
 - pip install -e .
+- pip install prompt_toolkit==$PROMTTOOLKITVER
 - pip list
 script:
 - py.test --codestyle -m codestyle
