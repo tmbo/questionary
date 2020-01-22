@@ -356,7 +356,7 @@ Initial public release of the library
 </details>
 
 ## License
-Licensed under the MIT License. Copyright 2019 Tom Bocklisch. [Copy of the license](LICENSE).
+Licensed under the MIT License. Copyright 2020 Tom Bocklisch. [Copy of the license](LICENSE).
 
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_large)
