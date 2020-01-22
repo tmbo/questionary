@@ -49,7 +49,7 @@ def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
                 # noinspection PyUnresolvedReferences
                 inp.send_text(text)
 
-                if i != len(texts)-1:
+                if i != len(texts) - 1:
                     loop.run_until_complete(asyncio.sleep(sleep_time))
             result = loop.run_until_complete(future_result)
         else:

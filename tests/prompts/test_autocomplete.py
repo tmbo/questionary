@@ -11,9 +11,7 @@ def test_autocomplete():
     kwargs = {
         "choices": ["python3", "python2"],
     }
-    result, cli = feed_cli_with_input(
-        "autocomplete", message, text, **kwargs
-    )
+    result, cli = feed_cli_with_input("autocomplete", message, text, **kwargs)
     assert result == "python3"
 
 
@@ -48,9 +46,7 @@ def test_use_tab_autocomplete():
     kwargs = {
         "choices": ["python3", "python2", "python123"],
     }
-    result, cli = feed_cli_with_input(
-        "autocomplete", message, texts, **kwargs
-    )
+    result, cli = feed_cli_with_input("autocomplete", message, texts, **kwargs)
     assert result == "python2"
 
 
@@ -63,9 +59,7 @@ def test_use_key_tab_autocomplete():
     kwargs = {
         "choices": ["python3", "python2", "python123", "c++"],
     }
-    result, cli = feed_cli_with_input(
-        "autocomplete", message, texts, **kwargs
-    )
+    result, cli = feed_cli_with_input("autocomplete", message, texts, **kwargs)
     assert result == "python123"
 
 
