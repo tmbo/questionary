@@ -42,7 +42,7 @@ questionary.select(
 
 This will create the following list, allowing the user to choose an option:
 
-<img src="docs/images/example.gif" width="800">
+<img src="https://github.com/tmbo/questionary/blob/master/docs/images/example.gif" width="800">
 
 ## Documentation
 
