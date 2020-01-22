@@ -74,12 +74,12 @@ class Question:
             await utils.activate_prompt_toolkit_async_mode()
 
         if patch_stdout:
-            # with prompt_toolkit.patch_stdout.patch_stdout():
-            r = await self.application.run_async()
+            with prompt_toolkit.patch_stdout.patch_stdout():
+                r = self.application.run_async()
         else:
-            r = await self.application.run_async()
+            r = self.application.run_async()
 
         if utils.is_prompt_toolkit_3():
-            return r
+            return await r
         else:
-            return r.to_asyncio_future()
+            return await r.to_asyncio_future()
