@@ -40,9 +40,9 @@ questionary.select(
     ]).ask()  # returns value of selection
 ```
 
-This will create the following list, allowing the user to choose an option:
+This will create a list selection on the command line for the user to select from. But there are even more question types:
 
-<img src="docs/images/example.gif" width="800">
+<img src="https://github.com/tmbo/questionary/blob/master/docs/images/example.gif" width="900">
 
 ## Documentation
 
@@ -356,7 +356,7 @@ Initial public release of the library
 </details>
 
 ## License
-Licensed under the MIT License. Copyright 2019 Tom Bocklisch. [Copy of the license](LICENSE).
+Licensed under the MIT License. Copyright 2020 Tom Bocklisch. [Copy of the license](LICENSE).
 
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_large)
