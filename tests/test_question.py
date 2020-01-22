@@ -1,3 +1,4 @@
+import pytest
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
@@ -45,5 +46,17 @@ def test_skipping_of_skipping_of_questions():
         response = question.ask()
 
         assert response == "World" and not response == 42
+    finally:
+        inp.close()
+
+
+@pytest.mark.asyncio
+async def test_async_ask_question():
+    inp = create_pipe_input()
+    try:
+        inp.send_text("World" + KeyInputs.ENTER + "\r")
+        question = text("Hello?", input=inp, output=DummyOutput())
+        response = await question.ask_async()
+        assert response == "World"
     finally:
         inp.close()

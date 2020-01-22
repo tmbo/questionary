@@ -267,6 +267,13 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 </details>
 
+<details><summary>1.5.1 (22.01.2020)</summary>
+
+Bug fix release.
+
+* Fixed `.ask_async` for questions on `prompt_toolkit==2.*`. Added tests for it.
+</details>
+
 <details><summary>1.5.0 (22.01.2020)</summary>
 
 Feature release.
