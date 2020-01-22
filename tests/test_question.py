@@ -1,4 +1,5 @@
-import pytest
+import asyncio
+
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
@@ -50,13 +51,14 @@ def test_skipping_of_skipping_of_questions():
         inp.close()
 
 
-@pytest.mark.asyncio
-async def test_async_ask_question():
+def test_async_ask_question():
+    loop = asyncio.new_event_loop()
+
     inp = create_pipe_input()
     try:
         inp.send_text("World" + KeyInputs.ENTER + "\r")
         question = text("Hello?", input=inp, output=DummyOutput())
-        response = await question.ask_async()
+        response = loop.run_until_complete(question.ask_async())
         assert response == "World"
     finally:
         inp.close()

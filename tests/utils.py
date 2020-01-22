@@ -6,6 +6,7 @@ from prompt_toolkit.output import DummyOutput
 
 from questionary import prompt
 from questionary.prompts import prompt_by_name
+from questionary.utils import is_prompt_toolkit_3
 
 
 class KeyInputs(object):
@@ -21,29 +22,7 @@ class KeyInputs(object):
     TAB = "\x09"
 
 
-def feed_cli_with_input(_type, message, text, **kwargs):
-    """
-    Create a Prompt, feed it with the given user input and return the CLI
-    object.
-    This returns a (result, Application) tuple.
-    """
-
-    inp = create_pipe_input()
-
-    try:
-        # noinspection PyUnresolvedReferences
-        inp.send_text(text)
-        prompter = prompt_by_name(_type)
-        application = prompter(message, input=inp, output=DummyOutput(), **kwargs)
-
-        result = application.unsafe_ask()
-        return result, application
-
-    finally:
-        inp.close()
-
-
-async def feed_cli_with_input_async(_type, message, texts, sleep_time=1, **kwargs):
+def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
     """
     Create a Prompt, feed it with the given user input and return the CLI
     object.
@@ -62,13 +41,23 @@ async def feed_cli_with_input_async(_type, message, texts, sleep_time=1, **kwarg
         prompter = prompt_by_name(_type)
         application = prompter(message, input=inp, output=DummyOutput(), **kwargs)
 
-        future_result = asyncio.ensure_future(application.unsafe_ask_async())
+        if is_prompt_toolkit_3():
+            loop = asyncio.new_event_loop()
+            future_result = loop.create_task(application.unsafe_ask_async())
 
-        for text in texts:
-            # noinspection PyUnresolvedReferences
-            inp.send_text(text)
-            await asyncio.sleep(sleep_time)
-        return await future_result, application
+            for i, text in enumerate(texts):
+                # noinspection PyUnresolvedReferences
+                inp.send_text(text)
+
+                if i != len(texts)-1:
+                    loop.run_until_complete(asyncio.sleep(sleep_time))
+            result = loop.run_until_complete(future_result)
+        else:
+            for text in texts:
+                inp.send_text(text)
+            result = application.unsafe_ask()
+
+        return result, application
     finally:
         inp.close()
 
