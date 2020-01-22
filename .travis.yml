@@ -1,5 +1,5 @@
 language: python
-sudo: required
+os: linux
 dist: xenial
 cache:
   directories:
@@ -28,7 +28,7 @@ jobs:
     script: skip
     deploy:
       provider: pypi
-      user: tmbo
+      username: tmbo
       distributions: "sdist bdist_wheel"
       on:
         branch: master
