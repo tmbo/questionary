@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-from typing import Any, Callable, Dict, Generator, List, Optional, Text, Tuple, Union
+from typing import (
+    Any, Callable, Dict, Generator, List, Optional, Text, Tuple, Union,
+    Iterable)
 
 from prompt_toolkit.completion import CompleteEvent, Completer, Completion
 from prompt_toolkit.document import Document
 from prompt_toolkit.formatted_text import HTML
-from prompt_toolkit.shortcuts.prompt import PromptSession
+from prompt_toolkit.shortcuts.prompt import PromptSession, CompleteStyle
 from prompt_toolkit.styles import Style, merge_styles
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
@@ -56,7 +58,7 @@ class WordCompleter(Completer):
 
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
-    ) -> Generator[Completion, None, None]:
+    ) -> Iterable[Completion]:
         choices = self._choices()
 
         # Get word/text before cursor.
@@ -77,7 +79,7 @@ class WordCompleter(Completer):
             yield Completion(
                 choice,
                 start_position=-len(choice),
-                display=display,
+                display=display.formatted_text,
                 display_meta=display_meta,
                 style="class:answer",
                 selected_style="class:selected",
@@ -93,7 +95,7 @@ def autocomplete(
     meta_information: Optional[Dict[Text, Any]] = None,
     ignore_case: bool = True,
     match_middle: bool = True,
-    complete_style: Text = "COLUMN",
+    complete_style: CompleteStyle = CompleteStyle.COLUMN,
     validate: Any = None,
     style: Optional[Style] = None,
     **kwargs: Any

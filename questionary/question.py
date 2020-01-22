@@ -75,6 +75,11 @@ class Question:
 
         if patch_stdout:
             # with prompt_toolkit.patch_stdout.patch_stdout():
-            return await self.application.run_async().to_asyncio_future()
+            r = await self.application.run_async()
         else:
-            return await self.application.run_async().to_asyncio_future()
+            r = await self.application.run_async()
+
+        if utils.is_prompt_toolkit_3():
+            return r
+        else:
+            return r.to_asyncio_future()
