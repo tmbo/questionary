@@ -267,6 +267,15 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 </details>
 
+<details><summary>1.5.0 (22.01.2020)</summary>
+
+Feature release.
+
+* Added support for prompt_toolkit 3
+* All tests will be run against prompt_toolkit 2 and 3
+* Removed support for python 3.5 (prompt_toolkit 3 does not support that anymore)
+</details>
+
 <details><summary>1.4.0 (10.11.2019)</summary>
 
 Feature release.
