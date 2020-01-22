@@ -17,6 +17,7 @@ tests_requires = [
     "pytest~=4.0",
     "pytest-pycodestyle~=1.3",
     "pytest-cov~=2.6",
+    "pytest-asyncio~=0.10",
     "coveralls~=1.3",
 ]
 

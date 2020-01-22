@@ -1,7 +1,16 @@
 # -*- coding: utf-8 -*-
 from typing import (
-    Any, Callable, Dict, Generator, List, Optional, Text, Tuple, Union,
-    Iterable)
+    Any,
+    Callable,
+    Dict,
+    Generator,
+    List,
+    Optional,
+    Text,
+    Tuple,
+    Union,
+    Iterable,
+)
 
 from prompt_toolkit.completion import CompleteEvent, Completer, Completion
 from prompt_toolkit.document import Document

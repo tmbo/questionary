@@ -7,7 +7,7 @@ ACTIVATED_ASYNC_MODE = False
 def is_prompt_toolkit_3():
     from prompt_toolkit import __version__ as ptk_version
 
-    return ptk_version.startswith('3.')
+    return ptk_version.startswith("3.")
 
 
 def default_values_of(func):
@@ -52,6 +52,7 @@ async def activate_prompt_toolkit_async_mode():
     if not is_prompt_toolkit_3():
         # Tell prompt_toolkit to use asyncio for the event loop.
         from prompt_toolkit.eventloop import use_asyncio_event_loop
+
         use_asyncio_event_loop()
 
     ACTIVATED_ASYNC_MODE = True

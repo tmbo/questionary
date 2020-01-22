@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import asyncio
+
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
@@ -41,12 +43,43 @@ def feed_cli_with_input(_type, message, text, **kwargs):
         inp.close()
 
 
+async def feed_cli_with_input_async(_type, message, texts, sleep_time=1, **kwargs):
+    """
+    Create a Prompt, feed it with the given user input and return the CLI
+    object.
+
+    You an provide multiple texts, the feeder will async sleep for `sleep_time`
+
+    This returns a (result, Application) tuple.
+    """
+
+    if not isinstance(texts, list):
+        texts = [texts]
+
+    inp = create_pipe_input()
+
+    try:
+        prompter = prompt_by_name(_type)
+        application = prompter(message, input=inp, output=DummyOutput(), **kwargs)
+
+        future_result = asyncio.ensure_future(application.unsafe_ask_async())
+
+        for text in texts:
+            # noinspection PyUnresolvedReferences
+            inp.send_text(text)
+            await asyncio.sleep(sleep_time)
+        return await future_result, application
+    finally:
+        inp.close()
+
+
 def patched_prompt(questions, text, **kwargs):
     """Create a prompt where the input and output are predefined."""
 
     inp = create_pipe_input()
 
     try:
+        # noinspection PyUnresolvedReferences
         inp.send_text(text)
         result = prompt(questions, input=inp, output=DummyOutput(), **kwargs)
         return result
