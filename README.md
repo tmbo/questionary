@@ -40,7 +40,7 @@ questionary.select(
     ]).ask()  # returns value of selection
 ```
 
-This will create the following list, allowing the user to choose an option:
+This will create a list selection on the command line for the user to select from. But there are even more question types:
 
 <img src="https://github.com/tmbo/questionary/blob/master/docs/images/example.gif" width="800">
 
