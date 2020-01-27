@@ -5,15 +5,15 @@ from prompt_toolkit.output import DummyOutput
 from prompt_toolkit.validation import ValidationError, Validator
 from questionary.prompts import common
 
-from questionary.prompts.common import InquirerControl, build_validator
+from questionary.prompts.common import QuestionaryControl, build_validator, Choice
 
 
 def test_to_many_choices_for_shortcut_assignment():
-    ic = InquirerControl([str(i) for i in range(1, 100)], use_shortcuts=True)
+    ic = QuestionaryControl([str(i) for i in range(1, 100)], use_shortcuts=True)
 
     # IC should fail gracefully when running out of shortcuts
     assert len(list(filter(lambda x: x.shortcut_key is not None, ic.choices))) == len(
-        InquirerControl.SHORTCUT_KEYS
+        QuestionaryControl.SHORTCUT_KEYS
     )
 
 
@@ -61,13 +61,13 @@ def test_blank_line_fix():
     def get_prompt_tokens():
         return [("class:question", "What is your favourite letter?")]
 
-    ic = InquirerControl(["a", "b", "c"])
+    ic = QuestionaryControl(["a", "b", "c"])
 
     inp = create_pipe_input()
 
     try:
         inp.send_text("")
-        layout = common.create_inquirer_layout(
+        layout = common.create_questionary_layout(
             ic, get_prompt_tokens, input=inp, output=DummyOutput()
         )
 
@@ -83,7 +83,7 @@ def test_blank_line_fix():
 
 
 def test_prompt_highlight_coexist():
-    ic = InquirerControl(["a", "b", "c"])
+    ic = QuestionaryControl(["a", "b", "c"])
 
     expected_tokens = [
         ("class:pointer", " » "),
@@ -111,6 +111,45 @@ def test_prompt_highlight_coexist():
         ("class:text", "   "),
         ("class:text", "○ "),
         ("class:text", "b"),
+        ("", "\n"),
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "c"),
+    ]
+    assert ic.pointed_at == 2
+    assert ic._get_choice_tokens() == expected_tokens
+
+
+def test_prompt_individual_styles_set():
+    ic = QuestionaryControl([Choice('a', style='foo'), Choice("b", style='bar'), "c"])
+
+    expected_tokens = [
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "a"),
+        ("", "\n"),
+        ("class:bar", "   "),
+        ("class:text", "○ "),
+        ("class:bar", "b"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "c"),
+    ]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    ic.select_previous()
+    expected_tokens = [
+        ("class:foo", "   "),
+        ("class:text", "○ "),
+        ("class:foo", "a"),
+        ("", "\n"),
+        ("class:bar", "   "),
+        ("class:text", "○ "),
+        ("class:bar", "b"),
         ("", "\n"),
         ("class:pointer", " » "),
         ("[SetCursorPosition]", ""),

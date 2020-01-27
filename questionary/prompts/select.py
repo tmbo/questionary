@@ -9,7 +9,7 @@ from prompt_toolkit.styles import Style, merge_styles
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts import common
-from questionary.prompts.common import Choice, InquirerControl, Separator
+from questionary.prompts.common import Choice, QuestionaryControl, Separator
 from questionary.question import Question
 
 
@@ -65,18 +65,18 @@ def select(
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")
 
-    if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
+    if use_shortcuts and len(choices) > len(QuestionaryControl.SHORTCUT_KEYS):
         raise ValueError(
             "A list with shortcuts supports a maximum of {} "
             "choices as this is the maximum number "
             "of keyboard shortcuts that are available. You"
             "provided {} choices!"
-            "".format(len(InquirerControl.SHORTCUT_KEYS), len(choices))
+            "".format(len(QuestionaryControl.SHORTCUT_KEYS), len(choices))
         )
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    ic = InquirerControl(
+    ic = QuestionaryControl(
         choices,
         default,
         use_indicator=use_indicator,
@@ -111,7 +111,7 @@ def select(
 
         return tokens
 
-    layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
+    layout = common.create_questionary_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
 

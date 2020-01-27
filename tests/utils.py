@@ -22,7 +22,7 @@ class KeyInputs(object):
     TAB = "\x09"
 
 
-def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
+def feed_cli_with_input(_type, message, texts, sleep_time=0.1, **kwargs):
     """
     Create a Prompt, feed it with the given user input and return the CLI
     object.

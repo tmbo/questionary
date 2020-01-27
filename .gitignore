@@ -33,3 +33,4 @@ logs/
 profile.*
 server/
 tmp/
+venv/

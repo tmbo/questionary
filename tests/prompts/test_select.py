@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import pytest
+from prompt_toolkit.styles import Style
 
 from questionary import Separator, Choice
 from tests.utils import feed_cli_with_input, KeyInputs
@@ -36,6 +37,25 @@ def test_select_first_choice_with_token_title():
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "foo"
+
+
+def test_individual_styles_for_choice():
+    custom_style = Style([
+        ('foo', 'fg:#ff0000'),
+        ('bar', 'fg:#0000ff'),
+    ])
+    message = "Foo message"
+    kwargs = {
+        "choices": [
+            Choice(title="foo", style="foo"),
+            Choice(title="bar", style="bar"),
+        ]
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    _, cli = feed_cli_with_input("select", message, text, style=custom_style, **kwargs)
+    assert custom_style.style_rules[0] in cli.application.style.style_rules
+    assert custom_style.style_rules[1] in cli.application.style.style_rules
 
 
 def test_select_second_choice():

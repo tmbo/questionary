@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import inspect
+from dataclasses import dataclass
+
 from prompt_toolkit import PromptSession
 from prompt_toolkit.filters import IsDone, Always
 from prompt_toolkit.layout import (
@@ -19,6 +21,21 @@ from questionary.constants import (
 )
 
 
+class ChoiceClass:
+    class_base = "class:"
+    pointer = f"{class_base}pointer"
+    text = f"{class_base}text"
+    separator = f"{class_base}separator"
+    selected = f"{class_base}selected"
+    highlighted = f"{class_base}highlighted"
+    disabled = f"{class_base}disabled"
+    set_cursor_position = "[SetCursorPosition]"
+
+    @staticmethod
+    def create(name):
+        return f"{ChoiceClass.class_base}{name}"
+
+
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
@@ -29,6 +46,7 @@ class Choice(object):
         disabled: Optional[Text] = None,
         checked: bool = False,
         shortcut_key: Optional[Text] = None,
+        style: Optional[Text] = None,
     ) -> None:
         """Create a new choice.
 
@@ -44,11 +62,14 @@ class Choice(object):
             checked: Preselect this choice when displaying the options.
 
             shortcut_key: Key shortcut used to select this item.
+
+            style: Style that this item should use.
         """
 
         self.disabled = disabled
         self.title = title
         self.checked = checked
+        self.style = style
 
         if value is not None:
             self.value = value
@@ -57,10 +78,7 @@ class Choice(object):
         else:
             self.value = title
 
-        if shortcut_key is not None:
-            self.shortcut_key = str(shortcut_key)
-        else:
-            self.shortcut_key = None
+        self.shortcut_key = str(shortcut_key) if shortcut_key else None
 
     @staticmethod
     def build(c: Union[Text, "Choice", Dict[Text, Any]]) -> "Choice":
@@ -77,6 +95,7 @@ class Choice(object):
                 c.get("disabled", None),
                 c.get("checked"),
                 c.get("key"),
+                c.get("style", None),
             )
 
 
@@ -96,45 +115,8 @@ class Separator(Choice):
         super(Separator, self).__init__(self.line, None, "-")
 
 
-class InquirerControl(FormattedTextControl):
-    SHORTCUT_KEYS = [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-        "6",
-        "7",
-        "8",
-        "9",
-        "0",
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "j",
-        "k",
-        "l",
-        "m",
-        "n",
-        "o",
-        "p",
-        "q",
-        "r",
-        "s",
-        "t",
-        "u",
-        "v",
-        "w",
-        "x",
-        "y",
-        "z",
-    ]
+class QuestionaryControl(FormattedTextControl):
+    SHORTCUT_KEYS = "1,2,3,4,5,6,7,8,9,0,a,b,c,d,ef,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,x,y,z".split(',')
 
     def __init__(
         self,
@@ -145,68 +127,50 @@ class InquirerControl(FormattedTextControl):
         use_pointer: bool = True,
         **kwargs
     ):
-
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
         self.use_pointer = use_pointer
         self.default = default
 
-        self.pointed_at = None
         self.is_answered = False
-        self.choices = []
-        self.selected_options = []
-
-        self._init_choices(choices)
+        self.choices = [Choice.build(c) for c in choices]
+        self.selected_options = [choice.value for choice in self.choices if self._is_selected(choice)]
+        self.pointed_at = self.get_first_valid_choice()
         self._assign_shortcut_keys()
 
-        super(InquirerControl, self).__init__(self._get_choice_tokens, **kwargs)
+        super(QuestionaryControl, self).__init__(self._get_choice_tokens, **kwargs)
 
     def _is_selected(self, choice):
-        return (
-            choice.checked or choice.value == self.default and self.default is not None
-        ) and not choice.disabled
+        matches_default_value = self.default is not None and choice.value == self.default
+        return (matches_default_value or choice.checked) and not choice.disabled
 
     def _assign_shortcut_keys(self):
-        available_shortcuts = self.SHORTCUT_KEYS[:]
+        choices_with_assigned_shortcut_key = [c for c in self.choices if c.shortcut_key]
+        choices_without_assigned_shortcut_key = [c for c in self.choices if not c.shortcut_key and not c.disabled]
 
-        # first, make sure we do not double assign a shortcut
-        for c in self.choices:
-            if c.shortcut_key is not None:
-                if c.shortcut_key in available_shortcuts:
-                    available_shortcuts.remove(c.shortcut_key)
-                else:
-                    raise ValueError(
-                        "Invalid shortcut '{}'"
-                        "for choice '{}'. Shortcuts "
-                        "should be single characters or numbers. "
-                        "Make sure that all your shortcuts are "
-                        "unique.".format(c.shortcut_key, c.title)
-                    )
+        used_shortcut_keys = []
+        for c in choices_with_assigned_shortcut_key:
+            valid_shortcut = c.shortcut_key in self.SHORTCUT_KEYS and c.shortcut_key not in used_shortcut_keys
+            if not valid_shortcut:
+                raise ValueError(
+                    f"Invalid shortcut '{c.shortcut_key}'"
+                    f"for choice '{c.title}'."
+                    "Shortcuts must be unique."
+                    f"Valid shortcuts: {', '.join(self.SHORTCUT_KEYS)}"
+                )
+            used_shortcut_keys.append(c.shortcut_key)
 
-        shortcut_idx = 0
-        for c in self.choices:
-            if c.shortcut_key is None and not c.disabled:
-                c.shortcut_key = available_shortcuts[shortcut_idx]
-                shortcut_idx += 1
-
-            if shortcut_idx == len(available_shortcuts):
+        unused_shortcut_keys = [key for key in self.SHORTCUT_KEYS if key not in used_shortcut_keys]
+        for i, c in enumerate(choices_without_assigned_shortcut_key):
+            if i == len(unused_shortcut_keys):
                 break  # fail gracefully if we run out of shortcuts
+            c.shortcut_key = unused_shortcut_keys[i]
 
-    def _init_choices(self, choices):
-        # helper to convert from question format to internal format
-        self.choices = []
-
-        for i, c in enumerate(choices):
-            choice = Choice.build(c)
-
-            if self._is_selected(choice):
-                self.selected_options.append(choice.value)
-
-            if self.pointed_at is None and not choice.disabled:
-                # find the first (available) choice
-                self.pointed_at = i
-
-            self.choices.append(choice)
+    def get_first_valid_choice(self):
+        for i, c in enumerate(self.choices):
+            if not c.disabled:
+                return i
+        return None
 
     @property
     def choice_count(self):
@@ -216,50 +180,40 @@ class InquirerControl(FormattedTextControl):
         tokens = []
 
         def append(index, choice):
-            # use value to check if option has been selected
             selected = choice.value in self.selected_options
 
             if index == self.pointed_at:
                 if self.use_pointer:
-                    tokens.append(("class:pointer", " {} ".format(SELECTED_POINTER)))
+                    tokens.append((ChoiceClass.pointer, f" {SELECTED_POINTER} "))
                 else:
-                    tokens.append(("class:text", "   "))
+                    tokens.append((ChoiceClass.text, "   "))
 
-                tokens.append(("[SetCursorPosition]", ""))
+                tokens.append((ChoiceClass.set_cursor_position, ""))
             else:
-                tokens.append(("class:text", "   "))
+                if choice.style:
+                    tokens.append((ChoiceClass.create(choice.style), "   "))
+                else:
+                    tokens.append((ChoiceClass.text, "   "))
 
             if isinstance(choice, Separator):
-                tokens.append(("class:separator", "{}".format(choice.title)))
-            elif choice.disabled:  # disabled
+                tokens.append((ChoiceClass.separator, choice.title))
+            elif choice.disabled:
+                choice_class = ChoiceClass.selected if selected else ChoiceClass.disabled
                 if isinstance(choice.title, list):
                     tokens.append(
-                        ("class:selected" if selected else "class:disabled", "- ")
+                        (choice_class, "- ")
                     )
                     tokens.extend(choice.title)
                 else:
                     tokens.append(
-                        (
-                            "class:selected" if selected else "class:disabled",
-                            "- {}".format(choice.title),
-                        )
+                        (choice_class, f"- {choice.title}")
                     )
 
-                tokens.append(
-                    (
-                        "class:selected" if selected else "class:disabled",
-                        "{}".format(
-                            ""
-                            if isinstance(choice.disabled, bool)
-                            else " ({})".format(choice.disabled)
-                        ),
-                    )
-                )
+                disabled_text = f" ({choice.disabled})"
+                tokens.append((choice_class, disabled_text))
             else:
-                if self.use_shortcuts and choice.shortcut_key is not None:
-                    shortcut = "{}) ".format(choice.shortcut_key)
-                else:
-                    shortcut = ""
+                has_valid_shortcut = self.use_shortcuts and choice.shortcut_key is not None
+                shortcut = f"{choice.shortcut_key}) " if has_valid_shortcut else ""
 
                 if selected:
                     if self.use_indicator:
@@ -267,27 +221,29 @@ class InquirerControl(FormattedTextControl):
                     else:
                         indicator = ""
 
-                    tokens.append(("class:selected", "{}".format(indicator)))
+                    tokens.append((ChoiceClass.selected, f"{indicator}"))
                 else:
                     if self.use_indicator:
                         indicator = INDICATOR_UNSELECTED + " "
                     else:
                         indicator = ""
 
-                    tokens.append(("class:text", "{}".format(indicator)))
+                    tokens.append((ChoiceClass.text, f"{indicator}"))
 
                 if isinstance(choice.title, list):
                     tokens.extend(choice.title)
-                elif selected:
-                    tokens.append(
-                        ("class:selected", "{}{}".format(shortcut, choice.title))
-                    )
-                elif index == self.pointed_at:
-                    tokens.append(
-                        ("class:highlighted", "{}{}".format(shortcut, choice.title))
-                    )
                 else:
-                    tokens.append(("class:text", "{}{}".format(shortcut, choice.title)))
+                    title_with_shortcut = f"{shortcut}{choice.title}"
+
+                    if selected:
+                        title_class = ChoiceClass.selected
+                    elif index == self.pointed_at:
+                        title_class = ChoiceClass.highlighted
+                    elif choice.style:
+                        title_class = ChoiceClass.create(choice.style)
+                    else:
+                        title_class = ChoiceClass.text
+                    tokens.append((title_class, title_with_shortcut))
 
             tokens.append(("", "\n"))
 
@@ -298,8 +254,8 @@ class InquirerControl(FormattedTextControl):
         if self.use_shortcuts:
             tokens.append(
                 (
-                    "class:text",
-                    "  Answer: {}" "".format(self.get_pointed_at().shortcut_key),
+                    ChoiceClass.text,
+                    f"  Answer: {self.get_pointed_at().shortcut_key}" "",
                 )
             )
         else:
@@ -326,12 +282,7 @@ class InquirerControl(FormattedTextControl):
         return self.choices[self.pointed_at]
 
     def get_selected_values(self):
-        # get values not labels
-        return [
-            c
-            for c in self.choices
-            if (not isinstance(c, Separator) and c.value in self.selected_options)
-        ]
+        return [c for c in self.choices if (not isinstance(c, Separator) and c.value in self.selected_options)]
 
 
 def build_validator(validate: Any) -> Optional[Validator]:
@@ -346,10 +297,9 @@ def build_validator(validate: Any) -> Optional[Validator]:
                 def validate(self, document):
                     verdict = validate(document.text)
                     if verdict is not True:
-                        if verdict is False:
-                            verdict = "invalid input"
+                        message = "invalid input" if verdict is False else verdict
                         raise ValidationError(
-                            message=verdict, cursor_position=len(document.text)
+                            message=message, cursor_position=len(document.text)
                         )
 
             return _InputValidator()
@@ -362,10 +312,8 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
     This assumes the layout of the default session doesn't change, if it
     does, this needs an update."""
 
-    default_container = ps.layout.container
-
     default_buffer_window = (
-        default_container.get_children()[0].content.get_children()[1].content
+        ps.layout.container.get_children()[0].content.get_children()[1].content
     )
 
     assert isinstance(default_buffer_window, Window)
@@ -374,12 +322,12 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
     default_buffer_window.dont_extend_height = Always()
 
 
-def create_inquirer_layout(
-    ic: InquirerControl,
+def create_questionary_layout(
+    ic: QuestionaryControl,
     get_prompt_tokens: Callable[[], List[Tuple[Text, Text]]],
     **kwargs
 ) -> Layout:
-    """Create a layout combining question and inquirer selection."""
+    """Create a layout combining question and questionary selection."""
 
     ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
 

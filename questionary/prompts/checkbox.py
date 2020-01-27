@@ -9,7 +9,7 @@ from prompt_toolkit.styles import Style, merge_styles
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts import common
-from questionary.prompts.common import Choice, InquirerControl, Separator
+from questionary.prompts.common import Choice, QuestionaryControl, Separator
 from questionary.question import Question
 
 
@@ -53,7 +53,7 @@ def checkbox(
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    ic = InquirerControl(choices, default, use_pointer=use_pointer)
+    ic = QuestionaryControl(choices, default, use_pointer=use_pointer)
 
     def get_prompt_tokens():
         tokens = []
@@ -100,7 +100,7 @@ def checkbox(
             )
         return tokens
 
-    layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
+    layout = common.create_questionary_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
 
