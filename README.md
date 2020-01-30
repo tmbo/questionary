@@ -277,6 +277,8 @@ Depending on the route the user took, the result will look as follows:
 }
 ```
 
+You can test this workflow yourself by running the [advanced_workflow.py example](https://github.com/tmbo/questionary/blob/master/examples/advanced_workflow.py).
+
 </details>
 
 <details><summary>Styling your prompts with your favorite colors</summary>
