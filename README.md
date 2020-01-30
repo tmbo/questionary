@@ -225,7 +225,7 @@ questions = [
             'message': 'Would you like the next question?',
             'default': True,
         },
-       {
+        {
             'type': 'text',
             'name': 'next_question',
             'message': 'Name this library?',
@@ -234,7 +234,7 @@ questions = [
             # Only accept questionary as answer
             'validate': lambda val: val == 'questionary'
         },
-       {
+        {
             'type': 'select',
             'name': 'second_question',
             'message': 'Select item',
