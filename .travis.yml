@@ -17,8 +17,7 @@ install:
 - pip install prompt_toolkit==$PROMTTOOLKITVER
 - pip list
 script:
-- pytest --pycodestyle -m codestyle
-- travis_wait pytest tests --cov questionary -v
+- travis_wait pytest --pycodestyle --cov questionary -v
 after_success:
 - coveralls
 jobs:
