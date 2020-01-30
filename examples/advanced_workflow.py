@@ -31,6 +31,7 @@ def ask_dictstyle(**kwargs):
             },
             {
                 'type': 'text',
+                # intentionally overwrites result from previous question
                 'name': 'second_question',
                 'message': 'Insert free text',
                 'when': lambda x: x['second_question'] == 'other',
