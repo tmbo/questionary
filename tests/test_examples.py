@@ -38,7 +38,7 @@ def test_text_example():
 
 
 def test_select_example():
-    from examples.select import ask_dictstyle, ask_pystyle
+    from examples.select_example import ask_dictstyle, ask_pystyle
 
     text = KeyInputs.DOWN + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
