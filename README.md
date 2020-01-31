@@ -372,6 +372,7 @@ Initial public release of the library
 <summary>Notes on how to do random things related to this repo</summary>
 
 **Create one of the commandline recordings**
+
 0. Install `brew install asciinema` and `npm install --global asciicast2gif`
 1. Run `asciinema rec`
 2. Do the thing
