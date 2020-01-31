@@ -7,8 +7,9 @@
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/questionary.svg)](https://pypi.python.org/pypi/questionary)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_shield)
 
+✨An easy to use python library to build pretty command line user prompts ✨
 
-Python library to build pretty command line user prompts ✨
+![example-gif](docs/images/example.gif)
 
 You need input from a user, e.g. how an output file should be named or if he really wants to execute that dangerous operation? This library will help you make the input prompts easy to read and answer for the user.
 
@@ -40,9 +41,7 @@ questionary.select(
     ]).ask()  # returns value of selection
 ```
 
-This will create a list selection on the command line for the user to select from. But there are even more question types:
-
-<img src="https://github.com/tmbo/questionary/blob/master/docs/images/example.gif" width="900">
+That's all it takes to create a user prompt! There are differen types of prompts, you'll find examples for all of them further down.
 
 ## Documentation
 
