@@ -28,9 +28,24 @@ class Form:
             answers[f.key] = f.question.unsafe_ask(patch_stdout)
         return answers
 
+    async def unsafe_ask_async(self, patch_stdout=False):
+        answers = {}
+        for f in self.form_fields:
+            answers[f.key] = await f.question.unsafe_ask_async(patch_stdout)
+        return answers
+
     def ask(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):
         try:
             return self.unsafe_ask(patch_stdout)
+        except KeyboardInterrupt:
+            print("")
+            print(kbi_msg)
+            print("")
+            return {}
+
+    async def ask_async(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):
+        try:
+            return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:
             print("")
             print(kbi_msg)
