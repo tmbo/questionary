@@ -1,6 +1,6 @@
 import questionary
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     confirmation = questionary.confirm("Are you amazed?").ask()
 
     if confirmation:
