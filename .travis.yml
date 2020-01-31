@@ -23,7 +23,6 @@ after_success:
 jobs:
   include:
   - stage: codestyle
-    env: PROMTTOOLKITVER=3.*
     python: 3.7
     install: pip install black
     script: black --check .
