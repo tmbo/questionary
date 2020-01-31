@@ -55,7 +55,7 @@ This will create a list selection on the command line for the user to select fro
    ```python
    questionary.text("What's your first name").ask()
    ```
-   <img src="docs/images/text.png" width="500">
+   ![example-gif](docs/images/text.gif)
 
 </details>
 <details><summary>password</summary>
@@ -67,7 +67,7 @@ This will create a list selection on the command line for the user to select fro
    questionary.password("What's your secret?").ask()
    ```
 
-   <img src="docs/images/password.png" width="500">
+   ![example-gif](docs/images/password.gif)
 
 </details>
 <details><summary>confirm</summary>
@@ -78,7 +78,7 @@ This will create a list selection on the command line for the user to select fro
    questionary.confirm("Are you amazed?").ask()
    ```
 
-   <img src="docs/images/confirm.png" width="500">
+   ![example-gif](docs/images/confirm.gif)
 
 </details>
 <details><summary>select</summary>
@@ -96,7 +96,7 @@ This will create a list selection on the command line for the user to select fro
        ]).ask()
    ```
 
-   <img src="docs/images/select.png" width="500">
+   ![example-gif](docs/images/select.gif)
 
 </details>
 <details><summary>rawselect</summary>
@@ -114,7 +114,7 @@ This will create a list selection on the command line for the user to select fro
        ]).ask()
    ```
 
-   <img src="docs/images/rawselect.png" width="500">
+   ![example-gif](docs/images/rawselect.gif)
 
 </details>
 
@@ -132,7 +132,7 @@ This will create a list selection on the command line for the user to select fro
            "bazz"
        ]).ask()
    ```
-   <img src="docs/images/checkbox.png" width="700">
+   ![example-gif](docs/images/checkbox.gif)
 
 </details>
 
@@ -152,14 +152,14 @@ This will create a list selection on the command line for the user to select fro
             'Polyergus rufescens',
        ]).ask()
    ```
-   <img src="docs/images/autocomplete.png" width="700">
+   ![example-gif](docs/images/autocomplete.gif)
 
 </details>
 
 ### Additional Features
 <details><summary>Skipping questions using conditions</summary>
 
-Sometimes it is helpfull to e.g. provide a command line flag to your app
+Sometimes it is helpful to e.g. provide a command line flag to your app
 to skip any prompts, to avoid the need for an if around any question you
 can pass that flag when you create the question:
 
@@ -174,7 +174,7 @@ skipped and the default value gets returned, otherwise the user will be
 prompted as usual and the default value will be ignored.
 </details>
 
-<details><summary>Alterative style to create questions using a configuration dictionary</summary>
+<details><summary>Alternative style to create questions using a configuration dictionary</summary>
 
 Instead of creating questions using the python functions, you can also create them using a configuration dictionary.
 ```python
@@ -242,6 +242,9 @@ will be the text concatenated (`'plain text bold text'` in the above example).
 
 ## How to Contribute
 
+Contributions are highly welcomed and appreciated. Every little help counts, 
+so do not hesitate!
+
 1.  Check for open issues or open a fresh issue to start a discussion
     around a feature idea or a bug. There is a [Contributor
     Friendly](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=updated&state=open)
@@ -260,7 +263,8 @@ will be the text concatenated (`'plain text bold text'` in the above example).
 
 `questionary` is written and maintained by Tom Bocklisch.
 
-It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
+It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) 
+as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
@@ -296,7 +300,7 @@ Feature release.
 
 Feature release.
 
-* Add additional options to style checkboxe and select prompts https://github.com/tmbo/questionary/pull/14
+* Add additional options to style checkboxes and select prompts https://github.com/tmbo/questionary/pull/14
 
 </details>
 
@@ -349,7 +353,7 @@ Bug fix release, adding some convenience shortcuts.
 * Added shortcut keys `j` (move down^ the list) and `k` (move up) to
   the prompts `select` and `checkbox` (fixes [#2](https://github.com/tmbo/questionary/issues/2))
 * Fixed unclosed file handle in `setup.py`
-* Fixed unecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
+* Fixed unnecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
 
 </details>
 
@@ -361,6 +365,19 @@ Initial public release of the library
 * Added dict style question creation
 * Improved the documentation
 * More tests and automatic travis test execution
+</details>
+
+## Developer Info
+
+<details>
+<summary>Notes on how to do random things related to this repo</summary>
+
+**Create one of the commandline recordings**
+0. Install `brew install asciinema` and `npm install --global asciicast2gif`
+1. Run `asciinema rec`
+2. Do the thing
+3. Convert to giv `asciicast2gif -h 7 -w 120 -s 2 <recoding> output.gif`
+
 </details>
 
 ## License
