@@ -252,7 +252,8 @@ will be the text concatenated (`'plain text bold text'` in the above example).
     branch off of it).
 3.  Write a test which shows that the bug was fixed or that the feature
     works as expected.
-4.  Send a pull request and bug the maintainer until it gets merged and
+4.  Ensure your code passes running `black questionary`.
+5.  Send a pull request and bug the maintainer until it gets merged and
     published. 🙂
 
 ## Contributors

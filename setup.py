@@ -14,10 +14,10 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 tests_requires = [
-    "pytest~=4.0",
-    "pytest-pycodestyle~=1.3",
-    "pytest-cov~=2.6",
-    "coveralls~=1.3",
+    "pytest",
+    "pytest-pycodestyle",
+    "pytest-cov",
+    "coveralls",
 ]
 
 install_requires = ["prompt_toolkit>=2.0,<4.0"]
