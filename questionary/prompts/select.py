@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import string
 from typing import Any, Dict, List, Optional, Text, Union
 
 from prompt_toolkit.application import Application
@@ -22,6 +22,7 @@ def select(
     use_shortcuts: bool = False,
     use_indicator: bool = False,
     use_pointer: bool = True,
+    use_prefix_filter_search: bool = False,
     instruction: Text = None,
     **kwargs: Any
 ) -> Question:
@@ -59,6 +60,13 @@ def select(
 
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
+
+        use_prefix_filter_search: Flag to enable prefix filter. Typing some prefix will
+                                  filter the choices to keep only the one that match
+                                  the prefix.
+                                  Note that activating this option disables "vi-like"
+                                  navigation as "j" and "k" can be part of a prefix and
+                                  therefore cannot be used for navigation
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -138,18 +146,27 @@ def select(
     else:
 
         @bindings.add(Keys.Down, eager=True)
-        @bindings.add("j", eager=True)
         def move_cursor_down(event):
             ic.select_next()
             while not ic.is_selection_valid():
                 ic.select_next()
 
         @bindings.add(Keys.Up, eager=True)
-        @bindings.add("k", eager=True)
         def move_cursor_up(event):
             ic.select_previous()
             while not ic.is_selection_valid():
                 ic.select_previous()
+
+        if use_prefix_filter_search:
+            def search_filter(event):
+                pass
+
+            for character in string.printable:
+                bindings.add(character, eager=True)(search_filter)
+        else:
+            # Enable vi-like navigation
+            bindings.add("j", eager=True)(move_cursor_down)
+            bindings.add("k", eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):

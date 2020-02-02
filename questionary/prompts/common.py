@@ -155,6 +155,7 @@ class InquirerControl(FormattedTextControl):
         self.is_answered = False
         self.choices = []
         self.selected_options = []
+        self.prefix_search_filter = ""
 
         self._init_choices(choices)
         self._assign_shortcut_keys()
