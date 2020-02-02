@@ -159,10 +159,11 @@ def select(
 
         if use_prefix_filter_search:
             def search_filter(event):
-                pass
+                ic.add_search_character(event.key_sequence[0].key)
 
             for character in string.printable:
                 bindings.add(character, eager=True)(search_filter)
+            bindings.add(Keys.Backspace, eager=True)(search_filter)
         else:
             # Enable vi-like navigation
             bindings.add("j", eager=True)(move_cursor_down)

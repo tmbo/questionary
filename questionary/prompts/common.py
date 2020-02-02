@@ -2,6 +2,7 @@
 import inspect
 from prompt_toolkit import PromptSession
 from prompt_toolkit.filters import IsDone, Always
+from prompt_toolkit.keys import Keys
 from prompt_toolkit.layout import (
     FormattedTextControl,
     Layout,
@@ -155,7 +156,7 @@ class InquirerControl(FormattedTextControl):
         self.is_answered = False
         self.choices = []
         self.selected_options = []
-        self.prefix_search_filter = ""
+        self.prefix_search_filter = None
 
         self._init_choices(choices)
         self._assign_shortcut_keys()
@@ -210,8 +211,17 @@ class InquirerControl(FormattedTextControl):
             self.choices.append(choice)
 
     @property
+    def filtered_choices(self):
+        if not self.prefix_search_filter:
+            return self.choices
+        else:
+            return [
+                c for c in self.choices if c.title.startswith(self.prefix_search_filter)
+            ]
+
+    @property
     def choice_count(self):
-        return len(self.choices)
+        return len(self.filtered_choices)
 
     def _get_choice_tokens(self):
         tokens = []
@@ -293,7 +303,7 @@ class InquirerControl(FormattedTextControl):
             tokens.append(("", "\n"))
 
         # prepare the select choices
-        for i, c in enumerate(self.choices):
+        for i, c in enumerate(self.filtered_choices):
             append(i, c)
 
         if self.use_shortcuts:
@@ -324,7 +334,7 @@ class InquirerControl(FormattedTextControl):
         self.pointed_at = (self.pointed_at + 1) % self.choice_count
 
     def get_pointed_at(self):
-        return self.choices[self.pointed_at]
+        return self.filtered_choices[self.pointed_at]
 
     def get_selected_values(self):
         # get values not labels
@@ -333,6 +343,24 @@ class InquirerControl(FormattedTextControl):
             for c in self.choices
             if (not isinstance(c, Separator) and c.value in self.selected_options)
         ]
+
+    def add_search_character(self, char: Keys) -> None:
+        if char == Keys.Backspace:
+            self.remove_search_character()
+        else:
+            if self.prefix_search_filter is None:
+                self.prefix_search_filter = str(char)
+            else:
+                self.prefix_search_filter += str(char)
+
+        # Make sure that the selection is in the bounds of the filtered list
+        self.pointed_at = 0
+
+    def remove_search_character(self) -> None:
+        if self.prefix_search_filter and len(self.prefix_search_filter) > 1:
+            self.prefix_search_filter = self.prefix_search_filter[:-1]
+        else:
+            self.prefix_search_filter = None
 
 
 def build_validator(validate: Any) -> Optional[Validator]:

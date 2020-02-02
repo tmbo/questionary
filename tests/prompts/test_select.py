@@ -151,7 +151,9 @@ def test_filter_prefix_one_letter():
     kwargs = {"choices": ["abc", "def", "ghi", "jkl"]}
     text = "g" + KeyInputs.ENTER + "\r"
 
-    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    result, cli = feed_cli_with_input(
+        "select", message, text, use_prefix_filter_search=True, **kwargs
+    )
     assert result == "ghi"
 
 
@@ -160,5 +162,42 @@ def test_filter_prefix_multiple_letters():
     kwargs = {"choices": ["abc", "def", "ghi", "jkl", "jag", "jja"]}
     text = "j" + "j" + KeyInputs.ENTER + "\r"
 
-    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    result, cli = feed_cli_with_input(
+        "select", message, text, use_prefix_filter_search=True, **kwargs
+    )
     assert result == "jja"
+
+
+def test_select_filter_handle_backspace():
+    message = "Foo message"
+    kwargs = {"choices": ["abc", "def", "ghi", "jkl", "jag", "jja"]}
+    text = "j" + "j" + KeyInputs.BACK + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input(
+        "select", message, text, use_prefix_filter_search=True, **kwargs
+    )
+    assert result == "jkl"
+
+    message = "Foo message"
+    kwargs = {"choices": ["abc", "def", "ghi", "jkl", "jag", "jja"]}
+    text = (
+        "j" + "j" +
+        KeyInputs.BACK + KeyInputs.BACK + KeyInputs.BACK + KeyInputs.BACK +
+        KeyInputs.ENTER + "\r"
+    )
+
+    result, cli = feed_cli_with_input(
+        "select", message, text, use_prefix_filter_search=True, **kwargs
+    )
+    assert result == "abc"
+
+
+def test_select_goes_back_to_top_after_filtering():
+    message = "Foo message"
+    kwargs = {"choices": ["abc", "def", "ghi", "jkl", "jag", "jja"]}
+    text = KeyInputs.DOWN + KeyInputs.DOWN + "j" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input(
+        "select", message, text, use_prefix_filter_search=True, **kwargs
+    )
+    assert result == "jkl"
