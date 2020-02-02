@@ -27,7 +27,7 @@ def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
     Create a Prompt, feed it with the given user input and return the CLI
     object.
 
-    You an provide multiple texts, the feeder will async sleep for `sleep_time`
+    You can provide multiple texts, the feeder will async sleep for `sleep_time`
 
     This returns a (result, Application) tuple.
     """
