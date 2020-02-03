@@ -67,13 +67,13 @@ def prompt(
                         )
                 else:
                     raise ValueError(
-                        "'when' needs to be function that " "accepts a dict argument"
+                        "'when' needs to be function that accepts a dict argument"
                     )
             if _filter:
                 # at least a little sanity check!
                 if not callable(_filter):
                     raise ValueError(
-                        "'filter' needs to be function that " "accepts an argument"
+                        "'filter' needs to be function that accepts an argument"
                     )
 
             if callable(question_config.get("default")):

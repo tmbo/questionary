@@ -195,6 +195,90 @@ answers = prompt(questions)
 ```
 
 The returned `answers` will be a dict containing the responses, e.g. `{"phone": "0123123", "continue": False, ""}`. The questions will be prompted one after another and `prompt` will return once all of them are answered.
+
+Each configuration dictionary needs to contain the following keys:
+
+* `'type'` - The type of the question.
+* `'name'` - The name of the question (will be used as key in the `answers` dictionary)
+* `'message'` - Message that will be shown to the user
+
+Optional Keys:
+
+* `'qmark'` - Question mark to use - defaults to `?`.
+* `'default'` - Preselected value.
+* `'choices'` - List of choices (applies when `'type': 'select'`) or function returning a list of choices.
+* `'when'` - Function checking if this question should be shown or skipped (same functionality than `.skip_if()`).
+* `'validate'` - Function or Validator Class performing validation (will be performed in real time as users type).
+* `filter` - Receive the user input and return the filtered value to be used inside the program. 
+
+</details>
+
+<details><summary>Advanced workflow examples</summary>
+Questionary allows creating quite complex workflows when combining all of the above concepts.
+
+``` python
+from questionary import Separator, prompt
+questions = [
+    {
+        'type': 'confirm',
+        'name': 'conditional_step',
+        'message': 'Would you like the next question?',
+        'default': True,
+    },
+    {
+        'type': 'text',
+        'name': 'next_question',
+        'message': 'Name this library?',
+        # Validate if the first question was answered with yes or no
+        'when': lambda x: x['conditional_step'],
+        # Only accept questionary as answer
+        'validate': lambda val: val == 'questionary'
+    },
+    {
+        'type': 'select',
+        'name': 'second_question',
+        'message': 'Select item',
+        'choices': [
+            'item1',
+            'item2',
+            Separator(),
+            'other',
+        ],
+    },
+    {
+        'type': 'text',
+        'name': 'second_question',
+        'message': 'Insert free text',
+        'when': lambda x: x['second_question'] == 'other'
+    },
+]
+prompt(questions)
+```
+
+The above workflow will show to the user as follows:
+1. Yes/No question `Would you like the next question?`.
+2. `Name this library?` - only shown when the first question is answered with yes
+3. A question to select an item from a list.
+4. Free text inpt if `'other'` is selected in step 3.
+
+Depending on the route the user took, the result will look as follows:
+
+``` python
+{ 
+    'conditional_step': False,
+    'second_question': 'Testinput'   # Free form text
+}
+```
+``` python
+{ 
+    'conditional_step': True,
+    'next_question': 'questionary',
+    'second_question': 'Testinput'   # Free form text
+}
+```
+
+You can test this workflow yourself by running the [advanced_workflow.py example](https://github.com/tmbo/questionary/blob/master/examples/advanced_workflow.py).
+
 </details>
 
 <details><summary>Styling your prompts with your favorite colors</summary>
