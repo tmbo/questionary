@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import inspect
 from prompt_toolkit import PromptSession
-from prompt_toolkit.filters import IsDone, Always
+from prompt_toolkit.filters import Always, Condition, IsDone
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.layout import (
     FormattedTextControl,
@@ -10,6 +10,7 @@ from prompt_toolkit.layout import (
     ConditionalContainer,
     Window,
 )
+from prompt_toolkit.layout.dimension import LayoutDimension as D
 from prompt_toolkit.validation import Validator, ValidationError
 from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple
 
@@ -362,6 +363,17 @@ class InquirerControl(FormattedTextControl):
         else:
             self.prefix_search_filter = None
 
+    def get_search_string_tokens(self):
+        if self.prefix_search_filter is None:
+            return None
+
+        return [
+            ('', '\n'),
+            ('class:question-mark', '/ '),
+            ('class:search', self.prefix_search_filter),
+            ('class:question-mark', '...'),
+        ]
+
 
 def build_validator(validate: Any) -> Optional[Validator]:
     if validate:
@@ -414,8 +426,22 @@ def create_inquirer_layout(
 
     _fix_unecessary_blank_lines(ps)
 
+    @Condition
+    def has_search_string():
+        return ic.get_search_string_tokens() is not None
+
     return Layout(
         HSplit(
-            [ps.layout.container, ConditionalContainer(Window(ic), filter=~IsDone())]
+            [
+                ps.layout.container,
+                ConditionalContainer(Window(ic), filter=~IsDone()),
+                ConditionalContainer(
+                    Window(
+                        height=D.exact(2),
+                        content=FormattedTextControl(ic.get_search_string_tokens)
+                    ),
+                    filter=has_search_string & ~IsDone()    # noqa  # pylint:disable=invalid-unary-operand-type
+                ),
+            ]
         )
     )
