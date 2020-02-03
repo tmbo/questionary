@@ -210,6 +210,7 @@ Optional Keys:
 * `'choices'` - List of choices (applies when `'type': 'select'`) or function returning a list of choices.
 * `'when'` - Function checking if this question should be shown or skipped (same functionality than `.skip_if()`).
 * `'validate'` - Function or Validator Class performing validation (will be performed in real time as users type).
+* `filter` - Receive the user input and return the filtered value to be used inside the program. 
 
 </details>
 
