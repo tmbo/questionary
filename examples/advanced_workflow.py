@@ -23,7 +23,7 @@ def ask_dictstyle(**kwargs):
             "type": "select",
             "name": "second_question",
             "message": "Select item",
-            "choices": ["item1", "item2", Separator(), "other",],
+            "choices": ["item1", "item2", Separator(), "other"],
         },
         {
             "type": "text",
