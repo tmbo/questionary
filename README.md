@@ -220,38 +220,38 @@ Questionary allows creating quite complex workflows when combining all of the ab
 ``` python
 from questionary import Separator, prompt
 questions = [
-        {
-            'type': 'confirm',
-            'name': 'conditional_step',
-            'message': 'Would you like the next question?',
-            'default': True,
-        },
-        {
-            'type': 'text',
-            'name': 'next_question',
-            'message': 'Name this library?',
-            # Validate if the first question was answered with yes or no
-            'when': lambda x: x['conditional_step'],
-            # Only accept questionary as answer
-            'validate': lambda val: val == 'questionary'
-        },
-        {
-            'type': 'select',
-            'name': 'second_question',
-            'message': 'Select item',
-            'choices': [
-                'item1',
-                'item2',
-                Separator(),
-                'other',
-            ],
-        },
-        {
-            'type': 'text',
-            'name': 'second_question',
-            'message': 'Insert free text',
-            'when': lambda x: x['second_question'] == 'other'
-        },
+    {
+        'type': 'confirm',
+        'name': 'conditional_step',
+        'message': 'Would you like the next question?',
+        'default': True,
+    },
+    {
+        'type': 'text',
+        'name': 'next_question',
+        'message': 'Name this library?',
+        # Validate if the first question was answered with yes or no
+        'when': lambda x: x['conditional_step'],
+        # Only accept questionary as answer
+        'validate': lambda val: val == 'questionary'
+    },
+    {
+        'type': 'select',
+        'name': 'second_question',
+        'message': 'Select item',
+        'choices': [
+            'item1',
+            'item2',
+            Separator(),
+            'other',
+        ],
+    },
+    {
+        'type': 'text',
+        'name': 'second_question',
+        'message': 'Insert free text',
+        'when': lambda x: x['second_question'] == 'other'
+    },
 ]
 prompt(questions)
 ```
@@ -259,7 +259,7 @@ prompt(questions)
 The above workflow will show to the user as follows:
 1. Yes/No question `Would you like the next question?`.
 2. `Name this library?` - only shown when the first question is answered with yes
-3. Itemselection
+3. A question to select an item from a list.
 4. Free text inpt if `'other'` is selected in step 3.
 
 Depending on the route the user took, the result will look as follows:
