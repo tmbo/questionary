@@ -355,6 +355,13 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 </details>
 
+<details><summary>1.5.2 (16.04.2020)</summary>
+
+Bug fix release.
+
+/*/Added /`.ask_async`/support for forms.
+</details>
+
 <details><summary>1.5.1 (22.01.2020)</summary>
 
 Bug fix release.
