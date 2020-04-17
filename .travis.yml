@@ -31,7 +31,6 @@ jobs:
     python: 3.6
     install: skip
     script: skip
-    after_success: skip
     deploy:
       provider: pypi
       username: tmbo
