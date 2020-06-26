@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import inspect
 from prompt_toolkit import PromptSession
-from prompt_toolkit.filters import IsDone, Always
+from prompt_toolkit.filters import IsDone, Always, Condition
 from prompt_toolkit.layout import (
     FormattedTextControl,
     Layout,
@@ -153,6 +153,8 @@ class InquirerControl(FormattedTextControl):
 
         self.pointed_at = None
         self.is_answered = False
+        self.submission_attempted = False
+        self.error_message = None
         self.choices = []
         self.selected_options = []
 
@@ -382,11 +384,19 @@ def create_inquirer_layout(
     """Create a layout combining question and inquirer selection."""
 
     ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
-
     _fix_unecessary_blank_lines(ps)
+
+    validation_prompt = PromptSession(bottom_toolbar=lambda: ic.error_message, **kwargs)
 
     return Layout(
         HSplit(
-            [ps.layout.container, ConditionalContainer(Window(ic), filter=~IsDone())]
+            [
+                ps.layout.container,
+                ConditionalContainer(Window(ic), filter=~IsDone()),
+                ConditionalContainer(
+                    validation_prompt.layout.container,
+                    filter=Condition(lambda: ic.error_message is not None),
+                ),
+            ]
         )
     )

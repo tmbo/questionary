@@ -6,6 +6,7 @@ from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style, merge_styles
+from prompt_toolkit.formatted_text import FormattedText
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts import common
@@ -17,6 +18,7 @@ def checkbox(
     message: Text,
     choices: List[Union[Text, Choice, Dict[Text, Any]]],
     default: Optional[Text] = None,
+    validate: Any = lambda a: True,
     qmark: Text = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_pointer: bool = True,
@@ -38,6 +40,14 @@ def checkbox(
         default: Default return value (single value). If you want to preselect
                  multiple items, use `Choice("foo", checked=True)` instead.
 
+        validate: Require the entered value to pass a validation. The
+                  value can not be submited until the validator accepts
+                  it (e.g. to check minimum password length).
+
+                  This should be a function accepting the input and
+                  returning a boolean. An optional second return value
+                  is the error message to display.
+
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
 
@@ -51,7 +61,19 @@ def checkbox(
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    merged_style = merge_styles(
+        [
+            DEFAULT_STYLE,
+            # Disable the default inverted colours bottom-toolbar behaviour (for
+            # the error message). However it can be re-enabled with a custom
+            # style.
+            Style([("bottom-toolbar", "noreverse")]),
+            style,
+        ]
+    )
+
+    if not callable(validate):
+        raise ValueError("validate must be callable")
 
     ic = InquirerControl(choices, default, use_pointer=use_pointer)
 
@@ -60,6 +82,7 @@ def checkbox(
 
         tokens.append(("class:qmark", qmark))
         tokens.append(("class:question", " {} ".format(message)))
+
         if ic.is_answered:
             nbr_selected = len(ic.selected_options)
             if nbr_selected == 0:
@@ -100,6 +123,32 @@ def checkbox(
             )
         return tokens
 
+    def get_selected_values():
+        return [c.value for c in ic.get_selected_values()]
+
+    def perform_validation(selected_values):
+
+        verdict = validate(selected_values)
+
+        if isinstance(verdict, bool):
+            valid = verdict
+            error_message = FormattedText(
+                [("class:validation-toolbar", "Invalid selection")]
+            )
+        else:
+            valid, error_message = verdict
+
+            if isinstance(error_message, str):
+                error_message = FormattedText(
+                    [("class:validation-toolbar", error_message)]
+                )
+
+        ic.error_message = (
+            error_message if not valid and ic.submission_attempted else None
+        )
+
+        return valid
+
     layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
@@ -117,6 +166,8 @@ def checkbox(
         else:
             ic.selected_options.append(pointed_choice)
 
+        perform_validation(get_selected_values())
+
     @bindings.add("i", eager=True)
     def invert(event):
         inverted_selection = [
@@ -127,6 +178,8 @@ def checkbox(
             and not c.disabled
         ]
         ic.selected_options = inverted_selection
+
+        perform_validation(get_selected_values())
 
     @bindings.add("a", eager=True)
     def all(event):
@@ -142,6 +195,8 @@ def checkbox(
                 all_selected = False
         if all_selected:
             ic.selected_options = []
+
+        perform_validation(get_selected_values())
 
     @bindings.add(Keys.Down, eager=True)
     @bindings.add("j", eager=True)
@@ -159,8 +214,13 @@ def checkbox(
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-        ic.is_answered = True
-        event.app.exit(result=[c.value for c in ic.get_selected_values()])
+
+        selected_values = get_selected_values()
+        ic.submission_attempted = True
+
+        if perform_validation(selected_values):
+            ic.is_answered = True
+            event.app.exit(result=selected_values)
 
     @bindings.add(Keys.Any)
     def other(event):
