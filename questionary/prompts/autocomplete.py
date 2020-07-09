@@ -149,8 +149,6 @@ def autocomplete(
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
-    if not choices:
-        raise ValueError("No choices is given, you should use Text question.")
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
@@ -166,7 +164,12 @@ def autocomplete(
 
     validator = build_validator(validate)
 
+    
     if completer is None:
+        
+        if not choices:
+            raise ValueError("No choices is given, you should use Text question.")
+        
         # use the default completer
         completer = WordCompleter(
             choices,
