@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
-from typing import Text, Union, Callable, Optional, Any
+from typing import Any, Optional, Text
 
 from prompt_toolkit.styles import Style
-from prompt_toolkit.validation import Validator
 
-from questionary.question import Question
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.prompts import text
+from questionary.question import Question
 
 
-def password(message: Text,
-             default: Text = "",
-             validate: Any = None,
-             qmark: Text = DEFAULT_QUESTION_PREFIX,
-             style: Optional[Style] = None,
-             **kwargs: Any) -> Question:
+def password(
+    message: Text,
+    default: Text = "",
+    validate: Any = None,
+    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    style: Optional[Style] = None,
+    **kwargs: Any
+) -> Question:
     """Question the user to enter a secret text not displayed in the prompt.
 
        This question type can be used to prompt the user for information
@@ -45,5 +46,6 @@ def password(message: Text,
            Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
-    return text.text(message, default, validate, qmark, style,
-                     is_password=True, **kwargs)
+    return text.text(
+        message, default, validate, qmark, style, is_password=True, **kwargs
+    )

@@ -7,8 +7,9 @@
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/questionary.svg)](https://pypi.python.org/pypi/questionary)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_shield)
 
+✨An easy to use python library to build pretty command line user prompts ✨
 
-Python library to build pretty command line user prompts ✨
+![example-gif](docs/images/example.gif)
 
 You need input from a user, e.g. how an output file should be named or if he really wants to execute that dangerous operation? This library will help you make the input prompts easy to read and answer for the user.
 
@@ -40,9 +41,7 @@ questionary.select(
     ]).ask()  # returns value of selection
 ```
 
-This will create the following list, allowing the user to choose an option:
-
-<img src="docs/images/example.gif" width="800">
+That's all it takes to create a user prompt! There are differen types of prompts, you'll find examples for all of them further down.
 
 ## Documentation
 
@@ -55,7 +54,7 @@ This will create the following list, allowing the user to choose an option:
    ```python
    questionary.text("What's your first name").ask()
    ```
-   <img src="docs/images/text.png" width="500">
+   ![example-gif](docs/images/text.gif)
 
 </details>
 <details><summary>password</summary>
@@ -67,7 +66,7 @@ This will create the following list, allowing the user to choose an option:
    questionary.password("What's your secret?").ask()
    ```
 
-   <img src="docs/images/password.png" width="500">
+   ![example-gif](docs/images/password.gif)
 
 </details>
 <details><summary>confirm</summary>
@@ -78,7 +77,7 @@ This will create the following list, allowing the user to choose an option:
    questionary.confirm("Are you amazed?").ask()
    ```
 
-   <img src="docs/images/confirm.png" width="500">
+   ![example-gif](docs/images/confirm.gif)
 
 </details>
 <details><summary>select</summary>
@@ -96,7 +95,7 @@ This will create the following list, allowing the user to choose an option:
        ]).ask()
    ```
 
-   <img src="docs/images/select.png" width="500">
+   ![example-gif](docs/images/select.gif)
 
 </details>
 <details><summary>rawselect</summary>
@@ -114,7 +113,7 @@ This will create the following list, allowing the user to choose an option:
        ]).ask()
    ```
 
-   <img src="docs/images/rawselect.png" width="500">
+   ![example-gif](docs/images/rawselect.gif)
 
 </details>
 
@@ -132,14 +131,34 @@ This will create the following list, allowing the user to choose an option:
            "bazz"
        ]).ask()
    ```
-   <img src="docs/images/checkbox.png" width="700">
+   ![example-gif](docs/images/checkbox.gif)
+
+</details>
+
+<details><summary>autocomplete</summary>
+
+   Text input with autocomplete help.
+
+   ```python
+   questionary.autocomplete(
+       'Choose ant specie',
+       choices=[
+            'Camponotus pennsylvanicus',
+            'Linepithema humile',
+            'Eciton burchellii',
+            "Atta colombica",
+            'Polyergus lucidus',
+            'Polyergus rufescens',
+       ]).ask()
+   ```
+   ![example-gif](docs/images/autocomplete.gif)
 
 </details>
 
 ### Additional Features
 <details><summary>Skipping questions using conditions</summary>
 
-Sometimes it is helpfull to e.g. provide a command line flag to your app
+Sometimes it is helpful to e.g. provide a command line flag to your app
 to skip any prompts, to avoid the need for an if around any question you
 can pass that flag when you create the question:
 
@@ -154,7 +173,7 @@ skipped and the default value gets returned, otherwise the user will be
 prompted as usual and the default value will be ignored.
 </details>
 
-<details><summary>Alterative style to create questions using a configuration dictionary</summary>
+<details><summary>Alternative style to create questions using a configuration dictionary</summary>
 
 Instead of creating questions using the python functions, you can also create them using a configuration dictionary.
 ```python
@@ -176,6 +195,90 @@ answers = prompt(questions)
 ```
 
 The returned `answers` will be a dict containing the responses, e.g. `{"phone": "0123123", "continue": False, ""}`. The questions will be prompted one after another and `prompt` will return once all of them are answered.
+
+Each configuration dictionary needs to contain the following keys:
+
+* `'type'` - The type of the question.
+* `'name'` - The name of the question (will be used as key in the `answers` dictionary)
+* `'message'` - Message that will be shown to the user
+
+Optional Keys:
+
+* `'qmark'` - Question mark to use - defaults to `?`.
+* `'default'` - Preselected value.
+* `'choices'` - List of choices (applies when `'type': 'select'`) or function returning a list of choices.
+* `'when'` - Function checking if this question should be shown or skipped (same functionality than `.skip_if()`).
+* `'validate'` - Function or Validator Class performing validation (will be performed in real time as users type).
+* `filter` - Receive the user input and return the filtered value to be used inside the program. 
+
+</details>
+
+<details><summary>Advanced workflow examples</summary>
+Questionary allows creating quite complex workflows when combining all of the above concepts.
+
+``` python
+from questionary import Separator, prompt
+questions = [
+    {
+        'type': 'confirm',
+        'name': 'conditional_step',
+        'message': 'Would you like the next question?',
+        'default': True,
+    },
+    {
+        'type': 'text',
+        'name': 'next_question',
+        'message': 'Name this library?',
+        # Validate if the first question was answered with yes or no
+        'when': lambda x: x['conditional_step'],
+        # Only accept questionary as answer
+        'validate': lambda val: val == 'questionary'
+    },
+    {
+        'type': 'select',
+        'name': 'second_question',
+        'message': 'Select item',
+        'choices': [
+            'item1',
+            'item2',
+            Separator(),
+            'other',
+        ],
+    },
+    {
+        'type': 'text',
+        'name': 'second_question',
+        'message': 'Insert free text',
+        'when': lambda x: x['second_question'] == 'other'
+    },
+]
+prompt(questions)
+```
+
+The above workflow will show to the user as follows:
+1. Yes/No question `Would you like the next question?`.
+2. `Name this library?` - only shown when the first question is answered with yes
+3. A question to select an item from a list.
+4. Free text inpt if `'other'` is selected in step 3.
+
+Depending on the route the user took, the result will look as follows:
+
+``` python
+{ 
+    'conditional_step': False,
+    'second_question': 'Testinput'   # Free form text
+}
+```
+``` python
+{ 
+    'conditional_step': True,
+    'next_question': 'questionary',
+    'second_question': 'Testinput'   # Free form text
+}
+```
+
+You can test this workflow yourself by running the [advanced_workflow.py example](https://github.com/tmbo/questionary/blob/master/examples/advanced_workflow.py).
+
 </details>
 
 <details><summary>Styling your prompts with your favorite colors</summary>
@@ -189,7 +292,7 @@ custom_style_fancy = Style([
     ('question', 'bold'),               # question text
     ('answer', 'fg:#f44336 bold'),      # submitted answer text behind the question
     ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
-    ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts if use_pointer=False
+    ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts
     ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
     ('separator', 'fg:#cc5454'),        # separator in lists
     ('instruction', ''),                # user instructions for select, rawselect, checkbox
@@ -222,6 +325,9 @@ will be the text concatenated (`'plain text bold text'` in the above example).
 
 ## How to Contribute
 
+Contributions are highly welcomed and appreciated. Every little help counts, 
+so do not hesitate!
+
 1.  Check for open issues or open a fresh issue to start a discussion
     around a feature idea or a bug. There is a [Contributor
     Friendly](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=updated&state=open)
@@ -232,14 +338,16 @@ will be the text concatenated (`'plain text bold text'` in the above example).
     branch off of it).
 3.  Write a test which shows that the bug was fixed or that the feature
     works as expected.
-4.  Send a pull request and bug the maintainer until it gets merged and
+4.  Ensure your code passes running `black questionary`.
+5.  Send a pull request and bug the maintainer until it gets merged and
     published. 🙂
 
 ## Contributors
 
 `questionary` is written and maintained by Tom Bocklisch.
 
-It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
+It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) 
+as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
@@ -247,11 +355,42 @@ It is based on the great work of [Oyetoke Toby](https://github.com/CITGuru/PyInq
 
 </details>
 
+<details><summary>1.5.2 (16.04.2020)</summary>
+
+Bug fix release.
+
+* Added `.ask_async` support for forms.
+</details>
+
+<details><summary>1.5.1 (22.01.2020)</summary>
+
+Bug fix release.
+
+* Fixed `.ask_async` for questions on `prompt_toolkit==2.*`. Added tests for it.
+</details>
+
+<details><summary>1.5.0 (22.01.2020)</summary>
+
+Feature release.
+
+* Added support for prompt_toolkit 3
+* All tests will be run against prompt_toolkit 2 and 3
+* Removed support for python 3.5 (prompt_toolkit 3 does not support that anymore)
+</details>
+
+<details><summary>1.4.0 (10.11.2019)</summary>
+
+Feature release.
+
+* Added additional question type `autocomplete`
+* Allow pointer and highlight in select question type
+</details>
+
 <details><summary>1.3.0 (25.08.2019)</summary>
 
 Feature release.
 
-* Add additional options to style checkboxe and select prompts https://github.com/tmbo/questionary/pull/14
+* Add additional options to style checkboxes and select prompts https://github.com/tmbo/questionary/pull/14
 
 </details>
 
@@ -304,7 +443,7 @@ Bug fix release, adding some convenience shortcuts.
 * Added shortcut keys `j` (move down^ the list) and `k` (move up) to
   the prompts `select` and `checkbox` (fixes [#2](https://github.com/tmbo/questionary/issues/2))
 * Fixed unclosed file handle in `setup.py`
-* Fixed unecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
+* Fixed unnecessary empty lines moving selections to far down (fixes [#3](https://github.com/tmbo/questionary/issues/3))
 
 </details>
 
@@ -318,8 +457,22 @@ Initial public release of the library
 * More tests and automatic travis test execution
 </details>
 
+## Developer Info
+
+<details>
+<summary>Notes on how to do random things related to this repo</summary>
+
+**Create one of the commandline recordings**
+
+0. Install `brew install asciinema` and `npm install --global asciicast2gif`
+1. Run `asciinema rec`
+2. Do the thing
+3. Convert to giv `asciicast2gif -h 7 -w 120 -s 2 <recoding> output.gif`
+
+</details>
+
 ## License
-Licensed under the MIT License. Copyright 2019 Tom Bocklisch. [Copy of the license](LICENSE).
+Licensed under the MIT License. Copyright 2020 Tom Bocklisch. [Copy of the license](LICENSE).
 
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_large)

@@ -10,23 +10,19 @@ with open("questionary/version.py") as f:
     exec(f.read())
 
 # Get the long description from the README file
-with io.open(os.path.join(here, "README.md"), encoding="utf-8") as f:
+with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 tests_requires = [
-    "pytest~=4.0",
-    "pytest-pycodestyle~=1.3",
-    "pytest-cov~=2.6",
-    "coveralls~=1.3"
+    "pytest",
+    "pytest-pycodestyle",
+    "pytest-cov",
+    "coveralls",
 ]
 
-install_requires = [
-    "prompt_toolkit~=2.0"
-]
+install_requires = ["prompt_toolkit>=2.0,<4.0"]
 
-extras_requires = {
-    "test": tests_requires
-}
+extras_requires = {"test": tests_requires}
 
 setup(
     name="questionary",
@@ -36,12 +32,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         # supported python versions
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Topic :: Software Development :: Libraries",
     ],
-    packages=find_packages(exclude=["tests", "examples"]),
+    packages=find_packages(exclude=["tests", "tests.*", "examples"]),
     version=__version__,
     install_requires=install_requires,
     tests_require=tests_requires,
@@ -58,7 +53,7 @@ setup(
     keywords="cli ui inquirer questions prompt",
     url="https://github.com/tmbo/questionary",
     download_url="https://github.com/tmbo/questionary/archive/{}.tar.gz"
-                 "".format(__version__),
+    "".format(__version__),
     project_urls={
         "Bug Reports": "https://github.com/tmbo/questionary/issues",
         "Source": "https://github.com/tmbo/questionary",

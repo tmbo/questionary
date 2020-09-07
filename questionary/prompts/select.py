@@ -1,40 +1,33 @@
 # -*- coding: utf-8 -*-
-import time
 
-from questionary.prompts import common
-from typing import Any, Optional, Text, List, Union, Dict
+from typing import Any, Dict, List, Optional, Text, Union
 
 from prompt_toolkit.application import Application
-from prompt_toolkit.filters import IsDone, Never, Always
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.layout import Layout
-from prompt_toolkit.layout.containers import (
-    ConditionalContainer,
-    HSplit)
-from prompt_toolkit.layout.containers import Window
-from prompt_toolkit.shortcuts.prompt import (
-    PromptSession)
-from prompt_toolkit.styles import merge_styles, Style
+from prompt_toolkit.styles import Style, merge_styles
 
-from questionary.constants import DEFAULT_STYLE, DEFAULT_QUESTION_PREFIX
-from questionary.prompts.common import InquirerControl, Separator, Choice
+from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
+from questionary.prompts import common
+from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
 
 
 def select(message: Text,
-           choices: List[Union[Text, Choice, Dict[Text, Any]]],
-           default: Optional[Text] = None,
-           qmark: Text = DEFAULT_QUESTION_PREFIX,
-           style: Optional[Style] = None,
-           use_shortcuts: bool = False,
-           use_indicator: bool = False,
-           use_pointer: bool = True,
-           use_arrow_keys: bool = True,
-           use_ij_keys: bool = True,
-           show_selected: bool = True,
-           start: Optional[Union[Text, int, None]] = None,
-           **kwargs: Any) -> Question:
+     choices: List[Union[Text, Choice, Dict[Text, Any]]],
+     default: Optional[Text] = None,
+     qmark: Text = DEFAULT_QUESTION_PREFIX,
+     style: Optional[Style] = None,
+     use_shortcuts: bool = False,
+     use_indicator: bool = False,
+     use_pointer: bool = True,
+     use_arrow_keys: bool = True,
+     use_ij_keys: bool = True,
+     show_selected: bool = True,
+     start: Optional[Union[Text, int, None]] = None,
+     instruction: Text = None,
+     **kwargs: Any
+) -> Question:
     """Prompt the user to select one item from the list of choices.
 
     The user can only select one option.
@@ -51,6 +44,10 @@ def select(message: Text,
 
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
+
+        instruction: A hint on how to navigate the menu.
+                     It's `(Use arrow keys)` if `use_shortcuts` is not set
+                     to True and`(Use shortcuts)` otherwise by default
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -92,44 +89,53 @@ def select(message: Text,
                              "shortcut key when they are in use as arrow keys "
                              "disable one or the other.")
     if choices is None or len(choices) == 0:
-        raise ValueError('A list of choices needs to be provided.')
+        raise ValueError("A list of choices needs to be provided.")
 
     if use_shortcuts and len(choices) > len(InquirerControl.SHORTCUT_KEYS):
-        raise ValueError('A list with shortcuts supports a maximum of {} '
-                         'choices as this is the maximum number '
-                         'of keyboard shortcuts that are available. You'
-                         'provided {} choices!'
-                         ''.format(len(InquirerControl.SHORTCUT_KEYS),
-                                   len(choices)))
+        raise ValueError(
+            "A list with shortcuts supports a maximum of {} "
+            "choices as this is the maximum number "
+            "of keyboard shortcuts that are available. You"
+            "provided {} choices!"
+            "".format(len(InquirerControl.SHORTCUT_KEYS), len(choices))
+        )
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    ic = InquirerControl(choices, default,
-                         use_indicator=use_indicator,
-                         use_shortcuts=use_shortcuts,
-                         use_pointer=use_pointer,
-                         show_selected=show_selected,
-                         pointed_at=start,
-                         )
+    ic = InquirerControl(
+         choices, 
+         default,
+         use_indicator=use_indicator,
+         use_shortcuts=use_shortcuts,
+         use_pointer=use_pointer,
+         show_selected=show_selected,
+         pointed_at=start,
+    )
 
     def get_prompt_tokens():
         # noinspection PyListCreation
-        tokens = [("class:qmark", qmark),
-                  ("class:question", ' {} '.format(message))]
+        tokens = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
         if ic.is_answered:
             if isinstance(ic.get_pointed_at().title, list):
-                tokens.append(("class:answer",
-                               "".join([token[1] for token in
-                                        ic.get_pointed_at().title])))
+                tokens.append(
+                    (
+                        "class:answer",
+                        "".join([token[1] for token in ic.get_pointed_at().title]),
+                    )
+                )
+            else:
+                tokens.append(("class:answer", " " + ic.get_pointed_at().title))
+        else:
+            if instruction:
+                tokens.append(("class:instruction", instruction))
             else:
                 tokens.append(
-                    ("class:answer", ' ' + ic.get_pointed_at().title))
-        else:
-            if use_shortcuts:
-                tokens.append(("class:instruction", ' (Use shortcuts)'))
-            if use_arrow_keys:
-                tokens.append(("class:instruction", ' (Use arrow keys)'))
+                    (
+                        "class:instruction",
+                        " (Use shortcuts)" if use_shortcuts else " (Use arrow keys)",
+                    )
+                )
 
         return tokens
 
@@ -140,7 +146,7 @@ def select(message: Text,
     @bindings.add(Keys.ControlQ, eager=True)
     @bindings.add(Keys.ControlC, eager=True)
     def _(event):
-        event.app.exit(exception=KeyboardInterrupt, style='class:aborting')
+        event.app.exit(exception=KeyboardInterrupt, style="class:aborting")
 
     if use_shortcuts:
         # add key bindings for choices
@@ -190,9 +196,6 @@ def select(message: Text,
         """Disallow inserting other text. """
         pass
 
-    return Question(Application(
-        layout=layout,
-        key_bindings=bindings,
-        style=merged_style,
-        **kwargs
-    ))
+    return Question(
+        Application(layout=layout, key_bindings=bindings, style=merged_style, **kwargs)
+    )

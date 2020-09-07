@@ -8,14 +8,12 @@ from tests.utils import KeyInputs
 
 
 def example_form(inp):
-    return form(q1=questionary.confirm("Hello?",
-                                       input=inp,
-                                       output=DummyOutput()),
-                q2=questionary.select("World?",
-                                      choices=["foo", "bar"],
-                                      input=inp,
-                                      output=DummyOutput()
-                                      ))
+    return form(
+        q1=questionary.confirm("Hello?", input=inp, output=DummyOutput()),
+        q2=questionary.select(
+            "World?", choices=["foo", "bar"], input=inp, output=DummyOutput()
+        ),
+    )
 
 
 def test_form_creation():
@@ -28,7 +26,7 @@ def test_form_creation():
 
         result = f.unsafe_ask()
 
-        assert result == {'q1': True, 'q2': 'foo'}
+        assert result == {"q1": True, "q2": "foo"}
     finally:
         inp.close()
 

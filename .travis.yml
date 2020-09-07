@@ -1,31 +1,39 @@
 language: python
-sudo: required
+os: linux
 dist: xenial
 cache:
   directories:
   - "$HOME/.cache/pip"
 python:
-- '3.5'
-- '3.6'
-- "3.7"
+  - "3.6"
+  - "3.7"
+  - "3.8"
+env:
+  - PROMTTOOLKITVER=3.*
+  - PROMTTOOLKITVER=2.*
 install:
-- pip install -r requirements_dev.txt
-- pip install -e .
-- pip list
+  - pip install -r requirements_dev.txt
+  - pip install -e .
+  - pip install prompt_toolkit==$PROMTTOOLKITVER
+  - pip list
 script:
-- py.test --codestyle -m codestyle
-- travis_wait py.test tests --cov questionary -v
+  - travis_wait pytest --pycodestyle --cov questionary -v
 after_success:
-- coveralls
+  - coveralls
 jobs:
   include:
+  - stage: codestyle
+    python: 3.7
+    install: pip install black
+    script: black --check .
+    after_success: skip
   - stage: deploy
     python: 3.6
     install: skip
     script: skip
     deploy:
       provider: pypi
-      user: tmbo
+      username: tmbo
       distributions: "sdist bdist_wheel"
       on:
         branch: master
