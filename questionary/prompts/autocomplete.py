@@ -178,7 +178,7 @@ def autocomplete(
 
     p = PromptSession(
         get_prompt_tokens,
-        lexer=SimpleLexer('class:answer'),
+        lexer=SimpleLexer("class:answer"),
         style=merged_style,
         completer=completer,
         validator=validator,
