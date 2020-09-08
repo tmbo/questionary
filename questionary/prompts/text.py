@@ -10,6 +10,8 @@ from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
 
+from prompt_toolkit.lexers import SimpleLexer
+
 
 def text(
     message: Text,
@@ -55,7 +57,11 @@ def text(
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
     p = PromptSession(
-        get_prompt_tokens, style=merged_style, validator=validator, **kwargs
+        get_prompt_tokens,
+        style=merged_style,
+        validator=validator,
+        lexer=SimpleLexer("class:answer"),
+        **kwargs,
     )
     p.default_buffer.reset(Document(default))
 
