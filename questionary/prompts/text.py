@@ -5,12 +5,11 @@ from typing import Any, Optional, Text, List, Tuple
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import Style, merge_styles
+from prompt_toolkit.lexers import SimpleLexer
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
-
-from prompt_toolkit.lexers import SimpleLexer
 
 
 def text(
