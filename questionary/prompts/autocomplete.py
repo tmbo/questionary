@@ -17,6 +17,7 @@ from prompt_toolkit.document import Document
 from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit.shortcuts.prompt import PromptSession, CompleteStyle
 from prompt_toolkit.styles import Style, merge_styles
+from prompt_toolkit.lexers import SimpleLexer
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
@@ -177,6 +178,7 @@ def autocomplete(
 
     p = PromptSession(
         get_prompt_tokens,
+        lexer=SimpleLexer('class:answer'),
         style=merged_style,
         completer=completer,
         validator=validator,
