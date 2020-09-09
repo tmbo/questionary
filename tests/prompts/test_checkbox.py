@@ -193,10 +193,19 @@ def test_checkbox_initial_choice():
     assert result == ["bazz"]
 
 
-def test_checkbox_initial_choice_invalid():
+def test_checkbox_initial_choice_not_selectable():
     message = "Foo message"
     separator = Separator()
     kwargs = {"choices": ["foo", "bazz", separator], "initial_choice": separator}
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_checkbox_initial_choice_non_existant():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bar"}
     text = KeyInputs.ENTER + "\r"
 
     with pytest.raises(ValueError):
