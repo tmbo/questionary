@@ -26,25 +26,25 @@ def confirm(
 ) -> Question:
     """Prompt the user to confirm or reject.
 
-       This question type can be used to prompt the user for a confirmation
-       of a yes-or-no question. If the user just hits enter, the default
-       value will be returned.
+    This question type can be used to prompt the user for a confirmation
+    of a yes-or-no question. If the user just hits enter, the default
+    value will be returned.
 
-       Args:
-           message: Question text
+    Args:
+        message: Question text
 
-           default: Default value will be returned if the user just hits
-                    enter.
+        default: Default value will be returned if the user just hits
+                 enter.
 
-           qmark: Question prefix displayed in front of the question.
-                  By default this is a `?`
+        qmark: Question prefix displayed in front of the question.
+               By default this is a `?`
 
-           style: A custom color and style for the question parts. You can
-                  configure colors as well as font types for different elements.
+        style: A custom color and style for the question parts. You can
+               configure colors as well as font types for different elements.
 
-       Returns:
-           Question: Question instance, ready to be prompted (using `.ask()`).
-       """
+    Returns:
+        Question: Question instance, ready to be prompted (using `.ask()`).
+    """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
