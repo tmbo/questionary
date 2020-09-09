@@ -23,6 +23,7 @@ def select(
     use_indicator: bool = False,
     use_pointer: bool = True,
     instruction: Text = None,
+    initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
     **kwargs: Any
 ) -> Question:
     """Prompt the user to select one item from the list of choices.
@@ -59,6 +60,10 @@ def select(
 
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
+
+        initial_choice: A value corresponding to a selectable item in the choices,
+                        to initially set the pointer position to.
+
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -82,6 +87,7 @@ def select(
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
         use_pointer=use_pointer,
+        initial_choice=initial_choice,
     )
 
     def get_prompt_tokens():

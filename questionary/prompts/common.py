@@ -143,6 +143,7 @@ class InquirerControl(FormattedTextControl):
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         use_pointer: bool = True,
+        initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
         **kwargs
     ):
 
@@ -151,7 +152,17 @@ class InquirerControl(FormattedTextControl):
         self.use_pointer = use_pointer
         self.default = default
 
-        self.pointed_at = None
+        if initial_choice is not None:
+            if initial_choice in choices:
+                self.pointed_at = choices.index(initial_choice)
+            else:
+                raise ValueError(
+                    "Invalid 'initial_choice' value: must exist in 'choices'."
+                )
+
+        else:
+            self.pointed_at = None
+
         self.is_answered = False
         self.choices = []
         self.selected_options = []
@@ -160,6 +171,11 @@ class InquirerControl(FormattedTextControl):
         self._assign_shortcut_keys()
 
         super(InquirerControl, self).__init__(self._get_choice_tokens, **kwargs)
+
+        if not self.is_selection_valid():
+            raise ValueError(
+                "Invalid 'initial_choice' value: must be a selectable value."
+            )
 
     def _is_selected(self, choice):
         return (
