@@ -5,6 +5,7 @@ from typing import Any, Optional, Text, List, Tuple
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import Style, merge_styles
+from prompt_toolkit.lexers import SimpleLexer
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
@@ -21,30 +22,30 @@ def text(
 ) -> Question:
     """Prompt the user to enter a free text message.
 
-       This question type can be used to prompt the user for some text input.
+    This question type can be used to prompt the user for some text input.
 
-       Args:
-           message: Question text
+    Args:
+        message: Question text
 
-           default: Default value will be returned if the user just hits
-                    enter.
+        default: Default value will be returned if the user just hits
+                 enter.
 
-           validate: Require the entered value to pass a validation. The
-                     value can not be submited until the validator accepts
-                     it (e.g. to check minimum password length).
+        validate: Require the entered value to pass a validation. The
+                  value can not be submited until the validator accepts
+                  it (e.g. to check minimum password length).
 
-                     This can either be a function accepting the input and
-                     returning a boolean, or an class reference to a
-                     subclass of the prompt toolkit Validator class.
+                  This can either be a function accepting the input and
+                  returning a boolean, or an class reference to a
+                  subclass of the prompt toolkit Validator class.
 
-           qmark: Question prefix displayed in front of the question.
-                  By default this is a `?`
+        qmark: Question prefix displayed in front of the question.
+               By default this is a `?`
 
-           style: A custom color and style for the question parts. You can
-                  configure colors as well as font types for different elements.
+        style: A custom color and style for the question parts. You can
+               configure colors as well as font types for different elements.
 
-       Returns:
-           Question: Question instance, ready to be prompted (using `.ask()`).
+    Returns:
+        Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
@@ -55,7 +56,11 @@ def text(
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
     p = PromptSession(
-        get_prompt_tokens, style=merged_style, validator=validator, **kwargs
+        get_prompt_tokens,
+        style=merged_style,
+        validator=validator,
+        lexer=SimpleLexer("class:answer"),
+        **kwargs,
     )
     p.default_buffer.reset(Document(default))
 
