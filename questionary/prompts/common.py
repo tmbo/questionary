@@ -22,13 +22,12 @@ from questionary.constants import (
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
-    def __init__(
-        self,
-        title: Text,
-        value: Optional[Any] = None,
-        disabled: Optional[Text] = None,
-        checked: bool = False,
-        shortcut_key: Optional[Text] = None,
+    def __init__(self,
+         title: Text,
+         value: Optional[Any] = None,
+         disabled: Optional[Text] = None,
+         checked: bool = False,
+         shortcut_key: Optional[Union[Text, bool]] = True
     ) -> None:
         """Create a new choice.
 
@@ -58,9 +57,15 @@ class Choice(object):
             self.value = title
 
         if shortcut_key is not None:
-            self.shortcut_key = str(shortcut_key)
+            if isinstance(shortcut_key, bool):
+                self.auto_shortcut = shortcut_key
+                self.shortcut_key = None
+            else:
+                self.shortcut_key = str(shortcut_key)
+                self.auto_shortcut = False
         else:
             self.shortcut_key = None
+            self.auto_shortcut = True
 
     @staticmethod
     def build(c: Union[Text, "Choice", Dict[Text, Any]]) -> "Choice":
@@ -136,22 +141,43 @@ class InquirerControl(FormattedTextControl):
         "z",
     ]
 
-    def __init__(
-        self,
-        choices: List[Union[Text, Choice, Dict[Text, Any]]],
-        default: Optional[Any] = None,
-        use_indicator: bool = True,
-        use_shortcuts: bool = False,
-        use_pointer: bool = True,
-        **kwargs
-    ):
+    def __init__(self,
+                 choices: List[Union[Text, Choice, Dict[Text, Any]]],
+                 default: Optional[Any] = None,
+                 use_indicator: bool = True,
+                 use_shortcuts: bool = False,
+                 use_pointer: bool = True,
+                 show_selected: bool = True,
+                 pointed_at: Optional[Union[Text, int, None]] = None,
+                 **kwargs):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
         self.use_pointer = use_pointer
+        self.show_selected = show_selected
         self.default = default
 
-        self.pointed_at = None
+        if pointed_at is None:
+            self.pointed_at = None
+        else:
+            try:
+                c = choices[pointed_at]
+            except IndexError:
+                raise IndexError(
+                    "Choice {} is out of range".format(pointed_at))
+            except TypeError:  # now attempt to index by title
+                available = {c if isinstance(c, str) else
+                             c[0] if isinstance(c, (list, tuple)) else
+                             c.title: c for c in choices}
+                try:
+                    c = available[pointed_at]
+                except KeyError:
+                    raise KeyError("There is not choice with title {}"
+                                   .format(pointed_at))
+            if getattr(c, 'disabled', False):
+                raise RuntimeError('Choice {} is disabled. You cannot '
+                                   'start from there'.format(pointed_at))
+            self.pointed_at = choices.index(c)
         self.is_answered = False
         self.choices = []
         self.selected_options = []
@@ -185,7 +211,7 @@ class InquirerControl(FormattedTextControl):
 
         shortcut_idx = 0
         for c in self.choices:
-            if c.shortcut_key is None and not c.disabled:
+            if c.auto_shortcut and not c.disabled:
                 c.shortcut_key = available_shortcuts[shortcut_idx]
                 shortcut_idx += 1
 
@@ -259,7 +285,7 @@ class InquirerControl(FormattedTextControl):
                 if self.use_shortcuts and choice.shortcut_key is not None:
                     shortcut = "{}) ".format(choice.shortcut_key)
                 else:
-                    shortcut = ""
+                    shortcut = "-) "
 
                 if selected:
                     if self.use_indicator:
@@ -295,13 +321,17 @@ class InquirerControl(FormattedTextControl):
         for i, c in enumerate(self.choices):
             append(i, c)
 
-        if self.use_shortcuts:
-            tokens.append(
-                (
-                    "class:text",
-                    "  Answer: {}" "".format(self.get_pointed_at().shortcut_key),
-                )
-            )
+        if self.show_selected:
+            current = self.get_pointed_at()
+            if self.use_shortcuts and current.shortcut_key is not None:
+                string = '{}) '.format(current.shortcut_key)
+            else:
+                string = ' '
+            string += current.title if isinstance(current.title, str) else \
+                current.title[0][1]
+            tokens.append(("class:text",
+                           '  Answer: {}'
+                           ''.format(string)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens
