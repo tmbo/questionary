@@ -14,6 +14,9 @@ YES_OR_NO = "(Y/n)"
 # Instruction text for a confirmation question (no is default)
 NO_OR_YES = "(y/N)"
 
+# Instruction for multiline input
+INSTRUCTION_MULTILINE = "(Finish with 'Alt+Enter' or 'Esc, Enter')"
+
 # Selection token used to indicate the selection cursor in a list
 SELECTED_POINTER = "»"
 
