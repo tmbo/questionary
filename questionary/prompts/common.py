@@ -10,7 +10,7 @@ from prompt_toolkit.layout import (
     Window,
 )
 from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple, Callable
+from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple
 
 from questionary.constants import (
     SELECTED_POINTER,
