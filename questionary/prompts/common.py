@@ -22,8 +22,8 @@ from questionary.constants import (
 # which does not exist in v2 of prompt_toolkit
 FormattedText = Union[
     Text,
-    List[Tuple[str, str]],
-    List[Tuple[str, str, Callable[[Any], None]]],
+    List[Tuple[Text, Text]],
+    List[Tuple[Text, Text, Callable[[Any], None]]],
     None,
 ]
 
