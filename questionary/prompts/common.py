@@ -10,7 +10,7 @@ from prompt_toolkit.layout import (
     Window,
 )
 from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple
+from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple, Callable
 
 from questionary.constants import (
     SELECTED_POINTER,
@@ -18,13 +18,22 @@ from questionary.constants import (
     INDICATOR_UNSELECTED,
 )
 
+# This is a cut-down version of `prompt_toolkit.formatted_text.AnyFormattedText`
+# which does not exist in v2 of prompt_toolkit
+FormattedText = Union[
+    Text,
+    List[Tuple[str, str]],
+    List[Tuple[str, str, Callable[[Any], None]]],
+    None,
+]
+
 
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
     def __init__(
         self,
-        title: Text,
+        title: FormattedText,
         value: Optional[Any] = None,
         disabled: Optional[Text] = None,
         checked: bool = False,
