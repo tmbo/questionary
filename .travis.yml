@@ -25,7 +25,7 @@ jobs:
   - stage: codestyle
     python: 3.7
     install: pip install -r requirements_dev.txt
-    script: black --check .
+    script: black --check --diff .
     after_success: skip
   - stage: deploy
     python: 3.6

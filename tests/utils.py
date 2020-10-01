@@ -14,7 +14,7 @@ class KeyInputs(object):
     UP = "\x1b[A"
     LEFT = "\x1b[D"
     RIGHT = "\x1b[C"
-    ENTER = "\x0a"
+    ENTER = "\r"
     ESCAPE = "\x1b"
     CONTROLC = "\x03"
     BACK = "\x7f"
