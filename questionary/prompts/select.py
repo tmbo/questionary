@@ -16,14 +16,13 @@ from questionary.question import Question
 def select(
     message: Text,
     choices: List[Union[Text, Choice, Dict[Text, Any]]],
-    default: Optional[Text] = None,
+    default: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
     qmark: Text = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
     use_indicator: bool = False,
     use_pointer: bool = True,
     instruction: Text = None,
-    initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
     **kwargs: Any
 ) -> Question:
     """Prompt the user to select one item from the list of choices.
@@ -38,7 +37,9 @@ def select(
                  `Choice` objects, allows you to configure the item more
                  (e.g. preselecting it or disabeling it).
 
-        default: Default return value (single value).
+        default: A value corresponding to a selectable item in the choices,
+                 to initially set the pointer position to.
+
 
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
@@ -60,9 +61,6 @@ def select(
 
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
-
-        initial_choice: A value corresponding to a selectable item in the choices,
-                        to initially set the pointer position to.
 
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
@@ -87,7 +85,7 @@ def select(
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
         use_pointer=use_pointer,
-        initial_choice=initial_choice,
+        initial_choice=default,
     )
 
     def get_prompt_tokens():

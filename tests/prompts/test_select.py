@@ -148,7 +148,7 @@ def test_select_empty_choices():
 
 def test_select_initial_choice():
     message = "Foo message"
-    kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bazz"}
+    kwargs = {"choices": ["foo", "bazz"], "default": "bazz"}
     text = KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
@@ -158,7 +158,7 @@ def test_select_initial_choice():
 def test_select_initial_choice_not_selectable():
     message = "Foo message"
     separator = Separator()
-    kwargs = {"choices": ["foo", "bazz", separator], "initial_choice": separator}
+    kwargs = {"choices": ["foo", "bazz", separator], "default": separator}
     text = KeyInputs.ENTER + "\r"
 
     with pytest.raises(ValueError):
@@ -167,7 +167,7 @@ def test_select_initial_choice_not_selectable():
 
 def test_select_initial_choice_non_existant():
     message = "Foo message"
-    kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bar"}
+    kwargs = {"choices": ["foo", "bazz"], "default": "bar"}
     text = KeyInputs.ENTER + "\r"
 
     with pytest.raises(ValueError):
