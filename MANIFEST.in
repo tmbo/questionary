@@ -1,5 +1,6 @@
 include LICENSE NOTICE README.md requirements.txt
 include pyproject.toml
+include questionary/py.typed
 recursive-include docs *.gif
 recursive-include docs *.png
 recursive-include examples *.py

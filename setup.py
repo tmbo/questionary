@@ -37,6 +37,7 @@ setup(
         "Topic :: Software Development :: Libraries",
     ],
     packages=find_packages(exclude=["tests", "tests.*", "examples"]),
+    package_data={"questionary": ["py.typed"]},
     version=__version__,
     install_requires=install_requires,
     tests_require=tests_requires,
