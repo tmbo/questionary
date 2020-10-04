@@ -251,7 +251,7 @@ class InquirerControl(FormattedTextControl):
 
             if pointed_at is None and not choice.disabled:
                 # find the first (available) choice
-                self.pointed_at = i
+                self.pointed_at = pointed_at = i
 
             self.choices.append(choice)
 
