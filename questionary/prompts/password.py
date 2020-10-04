@@ -14,7 +14,7 @@ def password(
     validate: Any = None,
     qmark: Text = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Question the user to enter a secret text not displayed in the prompt.
 

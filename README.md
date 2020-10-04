@@ -11,7 +11,9 @@
 
 ![example-gif](docs/images/example.gif)
 
-You need input from a user, e.g. how an output file should be named or if he really wants to execute that dangerous operation? This library will help you make the input prompts easy to read and answer for the user.
+You need input from a user, e.g. how an output file should be named or if he really 
+wants to execute that dangerous operation? This library will help you make the 
+input prompts easy to read and answer for the user.
 
 Used and Supported by:
 
@@ -19,11 +21,10 @@ Used and Supported by:
 
 ## Quickstart
 
-To install `questionary`, simply use [pipenv](http://pipenv.org/) (or pip, of
-course):
+The `questionary` can be installed using `pip`:
 
 ```bash
-$ pipenv install questionary
+$ pip install questionary
 ✨🎂✨
 ```
 
@@ -41,7 +42,29 @@ questionary.select(
     ]).ask()  # returns value of selection
 ```
 
-That's all it takes to create a user prompt! There are differen types of prompts, you'll find examples for all of them further down.
+That's all it takes to create a user prompt! There are different types of prompts, 
+you'll find examples for all of them further down.
+
+<details>
+<summary>Alternative: Building from source</summary>
+
+questionary uses Poetry for packaging and dependency management. If you want 
+to build it from source, you have to install Poetry first. 
+
+This is how it can be done:
+
+```
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+```
+
+There are several other ways to install Poetry. Please, follow 
+[the official guide](https://python-poetry.org/docs/#installation) to see all possible options.
+
+To install dependencies and `questionary` itself in editable mode execute
+```
+make install
+```
+</details>
 
 ## Documentation
 
@@ -472,7 +495,7 @@ Initial public release of the library
 <details>
 <summary>Cutting a new release</summary>
 
-0. Update the version number in `questionary/version.py`
+0. Update the version number in `questionary/version.py` AND `pyproject.toml`
 1. Add a new section for the release in the changelog in this readme
 2. commit this changes
 3. git tag the commit with the release version 

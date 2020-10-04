@@ -24,7 +24,7 @@ def text(
     style: Optional[Style] = None,
     multiline: bool = False,
     instruction: Optional[Text] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.
 
