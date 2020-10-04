@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from typing import (
     Any,
     Callable,
@@ -6,7 +5,6 @@ from typing import (
     Generator,
     List,
     Optional,
-    Text,
     Tuple,
     Union,
     Iterable,
@@ -27,9 +25,9 @@ from questionary.question import Question
 class WordCompleter(Completer):
     def __init__(
         self,
-        choices: Union[List[Text], Callable[[], List[Text]]],
+        choices: Union[List[str], Callable[[], List[str]]],
         ignore_case: bool = True,
-        meta_information: Optional[Dict[Text, Any]] = None,
+        meta_information: Optional[Dict[str, Any]] = None,
         match_middle: bool = True,
     ):
 
@@ -38,14 +36,14 @@ class WordCompleter(Completer):
         self.meta_information = meta_information or {}
         self.match_middle = match_middle
 
-    def _choices(self) -> List[Text]:
+    def _choices(self) -> List[str]:
         return (
             self.choices_source()
             if callable(self.choices_source)
             else self.choices_source
         )
 
-    def _choice_matches(self, word_before_cursor: Text, choice: Text) -> int:
+    def _choice_matches(self, word_before_cursor: str, choice: str) -> int:
         """Match index if found, -1 if not. """
 
         if self.ignore_case:
@@ -59,7 +57,7 @@ class WordCompleter(Completer):
             return -1
 
     @staticmethod
-    def _display_for_choice(choice: Text, index: int, word_before_cursor: Text) -> HTML:
+    def _display_for_choice(choice: str, index: int, word_before_cursor: str) -> HTML:
         return HTML("{}<b><u>{}</u></b>{}").format(
             choice[:index],
             choice[index : index + len(word_before_cursor)],
@@ -97,12 +95,12 @@ class WordCompleter(Completer):
 
 
 def autocomplete(
-    message: Text,
-    choices: List[Text],
-    default: Text = "",
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: List[str],
+    default: str = "",
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     completer: Optional[Completer] = None,
-    meta_information: Optional[Dict[Text, Any]] = None,
+    meta_information: Optional[Dict[str, Any]] = None,
     ignore_case: bool = True,
     match_middle: bool = True,
     complete_style: CompleteStyle = CompleteStyle.COLUMN,
@@ -152,10 +150,10 @@ def autocomplete(
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    def get_prompt_tokens() -> List[Tuple[Text, Text]]:
+    def get_prompt_tokens() -> List[Tuple[str, str]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
-    def get_meta_style(meta: Optional[Dict[Text, Any]]) -> Optional[Dict[Text, Any]]:
+    def get_meta_style(meta: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         if meta:
             for key in meta:
                 meta[key] = HTML("<text>{}</text>").format(meta[key])

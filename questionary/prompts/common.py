@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import inspect
 from prompt_toolkit import PromptSession
 from prompt_toolkit.filters import IsDone, Always
@@ -10,7 +9,7 @@ from prompt_toolkit.layout import (
     Window,
 )
 from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Text, Dict, Union, Callable, Tuple
+from typing import Optional, Any, List, Dict, Union, Callable, Tuple
 
 from questionary.constants import (
     SELECTED_POINTER,
@@ -21,9 +20,9 @@ from questionary.constants import (
 # This is a cut-down version of `prompt_toolkit.formatted_text.AnyFormattedText`
 # which does not exist in v2 of prompt_toolkit
 FormattedText = Union[
-    Text,
-    List[Tuple[Text, Text]],
-    List[Tuple[Text, Text, Callable[[Any], None]]],
+    str,
+    List[Tuple[str, str]],
+    List[Tuple[str, str, Callable[[Any], None]]],
     None,
 ]
 
@@ -31,15 +30,15 @@ FormattedText = Union[
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
-    shortcut_key: Optional[Text]
+    shortcut_key: Optional[str]
 
     def __init__(
         self,
         title: FormattedText,
         value: Optional[Any] = None,
-        disabled: Optional[Text] = None,
+        disabled: Optional[str] = None,
         checked: Optional[bool] = False,
-        shortcut_key: Optional[Text] = None,
+        shortcut_key: Optional[str] = None,
     ) -> None:
         """Create a new choice.
 
@@ -74,7 +73,7 @@ class Choice(object):
             self.shortcut_key = None
 
     @staticmethod
-    def build(c: Union[Text, "Choice", Dict[Text, Any]]) -> "Choice":
+    def build(c: Union[str, "Choice", Dict[str, Any]]) -> "Choice":
         """Create a choice object from different representations."""
 
         if isinstance(c, Choice):
@@ -96,7 +95,7 @@ class Separator(Choice):
 
     default_separator = "-" * 15
 
-    def __init__(self, line: Optional[Text] = None):
+    def __init__(self, line: Optional[str] = None):
         """Create a separator in a list.
 
         Args:
@@ -104,7 +103,7 @@ class Separator(Choice):
         """
 
         self.line = line or self.default_separator
-        super(Separator, self).__init__(self.line, None, "-")
+        super().__init__(self.line, None, "-")
 
 
 class InquirerControl(FormattedTextControl):
@@ -152,12 +151,12 @@ class InquirerControl(FormattedTextControl):
 
     def __init__(
         self,
-        choices: List[Union[Text, Choice, Dict[Text, Any]]],
-        default: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
+        choices: List[Union[str, Choice, Dict[str, Any]]],
+        default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         use_pointer: bool = True,
-        initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
+        initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs
     ):
 
@@ -189,7 +188,7 @@ class InquirerControl(FormattedTextControl):
         self._init_choices(choices)
         self._assign_shortcut_keys()
 
-        super(InquirerControl, self).__init__(self._get_choice_tokens, **kwargs)
+        super().__init__(self._get_choice_tokens, **kwargs)
 
         if not self.is_selection_valid():
             raise ValueError(
@@ -411,7 +410,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
 
 def create_inquirer_layout(
     ic: InquirerControl,
-    get_prompt_tokens: Callable[[], List[Tuple[Text, Text]]],
+    get_prompt_tokens: Callable[[], List[Tuple[str, str]]],
     **kwargs
 ) -> Layout:
     """Create a layout combining question and inquirer selection."""

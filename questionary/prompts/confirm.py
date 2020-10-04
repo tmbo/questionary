@@ -1,10 +1,9 @@
-# -*- coding: utf-8 -*-
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import to_formatted_text
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import merge_styles, Style
-from typing import Optional, Text, Any
+from typing import Optional, Any
 
 from questionary.constants import (
     NO_OR_YES,
@@ -18,9 +17,9 @@ from questionary.question import Question
 
 
 def confirm(
-    message: Text,
+    message: str,
     default: bool = True,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     **kwargs: Any
 ) -> Question:

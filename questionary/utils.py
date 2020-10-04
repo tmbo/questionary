@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import inspect
 
 ACTIVATED_ASYNC_MODE = False

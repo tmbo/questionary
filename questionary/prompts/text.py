@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Optional, Text, List, Tuple
+from typing import Any, Optional, List, Tuple
 
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts.prompt import PromptSession
@@ -17,13 +15,13 @@ from questionary.question import Question
 
 
 def text(
-    message: Text,
-    default: Text = "",
+    message: str,
+    default: str = "",
     validate: Any = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     multiline: bool = False,
-    instruction: Optional[Text] = None,
+    instruction: Optional[str] = None,
     **kwargs: Any
 ) -> Question:
     """Prompt the user to enter a free text message.
@@ -66,7 +64,7 @@ def text(
     if instruction is None and multiline:
         instruction = INSTRUCTION_MULTILINE
 
-    def get_prompt_tokens() -> List[Tuple[Text, Text]]:
+    def get_prompt_tokens() -> List[Tuple[str, str]]:
         result = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
         if instruction:
             result.append(("class:instruction", " {} ".format(instruction)))
