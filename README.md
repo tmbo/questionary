@@ -15,7 +15,7 @@ You need input from a user, e.g. how an output file should be named or if he rea
 
 Used and Supported by:
 
-[<img src="https://rasa.com/docs/_static/rasa_logo.svg" width="60">](https://github.com/RasaHQ/rasa)
+[<img src="https://rasa.com/static/686aee8071dd209f198d500b1164e350/4828e/rasa.png" width="100">](https://github.com/RasaHQ/rasa)
 
 ## Quickstart
 
