@@ -164,7 +164,6 @@ def autocomplete(
 
     validator = build_validator(validate)
 
-    
     if completer is None:
         
         if not choices:
