@@ -152,12 +152,11 @@ class InquirerControl(FormattedTextControl):
         self.use_pointer = use_pointer
         self.default = default
 
-        if default is not None:
-            if default not in choices:
-                raise ValueError(
-                    f"Invalid `default` value passed. The value (`{default}`) does not exist in "
-                    f"the set of choices. Please make sure the default value is one of the available choices."
-                )
+        if default is not None and default not in choices:
+            raise ValueError(
+                f"Invalid `default` value passed. The value (`{default}`) does not exist in "
+                f"the set of choices. Please make sure the default value is one of the available choices."
+            )
 
         if initial_choice is not None:
             if initial_choice in choices:
