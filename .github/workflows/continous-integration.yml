@@ -49,9 +49,7 @@ jobs:
       run: make types
 
     - name: Check Version Numbers 🕸
-      run: |
-        pip install toml
-        python3 scripts/validate_version.py
+      run: python3 scripts/validate_version.py
 
   test:
     name: Run Tests
