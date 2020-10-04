@@ -148,10 +148,11 @@ class InquirerControl(FormattedTextControl):
     def __init__(
         self,
         choices: List[Union[Text, Choice, Dict[Text, Any]]],
-        default: Optional[Any] = None,
+        default: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         use_pointer: bool = True,
+        initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
         **kwargs
     ):
 
@@ -160,7 +161,22 @@ class InquirerControl(FormattedTextControl):
         self.use_pointer = use_pointer
         self.default = default
 
-        self.pointed_at = None
+        if default is not None and default not in choices:
+            raise ValueError(
+                f"Invalid `default` value passed. The value (`{default}`) does not exist in "
+                f"the set of choices. Please make sure the default value is one of the available choices."
+            )
+
+        if initial_choice is None:
+            self.pointed_at = None
+        elif initial_choice in choices:
+            self.pointed_at = choices.index(initial_choice)
+        else:
+            raise ValueError(
+                f"Invalid `initial_choice` value passed. The value (`{initial_choice}`) does not exist in "
+                f"the set of choices. Please make sure the initial value is one of the available choices."
+            )
+
         self.is_answered = False
         self.choices = []
         self.selected_options = []
@@ -169,6 +185,11 @@ class InquirerControl(FormattedTextControl):
         self._assign_shortcut_keys()
 
         super(InquirerControl, self).__init__(self._get_choice_tokens, **kwargs)
+
+        if not self.is_selection_valid():
+            raise ValueError(
+                f"Invalid 'initial_choice' value ('{initial_choice}'). It must be a selectable value."
+            )
 
     def _is_selected(self, choice):
         return (
