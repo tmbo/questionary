@@ -21,7 +21,7 @@ Used and Supported by:
 
 ## Quickstart
 
-The `questionary` can be installed using `pip`:
+`questionary` can be installed using `pip`:
 
 ```bash
 $ pip install questionary
