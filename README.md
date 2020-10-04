@@ -356,6 +356,7 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 </details>
 
 <details><summary>1.6.0 (04.10.2020)</summary>
+
 * Updated black code style formatting and fixed version.
 * Fixed colour of answer for some prompts.
 * Added `py.typed` marker file.
@@ -363,6 +364,7 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 * Accept style tuples in `title` argument annotation of `Choice`.
 * Added `default` for select and `initial_choice` for checkbox prompts.
 * Removed check for choices if completer is present.
+
 </details>
 
 <details><summary>1.5.2 (16.04.2020)</summary>
