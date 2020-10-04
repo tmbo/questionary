@@ -236,7 +236,11 @@ class InquirerControl(FormattedTextControl):
             if shortcut_idx == len(available_shortcuts):
                 break  # fail gracefully if we run out of shortcuts
 
-    def _init_choices(self, choices: List[Union[str, Choice, Dict[str, Any]]], pointed_at: Optional[int]):
+    def _init_choices(
+        self,
+        choices: List[Union[str, Choice, Dict[str, Any]]],
+        pointed_at: Optional[int],
+    ):
         # helper to convert from question format to internal format
         self.choices = []
 
