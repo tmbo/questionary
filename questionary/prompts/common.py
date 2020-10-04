@@ -183,9 +183,9 @@ class InquirerControl(FormattedTextControl):
             )
 
         if initial_choice is None:
-            self.pointed_at = None
+            pointed_at = None
         elif initial_choice in choices:
-            self.pointed_at = choices.index(initial_choice)
+            pointed_at = choices.index(initial_choice)
         else:
             raise ValueError(
                 f"Invalid `initial_choice` value passed. The value (`{initial_choice}`) does not exist in "
@@ -193,10 +193,9 @@ class InquirerControl(FormattedTextControl):
             )
 
         self.is_answered = False
-        self.choices = []
         self.selected_options = []
 
-        self._init_choices(choices)
+        self._init_choices(choices, pointed_at)
         self._assign_shortcut_keys()
 
         super().__init__(self._get_choice_tokens, **kwargs)
@@ -237,9 +236,12 @@ class InquirerControl(FormattedTextControl):
             if shortcut_idx == len(available_shortcuts):
                 break  # fail gracefully if we run out of shortcuts
 
-    def _init_choices(self, choices: List[Union[str, Choice, Dict[str, Any]]]):
+    def _init_choices(self, choices: List[Union[str, Choice, Dict[str, Any]]], pointed_at: Optional[int]):
         # helper to convert from question format to internal format
         self.choices = []
+
+        if pointed_at is not None:
+            self.pointed_at = pointed_at
 
         for i, c in enumerate(choices):
             choice = Choice.build(c)
@@ -247,7 +249,7 @@ class InquirerControl(FormattedTextControl):
             if self._is_selected(choice):
                 self.selected_options.append(choice.value)
 
-            if self.pointed_at is None and not choice.disabled:
+            if pointed_at is None and not choice.disabled:
                 # find the first (available) choice
                 self.pointed_at = i
 

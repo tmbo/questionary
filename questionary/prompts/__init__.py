@@ -25,4 +25,4 @@ AVAILABLE_PROMPTS = {
 
 
 def prompt_by_name(name: str) -> Optional[Callable[..., Question]]:
-    return AVAILABLE_PROMPTS.get(name)
+    return AVAILABLE_PROMPTS.get(name)  # type: ignore
