@@ -158,17 +158,15 @@ class InquirerControl(FormattedTextControl):
                 f"the set of choices. Please make sure the default value is one of the available choices."
             )
 
-        if initial_choice is not None:
-            if initial_choice in choices:
-                self.pointed_at = choices.index(initial_choice)
-            else:
-                raise ValueError(
-                    f"Invalid `initial_choice` value passed. The value (`{initial_choice}`) does not exist in "
-                    f"the set of choices. Please make sure the initial value is one of the available choices."
-                )
-
-        else:
+        if initial_choice is None:
             self.pointed_at = None
+        elif initial_choice in choices:
+            self.pointed_at = choices.index(initial_choice)
+        else:
+            raise ValueError(
+                f"Invalid `initial_choice` value passed. The value (`{initial_choice}`) does not exist in "
+                f"the set of choices. Please make sure the initial value is one of the available choices."
+            )
 
         self.is_answered = False
         self.choices = []
