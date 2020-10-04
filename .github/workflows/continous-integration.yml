@@ -84,7 +84,7 @@ jobs:
     - name: Install dependencies 🖥
       run: |
         poetry install --no-interaction
-        poetry run pip install prompt_toolkit==${{ runner.promttoolkit }}
+        poetry run pip install prompt_toolkit==${{ matrix.promttoolkit }}
 
     - name: Test Code 🔍
       run: make test
