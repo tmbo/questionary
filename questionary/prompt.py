@@ -7,7 +7,7 @@ from questionary.prompts import AVAILABLE_PROMPTS, prompt_by_name
 
 
 class PromptParameterException(ValueError):
-    def __init__(self, message, errors=None):
+    def __init__(self, message: str, errors: Optional[BaseException] = None) -> None:
         # Call the base class constructor with the parameters it needs
         super().__init__("You must provide a `%s` value" % message, errors)
 
@@ -18,8 +18,8 @@ def prompt(
     patch_stdout: bool = False,
     true_color: bool = False,
     kbi_msg: str = DEFAULT_KBI_MESSAGE,
-    **kwargs
-):
+    **kwargs: Any
+) -> Dict[str, Any]:
     """Prompt the user for input on all the questions."""
 
     if isinstance(questions, dict):

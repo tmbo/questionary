@@ -20,7 +20,7 @@ def select(
     use_shortcuts: bool = False,
     use_indicator: bool = False,
     use_pointer: bool = True,
-    instruction: str = None,
+    instruction: Optional[str] = None,
     **kwargs: Any
 ) -> Question:
     """Prompt the user to select one item from the list of choices.

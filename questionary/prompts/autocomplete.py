@@ -2,7 +2,6 @@ from typing import (
     Any,
     Callable,
     Dict,
-    Generator,
     List,
     Optional,
     Tuple,
@@ -23,14 +22,18 @@ from questionary.question import Question
 
 
 class WordCompleter(Completer):
+    choices_source: Union[List[str], Callable[[], List[str]]]
+    ignore_case: bool
+    meta_information: Dict[str, Any]
+    match_middle: bool
+
     def __init__(
         self,
         choices: Union[List[str], Callable[[], List[str]]],
         ignore_case: bool = True,
         meta_information: Optional[Dict[str, Any]] = None,
         match_middle: bool = True,
-    ):
-
+    ) -> None:
         self.choices_source = choices
         self.ignore_case = ignore_case
         self.meta_information = meta_information or {}

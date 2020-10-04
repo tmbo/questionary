@@ -30,6 +30,10 @@ FormattedText = Union[
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
+    title: FormattedText
+    value: Optional[Any]
+    disabled: Optional[str]
+    checked: Optional[bool]
     shortcut_key: Optional[str]
 
     def __init__(
@@ -93,9 +97,10 @@ class Choice(object):
 class Separator(Choice):
     """Used to space/separate choices group."""
 
-    default_separator = "-" * 15
+    default_separator: str = "-" * 15
+    line: str
 
-    def __init__(self, line: Optional[str] = None):
+    def __init__(self, line: Optional[str] = None) -> None:
         """Create a separator in a list.
 
         Args:
@@ -147,7 +152,13 @@ class InquirerControl(FormattedTextControl):
     ]
 
     choices: List[Choice]
+    default: Optional[Union[str, Choice, Dict[str, Any]]]
     selected_options: List[Any]
+    use_indicator: bool
+    use_shortcuts: bool
+    use_pointer: bool
+    pointed_at: int
+    is_answered: bool
 
     def __init__(
         self,
@@ -157,7 +168,7 @@ class InquirerControl(FormattedTextControl):
         use_shortcuts: bool = False,
         use_pointer: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
-        **kwargs
+        **kwargs: Any
     ):
 
         self.use_indicator = use_indicator
@@ -195,7 +206,7 @@ class InquirerControl(FormattedTextControl):
                 f"Invalid 'initial_choice' value ('{initial_choice}'). It must be a selectable value."
             )
 
-    def _is_selected(self, choice):
+    def _is_selected(self, choice: Choice):
         return (
             choice.checked or choice.value == self.default and self.default is not None
         ) and not choice.disabled
@@ -226,7 +237,7 @@ class InquirerControl(FormattedTextControl):
             if shortcut_idx == len(available_shortcuts):
                 break  # fail gracefully if we run out of shortcuts
 
-    def _init_choices(self, choices):
+    def _init_choices(self, choices: List[Union[str, Choice, Dict[str, Any]]]):
         # helper to convert from question format to internal format
         self.choices = []
 
@@ -243,13 +254,13 @@ class InquirerControl(FormattedTextControl):
             self.choices.append(choice)
 
     @property
-    def choice_count(self):
+    def choice_count(self) -> int:
         return len(self.choices)
 
     def _get_choice_tokens(self):
         tokens = []
 
-        def append(index, choice):
+        def append(index: int, choice: Choice):
             # use value to check if option has been selected
             selected = choice.value in self.selected_options
 
@@ -340,26 +351,26 @@ class InquirerControl(FormattedTextControl):
             tokens.pop()  # Remove last newline.
         return tokens
 
-    def is_selection_a_separator(self):
+    def is_selection_a_separator(self) -> bool:
         selected = self.choices[self.pointed_at]
         return isinstance(selected, Separator)
 
-    def is_selection_disabled(self):
+    def is_selection_disabled(self) -> Optional[str]:
         return self.choices[self.pointed_at].disabled
 
-    def is_selection_valid(self):
+    def is_selection_valid(self) -> bool:
         return not self.is_selection_disabled() and not self.is_selection_a_separator()
 
-    def select_previous(self):
+    def select_previous(self) -> None:
         self.pointed_at = (self.pointed_at - 1) % self.choice_count
 
-    def select_next(self):
+    def select_next(self) -> None:
         self.pointed_at = (self.pointed_at + 1) % self.choice_count
 
-    def get_pointed_at(self):
+    def get_pointed_at(self) -> Choice:
         return self.choices[self.pointed_at]
 
-    def get_selected_values(self):
+    def get_selected_values(self) -> List[Choice]:
         # get values not labels
         return [
             c
@@ -411,7 +422,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
 def create_inquirer_layout(
     ic: InquirerControl,
     get_prompt_tokens: Callable[[], List[Tuple[str, str]]],
-    **kwargs
+    **kwargs: Any
 ) -> Layout:
     """Create a layout combining question and inquirer selection."""
 
