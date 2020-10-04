@@ -27,6 +27,11 @@ jobs:
     install: pip install -r requirements_dev.txt
     script: black --check --diff .
     after_success: skip
+  - stage: codestyle
+    python: 3.7
+    install: pip install -r requirements_dev.txt
+    script: mypy questionary
+    after_success: skip
   - stage: deploy
     python: 3.6
     install: skip

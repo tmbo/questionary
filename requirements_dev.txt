@@ -5,3 +5,4 @@ pytest-pycodestyle==2.0.0
 pytest-cov==2.8.1
 coveralls==1.10.0
 black==20.8b1
+mypy==0.782
