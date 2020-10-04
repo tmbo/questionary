@@ -17,7 +17,7 @@ input prompts easy to read and answer for the user.
 
 Used and Supported by:
 
-[<img src="https://rasa.com/docs/_static/rasa_logo.svg" width="60">](https://github.com/RasaHQ/rasa)
+[<img src="https://rasa.com/static/686aee8071dd209f198d500b1164e350/4828e/rasa.png" width="100">](https://github.com/RasaHQ/rasa)
 
 ## Quickstart
 
@@ -375,6 +375,18 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 ## Changelog
 
 <details><summary>unreleased (master branch)</summary>
+
+</details>
+
+<details><summary>1.6.0 (04.10.2020)</summary>
+
+* Updated black code style formatting and fixed version.
+* Fixed colour of answer for some prompts.
+* Added `py.typed` marker file.
+* Documented multiline input for devs and users and added tests.
+* Accept style tuples in `title` argument annotation of `Choice`.
+* Added `default` for select and `initial_choice` for checkbox prompts.
+* Removed check for choices if completer is present.
 
 </details>
 

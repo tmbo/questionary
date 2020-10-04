@@ -155,7 +155,7 @@ def autocomplete(
     def get_prompt_tokens() -> List[Tuple[Text, Text]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
-    def get_meta_style(meta: Dict[Text, Any]):
+    def get_meta_style(meta: Optional[Dict[Text, Any]]) -> Optional[Dict[Text, Any]]:
         if meta:
             for key in meta:
                 meta[key] = HTML("<text>{}</text>").format(meta[key])

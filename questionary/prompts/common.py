@@ -31,12 +31,14 @@ FormattedText = Union[
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
+    shortcut_key: Optional[Text]
+
     def __init__(
         self,
         title: FormattedText,
         value: Optional[Any] = None,
         disabled: Optional[Text] = None,
-        checked: bool = False,
+        checked: Optional[bool] = False,
         shortcut_key: Optional[Text] = None,
     ) -> None:
         """Create a new choice.
@@ -57,7 +59,7 @@ class Choice(object):
 
         self.disabled = disabled
         self.title = title
-        self.checked = checked
+        self.checked = checked if checked is not None else False
 
         if value is not None:
             self.value = value
@@ -144,6 +146,9 @@ class InquirerControl(FormattedTextControl):
         "y",
         "z",
     ]
+
+    choices: List[Choice]
+    selected_options: List[Any]
 
     def __init__(
         self,
