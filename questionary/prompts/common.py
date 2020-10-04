@@ -18,13 +18,22 @@ from questionary.constants import (
     INDICATOR_UNSELECTED,
 )
 
+# This is a cut-down version of `prompt_toolkit.formatted_text.AnyFormattedText`
+# which does not exist in v2 of prompt_toolkit
+FormattedText = Union[
+    Text,
+    List[Tuple[Text, Text]],
+    List[Tuple[Text, Text, Callable[[Any], None]]],
+    None,
+]
+
 
 class Choice(object):
     """One choice in a select, rawselect or checkbox."""
 
     def __init__(
         self,
-        title: Text,
+        title: FormattedText,
         value: Optional[Any] = None,
         disabled: Optional[Text] = None,
         checked: bool = False,
