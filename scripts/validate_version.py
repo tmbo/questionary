@@ -39,19 +39,25 @@ def get_tagged_version() -> Optional[Text]:
     return os.environ.get("TRAVIS_TAG")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if get_pyproject_version() != get_current_version():
-        print(f"Version in {pyproject_file_path} does not correspond "
-              f"to the version in {version_file_path}! The version needs to be "
-              f"set to the same value in both places.")
+        print(
+            f"Version in {pyproject_file_path} does not correspond "
+            f"to the version in {version_file_path}! The version needs to be "
+            f"set to the same value in both places."
+        )
         sys.exit(1)
     elif get_tagged_version() and get_tagged_version() != get_current_version():
-        print(f"Tagged version does not correspond to the version "
-              f"in {version_file_path}!")
+        print(
+            f"Tagged version does not correspond to the version "
+            f"in {version_file_path}!"
+        )
         sys.exit(1)
     elif get_tagged_version() and get_tagged_version() != get_pyproject_version():
-        print(f"Tagged version does not correspond to the version "
-              f"in {pyproject_file_path}!")
+        print(
+            f"Tagged version does not correspond to the version "
+            f"in {pyproject_file_path}!"
+        )
         sys.exit(1)
     else:
         print("Versions look good!")
