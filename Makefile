@@ -1,4 +1,4 @@
-.PHONY: clean install formatter types
+.PHONY: clean install formatter lint types
 
 JOBS ?= 1
 
@@ -10,6 +10,8 @@ help:
 	@echo "        Install questionary."
 	@echo "    formatter"
 	@echo "        Apply black formatting to code."
+	@echo "    lint"
+	@echo "        Check the code style."
 	@echo "    types"
 	@echo "        Check for type errors using pytype."
 
@@ -28,6 +30,12 @@ install:
 
 formatter:
 	poetry run black .
+
+lint:
+	poetry run black --check --diff .
+
+test:
+	poetry run pytest --pycodestyle --cov questionary -v
 
 types:
 	poetry run mypy questionary
