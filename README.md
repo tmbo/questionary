@@ -460,14 +460,24 @@ Initial public release of the library
 ## Developer Info
 
 <details>
-<summary>Notes on how to do random things related to this repo</summary>
-
-**Create one of the commandline recordings**
+<summary>Create one of the commandline recordings in the readme</summary>
 
 0. Install `brew install asciinema` and `npm install --global asciicast2gif`
 1. Run `asciinema rec`
 2. Do the thing
 3. Convert to giv `asciicast2gif -h 7 -w 120 -s 2 <recoding> output.gif`
+
+</details>
+
+<details>
+<summary>Cutting a new release</summary>
+
+0. Update the version number in `questionary/version.py`
+1. Add a new section for the release in the changelog in this readme
+2. commit this changes
+3. git tag the commit with the release version 
+
+Travis will build and push the updated library to pypi.
 
 </details>
 
