@@ -5,7 +5,7 @@ from typing import Any, Optional, Text, List, Tuple
 from prompt_toolkit.document import Document
 from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import Style, merge_styles
-from prompt_toolkit.lexers import SimpleLexer
+from prompt_toolkit.lexers import Lexer, SimpleLexer
 
 from questionary.constants import (
     DEFAULT_QUESTION_PREFIX,
@@ -24,6 +24,7 @@ def text(
     style: Optional[Style] = None,
     multiline: bool = False,
     instruction: Optional[Text] = None,
+    lexer: Optional[Lexer] = None,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.
@@ -55,12 +56,15 @@ def text(
         instruction: Write instructions for the user if needed. If `None`
                      and `multiline=True`, some instructions will appear.
 
+        lexer: Supply a valid lexer to style the answer. Leave empty to
+               use a simple one by default.
+
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
-
+    lexer = lexer or SimpleLexer("class:answer")
     validator = build_validator(validate)
 
     if instruction is None and multiline:
@@ -76,7 +80,7 @@ def text(
         get_prompt_tokens,
         style=merged_style,
         validator=validator,
-        lexer=SimpleLexer("class:answer"),
+        lexer=lexer,
         multiline=multiline,
         **kwargs,
     )
