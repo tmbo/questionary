@@ -1,15 +1,45 @@
+[build-system]
+requires = [ "poetry>=1.0.5",]
+build-backend = "poetry.masonry.api"
+
 [tool.black]
 line-length = 88
-target-version = ['py35', 'py36', 'py37']
-exclude = '''
-(
-  /(
-      \.eggs
-    | \.git
-    | \.pytype
-    | \.pytest_cache
-    | build
-    | dist
-  )/
-)
-'''
+target-version = [ "py36", "py37", "py38",]
+exclude = "((.eggs | .git | .pytype | .pytest_cache | build | dist))"
+
+[tool.poetry]
+name = "questionary"
+version = "1.6.0"
+description = "Python library to build pretty command line user prompts ⭐️"
+authors = [ "Tom Bocklisch <tombocklisch@gmail.com>",]
+maintainers = [ "Tom Bocklisch <tombocklisch@gmail.com>", "Kian Cross"]
+repository = "https://github.com/tmbo/questionary"
+documentation = "https://github.com/tmbo/questionary#documentation"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    # supported python versions
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Topic :: Software Development :: Libraries",
+]
+keywords = [ "cli", "ui", "inquirer", "questions", "prompt",]
+include = [ "LICENSE", "README.md", "questionary/py.typed",]
+readme = "README.md"
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = ">=3.6,<3.9"
+prompt_toolkit = ">=2.0,<4.0"
+
+[tool.poetry.dev-dependencies]
+pytest-pycodestyle = "^2.1"
+pytest-cov = "^2.8.1"
+pytest = "^5.3.5"
+coveralls = "^2.0.0"
+black = "^20.8b1"
+mypy = "^0.782"
+toml = "^0.10.1"

@@ -21,7 +21,7 @@ def confirm(
     default: bool = True,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Prompt the user to confirm or reject.
 

@@ -14,7 +14,7 @@ def rawselect(
     default: Optional[str] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Ask the user to select one item from a list of choices using shortcuts.
 

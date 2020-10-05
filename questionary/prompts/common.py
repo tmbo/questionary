@@ -178,8 +178,9 @@ class InquirerControl(FormattedTextControl):
 
         if default is not None and default not in choices:
             raise ValueError(
-                f"Invalid `default` value passed. The value (`{default}`) does not exist in "
-                f"the set of choices. Please make sure the default value is one of the available choices."
+                f"Invalid `default` value passed. The value (`{default}`) "
+                f"does not exist in the set of choices. Please make sure the "
+                f"default value is one of the available choices."
             )
 
         if initial_choice is None:
@@ -188,8 +189,10 @@ class InquirerControl(FormattedTextControl):
             pointed_at = choices.index(initial_choice)
         else:
             raise ValueError(
-                f"Invalid `initial_choice` value passed. The value (`{initial_choice}`) does not exist in "
-                f"the set of choices. Please make sure the initial value is one of the available choices."
+                f"Invalid `initial_choice` value passed. The value "
+                f"(`{initial_choice}`) does not exist in "
+                f"the set of choices. Please make sure the initial value is "
+                f"one of the available choices."
             )
 
         self.is_answered = False
@@ -202,7 +205,8 @@ class InquirerControl(FormattedTextControl):
 
         if not self.is_selection_valid():
             raise ValueError(
-                f"Invalid 'initial_choice' value ('{initial_choice}'). It must be a selectable value."
+                f"Invalid 'initial_choice' value ('{initial_choice}'). "
+                f"It must be a selectable value."
             )
 
     def _is_selected(self, choice: Choice):
