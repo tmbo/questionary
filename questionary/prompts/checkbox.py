@@ -21,7 +21,7 @@ def checkbox(
     style: Optional[Style] = None,
     use_pointer: bool = True,
     initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
 

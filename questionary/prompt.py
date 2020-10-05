@@ -22,7 +22,7 @@ def prompt(
     patch_stdout: bool = False,
     true_color: bool = False,
     kbi_msg: Text = DEFAULT_KBI_MESSAGE,
-    **kwargs
+    **kwargs,
 ):
     """Prompt the user for input on all the questions."""
 

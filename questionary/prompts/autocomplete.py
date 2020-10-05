@@ -108,7 +108,7 @@ def autocomplete(
     complete_style: CompleteStyle = CompleteStyle.COLUMN,
     validate: Any = None,
     style: Optional[Style] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a message with autocomplete help.
 
