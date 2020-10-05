@@ -15,7 +15,7 @@ YES_OR_NO = "(Y/n)"
 NO_OR_YES = "(y/N)"
 
 # Instruction for multiline input
-INSTRUCTION_MULTILINE = "(Finish with 'Alt+Enter' or 'Esc, Enter')"
+INSTRUCTION_MULTILINE = "(Finish with 'Alt+Enter' or 'Esc, Enter')\n>"
 
 # Selection token used to indicate the selection cursor in a list
 SELECTED_POINTER = "»"
