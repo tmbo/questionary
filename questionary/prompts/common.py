@@ -168,7 +168,7 @@ class InquirerControl(FormattedTextControl):
         use_shortcuts: bool = False,
         use_pointer: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
-        **kwargs: Any
+        **kwargs: Any,
     ):
 
         self.use_indicator = use_indicator
@@ -432,7 +432,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
 def create_inquirer_layout(
     ic: InquirerControl,
     get_prompt_tokens: Callable[[], List[Tuple[str, str]]],
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Layout:
     """Create a layout combining question and inquirer selection."""
 

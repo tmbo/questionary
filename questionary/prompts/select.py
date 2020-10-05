@@ -21,7 +21,7 @@ def select(
     use_indicator: bool = False,
     use_pointer: bool = True,
     instruction: Optional[str] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Prompt the user to select one item from the list of choices.
 

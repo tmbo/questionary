@@ -18,7 +18,7 @@ def prompt(
     patch_stdout: bool = False,
     true_color: bool = False,
     kbi_msg: str = DEFAULT_KBI_MESSAGE,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Dict[str, Any]:
     """Prompt the user for input on all the questions."""
 
