@@ -58,7 +58,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.6, 3.7, 3.8, 3.9]
         promttoolkit: [3.*, 2.*]
         exclude:
           # tests on windows with prompt-toolkit 2.* do not complete
