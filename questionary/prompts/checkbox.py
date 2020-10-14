@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Optional, Sequence, Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
@@ -13,7 +13,7 @@ from questionary.question import Question
 
 def checkbox(
     message: str,
-    choices: List[Union[str, Choice, Dict[str, Any]]],
+    choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[str] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,

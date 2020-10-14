@@ -1,5 +1,5 @@
 from prompt_toolkit.output import ColorDepth
-from typing import Any, Dict, Optional, List
+from typing import Any, Dict, Optional, Sequence
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
@@ -13,7 +13,7 @@ class PromptParameterException(ValueError):
 
 
 def prompt(
-    questions: List[Dict[str, Any]],
+    questions: Sequence[Dict[str, Any]],
     answers: Optional[Dict[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,

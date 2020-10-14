@@ -9,7 +9,7 @@ from prompt_toolkit.layout import (
     Window,
 )
 from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Dict, Union, Callable, Tuple
+from typing import Optional, Any, List, Dict, Union, Callable, Sequence, Tuple
 
 from questionary.constants import (
     SELECTED_POINTER,
@@ -162,7 +162,7 @@ class InquirerControl(FormattedTextControl):
 
     def __init__(
         self,
-        choices: List[Union[str, Choice, Dict[str, Any]]],
+        choices: Sequence[Union[str, Choice, Dict[str, Any]]],
         default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
@@ -242,7 +242,7 @@ class InquirerControl(FormattedTextControl):
 
     def _init_choices(
         self,
-        choices: List[Union[str, Choice, Dict[str, Any]]],
+        choices: Sequence[Union[str, Choice, Dict[str, Any]]],
         pointed_at: Optional[int],
     ):
         # helper to convert from question format to internal format
