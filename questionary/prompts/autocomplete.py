@@ -39,7 +39,7 @@ class WordCompleter(Completer):
         self.meta_information = meta_information or {}
         self.match_middle = match_middle
 
-    def _choices(self) -> List[str]:
+    def _choices(self) -> Iterable[str]:
         return (
             self.choices_source()
             if callable(self.choices_source)
