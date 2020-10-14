@@ -1,5 +1,3 @@
-from typing import Callable, Optional
-
 from questionary.prompts import autocomplete
 from questionary.prompts import confirm
 from questionary.prompts import text
@@ -7,7 +5,6 @@ from questionary.prompts import select
 from questionary.prompts import rawselect
 from questionary.prompts import password
 from questionary.prompts import checkbox
-from questionary.question import Question
 
 AVAILABLE_PROMPTS = {
     "autocomplete": autocomplete.autocomplete,
@@ -24,5 +21,5 @@ AVAILABLE_PROMPTS = {
 }
 
 
-def prompt_by_name(name: str) -> Optional[Callable[..., Question]]:
-    return AVAILABLE_PROMPTS.get(name)  # type: ignore
+def prompt_by_name(name):
+    return AVAILABLE_PROMPTS.get(name)
