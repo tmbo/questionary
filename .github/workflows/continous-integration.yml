@@ -120,4 +120,6 @@ jobs:
       uses: Gr1N/setup-poetry@v3
 
     - name: Build ⚒️ Distributions
-      run: poetry build -u __token__ -p ${{ secrets.PYPI_TOKEN }}
+      run: |
+        poetry build
+        poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}
