@@ -374,7 +374,11 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
-<details><summary>unreleased (master branch)</summary>
+<details><summary>1.7.0 (15.10.2020)</summary>
+
+* Added support for python 3.9
+* Better UX for multiline text input
+* Allow passing custom lexer
 
 </details>
 
