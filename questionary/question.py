@@ -1,5 +1,6 @@
 import sys
 
+from prompt_toolkit import Application
 import prompt_toolkit.patch_stdout
 
 from questionary import utils
@@ -13,7 +14,11 @@ class Question:
     This is an internal class. Questions should be created using the
     predefined questions (e.g. text or password)."""
 
-    def __init__(self, application: prompt_toolkit.Application):
+    application: "Application[Any]"
+    should_skip_question: bool
+    default: Any
+
+    def __init__(self, application: "Application[Any]") -> None:
         self.application = application
         self.should_skip_question = False
         self.default = None

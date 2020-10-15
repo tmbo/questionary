@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Dict, List, Optional, Text, Union
+from typing import Any, Dict, Sequence, Optional, Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
@@ -14,15 +12,15 @@ from questionary.question import Question
 
 
 def select(
-    message: Text,
-    choices: List[Union[Text, Choice, Dict[Text, Any]]],
-    default: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: Sequence[Union[str, Choice, Dict[str, Any]]],
+    default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
     use_indicator: bool = False,
     use_pointer: bool = True,
-    instruction: Text = None,
+    instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to select one item from the list of choices.
