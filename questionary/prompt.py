@@ -25,9 +25,10 @@ def prompt(
     if isinstance(questions, dict):
         questions = [questions]
 
-    answers = answers or {}
+    answers = dict(answers or {})
 
     for question_config in questions:
+        question_config = dict(question_config)
         # import the question
         if "type" not in question_config:
             raise PromptParameterException("type")
