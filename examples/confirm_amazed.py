@@ -6,4 +6,4 @@ if __name__ == "__main__":
     if confirmation:
         print("That is amazing! 💥🚀")
     else:
-        print("Tha is unfortunate 🐡.")
+        print("That is unfortunate 🐡.")
