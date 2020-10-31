@@ -173,6 +173,10 @@ def checkbox(
         pass
 
     return Question(
-        Application(layout=layout, key_bindings=bindings, style=merged_style,
-                    **utils.used_kwargs(kwargs, Application.__init__))
+        Application(
+            layout=layout,
+            key_bindings=bindings,
+            style=merged_style,
+            **utils.used_kwargs(kwargs, Application.__init__),
+        )
     )

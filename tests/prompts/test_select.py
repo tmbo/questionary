@@ -189,4 +189,7 @@ def test_no_invalid_parameters_are_forwarded():
                     "Make a reservation",
                 ],
             }
-        ], text=KeyInputs.ENTER + "\r", validate_while_typing=False)
+        ],
+        text=KeyInputs.ENTER + "\r",
+        validate_while_typing=False,
+    )

@@ -179,6 +179,20 @@ make install
 </details>
 
 ### Additional Features
+<details><summary>Printing formatted text</summary>
+
+Sometimes you want to spice up your printed messages a bit, `questionary.print`
+is a helper to do just that:
+
+```python
+
+questionary.print("Hello World 🦄", style="bold italic fg:darkred")
+```
+![example-gif](docs/images/print.gif) 
+
+The style argument uses the prompt [toolkit style strings](https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/styling.html#style-strings).
+</details>
+
 <details><summary>Skipping questions using conditions</summary>
 
 Sometimes it is helpful to e.g. provide a command line flag to your app

@@ -7,6 +7,7 @@ from questionary.form import form
 from questionary.prompt import prompt, unsafe_prompt
 from questionary.prompts.common import Choice
 from questionary.prompts.common import Separator
+from questionary.prompts.common import print_formatted_text as print
 from questionary.question import Question
 
 # import the shortcuts to create single question prompts
@@ -27,6 +28,7 @@ __all__ = [
     "Form",
     "form",
     "prompt",
+    "unsafe_prompt",
     "Choice",
     "Separator",
     "Question",
@@ -36,6 +38,7 @@ __all__ = [
     "text",
     "confirm",
     "password",
+    "print",
     "rawselect",
     "__version__",
 ]
