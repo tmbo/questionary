@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from typing import Any, Dict, List, Optional, Text, Union
+from typing import Any, Dict, List, Optional, Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style, merge_styles
 
+from questionary import utils
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
@@ -14,15 +15,15 @@ from questionary.question import Question
 
 
 def select(
-    message: Text,
-    choices: List[Union[Text, Choice, Dict[Text, Any]]],
-    default: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: List[Union[str, Choice, Dict[str, Any]]],
+    default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
     use_indicator: bool = False,
     use_pointer: bool = True,
-    instruction: Text = None,
+    instruction: str = None,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to select one item from the list of choices.
@@ -166,5 +167,6 @@ def select(
         pass
 
     return Question(
-        Application(layout=layout, key_bindings=bindings, style=merged_style, **kwargs)
+        Application(layout=layout, key_bindings=bindings, style=merged_style,
+                    **utils.used_kwargs(kwargs, Application.__init__))
     )

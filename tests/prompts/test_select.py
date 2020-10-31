@@ -2,7 +2,7 @@
 import pytest
 
 from questionary import Separator, Choice
-from tests.utils import feed_cli_with_input, KeyInputs
+from tests.utils import feed_cli_with_input, KeyInputs, patched_prompt
 
 
 def test_legacy_name():
@@ -172,3 +172,21 @@ def test_select_initial_choice_non_existant():
 
     with pytest.raises(ValueError):
         feed_cli_with_input("select", message, text, **kwargs)
+
+
+def test_no_invalid_parameters_are_forwarded():
+    # the `validate_while_typing` parameter is an additional parameter that
+    # gets forwarded to the `PromptSession`. this checks that the parameter
+    # isn't forwarded to a method that does not expect it
+    patched_prompt(
+        [
+            {
+                "type": "select",
+                "name": "theme",
+                "message": "What do you want to do?",
+                "choices": [
+                    "Order a pizza",
+                    "Make a reservation",
+                ],
+            }
+        ], text=KeyInputs.ENTER + "\r", validate_while_typing=False)
