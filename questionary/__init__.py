@@ -4,7 +4,7 @@ from prompt_toolkit.validation import Validator, ValidationError
 import questionary.version
 from questionary.form import Form
 from questionary.form import form
-from questionary.prompt import prompt
+from questionary.prompt import prompt, unsafe_prompt
 from questionary.prompts.common import Choice
 from questionary.prompts.common import Separator
 from questionary.question import Question

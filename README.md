@@ -374,6 +374,12 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
+<details><summary>1.8.0 (unreleased / master)</summary>
+
+* Added API method to call prompt in an unsafe way
+
+</details>
+
 <details><summary>1.7.0 (15.10.2020)</summary>
 
 * Added support for python 3.9
