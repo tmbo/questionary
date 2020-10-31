@@ -429,6 +429,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
     # this forces the main window to stay as small as possible, avoiding
     # empty lines in selections
     default_buffer_window.dont_extend_height = Always()
+    default_buffer_window.always_hide_cursor = Always()
 
 
 def create_inquirer_layout(
