@@ -1,7 +1,5 @@
-# -*- coding: utf-8 -*-
-
 from prompt_toolkit.output import ColorDepth
-from typing import Any, Dict, Optional, List
+from typing import Any, Dict, Optional, Iterable, Mapping
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
@@ -9,16 +7,14 @@ from questionary.prompts import AVAILABLE_PROMPTS, prompt_by_name
 
 
 class PromptParameterException(ValueError):
-    def __init__(self, message: str, errors: Any = None) -> None:
+    def __init__(self, message: str, errors: Optional[BaseException] = None) -> None:
         # Call the base class constructor with the parameters it needs
-        super(PromptParameterException, self).__init__(
-            "You must provide a `%s` value" % message, errors
-        )
+        super().__init__("You must provide a `%s` value" % message, errors)
 
 
 def prompt(
-    questions: List[Dict[str, Any]],
-    answers: Optional[Dict[str, Any]] = None,
+    questions: Iterable[Mapping[str, Any]],
+    answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
     kbi_msg: str = DEFAULT_KBI_MESSAGE,
@@ -38,8 +34,8 @@ def prompt(
 
 
 def unsafe_prompt(
-    questions: List[Dict[str, Any]],
-    answers: Optional[Dict[str, Any]] = None,
+    questions: Iterable[Mapping[str, Any]],
+    answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
     **kwargs: Any,
@@ -55,9 +51,10 @@ def unsafe_prompt(
     if isinstance(questions, dict):
         questions = [questions]
 
-    answers = answers or {}
+    answers = dict(answers or {})
 
     for question_config in questions:
+        question_config = dict(question_config)
         # import the question
         if "type" not in question_config:
             raise PromptParameterException("type")

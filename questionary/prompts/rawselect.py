@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from typing import Text, List, Optional, Any, Union, Dict
+from typing import Sequence, Optional, Any, Union, Dict
 
 from prompt_toolkit.styles import Style
 
@@ -10,10 +9,10 @@ from questionary.question import Question
 
 
 def rawselect(
-    message: Text,
-    choices: List[Union[Text, Choice, Dict[Text, Any]]],
-    default: Optional[Text] = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: Sequence[Union[str, Choice, Dict[str, Any]]],
+    default: Optional[str] = None,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     **kwargs: Any,
 ) -> Question:

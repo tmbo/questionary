@@ -1,12 +1,15 @@
-from collections import namedtuple
+from typing import Any, Dict, NamedTuple, Sequence
 
 from questionary.constants import DEFAULT_KBI_MESSAGE
 from questionary.question import Question
 
-FormField = namedtuple("FormField", ["key", "question"])
+
+class FormField(NamedTuple):
+    key: str
+    question: Question
 
 
-def form(**kwargs: Question):
+def form(**kwargs: Question) -> "Form":
     """Create a form with multiple questions.
 
     The parameter name of a question will be the key for the answer in
@@ -19,22 +22,23 @@ class Form:
 
     All the answers are returned as a dict with one entry per question."""
 
-    def __init__(self, *form_fields: FormField):
+    form_fields: Sequence[FormField]
+
+    def __init__(self, *form_fields: FormField) -> None:
         self.form_fields = form_fields
 
-    def unsafe_ask(self, patch_stdout=False):
-        answers = {}
-        for f in self.form_fields:
-            answers[f.key] = f.question.unsafe_ask(patch_stdout)
-        return answers
+    def unsafe_ask(self, patch_stdout: bool = False) -> Dict[str, Any]:
+        return {f.key: f.question.unsafe_ask(patch_stdout) for f in self.form_fields}
 
-    async def unsafe_ask_async(self, patch_stdout=False):
-        answers = {}
-        for f in self.form_fields:
-            answers[f.key] = await f.question.unsafe_ask_async(patch_stdout)
-        return answers
+    async def unsafe_ask_async(self, patch_stdout: bool = False) -> Dict[str, Any]:
+        return {
+            f.key: await f.question.unsafe_ask_async(patch_stdout)
+            for f in self.form_fields
+        }
 
-    def ask(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):
+    def ask(
+        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+    ) -> Dict[str, Any]:
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
@@ -43,7 +47,9 @@ class Form:
             print("")
             return {}
 
-    async def ask_async(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):
+    async def ask_async(
+        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+    ) -> Dict[str, Any]:
         try:
             return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:

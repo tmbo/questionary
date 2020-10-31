@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from typing import Any, Dict, List, Optional, Text, Union
+from typing import Any, Dict, Optional, Sequence, Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
@@ -15,13 +13,13 @@ from questionary.question import Question
 
 
 def checkbox(
-    message: Text,
-    choices: List[Union[Text, Choice, Dict[Text, Any]]],
-    default: Optional[Text] = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: Sequence[Union[str, Choice, Dict[str, Any]]],
+    default: Optional[str] = None,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_pointer: bool = True,
-    initial_choice: Optional[Union[Text, Choice, Dict[Text, Any]]] = None,
+    initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.

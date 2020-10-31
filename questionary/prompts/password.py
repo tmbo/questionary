@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-from typing import Any, Optional, Text
+from typing import Any, Optional
 
 from prompt_toolkit.styles import Style
 
@@ -9,10 +8,10 @@ from questionary.question import Question
 
 
 def password(
-    message: Text,
-    default: Text = "",
+    message: str,
+    default: str = "",
     validate: Any = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     **kwargs: Any,
 ) -> Question:

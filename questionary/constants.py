@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from prompt_toolkit.styles import Style
 
 # Value to display as an answer when "affirming" a confirmation question
