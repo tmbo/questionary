@@ -15,6 +15,7 @@ from questionary.prompts.autocomplete import autocomplete
 from questionary.prompts.select import select
 from questionary.prompts.checkbox import checkbox
 from questionary.prompts.text import text
+from questionary.prompts.path import path
 from questionary.prompts.confirm import confirm
 from questionary.prompts.password import password
 from questionary.prompts.rawselect import rawselect
@@ -39,6 +40,7 @@ __all__ = [
     "confirm",
     "password",
     "print",
+    "path",
     "rawselect",
     "__version__",
 ]

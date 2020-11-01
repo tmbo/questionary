@@ -84,8 +84,7 @@ def unsafe_prompt(
                         continue
                 except Exception as e:
                     raise ValueError(
-                        "Problem in 'when' check of {} "
-                        "question: {}".format(name, e)
+                        "Problem in 'when' check of {} " "question: {}".format(name, e)
                     )
             else:
                 raise ValueError(

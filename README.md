@@ -92,6 +92,17 @@ make install
    ![example-gif](docs/images/password.gif)
 
 </details>
+<details><summary>path</summary>
+
+   A text input for a file or directory path with autocompletion enabled.
+
+   ```python
+   questionary.path("Path to the projects version file").ask()
+   ```
+
+   ![example-gif](docs/images/path.gif)
+
+</details>
 <details><summary>confirm</summary>
 
    A yes or no question. The user can either confirm or deny.
@@ -390,7 +401,10 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 <details><summary>1.8.0 (unreleased / master)</summary>
 
+* Added additional question type `questionary.path`
+* Added a helper to print formatted text `questionary.print`
 * Added API method to call prompt in an unsafe way
+* Hide cursor on select only showing the item marker
 
 </details>
 
