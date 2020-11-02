@@ -145,6 +145,7 @@ def select(
             _reg_binding(i, c.shortcut_key)
 
     if use_arrow_keys or use_shortcuts is False:
+
         @bindings.add(Keys.Down, eager=True)
         @bindings.add("j", eager=True)
         def move_cursor_down(event):
