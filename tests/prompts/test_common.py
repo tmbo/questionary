@@ -146,21 +146,18 @@ def test_print_with_style(monkeypatch):
         "Hello World", style="bold italic fg:darkred", output=DummyOutput()
     )
 
-    mock.assert_has_calls(
-        [
-            call.set_attributes(
-                Attrs(
-                    color="8b0000",
-                    bgcolor="",
-                    bold=True,
-                    underline=False,
-                    italic=True,
-                    blink=False,
-                    reverse=False,
-                    hidden=False,
-                ),
-                ColorDepth.DEPTH_8_BIT,
-            ),
-            call.write("Hello World"),
-        ]
+    assert len(mock.method_calls) == 4
+    assert mock.method_calls[0][0] == "set_attributes"
+    assert mock.method_calls[0][1][0] == Attrs(
+        color="8b0000",
+        bgcolor="",
+        bold=True,
+        underline=False,
+        italic=True,
+        blink=False,
+        reverse=False,
+        hidden=False,
     )
+
+    assert mock.method_calls[1][0] == "write"
+    assert mock.method_calls[1][1][0] == "Hello World"
