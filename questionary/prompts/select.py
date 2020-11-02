@@ -45,7 +45,7 @@ def select(
 
         instruction: A hint on how to navigate the menu.
                      It's `(Use shortcuts)` if only `use_shortcuts` is set
-                     to True, `(Use arrow keys or shortcuts)` `use_arrow_keys`
+                     to True, `(Use arrow keys or shortcuts)` if `use_arrow_keys`
                      & `use_shortcuts` are set and `(Use arrow keys)` by default.
 
         style: A custom color and style for the question parts. You can
