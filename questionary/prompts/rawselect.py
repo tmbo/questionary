@@ -40,5 +40,5 @@ def rawselect(
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
     return select.select(
-        message, choices, default, qmark, style, use_shortcuts=True, **kwargs
+        message, choices, default, qmark, style, use_shortcuts=True, use_arrow_keys=False, **kwargs
     )
