@@ -1,6 +1,7 @@
 import os
 from typing import (
     Any,
+    Callable,
     Iterable,
     List,
     Optional,
@@ -59,6 +60,7 @@ def path(
     validate: Any = None,
     style: Optional[Style] = None,
     only_directories: bool = False,
+    file_filter: Optional[Callable[[str], bool]] = None,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     **kwargs: Any,
 ) -> Question:
@@ -87,6 +89,14 @@ def path(
                configure colors as well as font types for different elements.
 
         only_directories: Only show directories in auto completion
+
+        file_filter: Optional callable to filter suggested paths. Only paths
+                     where the passed callable evaluates to `True` will show up in
+                     the suggested paths. This does not validate the typed path, e.g.
+                     it is still possible for the user to enter a path manually, even
+                     though this filter evaluates to `False`. If in addition to
+                     filtering suggestions you also want to validate the result, use
+                     `validate` in combination with the `file_filter`.
 
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
@@ -118,7 +128,9 @@ def path(
         get_prompt_tokens,
         lexer=SimpleLexer("class:answer"),
         style=merged_style,
-        completer=GreatUXPathCompleter(only_directories=only_directories),
+        completer=GreatUXPathCompleter(
+            only_directories=only_directories, file_filter=file_filter
+        ),
         validator=validator,
         complete_style=complete_style,
         key_bindings=bindings,
