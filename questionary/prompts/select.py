@@ -18,6 +18,7 @@ def select(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
+    use_arrow_keys: bool = True,
     use_indicator: bool = False,
     use_pointer: bool = True,
     instruction: Optional[str] = None,
@@ -43,8 +44,9 @@ def select(
                By default this is a `?`
 
         instruction: A hint on how to navigate the menu.
-                     It's `(Use arrow keys)` if `use_shortcuts` is not set
-                     to True and`(Use shortcuts)` otherwise by default
+                     It's `(Use shortcuts)` if only `use_shortcuts` is set
+                     to True, `(Use arrow keys or shortcuts)` if `use_arrow_keys`
+                     & `use_shortcuts` are set and `(Use arrow keys)` by default.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -56,6 +58,8 @@ def select(
         use_shortcuts: Allow the user to select items from the list using
                        shortcuts. The shortcuts will be displayed in front of
                        the list items.
+
+        use_arrow_keys: Allow usage of arrow keys to select item.
 
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
@@ -82,6 +86,7 @@ def select(
         default,
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
+        use_arrow_keys=use_arrow_keys,
         use_pointer=use_pointer,
         initial_choice=default,
     )
@@ -104,12 +109,13 @@ def select(
             if instruction:
                 tokens.append(("class:instruction", instruction))
             else:
-                tokens.append(
-                    (
-                        "class:instruction",
-                        " (Use shortcuts)" if use_shortcuts else " (Use arrow keys)",
-                    )
-                )
+                if use_shortcuts and use_arrow_keys:
+                    instruction_msg = " (Use shortcuts or arrow keys)"
+                elif use_shortcuts and not use_arrow_keys:
+                    instruction_msg = " (Use shortcuts)"
+                else:
+                    instruction_msg = " (Use arrow keys)"
+                tokens.append(("class:instruction", instruction_msg))
 
         return tokens
 
@@ -137,7 +143,8 @@ def select(
                     ic.pointed_at = i
 
             _reg_binding(i, c.shortcut_key)
-    else:
+
+    if use_arrow_keys or use_shortcuts is False:
 
         @bindings.add(Keys.Down, eager=True)
         @bindings.add("j", eager=True)
