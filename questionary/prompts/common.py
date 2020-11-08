@@ -8,10 +8,12 @@ from prompt_toolkit.layout import (
     ConditionalContainer,
     Window,
 )
+from prompt_toolkit.styles import Style, merge_styles
 from prompt_toolkit.validation import Validator, ValidationError
 from typing import Optional, Any, List, Dict, Union, Callable, Sequence, Tuple
 
 from questionary.constants import (
+    DEFAULT_STYLE,
     SELECTED_POINTER,
     INDICATOR_SELECTED,
     INDICATOR_UNSELECTED,
@@ -433,6 +435,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
     # this forces the main window to stay as small as possible, avoiding
     # empty lines in selections
     default_buffer_window.dont_extend_height = Always()
+    default_buffer_window.always_hide_cursor = Always()
 
 
 def create_inquirer_layout(
@@ -459,3 +462,24 @@ def create_inquirer_layout(
             ]
         )
     )
+
+
+def print_formatted_text(text: str, style: Optional[str] = None, **kwargs: Any) -> None:
+    """Print formatted text.
+
+    Args:
+        text: text to be printed
+        style: style used for printing. uses as prompt toolkit style string, details at
+            https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/styling.html#style-strings
+
+    Example:
+        print_formatted_text("Hello World!", style="bold italic fg:darkred")"""
+    from prompt_toolkit import print_formatted_text as pt_print
+    from prompt_toolkit.formatted_text import FormattedText as FText
+
+    if style is not None:
+        text_style = Style([("text", style)])
+    else:
+        text_style = DEFAULT_STYLE
+
+    pt_print(FText([("class:text", text)]), style=text_style, **kwargs)

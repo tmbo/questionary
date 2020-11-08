@@ -6,6 +6,7 @@ from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style, merge_styles
 from prompt_toolkit.formatted_text import FormattedText
 
+from questionary import utils
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
@@ -232,5 +233,10 @@ def checkbox(
         pass
 
     return Question(
-        Application(layout=layout, key_bindings=bindings, style=merged_style, **kwargs)
+        Application(
+            layout=layout,
+            key_bindings=bindings,
+            style=merged_style,
+            **utils.used_kwargs(kwargs, Application.__init__),
+        )
     )

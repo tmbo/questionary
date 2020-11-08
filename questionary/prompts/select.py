@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from typing import Any, Dict, Sequence, Optional, Union
 
 from prompt_toolkit.application import Application
@@ -5,6 +7,7 @@ from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style, merge_styles
 
+from questionary import utils
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
@@ -171,5 +174,10 @@ def select(
         pass
 
     return Question(
-        Application(layout=layout, key_bindings=bindings, style=merged_style, **kwargs)
+        Application(
+            layout=layout,
+            key_bindings=bindings,
+            style=merged_style,
+            **utils.used_kwargs(kwargs, Application.__init__),
+        )
     )

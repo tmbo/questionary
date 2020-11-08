@@ -5,6 +5,7 @@ from questionary.prompts import select
 from questionary.prompts import rawselect
 from questionary.prompts import password
 from questionary.prompts import checkbox
+from questionary.prompts import path
 
 AVAILABLE_PROMPTS = {
     "autocomplete": autocomplete.autocomplete,
@@ -14,6 +15,7 @@ AVAILABLE_PROMPTS = {
     "rawselect": rawselect.rawselect,
     "password": password.password,
     "checkbox": checkbox.checkbox,
+    "path": path.path,
     # backwards compatible names
     "list": select.select,
     "rawlist": rawselect.rawselect,
