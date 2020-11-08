@@ -399,9 +399,10 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
-<details><summary>1.8.0 (unreleased / master)</summary>
+<details><summary>1.8.0 (08.11.2020)</summary>
 
 * Added additional question type `questionary.path`
+* Added possibility to validate select and checkboxes selections before submitting them
 * Added a helper to print formatted text `questionary.print`
 * Added API method to call prompt in an unsafe way
 * Hide cursor on select only showing the item marker
