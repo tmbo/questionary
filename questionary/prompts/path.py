@@ -11,6 +11,9 @@ from typing import (
 from prompt_toolkit.completion import CompleteEvent, Completion, PathCompleter
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.key_binding.bindings.completion import (
+    display_completions_like_readline,
+)
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.lexers import SimpleLexer
@@ -124,12 +127,25 @@ def path(
             event.app.exit(result=result_path)
             event.app.current_buffer.append_to_history()
 
+    @bindings.add(os.path.sep, eager=True)
+    def next_segment(event: KeyPressEvent):
+        b = event.app.current_buffer
+
+        if b.complete_state:
+            b.complete_state = None
+
+        current_path = b.document.text
+        if not current_path.endswith(os.path.sep):
+            b.insert_text(os.path.sep)
+
+        b.start_completion(select_first=False)
+
     p = PromptSession(
         get_prompt_tokens,
         lexer=SimpleLexer("class:answer"),
         style=merged_style,
         completer=GreatUXPathCompleter(
-            only_directories=only_directories, file_filter=file_filter
+            only_directories=only_directories, file_filter=file_filter, expanduser=True
         ),
         validator=validator,
         complete_style=complete_style,
