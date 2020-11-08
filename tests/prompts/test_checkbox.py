@@ -210,3 +210,33 @@ def test_checkbox_initial_choice_non_existant():
 
     with pytest.raises(ValueError):
         feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_validate_default_message():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"], "validate": lambda a: len(a) != 0}
+    text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo", "bar", "bazz"]
+
+
+def test_validate_with_message():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bar", "bazz"],
+        "validate": lambda a: (len(a) != 0, "Error Message"),
+    }
+    text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo", "bar", "bazz"]
+
+
+def test_validate_not_callable():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"], "validate": "invalid"}
+    text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("checkbox", message, text, **kwargs)
