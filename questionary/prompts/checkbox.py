@@ -94,15 +94,11 @@ def checkbox(
                 tokens.append(("class:answer", " done"))
             elif nbr_selected == 1:
                 if isinstance(ic.get_selected_values()[0].title, list):
+                    ts = ic.get_selected_values()[0].title
                     tokens.append(
                         (
                             "class:answer",
-                            "".join(
-                                [
-                                    token[1]
-                                    for token in ic.get_selected_values()[0].title
-                                ]
-                            ),
+                            "".join([token[1] for token in ts]),  # type:ignore
                         )
                     )
                 else:
@@ -129,7 +125,7 @@ def checkbox(
         return tokens
 
     def get_selected_values() -> List[str]:
-        return [c.value for c in ic.get_selected_values()]
+        return [str(c.value) if c.value else "" for c in ic.get_selected_values()]
 
     def perform_validation(selected_values: List[str]) -> bool:
 
