@@ -158,6 +158,7 @@ class InquirerControl(FormattedTextControl):
     selected_options: List[Any]
     use_indicator: bool
     use_shortcuts: bool
+    use_arrow_keys: bool
     use_pointer: bool
     pointed_at: int
     is_answered: bool
@@ -168,6 +169,7 @@ class InquirerControl(FormattedTextControl):
         default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
+        use_arrow_keys: bool = True,
         use_pointer: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs: Any,
@@ -175,6 +177,7 @@ class InquirerControl(FormattedTextControl):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
+        self.use_arrow_keys = use_arrow_keys
         self.use_pointer = use_pointer
         self.default = default
 

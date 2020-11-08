@@ -193,3 +193,56 @@ def test_no_invalid_parameters_are_forwarded():
         text=KeyInputs.ENTER + "\r",
         validate_while_typing=False,
     )
+
+
+def test_select_arrow_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "use_arrow_keys": True}
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_shortcuts():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "use_shortcuts": True}
+    text = "2" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_no_arrow_keys():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bazz"],
+        "use_arrow_keys": False,
+        "use_shortcuts": True,
+    }
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "foo"
+
+
+def test_select_no_shortcuts():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bazz"],
+        "use_arrow_keys": True,
+        "use_shortcuts": False,
+    }
+    text = "2" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "foo"
+
+
+def test_select_default_has_arrow_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"]}
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
