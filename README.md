@@ -399,6 +399,12 @@ as well as the work from [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## Changelog
 
+<details><summary>1.8.1 (17.11.2020)</summary>
+
+* Fixed regression for checkboxes where all values are returned as strings  (fixes [#88](https://github.com/tmbo/questionary/issues/88)) 
+
+</details>
+
 <details><summary>1.8.0 (08.11.2020)</summary>
 
 * Added additional question type `questionary.path`

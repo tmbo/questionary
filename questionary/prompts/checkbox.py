@@ -124,8 +124,8 @@ def checkbox(
             )
         return tokens
 
-    def get_selected_values() -> List[str]:
-        return [str(c.value) if c.value else "" for c in ic.get_selected_values()]
+    def get_selected_values() -> List[Any]:
+        return [c.value for c in ic.get_selected_values()]
 
     def perform_validation(selected_values: List[str]) -> bool:
 
