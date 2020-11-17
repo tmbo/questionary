@@ -248,10 +248,19 @@ def test_proper_type_returned():
         "choices": [
             Choice("one", value=1),
             Choice("two", value="foo"),
-            Choice("three", value=[3, "bar"])
+            Choice("three", value=[3, "bar"]),
         ]
     }
-    text = KeyInputs.SPACE + KeyInputs.DOWN + KeyInputs.SPACE + KeyInputs.DOWN + KeyInputs.SPACE + KeyInputs.DOWN + KeyInputs.ENTER + "\r"
+    text = (
+        KeyInputs.SPACE
+        + KeyInputs.DOWN
+        + KeyInputs.SPACE
+        + KeyInputs.DOWN
+        + KeyInputs.SPACE
+        + KeyInputs.DOWN
+        + KeyInputs.ENTER
+        + "\r"
+    )
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == [1, "foo", [3, "bar"]]
