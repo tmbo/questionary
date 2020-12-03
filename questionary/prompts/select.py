@@ -107,17 +107,17 @@ def select(
                     )
                 )
             else:
-                tokens.append(("class:answer", " " + ic.get_pointed_at().title))
+                tokens.append(("class:answer", ic.get_pointed_at().title))
         else:
             if instruction:
                 tokens.append(("class:instruction", instruction))
             else:
                 if use_shortcuts and use_arrow_keys:
-                    instruction_msg = " (Use shortcuts or arrow keys)"
+                    instruction_msg = "(Use shortcuts or arrow keys)"
                 elif use_shortcuts and not use_arrow_keys:
-                    instruction_msg = " (Use shortcuts)"
+                    instruction_msg = "(Use shortcuts)"
                 else:
-                    instruction_msg = " (Use arrow keys)"
+                    instruction_msg = "(Use arrow keys)"
                 tokens.append(("class:instruction", instruction_msg))
 
         return tokens
