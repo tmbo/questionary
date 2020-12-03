@@ -91,7 +91,7 @@ def checkbox(
         if ic.is_answered:
             nbr_selected = len(ic.selected_options)
             if nbr_selected == 0:
-                tokens.append(("class:answer", " done"))
+                tokens.append(("class:answer", "done"))
             elif nbr_selected == 1:
                 if isinstance(ic.get_selected_values()[0].title, list):
                     ts = ic.get_selected_values()[0].title
@@ -110,13 +110,13 @@ def checkbox(
                     )
             else:
                 tokens.append(
-                    ("class:answer", " done ({} selections)".format(nbr_selected))
+                    ("class:answer", "done ({} selections)".format(nbr_selected))
                 )
         else:
             tokens.append(
                 (
                     "class:instruction",
-                    " (Use arrow keys to move, "
+                    "(Use arrow keys to move, "
                     "<space> to select, "
                     "<a> to toggle, "
                     "<i> to invert)",
