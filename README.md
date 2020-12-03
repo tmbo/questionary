@@ -7,7 +7,7 @@
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/questionary.svg)](https://pypi.python.org/pypi/questionary)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_shield)
 
-✨An easy to use python library to build pretty command line user prompts ✨
+✨ An easy to use python library to build pretty command line user prompts ✨
 
 ![example-gif](docs/images/example.gif)
 
@@ -15,9 +15,9 @@ You need input from a user, e.g. how an output file should be named or if he rea
 wants to execute that dangerous operation? This library will help you make the 
 input prompts easy to read and answer for the user.
 
-Used and Supported by:
+Used and Supported by
 
-[<img src="https://rasa.com/static/686aee8071dd209f198d500b1164e350/4828e/rasa.png" width="100">](https://github.com/RasaHQ/rasa)
+[<img src="docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
 ## Quickstart
 
