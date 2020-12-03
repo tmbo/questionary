@@ -105,7 +105,7 @@ def checkbox(
                     tokens.append(
                         (
                             "class:answer",
-                            " [{}]".format(ic.get_selected_values()[0].title),
+                            "[{}]".format(ic.get_selected_values()[0].title),
                         )
                     )
             else:
