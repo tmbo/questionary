@@ -56,10 +56,10 @@ def confirm(
         tokens.append(("class:question", " {} ".format(message)))
 
         if status["answer"] is not None:
-            answer = " {}".format(YES if status["answer"] else NO)
+            answer = YES if status["answer"] else NO
             tokens.append(("class:answer", answer))
         else:
-            instruction = " {}".format(YES_OR_NO if default else NO_OR_YES)
+            instruction = YES_OR_NO if default else NO_OR_YES
             tokens.append(("class:instruction", instruction))
 
         return to_formatted_text(tokens)
