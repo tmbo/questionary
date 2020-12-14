@@ -10,21 +10,6 @@
 
 ✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
 
-Do you need to get command line input from a user? You need to check that they _really_
-want to execute that dangerous operation, let them select some options from a predefined
-list or ask the user for an output file path? This library gives you the tools to effortlessly
-write command line input prompts, enjoyable for both the developer and user.
-
- * Text
- * Autocomlete
- * Checkbox
- * Confirmation
- * Password
- * File path
- * Arrow key select
- * Raw select
- * Simple print
-
 ![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
 
 ```python3
@@ -50,6 +35,22 @@ questionary.checkbox(
 
 questionary.path("Path to the projects version file").ask()
 ```
+
+Do you need to get command line input from a user? You need to check that they _really_
+want to execute that dangerous operation, let them select some options from a predefined
+list or ask the user for an output file path? This library gives you the tools to effortlessly
+write command line input prompts, enjoyable for both the developer and user.
+
+ * Text
+ * Autocomlete
+ * Checkbox
+ * Confirmation
+ * Password
+ * File path
+ * Arrow key select
+ * Raw select
+ * Simple print
+
 
 Used and supported by
 
