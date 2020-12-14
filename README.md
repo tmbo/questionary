@@ -1,14 +1,31 @@
-# questionary
+# Questionary
 
-[![version](https://img.shields.io/pypi/v/questionary.svg)](https://pypi.org/project/questionary/)
-[![license](https://img.shields.io/pypi/l/questionary.svg)](https://pypi.org/project/questionary/)
+[![Version](https://img.shields.io/pypi/v/questionary.svg)](https://pypi.org/project/questionary/)
+[![License](https://img.shields.io/pypi/l/questionary.svg)](https://pypi.org/project/questionary/)
 ![Continuous Integration](https://github.com/tmbo/questionary/workflows/Continuous%20Integration/badge.svg)
 [![Coverage Status](https://coveralls.io/repos/github/tmbo/questionary/badge.svg?branch=master)](https://coveralls.io/github/tmbo/questionary?branch=master)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/questionary.svg)](https://pypi.python.org/pypi/questionary)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_shield)
 [![Documentation Status](https://readthedocs.org/projects/questionary/badge/?version=latest)](https://questionary.readthedocs.io/en/latest/?badge=latest)
 
-✨ An effortless Python library to build pretty command line interfaces ✨
+✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
+
+Do you need to get command line input from a user? You need to check that they _really_
+want to execute that dangerous operation, let them select some options from a predefined
+list or ask the user for an output file path? This library gives you the tools to effortlessly
+write command line input prompts, enjoyable for both the developer and user.
+
+ * Text
+ * Autocomlete
+ * Checkbox
+ * Confirmation
+ * Password
+ * File path
+ * Arrow key select
+ * Raw select
+ * Simple print
+
+![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
 
 ```python3
 import questionary
@@ -34,22 +51,13 @@ questionary.checkbox(
 questionary.path("Path to the projects version file").ask()
 ```
 
-![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
-
 Used and supported by
 
 [<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
-## Features 
-Do you need to get command line input from a user? You need to check that they _really_
-want to execute that dangerous operation, or select some options from a predefined list
-or ask the user for an output file path? This library gives you the tools to write
-effortless command line input prompts, enjoyable for you, the developer, and the
-user.
-
 ## Installation
 
-`questionary` can be installed using `pip`:
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Questionary:
 
 ```bash
 $ pip install questionary
@@ -70,33 +78,45 @@ questionary.select(
     ]).ask()  # returns value of selection
 ```
 
-That's all it takes to create a user prompt! There are different types of prompts, 
-you'll find examples for all of them further down.
+That's all it takes to create a prompt! Have a [look at the documentation](https://questionary.readthedocs.io/)
+for some more examples.
+
+## Documentation
+
+Documentation for Questionary is available [here](https://questionary.readthedocs.io/).
 
 ## Support
 
+Please make sure you have read the [documentation](https://questionary.readthedocs.io/).
+If you continue to face issues, please [open an issue](https://github.com/tmbo/questionary/issues/new)
+with enough information for us to reproduce your problem.
+
 ## Contributing
 
-Contributions are highly welcomed and appreciated. Every little help counts, 
-so do not hesitate!
+Contributions are very much welcomed and appreciated. Every little bit of help
+counts, so do not hesitate!
 
-1.  Check for open issues or open a fresh issue to start a discussion
-    around a feature idea or a bug. There is a [Contributor
-    Friendly](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=updated&state=open)
-    tag for issues that should be ideal for people who are not very
-    familiar with the codebase yet.
-2.  Fork [the repository](https://github.com/tmbo/questionary) on
-    GitHub to start making your changes to the **master** branch (or
-    branch off of it).
-3.  Write a test which shows that the bug was fixed or that the feature
-    works as expected.
-4.  Ensure your code passes running `black questionary`.
-5.  Send a pull request and bug the maintainer until it gets merged and
-    published. 🙂
+1. Check for open issues, or open a new issue to start some discussion around a
+   feature idea or bug. There is a [Contributor Friendly](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd)
+   tag for issues that should be ideal for people who are not familiar with the codebase yet.
+
+2. Fork [the repository](https://github.com/tmbo/questionary) on GitHub to start
+   making your changes.
+
+3. Write some tests that show the bug is fixed or that the feature works as expected.
+
+4. Ensure your code passes the style checks by running `black questionary`.
+
+5. Check all of the unit tests pass by running `pytest --pycodestyle --cov questionary -v`.
+
+6. Check the type checks pass by running `mypy questionary`.
+
+7. Send a pull request and bug the maintainer until it gets merged and
+   published 🙂
 
 ## Authors and Acknowledgment
 
-questionary is written and maintained by Tom Bocklisch.
+Questionary is written and maintained by Tom Bocklisch.
 
 It is based on the great work by [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) 
 and [Mark Fink](https://github.com/finklabs/whaaaaat).
