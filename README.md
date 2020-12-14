@@ -10,6 +10,16 @@
 
 ✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
 
+* [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Documentation](#documentation)
+* [Support](#support)
+* [Contributing](#contributing)
+* [Authors and Acknowledgment](#authors-and-acknowledgment)
+* [License](#license)
+
+
 ![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
 
 ```python3
@@ -41,6 +51,8 @@ Used and supported by
 [<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
 ## Features
+
+Questionary supports the following input prompts:
  
  * Text
  * Autocomlete
