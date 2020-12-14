@@ -36,11 +36,12 @@ questionary.checkbox(
 questionary.path("Path to the projects version file").ask()
 ```
 
-Do you need to get command line input from a user? You need to check that they _really_
-want to execute that dangerous operation, let them select some options from a predefined
-list or ask the user for an output file path? This library gives you the tools to effortlessly
-write command line input prompts, enjoyable for both the developer and user.
+Used and supported by
 
+[<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
+
+## Features
+ 
  * Text
  * Autocomlete
  * Checkbox
@@ -50,11 +51,6 @@ write command line input prompts, enjoyable for both the developer and user.
  * Arrow key select
  * Raw select
  * Simple print
-
-
-Used and supported by
-
-[<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
 ## Installation
 
