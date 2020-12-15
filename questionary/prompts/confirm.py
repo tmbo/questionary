@@ -36,7 +36,7 @@ def confirm(
                  enter.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`.
+               By default this is a :code:`?`.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.

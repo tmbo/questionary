@@ -31,8 +31,9 @@ class GreatUXPathCompleter(PathCompleter):
     ) -> Iterable[Completion]:
         """Get completions.
 
-        Wraps `PathCompleter`. Makes sure completions for directories end with
-        a path separator. Also make sure the right path separator is used."""
+        Wraps :class:`prompt_toolkit.completion.PathCompleter`. Makes sure completions
+        for directories end with a path separator. Also make sure the right path
+        separator is used."""
         completions = super(GreatUXPathCompleter, self).get_completions(
             document, complete_event
         )
@@ -75,10 +76,10 @@ def path(
         default: Default return value (single value).
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`.
+               By default this is a :code:`?`.
 
-        complete_style: How autocomplete menu would be shown, it could be `COLUMN`
-                        `MULTI_COLUMN` or `READLINE_LIKE` from
+        complete_style: How autocomplete menu would be shown, it could be :code:`COLUMN`
+                        :code:`MULTI_COLUMN` or :code:`READLINE_LIKE` from
                         :class:`prompt_toolkit.shortcuts.CompleteStyle`.
 
         validate: Require the entered value to pass a validation. The
@@ -95,15 +96,15 @@ def path(
         only_directories: Only show directories in auto completion
 
         file_filter: Optional callable to filter suggested paths. Only paths
-                     where the passed callable evaluates to `True` will show up in
+                     where the passed callable evaluates to :code:`True` will show up in
                      the suggested paths. This does not validate the typed path, e.g.
                      it is still possible for the user to enter a path manually, even
-                     though this filter evaluates to `False`. If in addition to
+                     though this filter evaluates to :code:`False`. If in addition to
                      filtering suggestions you also want to validate the result, use
-                     `validate` in combination with the `file_filter`.
+                     :code:`validate` in combination with the :code:`file_filter`.
 
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
