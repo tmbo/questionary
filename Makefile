@@ -14,6 +14,8 @@ help:
 	@echo "        Check the code style."
 	@echo "    types"
 	@echo "        Check for type errors using pytype."
+	@echo "    docs"
+	@echo "        Build the documentation"
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -39,3 +41,8 @@ test:
 
 types:
 	poetry run mypy questionary
+
+docs:
+	make -C docs html
+
+.PHONY: clean, install, formatter, lint, test, types, docs
