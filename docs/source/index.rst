@@ -7,7 +7,7 @@ Questionary Documentation
   :alt: Version
 
 .. image:: https://img.shields.io/pypi/l/questionary.svg
-  :target: https://pypi.org/project/questionary/
+  :target: #
   :alt: License
 
 .. image:: https://github.com/tmbo/questionary/workflows/Continuous%20Integration/badge.svg
