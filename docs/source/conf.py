@@ -56,8 +56,7 @@ templates_path = []
 #
 # source_suffix = ['.rst', '.md']
 source_suffix = {
-        ".rst": "restructuredtext",
-        ".md": "markdown"
+        ".rst": "restructuredtext"
 }
 
 # The master toctree document.
@@ -164,7 +163,7 @@ texinfo_documents = [
         "Questionary Documentation",
         author,
         "Questionary",
-        "One line description of project.",
+        "Python library for effortlessly building pretty command line interfaces.",
         "Miscellaneous",
     ),
 ]
@@ -198,7 +197,4 @@ intersphinx_mapping = {
     "prompt_toolkit": ("https://python-prompt-toolkit.readthedocs.io/en/master/", None)
 }
 
-# -- Options for todo extension ----------------------------------------------
-
-# If true, `todo` and `todoList` produce output, else they produce nothing.
-todo_include_todos = True
+autosectionlabel_prefix_document = True

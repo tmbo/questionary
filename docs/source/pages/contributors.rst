@@ -51,7 +51,7 @@ Create a New Release
 1. Update the version number in :code:`questionary/version.py` and
    :code:`pyproject.toml`.
 
-2. Add a new section for the release to the :ref:`Release History`.
+2. Add a new section for the release to the :ref:`pages/release_history:release history`.
 3. Commit these changes.
 4. :code:`git tag` the commit with the release version number.
 

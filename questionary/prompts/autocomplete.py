@@ -123,8 +123,9 @@ def autocomplete(
         qmark: Question prefix displayed in front of the question.
                By default this is a :code:`?`
 
-        completer: A prompt_toolkit :class:`prompt_toolkit.completion` implementation.
-                   If not set, a questionary completer implementation will be used.
+        completer: A prompt_toolkit :class:`prompt_toolkit.completion.Completion`
+                   implementation. If not set, a questionary completer implementation
+                   will be used.
 
         meta_information: A dictionary with information/anything about choices.
 
