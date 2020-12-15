@@ -46,7 +46,7 @@ class GreatUXPathCompleter(PathCompleter):
             if styled_display[1][-1] == "/":
                 # replace separator with the OS specific one
                 display_text = styled_display[1][:-1] + os.path.sep
-                # update the styledd display with the modified text
+                # update the styled display with the modified text
                 completion.display[0] = (styled_display[0], display_text)
                 # append the separator to the text as well - unclear why the normal
                 # path completer omits it from the text. this improves UX for the
@@ -70,15 +70,16 @@ def path(
     """Prompt the user to enter a path with autocomplete help.
 
     Args:
-        message: Question text
+        message: Question text.
 
         default: Default return value (single value).
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`
+               By default this is a `?`.
 
-        complete_style: How autocomplete menu would be shown, it could be
-                        COLUMN, MULTI_COLUMN or READLINE_LIKE
+        complete_style: How autocomplete menu would be shown, it could be `COLUMN`
+                        `MULTI_COLUMN` or `READLINE_LIKE` from
+                        :class:`prompt_toolkit.shortcuts.CompleteStyle`.
 
         validate: Require the entered value to pass a validation. The
                   value can not be submitted until the validator accepts
@@ -102,7 +103,7 @@ def path(
                      `validate` in combination with the `file_filter`.
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])

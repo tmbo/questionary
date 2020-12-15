@@ -22,7 +22,47 @@ def prompt(
 ) -> Dict[str, Any]:
     """Prompt the user for input on all the questions.
 
-    Catches keyboard interrupts and prints a message."""
+    Catches keyboard interrupts and prints a message.
+
+    See :func:`unsafe_prompt` for possible question configurations.
+
+    Args:
+        questions: A list of question configs representing questions to
+                   ask. A question config may have the following options:
+
+                   * type - The type of question.
+                   * name - An ID for the question (to identify it in the answers :obj:`dict`).
+
+                   * when - Callable to conditionally show the question. This function
+                     takes a :obj:`dict` representing the current answers.
+
+                   * filter - Function that the answer is passed to. The return value of this
+                     function is saved as the answer.
+
+                   Additional options correspond to the parameter names for
+                   particular question types.
+
+        answers: Default answers.
+
+        patch_stdout: Ensure that the prompt renders correctly if other threads
+                      are printing to stdout.
+
+        kbi_msg: The message to be printed on a keyboard interrupt.
+        true_color: Use true color output.
+
+        color_depth: Color depth to use. If `true_color` is set to true then this
+                     value is ignored.
+
+        type: Default `type` value to use in question config.
+        filter: Default `filter` value to use in question config.
+        name: Default `name` value to use in question config.
+        when: Default `when` value to use in question config.
+        default: Default `default` value to use in question config.
+        **kwargs: Additional options passed to every question.
+
+    Returns:
+        Dictionary of question answers.
+    """
 
     try:
         return unsafe_prompt(questions, answers, patch_stdout, true_color, **kwargs)
@@ -43,6 +83,42 @@ def unsafe_prompt(
     """Prompt the user for input on all the questions.
 
     Won't catch keyboard interrupts.
+
+    Args:
+        questions: A list of question configs representing questions to
+                   ask. A question config may have the following options:
+
+                   * type - The type of question.
+                   * name - An ID for the question (to identify it in the answers :obj:`dict`).
+
+                   * when - Callable to conditionally show the question. This function
+                     takes a :obj:`dict` representing the current answers.
+
+                   * filter - Function that the answer is passed to. The return value of this
+                     function is saved as the answer.
+
+                   Additional options correspond to the parameter names for
+                   particular question types.
+
+        answers: Default answers.
+
+        patch_stdout: Ensure that the prompt renders correctly if other threads
+                      are printing to stdout.
+
+        true_color: Use true color output.
+
+        color_depth: Color depth to use. If `true_color` is set to true then this
+                     value is ignored.
+
+        type: Default `type` value to use in question config.
+        filter: Default `filter` value to use in question config.
+        name: Default `name` value to use in question config.
+        when: Default `when` value to use in question config.
+        default: Default `default` value to use in question config.
+        **kwargs: Additional options passed to every question.
+
+    Returns:
+        Dictionary of question answers.
 
     Raises:
         KeyboardInterrupt: raised on keyboard interrupt

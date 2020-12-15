@@ -22,13 +22,13 @@ def password(
     replaced with `*`.
 
     Args:
-        message: Question text
+        message: Question text.
 
         default: Default value will be returned if the user just hits
                  enter.
 
         validate: Require the entered value to pass a validation. The
-                  value can not be submited until the validator accepts
+                  value can not be submitted until the validator accepts
                   it (e.g. to check minimum password length).
 
                   This can either be a function accepting the input and
@@ -36,13 +36,13 @@ def password(
                   subclass of the prompt toolkit Validator class.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`
+               By default this is a `?`.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
 
     return text.text(

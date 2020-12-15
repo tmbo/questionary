@@ -30,13 +30,36 @@ FormattedText = Union[
 
 
 class Choice(object):
-    """One choice in a select, rawselect or checkbox."""
+    """One choice in a select, rawselect or checkbox.
+
+    Args:
+        title: Text shown in the selection list.
+
+        value: Value returned, when the choice is selected.
+
+        disabled: If set, the choice can not be selected by the user. The
+                  provided text is used to explain, why the selection is
+                  disabled.
+
+        checked: Preselect this choice when displaying the options.
+
+        shortcut_key: Key shortcut used to select this item.
+    """
 
     title: FormattedText
+    """Dispay string for the choice"""
+
     value: Optional[Any]
+    """Value of the choice"""
+
     disabled: Optional[str]
+    """Whether the choice can be selected"""
+
     checked: Optional[bool]
+    """Whether the choice is initially selected"""
+
     shortcut_key: Optional[str]
+    """A shortcut key for the choice"""
 
     def __init__(
         self,
@@ -46,21 +69,6 @@ class Choice(object):
         checked: Optional[bool] = False,
         shortcut_key: Optional[str] = None,
     ) -> None:
-        """Create a new choice.
-
-        Args:
-            title: Text shown in the selection list.
-
-            value: Value returned, when the choice is selected.
-
-            disabled: If set, the choice can not be selected by the user. The
-                      provided text is used to explain, why the selection is
-                      disabled.
-
-            checked: Preselect this choice when displaying the options.
-
-            shortcut_key: Key shortcut used to select this item.
-        """
 
         self.disabled = disabled
         self.title = title
@@ -80,7 +88,15 @@ class Choice(object):
 
     @staticmethod
     def build(c: Union[str, "Choice", Dict[str, Any]]) -> "Choice":
-        """Create a choice object from different representations."""
+        """Create a choice object from different representations.
+
+        Args:
+            c: Either a :obj:`str`, :class:`Choice` or :obj:`dict` with
+               `name`, `value`, `disabled`, `checked` and `key` properties.
+
+        Returns:
+            An instance of the :class:`Choice` object.
+        """
 
         if isinstance(c, Choice):
             return c
@@ -100,7 +116,10 @@ class Separator(Choice):
     """Used to space/separate choices group."""
 
     default_separator: str = "-" * 15
+    """The default seperator used if none is specified"""
+
     line: str
+    """The string being used as a seperator"""
 
     def __init__(self, line: Optional[str] = None) -> None:
         """Create a separator in a list.
@@ -468,11 +487,11 @@ def print_formatted_text(text: str, style: Optional[str] = None, **kwargs: Any) 
     """Print formatted text.
 
     Args:
-        text: text to be printed
-        style: style used for printing. uses as prompt toolkit style string, details at
-            https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/styling.html#style-strings
+        text: Text to be printed.
+        style: Style used for printing. Used as :ref:`prompt_toolkit style string <prompt_toolkit:styling>`.
 
-    Example:
+    Example::
+
         print_formatted_text("Hello World!", style="bold italic fg:darkred")"""
     from prompt_toolkit import print_formatted_text as pt_print
     from prompt_toolkit.formatted_text import FormattedText as FText

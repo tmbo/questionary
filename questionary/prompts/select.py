@@ -34,17 +34,16 @@ def select(
     Args:
         message: Question text
 
-        choices: Items shown in the selection, this can contain `Choice` or
-                 or `Separator` objects or simple items as strings. Passing
-                 `Choice` objects, allows you to configure the item more
-                 (e.g. preselecting it or disabeling it).
+        choices: Items shown in the selection, this can contain :class:`Choice` or
+                 or :class:`Separator` objects or simple items as strings. Passing
+                 :class:`Choice` objects, allows you to configure the item more
+                 (e.g. preselecting it or disabling it).
 
         default: A value corresponding to a selectable item in the choices,
                  to initially set the pointer position to.
 
-
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`
+               By default this is a `?`.
 
         instruction: A hint on how to navigate the menu.
                      It's `(Use shortcuts)` if only `use_shortcuts` is set
@@ -68,7 +67,7 @@ def select(
                      highlighted element.
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")

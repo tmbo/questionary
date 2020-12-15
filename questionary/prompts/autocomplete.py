@@ -133,8 +133,9 @@ def autocomplete(
         match_middle: If true autocomplete would search in every string position
                       not only in string begin.
 
-        complete_style: How autocomplete menu would be shown, it could be
-                        COLUMN, MULTI_COLUMN or READLINE_LIKE
+        complete_style: How autocomplete menu would be shown, it could be `COLUMN`
+                        `MULTI_COLUMN` or `READLINE_LIKE` from
+                        :class:`prompt_toolkit.shortcuts.CompleteStyle`.
 
         validate: Require the entered value to pass a validation. The
                   value can not be submitted until the validator accepts
@@ -148,7 +149,7 @@ def autocomplete(
                configure colors as well as font types for different elements.
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])

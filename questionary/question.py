@@ -26,7 +26,17 @@ class Question:
     async def ask_async(
         self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
     ) -> Any:
-        """Ask the question using asyncio and return user response."""
+        """Ask the question using asyncio and return user response.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+            kbi_msg: The message to be printed on a keyboard interrupt.
+
+        Returns:
+            `Any`: The answer from the question.
+        """
 
         if self.should_skip_question:
             return self.default
@@ -41,7 +51,17 @@ class Question:
     def ask(
         self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
     ) -> Any:
-        """Ask the question synchronously and return user response."""
+        """Ask the question synchronously and return user response.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+            kbi_msg: The message to be printed on a keyboard interrupt.
+
+        Returns:
+            `Any`: The answer from the question.
+        """
 
         if self.should_skip_question:
             return self.default
@@ -55,7 +75,15 @@ class Question:
     def unsafe_ask(self, patch_stdout: bool = False) -> Any:
         """Ask the question synchronously and return user response.
 
-        Does not catch keyboard interrupts."""
+        Does not catch keyboard interrupts.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+        Returns:
+            `Any`: The answer from the question.
+        """
 
         if patch_stdout:
             with prompt_toolkit.patch_stdout.patch_stdout():
@@ -64,7 +92,15 @@ class Question:
             return self.application.run()
 
     def skip_if(self, condition: bool, default: Any = None) -> "Question":
-        """Skip the question if flag is set and return the default instead."""
+        """Skip the question if flag is set and return the default instead.
+
+        Args:
+            condition: A conditional boolean value.
+            default: The default value to return.
+
+        Returns:
+            :class:`Question`: `self`.
+        """
 
         self.should_skip_question = condition
         self.default = default
@@ -73,7 +109,15 @@ class Question:
     async def unsafe_ask_async(self, patch_stdout: bool = False) -> Any:
         """Ask the question using asyncio and return user response.
 
-        Does not catch keyboard interrupts."""
+        Does not catch keyboard interrupts.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+        Returns:
+            `Any`: The answer from the question.
+        """
 
         if not utils.ACTIVATED_ASYNC_MODE:
             await utils.activate_prompt_toolkit_async_mode()
