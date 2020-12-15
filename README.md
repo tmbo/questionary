@@ -1,8 +1,8 @@
 # Questionary
 
 [![Version](https://img.shields.io/pypi/v/questionary.svg)](https://pypi.org/project/questionary/)
-![License](https://img.shields.io/pypi/l/questionary.svg)
-[![Continuous Integration](https://github.com/tmbo/questionary/workflows/Continuous%20Integration/badge.svg)]()
+[![License](https://img.shields.io/pypi/l/questionary.svg)](#)
+[![Continuous Integration](https://github.com/tmbo/questionary/workflows/Continuous%20Integration/badge.svg)](#)
 [![Coverage Status](https://coveralls.io/repos/github/tmbo/questionary/badge.svg?branch=master)](https://coveralls.io/github/tmbo/questionary?branch=master)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/questionary.svg)](https://pypi.python.org/pypi/questionary)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_shield)
