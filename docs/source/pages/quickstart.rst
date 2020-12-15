@@ -4,125 +4,135 @@ Quickstart
 
 Here are some quick examples of all the inputs.
 
-## Text
+Text
+====
 
 A free text input for the user.
 
-```python
-questionary.text("What's your first name").ask()
-```
-![example-gif](../../images/text.gif)
+.. code-block:: python3
 
-## Password
+  questionary.text("What's your first name").ask()
+
+.. image:: ../../images/text.gif
+
+Password
+########
 
 A free text input for the user where the input is not
 shown but replaced with `***`.
 
-```python
-questionary.password("What's your secret?").ask()
-```
+.. code-block:: python3
 
-![example-gif](../../images/password.gif)
+  questionary.password("What's your secret?").ask()
 
-## File Path
+.. image:: ../../images/password.gif
+
+File Path
+#########
 
 A text input for a file or directory path with autocompletion enabled.
 
-```python
-questionary.path("Path to the projects version file").ask()
-```
+.. code-block:: python3
 
-![example-gif](../../images/path.gif)
+  questionary.path("Path to the projects version file").ask()
 
-## Confirmation
+.. image:: ../../images/path.gif
+
+Confirmation
+############
 
 A yes or no question. The user can either confirm or deny.
 
-```python
-questionary.confirm("Are you amazed?").ask()
-```
+.. code-block:: python3
 
-![example-gif](../../images/confirm.gif)
+  questionary.confirm("Are you amazed?").ask()
 
-## Select
+.. image:: ../../images/confirm.gif
+
+Select
+######
 
 A list of items to select a choice from. The user can pick
 one option and confirm it.
 
-```python
-questionary.select(
-   "What do you want to do?",
-   choices=[
-       "Order a pizza",
-       "Make a reservation",
-       "Ask for opening hours"
-   ]).ask()
-```
+.. code-block:: python3
 
-![example-gif](../../images/select.gif)
+  questionary.select(
+     "What do you want to do?",
+     choices=[
+         "Order a pizza",
+         "Make a reservation",
+         "Ask for opening hours"
+     ]).ask()
 
-## Raw Select
+.. image:: ../../images/select.gif
+
+Raw Select
+##########
 
 A list of items to select a choice from. The user can pick
 one option using shortcuts and confirm it.
 
-```python
-questionary.rawselect(
-   "What do you want to do?",
-   choices=[
-       "Order a pizza",
-       "Make a reservation",
-       "Ask for opening hours"
-   ]).ask()
-```
+.. code-block:: python3
 
-![example-gif](../../images/rawselect.gif)
+  questionary.rawselect(
+     "What do you want to do?",
+     choices=[
+         "Order a pizza",
+         "Make a reservation",
+         "Ask for opening hours"
+     ]).ask()
 
-## Checkbox
+.. image:: ../../images/rawselect.gif
+
+Checkbox
+########
 
 A list of items to select multiple choices from. The user can pick
 none, one or multiple options and confirm the selection.
 
-```python
-questionary.checkbox(
-   'Select toppings',
-   choices=[
-       "foo",
-       "bar",
-       "bazz"
-   ]).ask()
-```
-![example-gif](../../images/checkbox.gif)
+.. code-block:: python3
 
-## Autocomplete
+  questionary.checkbox(
+     'Select toppings',
+     choices=[
+         "foo",
+         "bar",
+         "bazz"
+     ]).ask()
+
+.. image:: ../../images/checkbox.gif
+
+Autocomplete
+############
 
 Text input with autocomplete help.
 
-```python
-questionary.autocomplete(
-   'Choose ant specie',
-   choices=[
-        'Camponotus pennsylvanicus',
-        'Linepithema humile',
-        'Eciton burchellii',
-        "Atta colombica",
-        'Polyergus lucidus',
-        'Polyergus rufescens',
-   ]).ask()
-```
-![example-gif](../../images/autocomplete.gif)
+.. code-block:: python3
 
+  questionary.autocomplete(
+     'Choose ant specie',
+     choices=[
+          'Camponotus pennsylvanicus',
+          'Linepithema humile',
+          'Eciton burchellii',
+          "Atta colombica",
+          'Polyergus lucidus',
+          'Polyergus rufescens',
+     ]).ask()
 
-## Printing Formatted Text
+.. image:: ../../images/autocomplete.gif
+
+Printing Formatted Text
+#######################
 
 Sometimes you want to spice up your printed messages a bit, `questionary.print`
 is a helper to do just that:
 
-```python
-questionary.print("Hello World 🦄", style="bold italic fg:darkred")
-```
-![example-gif](../../images/print.gif) 
+.. code-block:: python3
 
-The style argument uses the prompt [toolkit style strings].
+  questionary.print("Hello World 🦄", style="bold italic fg:darkred")
 
-[toolkit style strings]: https://python-prompt-toolkit.readthedocs.io/en/master/pages/advanced_topics/styling.html#style-strings
+.. image:: ../../images/print.gif
+
+The style argument uses the prompt :ref:`toolkit style strings <prompt_toolkit:styling>`.
