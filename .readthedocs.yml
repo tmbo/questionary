@@ -7,7 +7,8 @@ formats:
   - pdf
   - epub
 
-sphinx.fail_on_warning: true
+sphinx:
+  fail_on_warning: true
 
 python:
   version: 3.7
