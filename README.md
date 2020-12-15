@@ -50,19 +50,21 @@ Used and supported by
 
 [<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
-## Features
+
 
 Questionary supports the following input prompts:
  
- * Text
- * Autocomlete
- * Checkbox
- * Confirmation
- * Password
- * File path
- * Arrow key select
- * Raw select
- * Simple print
+ * [Text](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#text)
+ * [Password](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#password)
+ * [File Path](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#file-path)
+ * [Confirmation](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#confirmation)
+ * [Select](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#select)
+ * [Raw select](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#raw-select)
+ * [Checkbox](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#checkbox)
+ * [Autocomplete](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#autocomplete)
+
+There is also a helper to [print formatted text](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#printing-formatted-text)
+for when you want to spice up your printed messages a bit.
 
 ## Installation
 
@@ -97,7 +99,7 @@ Documentation for Questionary is available [here](https://questionary.readthedoc
 ## Support
 
 Please make sure you have read the [documentation](https://questionary.readthedocs.io/).
-If you continue to face issues, please [open an issue](https://github.com/tmbo/questionary/issues/new)
+If you continue to face problems, please [open an issue](https://github.com/tmbo/questionary/issues/new)
 with enough information for us to reproduce your problem.
 
 ## Contributing
