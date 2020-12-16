@@ -111,10 +111,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-
+    
     - name: Install dependencies 🖥
       run: |
-        poetry install --no-interaction
+        pip install
         pip install -r docs/source/requirements.txt
 
     - name: Build docs ⚒️
