@@ -74,7 +74,8 @@ Optional Keys:
   used inside the program. 
 
 Further information can be found at the :class:`questionary.prompt`
-documentation.
+documentation. There are numerous examples using this configuration
+method :ref:`here <pages/advanced:prompts>`.
 
 Example
 *******
@@ -116,8 +117,13 @@ You can test this workflow yourself by running the
 Prompts
 #######
 
+In many of the examples below, we demonstrate usage using the 'pystyle'
+and 'dict style' configuration methods.
+
 Text
 ****
+
+This example demonstrates the use of a validator in the text option.
 
 .. literalinclude:: ../../../examples/text_phone_number.py
    :language: python3
@@ -135,15 +141,6 @@ File Path
 *********
 
 .. literalinclude:: ../../../examples/project_path.py
-   :language: python3
-
-Confirmation
-************
-
-.. literalinclude:: ../../../examples/confirm_amazed.py
-   :language: python3
-
-.. literalinclude:: ../../../examples/confirm_continue.py
    :language: python3
 
 Select

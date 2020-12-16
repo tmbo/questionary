@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Example for a text question type.
 
-Run example by typing `python -m examples.text` in your console."""
+Run example by typing `python -m examples.text_phone_number` in your console."""
 import re
 from pprint import pprint
 
