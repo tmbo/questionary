@@ -114,7 +114,7 @@ Feature release.
 Bug fix release.
 
 * Fixed odd behaviour if select is created without providing any choices
-  instead, we will raise a `ValueError` now
+  instead, we will raise a :code:`ValueError` now
   `#6 <https://github.com/tmbo/questionary/pull/6>`_.
 
 1.0.1 (2019-01-12)
@@ -124,11 +124,11 @@ Bug fix release, adding some convenience shortcuts.
 
 * Added shortcut keys :kbd:`j` (move down the list) and :kbd:`k` (move up) to
   the prompts `select` and `checkbox` (fixes
-  `#2 <https://github.com/tmbo/questionary/issues/2>`_.
+  `#2 <https://github.com/tmbo/questionary/issues/2>`_).
 
 * Fixed unclosed file handle in :code:`setup.py`.
 * Fixed unnecessary empty lines moving selections to far down
-  (fixes `#3 <https://github.com/tmbo/questionary/issues/3>`_.
+  (fixes `#3 <https://github.com/tmbo/questionary/issues/3>`_).
 
 1.0.0 (2018-12-14)
 ##################

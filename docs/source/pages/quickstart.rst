@@ -5,7 +5,7 @@ Quickstart
 Here are some quick examples of all the inputs.
 
 Text
-====
+####
 
 A free text input for the user.
 

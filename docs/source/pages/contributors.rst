@@ -30,7 +30,7 @@ counts, so do not hesitate!
 Bug Reports
 ###########
 
-Bug reports should be page to the
+Bug reports should be made to the
 `issue tracker <https://github.com/tmbo/questionary/issues>`_.
 Please include enough information to reproduce any issues you are having.
 A `minimal, reproducible example <https://stackoverflow.com/help/minimal-reproducible-example>`_
@@ -39,7 +39,7 @@ would be very helpful.
 Feature Requests
 ################
 
-Feature requests should be page to the
+Feature requests should be made to the
 `issue tracker <https://github.com/tmbo/questionary/issues>`_.
 
 Other

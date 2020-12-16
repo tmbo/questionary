@@ -9,8 +9,8 @@ Skipping Questions Using Conditions
 ***********************************
 
 Sometimes it is helpful to be able to skip a question based on a condition.
-To avoid the need for an `if` around any question you can pass the condition
-when you create the question:
+To avoid the need for an :code:`if` around any question you can pass the
+condition when you create the question:
 
 .. code-block:: python3
 
@@ -81,44 +81,8 @@ Example
 Questionary allows creating quite complex workflows when combining all of the
 above concepts.
 
-.. code-block:: python3
-
-  from questionary import Separator, prompt
-  questions = [
-      {
-          'type': 'confirm',
-          'name': 'conditional_step',
-          'message': 'Would you like the next question?',
-          'default': True,
-      },
-      {
-          'type': 'text',
-          'name': 'next_question',
-          'message': 'Name this library?',
-          # Validate if the first question was answered with yes or no
-          'when': lambda x: x['conditional_step'],
-          # Only accept questionary as answer
-          'validate': lambda val: val == 'questionary'
-      },
-      {
-          'type': 'select',
-          'name': 'second_question',
-          'message': 'Select item',
-          'choices': [
-              'item1',
-              'item2',
-              Separator(),
-              'other',
-          ],
-      },
-      {
-          'type': 'text',
-          'name': 'second_question',
-          'message': 'Insert free text',
-          'when': lambda x: x['second_question'] == 'other'
-      },
-  ]
-  prompt(questions)
+.. literalinclude:: ../../../examples/advanced_workflow.py
+   :language: python3
 
 The above workflow will show to the user the following prompts:
 1. Yes/No question :code:`Would you like the next question?`.
@@ -149,8 +113,75 @@ Depending on the route the user took, the result will look like the following:
 You can test this workflow yourself by running the
 `advanced_workflow.py example <https://github.com/tmbo/questionary/blob/master/examples/advanced_workflow.py>`_.
 
+Prompts
+#######
+
+Text
+****
+
+.. literalinclude:: ../../../examples/text_phone_number.py
+   :language: python3
+
+Password
+********
+
+.. literalinclude:: ../../../examples/password_git.py
+   :language: python3
+
+.. literalinclude:: ../../../examples/password_secret.py
+   :language: python3
+
+File Path
+*********
+
+.. literalinclude:: ../../../examples/project_path.py
+   :language: python3
+
+Confirmation
+************
+
+.. literalinclude:: ../../../examples/confirm_amazed.py
+   :language: python3
+
+.. literalinclude:: ../../../examples/confirm_continue.py
+   :language: python3
+
+Select
+******
+
+.. literalinclude:: ../../../examples/select_action.py
+   :language: python3
+
+.. literalinclude:: ../../../examples/select_restaurant.py
+   :language: python3
+
+Raw Select
+**********
+
+.. literalinclude:: ../../../examples/rawselect_action.py
+   :language: python3
+
+.. literalinclude:: ../../../examples/rawselect_separator.py
+   :language: python3
+
+Checkbox
+********
+
+.. literalinclude:: ../../../examples/checkbox_separators.py
+   :language: python3
+
+.. literalinclude:: ../../../examples/checkbox_toppings.py
+   :language: python3
+
+Autocomplete
+************
+
+.. literalinclude:: ../../../examples/autocomplete_ants.py
+   :language: python3
+
+
 Themes and Styling
-******************
+##################
 
 You can customize all the colors used for the prompts. Every part of the prompt
 has an identifier, which you can use to style it. Let's create our own custom style:
