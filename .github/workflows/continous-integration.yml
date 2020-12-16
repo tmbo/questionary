@@ -112,9 +112,12 @@ jobs:
       with:
         python-version: 3.7
     
+    - name: Install poetry 🦄
+      uses: Gr1N/setup-poetry@v4
+    
     - name: Install dependencies 🖥
       run: |
-        pip install
+        poetry install --no-interaction
         pip install -r docs/source/requirements.txt
 
     - name: Build docs ⚒️
