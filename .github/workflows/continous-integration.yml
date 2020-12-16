@@ -113,7 +113,9 @@ jobs:
         python-version: 3.7
 
     - name: Install dependencies 🖥
-      run: pip install -r docs/source/requirements.txt
+      run: |
+        poetry install --no-interaction
+        pip install -r docs/source/requirements.txt
 
     - name: Build docs ⚒️
       run: make docs
