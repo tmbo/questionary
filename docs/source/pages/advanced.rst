@@ -9,7 +9,7 @@ Skipping Questions Using Conditions
 ***********************************
 
 Sometimes it is helpful to be able to skip a question based on a condition.
-To avoid the need for an :code:`if` around any question you can pass the
+To avoid the need for an :code:`if` around the question, you can pass the
 condition when you create the question:
 
 .. code-block:: python3
@@ -80,16 +80,18 @@ method :ref:`here <pages/advanced:prompts>`.
 Example
 *******
 Questionary allows creating quite complex workflows when combining all of the
-above concepts.
+above concepts:
 
 .. literalinclude:: ../../../examples/advanced_workflow.py
    :language: python3
 
+
 The above workflow will show to the user the following prompts:
+
 1. Yes/No question :code:`Would you like the next question?`.
 
 2. :code:`Name this library?` - only shown when the first question is answered
-with yes
+   with yes.
 
 3. A question to select an item from a list.
 4. Free text inpt if :code:`'other'` is selected in step 3.
@@ -113,6 +115,66 @@ Depending on the route the user took, the result will look like the following:
 
 You can test this workflow yourself by running the
 `advanced_workflow.py example <https://github.com/tmbo/questionary/blob/master/examples/advanced_workflow.py>`_.
+
+Validation
+##########
+
+Keyboard Interrupts
+###################
+
+Forms and Prompts
+#################
+
+Customising Text
+################
+
+Themes and Styling
+##################
+
+You can customize all the colors used for the prompts. Every part of the prompt
+has an identifier, which you can use to style it. Let's create our own custom style:
+
+.. code-block:: python3
+
+  from prompt_toolkit.styles import Style
+
+  custom_style_fancy = Style([
+      ('qmark', 'fg:#673ab7 bold'),       # token in front of the question
+      ('question', 'bold'),               # question text
+      ('answer', 'fg:#f44336 bold'),      # submitted answer text behind the question
+      ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
+      ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts
+      ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
+      ('separator', 'fg:#cc5454'),        # separator in lists
+      ('instruction', ''),                # user instructions for select, rawselect, checkbox
+      ('text', ''),                       # plain text
+      ('disabled', 'fg:#858585 italic')   # disabled choices for select and checkbox prompts
+  ])
+
+To use our custom style, we need to pass it to the question type:
+
+.. code-block:: python3
+
+  questionary.text("What's your phone number", style=custom_style_fancy).ask()
+
+It is also possible to use a list of token tuples as a :code:`Choice` title.
+This example assumes there is a style token named :code:`bold` in the custom
+style that you are using:
+
+.. code-block:: python3
+
+  Choice(
+      title=[
+          ('class:text', 'plain text '),
+          ('class:bold', 'bold text')
+      ]
+  )
+
+As you can see, it is possible to use custom style tokens for this purpose as
+well. Note that :code:`Choices` with token tuple titles will not be styled by
+the :code:`selected` or :code:`highlighted` tokens. If not provided, the
+:code:`value` of the :code:`Choice` will be the text concatenated
+(:code:`'plain text bold text'` in the above example).
 
 Prompts
 #######
@@ -175,52 +237,3 @@ Autocomplete
 
 .. literalinclude:: ../../../examples/autocomplete_ants.py
    :language: python3
-
-
-Themes and Styling
-##################
-
-You can customize all the colors used for the prompts. Every part of the prompt
-has an identifier, which you can use to style it. Let's create our own custom style:
-
-.. code-block:: python3
-
-  from prompt_toolkit.styles import Style
-
-  custom_style_fancy = Style([
-      ('qmark', 'fg:#673ab7 bold'),       # token in front of the question
-      ('question', 'bold'),               # question text
-      ('answer', 'fg:#f44336 bold'),      # submitted answer text behind the question
-      ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
-      ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts
-      ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
-      ('separator', 'fg:#cc5454'),        # separator in lists
-      ('instruction', ''),                # user instructions for select, rawselect, checkbox
-      ('text', ''),                       # plain text
-      ('disabled', 'fg:#858585 italic')   # disabled choices for select and checkbox prompts
-  ])
-
-To use our custom style, we need to pass it to the question type:
-
-.. code-block:: python3
-
-  questionary.text("What's your phone number", style=custom_style_fancy).ask()
-
-It is also possible to use a list of token tuples as a :code:`Choice` title.
-This example assumes there is a style token named :code:`bold` in the custom
-style that you are using:
-
-.. code-block:: python3
-
-  Choice(
-      title=[
-          ('class:text', 'plain text '),
-          ('class:bold', 'bold text')
-      ]
-  )
-
-As you can see, it is possible to use custom style tokens for this purpose as
-well. Note that :code:`Choices` with token tuple titles will not be styled by
-the :code:`selected` or :code:`highlighted` tokens. If not provided, the
-:code:`value` of the :code:`Choice` will be the text concatenated
-(:code:`'plain text bold text'` in the above example).
