@@ -13,22 +13,18 @@ def ask_pystyle(**kwargs):
     # create the question object
     question = questionary.checkbox(
         "Select toppings",
-        # Add a validator.
-        validate=lambda a: (len(a) >= 3, "You must select at least three toppings"),
-        # Change the question mark symbol.
         qmark="😃",
         choices=[
-            # These two options are checked by default.
-            Choice("Cheese", checked=True),
-            Choice("Tomatoe", checked=True),
-            Choice("Peppers"),
-            # Here we add a separator.
-            Separator("--Premium--"),
-            # This option is disabled.
-            Choice("Salami", disabled="Out of Stock"),
-            Choice("Pepperoni"),
+            Choice("foo", checked=True),
+            Separator(),
+            Choice("bar", disabled="nope"),
+            "bazz",
+            Separator("--END--"),
         ],
+        style=custom_style_dope,
+        **kwargs,
     )
+
     # prompt the user for an answer
     return question.ask()
 
