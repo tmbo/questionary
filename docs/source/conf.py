@@ -12,7 +12,6 @@ author = "Questionary"
 release = __version__
 
 extensions = [
-    "sphinx_rtd_theme",
     "sphinx.ext.autodoc",
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
@@ -28,3 +27,4 @@ intersphinx_mapping = {
 }
 
 autosectionlabel_prefix_document = True
+autodoc_member_order = "alphabetical"

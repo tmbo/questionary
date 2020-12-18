@@ -100,6 +100,8 @@ Documentation for Questionary is available [here](https://questionary.readthedoc
 
 Please [open an issue](https://github.com/tmbo/questionary/issues/new)
 with enough information for us to reproduce your problem.
+A [minimal, reproducible example](https://stackoverflow.com/help/minimal-reproducible-example>)
+would be very helpful.
 
 ## Contributing
 
