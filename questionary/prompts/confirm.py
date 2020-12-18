@@ -94,7 +94,7 @@ def confirm(
             exit_with_result(event)
 
     @bindings.add(Keys.ControlH)
-    def set_answer(event):
+    def key_backspace(event):
         status["answer"] = None
 
     @bindings.add(Keys.ControlM, eager=True)
