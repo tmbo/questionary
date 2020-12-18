@@ -62,7 +62,7 @@ Feature release.
 * Added support for :code:`prompt_toolkit` 3.
 * All tests will be run against :code:`prompt_toolkit` 2 and 3.
 * Removed support for Python 3.5 (:code:`prompt_toolkit` 3 does not support
-  that anymore).
+  that any more).
 
 1.4.0 (2019-11-10)
 ##################
@@ -140,4 +140,4 @@ Initial public release of the library.
 * Added python interface.
 * Added dict style question creation.
 * Improved the documentation.
-* More tests and automatic travis test execution.
+* More tests and automatic Travis test execution.

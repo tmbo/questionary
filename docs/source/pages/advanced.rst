@@ -8,7 +8,7 @@ uses of Questionary.
 Validation
 ##########
 
-Many of the promps support a :code:`validate` argument, which allows
+Many of the prompts support a :code:`validate` argument, which allows
 the answer to be validated before being submitted.
 
 The example below shows validation on a :meth:`~questionary.text` input:
@@ -40,7 +40,7 @@ function, as seen below:
     validate=lambda text: True if len(text) > 0 else "Please enter a value"
   ).ask())
 
-Finally, if we do not care about the error message being displayed, we can ommit
+Finally, if we do not care about the error message being displayed, we can omit
 the error message from the final example to use the default:
 
 .. code-block:: python3
@@ -58,7 +58,7 @@ Password Example
 ****************
 
 Here we see an example of :code:`validate` being used on a
-:meth:`~questionary.password` prompt to enforce complexity rquirements:
+:meth:`~questionary.password` prompt to enforce complexity requirements:
 
 .. code-block:: python3
 
@@ -101,7 +101,7 @@ The following are safe (capture keyboard interrupts):
   :meth:`~questionary.form`);
 
 * :attr:`~questionary.Question.ask` on :class:`~questionary.Question`, which
-  is returrned by the various prompt functions (e.g. :meth:`~questionary.text`,
+  is returned by the various prompt functions (e.g. :meth:`~questionary.text`,
   :meth:`~questionary.checkbox`).
 
 When a keyboard interrupt is captured, the message :code:`Cancelled by user` is
@@ -118,7 +118,7 @@ The following are unsafe (do not catch keyboard interrupts):
   :meth:`~questionary.form`);
 
 * :attr:`~questionary.Question.unsafe_ask` on :class:`~questionary.Question`,
-  which is returrned by the various prompt functions (e.g. :meth:`~questionary.text`,
+  which is returned by the various prompt functions (e.g. :meth:`~questionary.text`,
   :meth:`~questionary.checkbox`).
   
 The caller must handle keyboard interrupts when these methods are called.
@@ -191,7 +191,7 @@ The following are equivalent:
   print(answers)
 
 
-Asyncronous Inovokation
+Asynchronous Innovation
 #######################
 
 :class:`questionary.Question` and :class:`questionary.Form` have
@@ -352,7 +352,7 @@ The above workflow will show to the user the following prompts:
    with yes.
 
 3. A question to select an item from a list.
-4. Free text inpt if :code:`'other'` is selected in step 3.
+4. Free text input if :code:`'other'` is selected in step 3.
 
 Depending on the route the user took, the result will look like the following:
 
@@ -360,7 +360,7 @@ Depending on the route the user took, the result will look like the following:
 
   { 
       'conditional_step': False,
-      'second_question': 'Testinput'   # Free form text
+      'second_question': 'Test input'   # Free form text
   }
 
 .. code-block:: python3
@@ -368,7 +368,7 @@ Depending on the route the user took, the result will look like the following:
   { 
       'conditional_step': True,
       'next_question': 'questionary',
-      'second_question': 'Testinput'   # Free form text
+      'second_question': 'Test input'   # Free form text
   }
 
 You can test this workflow yourself by running the
