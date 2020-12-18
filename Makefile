@@ -12,10 +12,12 @@ help:
 	@echo "        Apply black formatting to code."
 	@echo "    lint"
 	@echo "        Check the code style."
+	@echo "    test"
+	@echo "        Run the unit tests."
 	@echo "    types"
 	@echo "        Check for type errors using pytype."
 	@echo "    docs"
-	@echo "        Build the documentation"
+	@echo "        Build the documentation."
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
