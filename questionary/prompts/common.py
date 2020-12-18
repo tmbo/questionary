@@ -17,6 +17,7 @@ from questionary.constants import (
     SELECTED_POINTER,
     INDICATOR_SELECTED,
     INDICATOR_UNSELECTED,
+    INVALID_INPUT,
 )
 
 # This is a cut-down version of `prompt_toolkit.formatted_text.AnyFormattedText`
@@ -410,7 +411,7 @@ def build_validator(validate: Any) -> Optional[Validator]:
                     verdict = validate(document.text)
                     if verdict is not True:
                         if verdict is False:
-                            verdict = "invalid input"
+                            verdict = INVALID_INPUT
                         raise ValidationError(
                             message=verdict, cursor_position=len(document.text)
                         )

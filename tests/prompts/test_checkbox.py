@@ -225,7 +225,7 @@ def test_validate_with_message():
     message = "Foo message"
     kwargs = {
         "choices": ["foo", "bar", "bazz"],
-        "validate": lambda a: (len(a) != 0, "Error Message"),
+        "validate": lambda a: True if len(a) > 0 else "Error Message",
     }
     text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
 

@@ -7,7 +7,7 @@ from prompt_toolkit.styles import Style, merge_styles
 from prompt_toolkit.formatted_text import FormattedText
 
 from questionary import utils
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
+from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE, INVALID_INPUT
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
@@ -17,7 +17,7 @@ def checkbox(
     message: str,
     choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[str] = None,
-    validate: Callable[[List[str]], bool] = lambda a: True,
+    validate: Callable[[List[str]], Union[bool, str]] = lambda a: True,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     use_pointer: bool = True,
@@ -45,8 +45,9 @@ def checkbox(
                   it (e.g. to check minimum password length).
 
                   This should be a function accepting the input and
-                  returning a boolean. An optional second return value
-                  is the error message to display.
+                  returning a boolean. Alternatively, the return value
+                  may be a string (indicating failure), which contains
+                  the error message to be displayed.
 
         qmark: Question prefix displayed in front of the question.
                By default this is a `?`
@@ -130,19 +131,15 @@ def checkbox(
     def perform_validation(selected_values: List[str]) -> bool:
 
         verdict = validate(selected_values)
+        valid = verdict is True
 
-        if isinstance(verdict, bool):
-            valid = verdict
-            error_message = FormattedText(
-                [("class:validation-toolbar", "Invalid selection")]
-            )
-        else:
-            valid, error_message = verdict
+        if not valid:
+            if verdict is False:
+                error_text = INVALID_INPUT
+            else:
+                error_text = str(verdict)
 
-            if isinstance(error_message, str):
-                error_message = FormattedText(
-                    [("class:validation-toolbar", error_message)]
-                )
+            error_message = FormattedText([("class:validation-toolbar", error_text)])
 
         ic.error_message = (
             error_message if not valid and ic.submission_attempted else None
