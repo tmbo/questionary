@@ -16,15 +16,13 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
-    "sphinx.ext.autosectionlabel",
 ]
 
 html_theme = "sphinx_rtd_theme"
 
 intersphinx_mapping = {
-    "https://docs.python.org/": None,
+    "python": ("https://docs.python.org/3", None),
     "prompt_toolkit": ("https://python-prompt-toolkit.readthedocs.io/en/master/", None),
 }
 
-autosectionlabel_prefix_document = True
 autodoc_member_order = "alphabetical"

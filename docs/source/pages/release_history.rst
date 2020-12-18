@@ -1,3 +1,5 @@
+.. _release-history:
+
 ***************
 Release History
 ***************

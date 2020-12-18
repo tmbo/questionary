@@ -30,7 +30,8 @@ Questionary Documentation
   :target: https://questionary.readthedocs.io/en/latest/?badge=stable
   :alt: Documentation Status
 
-✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
+✨ Questionary is a Python library for effortlessly building pretty command
+   line interfaces ✨
 
 .. image:: ../images/example.gif
 
@@ -60,7 +61,8 @@ Questionary Documentation
 
 License
 =======
-Licensed under the `MIT License <https://github.com/tmbo/questionary/blob/master/LICENSE>`_. Copyright 2020 Tom Bocklisch.
+Licensed under the `MIT License <https://github.com/tmbo/questionary/blob/master/LICENSE>`_.
+Copyright 2020 Tom Bocklisch.
 
 The User Guide
 ==============
@@ -73,6 +75,7 @@ The User Guide
    pages/advanced
    pages/api_reference
    pages/support
+   Examples <https://github.com/tmbo/questionary/tree/master/examples>
 
 The Contributor's Guide
 =======================

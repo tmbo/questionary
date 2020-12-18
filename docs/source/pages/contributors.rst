@@ -7,18 +7,21 @@ Steps for Submitting Code
 Contributions are very much welcomed and appreciated. Every little bit of help
 counts, so do not hesitate!
 
-1. Check for open issues, or open a new issue to start some discussion around a
-   feature idea or bug. There is a `contributor friendly tag`_ for issues that
-   should be ideal for people who are not familiar with the codebase yet.
+1. Check for open issues, or open a new issue to start some discussion around
+   a feature idea or bug. There is a `contributor friendly tag`_ for issues
+   that should be ideal for people who are not familiar with the codebase yet.
 
-2. Fork `the repository <https://github.com/tmbo/questionary>`_ on GitHub to start
-   making your changes.
+2. Fork `the repository <https://github.com/tmbo/questionary>`_ on GitHub to
+   start making your changes.
 
-3. Write some tests that show the bug is fixed or that the feature works as expected.
+3. Write some tests that show the bug is fixed or that the feature works as
+   expected.
 
-4. Ensure your code passes the style checks by running :code:`black questionary`.
+4. Ensure your code passes the style checks by running
+   :code:`black questionary`.
 
-5. Check all of the unit tests pass by running :code:`pytest --pycodestyle --cov questionary -v`.
+5. Check all of the unit tests pass by running
+   :code:`pytest --pycodestyle --cov questionary -v`.
 
 6. Check the type checks pass by running :code:`mypy questionary`.
 
@@ -51,7 +54,7 @@ Create a New Release
 1. Update the version number in :code:`questionary/version.py` and
    :code:`pyproject.toml`.
 
-2. Add a new section for the release to :ref:`pages/release_history:release history`.
+2. Add a new section for the release to :ref:`release-history`.
 3. Commit these changes.
 4. :code:`git tag` the commit with the release version number.
 
