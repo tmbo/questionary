@@ -21,6 +21,7 @@ def confirm(
     default: bool = True,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
+    auto_enter: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to confirm or reject.
@@ -41,13 +42,15 @@ def confirm(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
+        auto_enter: Does the user need to press the enter key to continue.
+
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    status = {"answer": None}
+    status = {"answer": None, "complete": False}
 
     def get_prompt_tokens():
         tokens = []
@@ -55,14 +58,19 @@ def confirm(
         tokens.append(("class:qmark", qmark))
         tokens.append(("class:question", " {} ".format(message)))
 
+        if not status["complete"]:
+            instruction = YES_OR_NO if default else NO_OR_YES
+            tokens.append(("class:instruction", "{} ".format(instruction)))
+
         if status["answer"] is not None:
             answer = YES if status["answer"] else NO
             tokens.append(("class:answer", answer))
-        else:
-            instruction = YES_OR_NO if default else NO_OR_YES
-            tokens.append(("class:instruction", instruction))
 
         return to_formatted_text(tokens)
+
+    def exit_with_result(event):
+        status["complete"] = True
+        event.app.exit(result=status["answer"])
 
     bindings = KeyBindings()
 
@@ -75,18 +83,29 @@ def confirm(
     @bindings.add("N")
     def key_n(event):
         status["answer"] = False
-        event.app.exit(result=False)
+        if auto_enter:
+            exit_with_result(event)
 
     @bindings.add("y")
     @bindings.add("Y")
     def key_y(event):
         status["answer"] = True
-        event.app.exit(result=True)
+        if auto_enter:
+            exit_with_result(event)
+
+    @bindings.add(Keys.ControlH)
+    def set_answer(event):
+        status["answer"] = None
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-        status["answer"] = default
-        event.app.exit(result=default)
+
+        if status["answer"] is not None:
+            exit_with_result(event)
+
+        elif auto_enter:
+            status["answer"] = default
+            exit_with_result(event)
 
     @bindings.add(Keys.Any)
     def other(event):
