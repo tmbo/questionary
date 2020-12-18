@@ -30,8 +30,7 @@ Questionary Documentation
   :target: https://questionary.readthedocs.io/en/latest/?badge=stable
   :alt: Documentation Status
 
-✨ Questionary is a Python library for effortlessly building pretty command
-   line interfaces ✨
+✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
 
 .. image:: ../images/example.gif
 
