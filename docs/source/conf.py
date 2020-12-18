@@ -9,6 +9,7 @@ project = "Questionary"
 copyright = "2020, Questionary"
 author = "Questionary"
 
+version = __version__
 release = __version__
 
 extensions = [
