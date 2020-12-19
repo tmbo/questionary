@@ -11,7 +11,7 @@ def is_prompt_toolkit_3() -> bool:
 
 
 def default_values_of(func: Callable[..., Any]) -> List[str]:
-    """Return all parameter names of `func` with a default value."""
+    """Return all parameter names of :code:`func` with a default value."""
 
     signature = inspect.signature(func)
     return [
@@ -23,7 +23,7 @@ def default_values_of(func: Callable[..., Any]) -> List[str]:
 
 
 def arguments_of(func: Callable[..., Any]) -> List[str]:
-    """Return the parameter names of the function `func`."""
+    """Return the parameter names of the function :code:`func`."""
 
     return list(inspect.signature(func).parameters.keys())
 
@@ -36,7 +36,7 @@ def used_kwargs(kwargs: Dict[str, Any], func: Callable[..., Any]) -> Dict[str, A
         func: The function which should be called.
 
     Returns:
-        Subset of kwargs which are accepted by `func`.
+        Subset of kwargs which are accepted by :code:`func`.
     """
 
     possible_arguments = arguments_of(func)

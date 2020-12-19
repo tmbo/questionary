@@ -99,6 +99,30 @@ jobs:
         COVERALLS_SERVICE_NAME: github
       run: poetry run coveralls
 
+  docs:
+    name: Test Docs
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout git repository 🕝
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.7 🐍
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    
+    - name: Install poetry 🦄
+      uses: Gr1N/setup-poetry@v4
+    
+    - name: Install dependencies 🖥
+      run: |
+        poetry install --no-interaction
+        pip install -r docs/source/requirements.txt
+
+    - name: Build docs ⚒️
+      run: make docs
+
   deploy:
     name: Deploy to PyPI
     runs-on: ubuntu-latest
