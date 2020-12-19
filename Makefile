@@ -1,4 +1,4 @@
-.PHONY: clean install formatter lint types
+.PHONY: clean install formatter lint test types docs
 
 JOBS ?= 1
 
@@ -46,5 +46,3 @@ types:
 
 docs:
 	make -C docs html
-
-.PHONY: clean, install, formatter, lint, test, types, docs
