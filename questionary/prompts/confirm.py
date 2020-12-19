@@ -42,7 +42,9 @@ def confirm(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
-        auto_enter: Does the user need to press the enter key to continue.
+        auto_enter: If set to `False`, the user needs to press the 'enter' key to
+            accept their answer. If set to `True`, a valid input will be
+            accepted without the need to press 'Enter'.
 
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
