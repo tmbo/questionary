@@ -30,6 +30,9 @@ DEFAULT_QUESTION_PREFIX = "?"
 # Message shown when a user aborts a question prompt using CTRL-C
 DEFAULT_KBI_MESSAGE = "Cancelled by user"
 
+# Default text shown when the input is invalid
+INVALID_INPUT = "Invalid input"
+
 # Default message style
 DEFAULT_STYLE = Style(
     [

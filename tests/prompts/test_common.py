@@ -40,7 +40,7 @@ def test_validator_bool_function_fails():
     with pytest.raises(ValidationError) as e:
         validator.validate(Document("fooooo"))
 
-    assert e.value.message == "invalid input"
+    assert e.value.message == "Invalid input"
 
 
 def test_validator_instance():
