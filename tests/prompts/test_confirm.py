@@ -82,3 +82,11 @@ def test_confirm_not_autoenter_no():
 
     result, cli = feed_cli_with_input("confirm", message, text, auto_enter=False)
     assert result is True
+
+
+def test_confirm_not_autoenter_backspace():
+    message = "Foo message"
+    text = "n" + KeyInputs.BACK + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("confirm", message, text, auto_enter=False)
+    assert result is True

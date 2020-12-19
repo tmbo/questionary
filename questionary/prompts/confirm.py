@@ -99,13 +99,10 @@ def confirm(
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-
-        if status["answer"] is not None:
-            exit_with_result(event)
-
-        elif auto_enter:
+        if status["answer"] is None:
             status["answer"] = default
-            exit_with_result(event)
+
+        exit_with_result(event)
 
     @bindings.add(Keys.Any)
     def other(event):
