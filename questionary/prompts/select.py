@@ -34,22 +34,21 @@ def select(
     Args:
         message: Question text
 
-        choices: Items shown in the selection, this can contain `Choice` or
-                 or `Separator` objects or simple items as strings. Passing
-                 `Choice` objects, allows you to configure the item more
-                 (e.g. preselecting it or disabeling it).
+        choices: Items shown in the selection, this can contain :class:`Choice` or
+                 or :class:`Separator` objects or simple items as strings. Passing
+                 :class:`Choice` objects, allows you to configure the item more
+                 (e.g. preselecting it or disabling it).
 
         default: A value corresponding to a selectable item in the choices,
                  to initially set the pointer position to.
 
-
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`
+               By default this is a :code:`?`.
 
         instruction: A hint on how to navigate the menu.
-                     It's `(Use shortcuts)` if only `use_shortcuts` is set
-                     to True, `(Use arrow keys or shortcuts)` if `use_arrow_keys`
-                     & `use_shortcuts` are set and `(Use arrow keys)` by default.
+                     It's :code:`(Use shortcuts)` if only :code:`use_shortcuts` is set
+                     to True, :code:`(Use arrow keys or shortcuts)` if :code:`use_arrow_keys`
+                     & :code:`use_shortcuts` are set and :code:`(Use arrow keys)` by default.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -68,7 +67,7 @@ def select(
                      highlighted element.
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
     """
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")

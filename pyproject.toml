@@ -12,9 +12,9 @@ name = "questionary"
 version = "1.8.1"
 description = "Python library to build pretty command line user prompts ⭐️"
 authors = [ "Tom Bocklisch <tombocklisch@gmail.com>",]
-maintainers = [ "Tom Bocklisch <tombocklisch@gmail.com>", "Kian Cross"]
+maintainers = [ "Tom Bocklisch <tombocklisch@gmail.com>", "Kian Cross <kian@kiancross.co.uk>"]
 repository = "https://github.com/tmbo/questionary"
-documentation = "https://github.com/tmbo/questionary#documentation"
+documentation = "https://questionary.readthedocs.io/"
 classifiers=[
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
