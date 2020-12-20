@@ -16,7 +16,7 @@
 * [Support](#support)
 
 
-![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
+![Example](https://raw.githubusercontent.com/tmbo/questionary/master/docs/images/example.gif)
 
 ```python3
 import questionary
@@ -44,7 +44,7 @@ questionary.path("Path to the projects version file").ask()
 
 Used and supported by
 
-[<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
+[<img src="https://raw.githubusercontent.com/tmbo/questionary/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
 ## Features
 
