@@ -109,8 +109,8 @@ Contributions are very much welcomed and appreciated. Every little bit of help
 counts, so do not hesitate!
 
 1. Check for open issues, or open a new issue to start some discussion around a
-   feature idea or bug. There is a [Contributor Friendly](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd)
-   tag for issues that should be ideal for people who are not familiar with the codebase yet.
+   feature idea or bug. There is a [contributor friendly tag](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd)
+   for issues that should be ideal for people who are not familiar with the codebase yet.
 
 2. Fork [the repository](https://github.com/tmbo/questionary) on GitHub to start
    making your changes.
