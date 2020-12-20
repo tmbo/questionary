@@ -5,7 +5,6 @@
 [![Continuous Integration](https://github.com/tmbo/questionary/workflows/Continuous%20Integration/badge.svg)](#)
 [![Coverage](https://coveralls.io/repos/github/tmbo/questionary/badge.svg?branch=master)](https://coveralls.io/github/tmbo/questionary?branch=master)
 [![Supported Python Versions](https://img.shields.io/pypi/pyversions/questionary.svg)](https://pypi.python.org/pypi/questionary)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_shield)
 [![Documentation](https://readthedocs.org/projects/questionary/badge/?version=latest)](https://questionary.readthedocs.io/en/latest/?badge=latest)
 
 ✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
@@ -15,9 +14,6 @@
 * [Usage](#usage)
 * [Documentation](#documentation)
 * [Support](#support)
-* [Contributing](#contributing)
-* [Authors and Acknowledgment](#authors-and-acknowledgment)
-* [License](#license)
 
 
 ![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
@@ -128,12 +124,10 @@ counts, so do not hesitate!
 
 ## Authors and Acknowledgment
 
-Questionary is written and maintained by Tom Bocklisch.
+Questionary is written and maintained by Tom Bocklisch and Kian Cross.
 
 It is based on the great work by [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) 
 and [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## License
 Licensed under the [MIT License](https://github.com/tmbo/questionary/blob/master/LICENSE). Copyright 2020 Tom Bocklisch.
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Ftmbo%2Fquestionary?ref=badge_large)
