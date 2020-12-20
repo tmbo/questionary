@@ -14,9 +14,6 @@
 * [Usage](#usage)
 * [Documentation](#documentation)
 * [Support](#support)
-* [Contributing](#contributing)
-* [Authors and Acknowledgment](#authors-and-acknowledgment)
-* [License](#license)
 
 
 ![Example](https://github.com/tmbo/questionary/blob/master/docs/images/example.gif)
