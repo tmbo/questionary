@@ -29,6 +29,24 @@ def checkbox(
     This is a multiselect, the user can choose one, none or many of the
     items.
 
+    Example:
+        >>> import questionary
+        >>> questionary.checkbox(
+        ...    'Select toppings',
+        ...    choices=[
+        ...        "Cheese",
+        ...        "Tomato",
+        ...        "Pineapple",
+        ...    ]).ask()
+        ? Select toppings done (2 selections)
+        ['Cheese', 'Pineapple']
+
+    .. image:: ../images/checkbox.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
+
     Args:
         message: Question text
 

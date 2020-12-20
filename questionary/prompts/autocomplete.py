@@ -113,6 +113,27 @@ def autocomplete(
 ) -> Question:
     """Prompt the user to enter a message with autocomplete help.
 
+    Example:
+        >>> import questionary
+        >>> questionary.autocomplete(
+        ...    'Choose ant specie',
+        ...    choices=[
+        ...         'Camponotus pennsylvanicus',
+        ...         'Linepithema humile',
+        ...         'Eciton burchellii',
+        ...         "Atta colombica",
+        ...         'Polyergus lucidus',
+        ...         'Polyergus rufescens',
+        ...    ]).ask()
+        ? Choose ant specie Atta colombica
+        'Atta colombica'
+
+    .. image:: ../images/autocomplete.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
+
     Args:
         message: Question text
 

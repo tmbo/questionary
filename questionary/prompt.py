@@ -58,7 +58,7 @@ def prompt(
         name: Default ``name`` value to use in question config.
         when: Default ``when`` value to use in question config.
         default: Default ``default`` value to use in question config.
-        **kwargs: Additional options passed to every question.
+        kwargs: Additional options passed to every question.
 
     Returns:
         Dictionary of question answers.
@@ -115,7 +115,7 @@ def unsafe_prompt(
         name: Default ``name`` value to use in question config.
         when: Default ``when`` value to use in question config.
         default: Default ``default`` value to use in question config.
-        **kwargs: Additional options passed to every question.
+        kwargs: Additional options passed to every question.
 
     Returns:
         Dictionary of question answers.

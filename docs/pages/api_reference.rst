@@ -4,6 +4,20 @@
 API Reference
 *************
 
-.. automodule:: questionary
-    :members:
-    :exclude-members: Validator, Validator.validate, ValidationError, Style
+.. autoclass:: questionary::Choice
+   :members:
+
+.. autoclass:: questionary::Form
+   :members:
+
+.. autoclass:: questionary::Question
+   :members:
+
+.. autoclass:: questionary::Separator
+   :members:
+
+.. automethod:: questionary::form
+
+.. automethod:: questionary::prompt
+
+.. automethod:: questionary::unsafe_prompt

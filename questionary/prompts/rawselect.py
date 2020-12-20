@@ -20,6 +20,23 @@ def rawselect(
 
     The user can only select one option.
 
+    Example:
+        >>> import questionary
+        >>> questionary.rawselect(
+        ...     "What do you want to do?",
+        ...     choices=[
+        ...         "Order a pizza",
+        ...         "Make a reservation",
+        ...         "Ask for opening hours"
+        ...     ]).ask()
+        ? What do you want to do? Order a pizza
+        'Order a pizza'
+
+    .. image:: ../images/rawselect.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
     Args:
         message: Question text.
 

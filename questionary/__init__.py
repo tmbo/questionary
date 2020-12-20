@@ -26,6 +26,7 @@ __version__ = questionary.version.__version__
 
 __all__ = [
     "__version__",
+    # question types
     "autocomplete",
     "checkbox",
     "confirm",
@@ -34,12 +35,14 @@ __all__ = [
     "rawselect",
     "select",
     "text",
+    # utility methods
     "print",
     "form",
-    "Form",
     "prompt",
-    "Question",
     "unsafe_prompt",
+    # commonly used classes
+    "Form",
+    "Question",
     "Choice",
     "Style",
     "Separator",

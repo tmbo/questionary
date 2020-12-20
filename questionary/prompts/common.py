@@ -30,8 +30,8 @@ FormattedText = Union[
 ]
 
 
-class Choice(object):
-    """One choice in a select, rawselect or checkbox.
+class Choice:
+    """One choice in a :meth:`select`, :meth:`rawselect` or :meth:`checkbox`.
 
     Args:
         title: Text shown in the selection list.
@@ -488,13 +488,22 @@ def create_inquirer_layout(
 def print_formatted_text(text: str, style: Optional[str] = None, **kwargs: Any) -> None:
     """Print formatted text.
 
+    Sometimes you want to spice up your printed messages a bit,
+    :meth:`questionary.print` is a helper to do just that.
+
+    Example:
+
+        >>> import questionary
+        >>> questionary.print("Hello World 🦄", style="bold italic fg:darkred")
+        Hello World 🦄
+
+    .. image:: ../images/print.gif
+
     Args:
         text: Text to be printed.
-        style: Style used for printing. Used as :ref:`prompt_toolkit style string <prompt_toolkit:styling>`.
-
-    Example::
-
-        print_formatted_text("Hello World!", style="bold italic fg:darkred")"""
+        style: Style used for printing. The style argument uses the
+            prompt :ref:`toolkit style strings <prompt_toolkit:styling>`.
+    """
     from prompt_toolkit import print_formatted_text as pt_print
     from prompt_toolkit.formatted_text import FormattedText as FText
 

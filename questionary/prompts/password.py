@@ -15,11 +15,22 @@ def password(
     style: Optional[Style] = None,
     **kwargs: Any,
 ) -> Question:
-    """Question the user to enter a secret text not displayed in the prompt.
+    """A text input where a user can enter a secret which won't be displayed on the CLI.
 
     This question type can be used to prompt the user for information
     that should not be shown in the command line. The typed text will be
     replaced with ``*``.
+
+    Example:
+        >>> import questionary
+        >>> questionary.password("What's your secret?").ask()
+        ? What's your secret? ********
+        'secret42'
+
+    .. image:: ../images/password.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
 
     Args:
         message: Question text.

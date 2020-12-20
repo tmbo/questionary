@@ -29,6 +29,17 @@ def text(
 
     This question type can be used to prompt the user for some text input.
 
+    Example:
+        >>> import questionary
+        >>> questionary.text("What's your first name?").ask()
+        ? What's your first name? Tom
+        'Tom'
+
+    .. image:: ../images/text.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
     Args:
         message: Question text.
 
@@ -56,6 +67,8 @@ def text(
 
         lexer: Supply a valid lexer to style the answer. Leave empty to
                use a simple one by default.
+
+        kwargs: Additional arguments, they will be passed to prompt toolkit.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).

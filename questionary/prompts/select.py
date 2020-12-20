@@ -27,9 +27,28 @@ def select(
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
-    """Prompt the user to select one item from the list of choices.
+    """A list of items to select **one** option from.
 
-    The user can only select one option.
+    The user can pick one option and confirm it (if you want to allow
+    the user to select multiple options, use :meth:`questionary.checkbox` instead).
+
+    Example:
+        >>> import questionary
+        >>> questionary.select(
+        ...     "What do you want to do?",
+        ...     choices=[
+        ...         "Order a pizza",
+        ...         "Make a reservation",
+        ...         "Ask for opening hours"
+        ...     ]).ask()
+        ? What do you want to do? Order a pizza
+        'Order a pizza'
+
+    .. image:: ../images/select.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
 
     Args:
         message: Question text

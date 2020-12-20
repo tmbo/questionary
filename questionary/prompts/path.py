@@ -68,7 +68,18 @@ def path(
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     **kwargs: Any,
 ) -> Question:
-    """Prompt the user to enter a path with autocomplete help.
+    """A text input for a file or directory path with autocompletion enabled.
+
+    Example:
+        >>> import questionary
+        >>> questionary.path("What's the path to the projects version file?").ask()
+        ? What's the path to the projects version file? ./pyproject.toml
+        './pyproject.toml'
+
+    .. image:: ../images/path.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
 
     Args:
         message: Question text.
