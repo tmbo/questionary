@@ -85,8 +85,8 @@ Feature release.
 
 Bug fix release.
 
-* Fixed compatibility with Python 3.5.2 by removing `Type` annotation (this
-  time for real).
+* Fixed compatibility with Python 3.5.2 by removing :code:`Type` annotation
+  (this time for real).
 
 1.2.0 (2019-07-30)
 ##################

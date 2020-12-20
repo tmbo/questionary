@@ -50,7 +50,7 @@ Used and supported by
 
 [<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
-
+## Features
 
 Questionary supports the following input prompts:
  
@@ -100,7 +100,7 @@ Documentation for Questionary is available [here](https://questionary.readthedoc
 
 Please [open an issue](https://github.com/tmbo/questionary/issues/new)
 with enough information for us to reproduce your problem.
-A [minimal, reproducible example](https://stackoverflow.com/help/minimal-reproducible-example>)
+A [minimal, reproducible example](https://stackoverflow.com/help/minimal-reproducible-example)
 would be very helpful.
 
 ## Contributing
@@ -109,8 +109,8 @@ Contributions are very much welcomed and appreciated. Every little bit of help
 counts, so do not hesitate!
 
 1. Check for open issues, or open a new issue to start some discussion around a
-   feature idea or bug. There is a [Contributor Friendly](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd)
-   tag for issues that should be ideal for people who are not familiar with the codebase yet.
+   feature idea or bug. There is a [contributor friendly tag](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd)
+   for issues that should be ideal for people who are not familiar with the codebase yet.
 
 2. Fork [the repository](https://github.com/tmbo/questionary) on GitHub to start
    making your changes.

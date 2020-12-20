@@ -191,8 +191,8 @@ The following are equivalent:
   print(answers)
 
 
-Asynchronous Innovation
-#######################
+Asynchronous Usage
+##################
 
 :class:`questionary.Question` and :class:`questionary.Form` have
 :code:`ask_async` and :code:`unsafe_ask_async` methods to invoke the
