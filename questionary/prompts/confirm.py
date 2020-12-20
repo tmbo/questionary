@@ -24,11 +24,23 @@ def confirm(
     auto_enter: bool = True,
     **kwargs: Any,
 ) -> Question:
-    """Prompt the user to confirm or reject.
+    """A yes or no question. The user can either confirm or deny.
 
     This question type can be used to prompt the user for a confirmation
     of a yes-or-no question. If the user just hits enter, the default
     value will be returned.
+
+    Example:
+        >>> import questionary
+        >>> questionary.confirm("Are you amazed?").ask()
+        ? Are you amazed? Yes
+        True
+
+    .. image:: ../images/confirm.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
 
     Args:
         message: Question text.
@@ -37,7 +49,7 @@ def confirm(
                  enter.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a :code:`?`.
+               By default this is a ``?``.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.

@@ -16,7 +16,7 @@ def form(**kwargs: Question) -> "Form":
     the returned dict.
 
     Args:
-        **kwargs (:class:`Question`): Questions to ask in the form.
+        kwargs: Questions to ask in the form.
     """
     return Form(*(FormField(k, q) for k, q in kwargs.items()))
 

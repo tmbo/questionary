@@ -18,12 +18,22 @@ counts, so do not hesitate!
    expected.
 
 4. Ensure your code passes the style checks by running
-   :code:`black questionary`.
+
+  .. code-block:: console
+
+    $ black questionary
 
 5. Check all of the unit tests pass by running
-   :code:`pytest --pycodestyle --cov questionary -v`.
 
-6. Check the type checks pass by running :code:`mypy questionary`.
+  .. code-block:: console
+
+    $ pytest --pycodestyle --cov questionary -v
+
+6. Check the type checks pass by running
+
+  .. code-block:: console
+
+    $ mypy questionary
 
 7. Send a pull request and bug the maintainer until it gets merged and
    published 🙂
@@ -51,21 +61,33 @@ Other
 Create a New Release
 ********************
 
-1. Update the version number in :code:`questionary/version.py` and
-   :code:`pyproject.toml`.
+1. Update the version number in ``questionary/version.py`` and
+   ``pyproject.toml``.
 
-2. Add a new section for the release to :ref:`release-history`.
+2. Add a new section for the release to :ref:`changelog`.
 3. Commit these changes.
-4. :code:`git tag` the commit with the release version number.
+4. ``git tag`` the commit with the release version number.
 
 GitHub Actions will build and push the updated library to PyPi.
 
 Create a Command Line Recording
 *******************************
 
-1. Install :code:`brew install asciinema` and
-   :code:`npm install --global asciicast2gif`.
+1. Install the following tools:
 
-2. Run :code:`asciinema rec`.
-3. Do the thing.
-4. Convert to gif :code:`asciicast2gif -h 7 -w 120 -s 2 <recoding> output.gif`.
+    .. code-block:: console
+
+      $ brew install asciinema
+      $ npm install --global asciicast2gif
+
+2. Start the recording with ``asciinema``:
+    .. code-block:: console
+
+      $ asciinema rec
+
+3. Do the thing you want to record.
+
+4. Convert to gif using ``asciicast2gif``:
+    .. code-block:: console
+
+      $ asciicast2gif -h 7 -w 120 -s 2 <recording> output.gif

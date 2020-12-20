@@ -30,8 +30,8 @@ FormattedText = Union[
 ]
 
 
-class Choice(object):
-    """One choice in a select, rawselect or checkbox.
+class Choice:
+    """One choice in a :meth:`select`, :meth:`rawselect` or :meth:`checkbox`.
 
     Args:
         title: Text shown in the selection list.
@@ -93,8 +93,8 @@ class Choice(object):
 
         Args:
             c: Either a :obj:`str`, :class:`Choice` or :obj:`dict` with
-               :code:`name`, :code:`value`, :code:`disabled`, :code:`checked` and
-               :code:`key` properties.
+               ``name``, ``value``, ``disabled``, ``checked`` and
+               ``key`` properties.
 
         Returns:
             An instance of the :class:`Choice` object.
@@ -127,7 +127,7 @@ class Separator(Choice):
         """Create a separator in a list.
 
         Args:
-            line: Text to be displayed in the list, by default uses :code:`---`.
+            line: Text to be displayed in the list, by default uses ``---``.
         """
 
         self.line = line or self.default_separator
@@ -488,13 +488,22 @@ def create_inquirer_layout(
 def print_formatted_text(text: str, style: Optional[str] = None, **kwargs: Any) -> None:
     """Print formatted text.
 
+    Sometimes you want to spice up your printed messages a bit,
+    :meth:`questionary.print` is a helper to do just that.
+
+    Example:
+
+        >>> import questionary
+        >>> questionary.print("Hello World 🦄", style="bold italic fg:darkred")
+        Hello World 🦄
+
+    .. image:: ../images/print.gif
+
     Args:
         text: Text to be printed.
-        style: Style used for printing. Used as :ref:`prompt_toolkit style string <prompt_toolkit:styling>`.
-
-    Example::
-
-        print_formatted_text("Hello World!", style="bold italic fg:darkred")"""
+        style: Style used for printing. The style argument uses the
+            prompt :ref:`toolkit style strings <prompt_toolkit:styling>`.
+    """
     from prompt_toolkit import print_formatted_text as pt_print
     from prompt_toolkit.formatted_text import FormattedText as FText
 

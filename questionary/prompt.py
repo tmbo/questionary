@@ -50,15 +50,15 @@ def prompt(
         kbi_msg: The message to be printed on a keyboard interrupt.
         true_color: Use true color output.
 
-        color_depth: Color depth to use. If :code:`true_color` is set to true then this
+        color_depth: Color depth to use. If ``true_color`` is set to true then this
                      value is ignored.
 
-        type: Default :code:`type` value to use in question config.
-        filter: Default :code:`filter` value to use in question config.
-        name: Default :code:`name` value to use in question config.
-        when: Default :code:`when` value to use in question config.
-        default: Default :code:`default` value to use in question config.
-        **kwargs: Additional options passed to every question.
+        type: Default ``type`` value to use in question config.
+        filter: Default ``filter`` value to use in question config.
+        name: Default ``name`` value to use in question config.
+        when: Default ``when`` value to use in question config.
+        default: Default ``default`` value to use in question config.
+        kwargs: Additional options passed to every question.
 
     Returns:
         Dictionary of question answers.
@@ -107,15 +107,15 @@ def unsafe_prompt(
 
         true_color: Use true color output.
 
-        color_depth: Color depth to use. If :code:`true_color` is set to true then this
+        color_depth: Color depth to use. If ``true_color`` is set to true then this
                      value is ignored.
 
-        type: Default :code:`type` value to use in question config.
-        filter: Default :code:`filter` value to use in question config.
-        name: Default :code:`name` value to use in question config.
-        when: Default :code:`when` value to use in question config.
-        default: Default :code:`default` value to use in question config.
-        **kwargs: Additional options passed to every question.
+        type: Default ``type`` value to use in question config.
+        filter: Default ``filter`` value to use in question config.
+        name: Default ``name`` value to use in question config.
+        when: Default ``when`` value to use in question config.
+        default: Default ``default`` value to use in question config.
+        kwargs: Additional options passed to every question.
 
     Returns:
         Dictionary of question answers.

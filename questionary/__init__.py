@@ -1,5 +1,6 @@
 # noinspection PyUnresolvedReferences
 from prompt_toolkit.validation import Validator, ValidationError
+from prompt_toolkit.styles import Style
 
 import questionary.version
 from questionary.form import Form
@@ -25,6 +26,7 @@ __version__ = questionary.version.__version__
 
 __all__ = [
     "__version__",
+    # question types
     "autocomplete",
     "checkbox",
     "confirm",
@@ -33,13 +35,16 @@ __all__ = [
     "rawselect",
     "select",
     "text",
+    # utility methods
     "print",
     "form",
-    "Form",
     "prompt",
-    "Question",
     "unsafe_prompt",
+    # commonly used classes
+    "Form",
+    "Question",
     "Choice",
+    "Style",
     "Separator",
     "Validator",
     "ValidationError",

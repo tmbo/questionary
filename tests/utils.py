@@ -9,7 +9,7 @@ from questionary.prompts import prompt_by_name
 from questionary.utils import is_prompt_toolkit_3
 
 
-class KeyInputs(object):
+class KeyInputs:
     DOWN = "\x1b[B"
     UP = "\x1b[A"
     LEFT = "\x1b[D"

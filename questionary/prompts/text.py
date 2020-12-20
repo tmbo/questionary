@@ -29,6 +29,17 @@ def text(
 
     This question type can be used to prompt the user for some text input.
 
+    Example:
+        >>> import questionary
+        >>> questionary.text("What's your first name?").ask()
+        ? What's your first name? Tom
+        'Tom'
+
+    .. image:: ../images/text.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
     Args:
         message: Question text.
 
@@ -44,21 +55,23 @@ def text(
                   subclass of the prompt toolkit Validator class.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a :code:`?`.
+               By default this is a ``?``.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
-        multiline: If :code:`True`, multiline input will be enabled.
+        multiline: If ``True``, multiline input will be enabled.
 
-        instruction: Write instructions for the user if needed. If :code:`None`
-                     and :code:`multiline=True`, some instructions will appear.
+        instruction: Write instructions for the user if needed. If ``None``
+                     and ``multiline=True``, some instructions will appear.
 
         lexer: Supply a valid lexer to style the answer. Leave empty to
                use a simple one by default.
 
+        kwargs: Additional arguments, they will be passed to prompt toolkit.
+
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
