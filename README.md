@@ -50,7 +50,7 @@ Used and supported by
 
 [<img src="https://github.com/tmbo/questionary/blob/master/docs/images/rasa-logo.svg" width="200">](https://github.com/RasaHQ/rasa)
 
-
+## Features
 
 Questionary supports the following input prompts:
  
