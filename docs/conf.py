@@ -27,7 +27,7 @@ copybutton_prompt_text = "$ "
 html_theme = "sphinx_rtd_theme"
 
 html_theme_options = {
-    'navigation_depth': 2,
+    "navigation_depth": 2,
 }
 
 intersphinx_mapping = {
