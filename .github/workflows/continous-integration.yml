@@ -116,9 +116,7 @@ jobs:
       uses: Gr1N/setup-poetry@v4
     
     - name: Install dependencies 🖥
-      run: |
-        poetry install --no-interaction
-        pip install -r docs/source/requirements.txt
+      run: poetry install --no-interaction --extras "docs"
 
     - name: Build docs ⚒️
       run: make docs
