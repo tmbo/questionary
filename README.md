@@ -127,7 +127,7 @@ counts, so do not hesitate!
 
 ## Authors and Acknowledgment
 
-Questionary is written and maintained by Tom Bocklisch.
+Questionary is written and maintained by Tom Bocklisch and Kian Cross.
 
 It is based on the great work by [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) 
 and [Mark Fink](https://github.com/finklabs/whaaaaat).
