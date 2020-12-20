@@ -22,6 +22,12 @@ extensions = [
     "sphinx_autodoc_typehints",
 ]
 
+nitpick_ignore = [
+    ("py:class", "questionary.prompts.common.Choice"),
+    ("py:class", "questionary.question.Question"),
+    ("py:class", "questionary.form.Form"),
+]
+
 autodoc_typehints = "description"
 
 copybutton_prompt_text = r">>> |\.\.\. |\$ "
