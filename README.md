@@ -50,16 +50,16 @@ Used and supported by
 
 Questionary supports the following input prompts:
  
- * [Text](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#text)
- * [Password](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#password)
- * [File Path](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#file-path)
- * [Confirmation](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#confirmation)
- * [Select](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#select)
- * [Raw select](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#raw-select)
- * [Checkbox](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#checkbox)
- * [Autocomplete](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#autocomplete)
+ * [Text](https://questionary.readthedocs.io/en/stable/pages/types.html#text)
+ * [Password](https://questionary.readthedocs.io/en/stable/pages/types.html#password)
+ * [File Path](https://questionary.readthedocs.io/en/stable/pages/types.html#file-path)
+ * [Confirmation](https://questionary.readthedocs.io/en/stable/pages/types.html#confirmation)
+ * [Select](https://questionary.readthedocs.io/en/stable/pages/types.html#select)
+ * [Raw select](https://questionary.readthedocs.io/en/stable/pages/types.html#raw-select)
+ * [Checkbox](https://questionary.readthedocs.io/en/stable/pages/types.html#checkbox)
+ * [Autocomplete](https://questionary.readthedocs.io/en/stable/pages/types.html#autocomplete)
 
-There is also a helper to [print formatted text](https://questionary.readthedocs.io/en/stable/pages/quickstart.html#printing-formatted-text)
+There is also a helper to [print formatted text](https://questionary.readthedocs.io/en/stable/pages/types.html#printing-formatted-text)
 for when you want to spice up your printed messages a bit.
 
 ## Installation
@@ -101,26 +101,7 @@ would be very helpful.
 
 ## Contributing
 
-Contributions are very much welcomed and appreciated. Every little bit of help
-counts, so do not hesitate!
-
-1. Check for open issues, or open a new issue to start some discussion around a
-   feature idea or bug. There is a [contributor friendly tag](https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd)
-   for issues that should be ideal for people who are not familiar with the codebase yet.
-
-2. Fork [the repository](https://github.com/tmbo/questionary) on GitHub to start
-   making your changes.
-
-3. Write some tests that show the bug is fixed or that the feature works as expected.
-
-4. Ensure your code passes the style checks by running `black questionary`.
-
-5. Check all of the unit tests pass by running `pytest --pycodestyle --cov questionary -v`.
-
-6. Check the type checks pass by running `mypy questionary`.
-
-7. Send a pull request and bug the maintainer until it gets merged and
-   published 🙂
+Contributions are very much welcomed and appreciated. Head over to the documentation on [how to contribute](https://questionary.readthedocs.io/en/stable/pages/contributors.html#steps-for-submitting-code).
 
 ## Authors and Acknowledgment
 
