@@ -4,6 +4,12 @@
 Changelog
 *********
 
+1.9.0 (2020-12-20)
+##################
+
+* Added brand new documentation https://questionary.readthedocs.io/
+  (thanks to `@kiancross <https://github.com/kiancross>`_)
+
 1.8.1 (2020-11-17)
 ##################
 

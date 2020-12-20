@@ -64,4 +64,4 @@ Copyright 2020 Tom Bocklisch.
 .. toctree::
    :hidden:
 
-   pages/release_history
+   pages/changelog
