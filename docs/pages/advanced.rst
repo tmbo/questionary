@@ -1,17 +1,18 @@
-**************
-Advanced Usage
-**************
+*****************
+Advanced Concepts
+*****************
 
-This section of the documentation describes some of the more advanced
-uses of Questionary.
+This page describes some of the more advanced uses of Questionary.
 
 Validation
 ##########
 
-Many of the prompts support a :code:`validate` argument, which allows
-the answer to be validated before being submitted.
+Many of the prompts support a ``validate`` argument, which allows
+the answer to be validated before being submitted. A user can not
+submit an answer if it doesn't pass the validation.
 
-The example below shows validation on a :meth:`~questionary.text` input:
+The example below shows :meth:`~questionary.text` input with
+a validation:
 
 .. code-block:: python3
 
@@ -26,9 +27,13 @@ The example below shows validation on a :meth:`~questionary.text` input:
                   cursor_position=len(document.text),
               )
 
-  print(questionary.text("What's your name?", validate=NameValidator).ask())
+  questionary.text("What's your name?", validate=NameValidator).ask()
 
-Alternatively, we can replace the :code:`NameValidator` class with a simple
+In this example, the user can not enter a non empty value. If the
+prompt is submitted without a value. Questionary will show the error
+message and reject the submission until the user enters a value.
+
+Alternatively, we can replace the ``NameValidator`` class with a simple
 function, as seen below:
 
 .. code-block:: python3
@@ -49,15 +54,17 @@ the error message from the final example to use the default:
 
   print(questionary.text("What's your name?", validate=lambda text: len(text) > 0).ask())
 
-The :meth:`~questionary.checkbox` prompt does not support passing a
-:code:`Validator` (but does support the latter two forms of validation).
-See the :ref:`API Reference <api-reference>` for all the prompts which
-support the :code:`validate` parameter.
+.. admonition:: example
+  :class: info
 
-Password Example
-****************
+  The :meth:`~questionary.checkbox` prompt does not support passing a
+  ``Validator``. See the :ref:`API Reference <api-reference>` for all the prompts which
+  support the ``validate`` parameter.
 
-Here we see an example of :code:`validate` being used on a
+A Validation Example using the Password Question
+************************************************
+
+Here we see an example of ``validate`` being used on a
 :meth:`~questionary.password` prompt to enforce complexity requirements:
 
 .. code-block:: python3
@@ -88,7 +95,9 @@ Keyboard Interrupts
 ###################
 
 Prompts can be invoked in either a 'safe' or 'unsafe' way. The safe way
-captures keyboard interrupts, whilst the unsafe way does not.
+captures keyboard interrupts and handles them by catching the interrupt
+and returning ``None`` for the asked question. If a question is asked
+using unsafe functions, the keyboard interrupts are not caught.
 
 Safe
 ****
@@ -104,8 +113,15 @@ The following are safe (capture keyboard interrupts):
   is returned by the various prompt functions (e.g. :meth:`~questionary.text`,
   :meth:`~questionary.checkbox`).
 
-When a keyboard interrupt is captured, the message :code:`Cancelled by user` is
-displayed (or a custom message, if one is given).
+When a keyboard interrupt is captured, the message ``"Cancelled by user"`` is
+displayed (or a custom message, if one is given) and ``None`` is returned.
+Here is an example:
+
+.. code:: python3
+
+    # Questionary handles keyboard interrupt and returns `None` if the
+    # user hits e.g. `Ctrl+C`
+    prompt(...)
 
 Unsafe
 ******
@@ -121,104 +137,44 @@ The following are unsafe (do not catch keyboard interrupts):
   which is returned by the various prompt functions (e.g. :meth:`~questionary.text`,
   :meth:`~questionary.checkbox`).
   
-The caller must handle keyboard interrupts when these methods are called.
-
-Example
-*******
-
-The following are equivalent:
+As a caller you must handle keyboard interrupts yourself
+when calling these methods. Here is an example:
 
 .. code:: python3
 
-    # User handles keyboard interrupt
     try:
         unsafe_prompt(...)
 
     except KeyboardInterrupt:
+        # your chance to handle the keyboard interrupt
         print("Cancelled by user")
-   
-.. code:: python3 
-
-    # Questionary handles keyboard interrupt
-    prompt(...)
-
-Forms & Prompts
-###############
-
-You can use the :meth:`~questionary.form` function to ask a collection
-of :class:`Questions <questionary.Question>`.
-
-The :meth:`~questionary.prompt` function also allows you to ask a
-collection of questions, however instead of taking :class:`~questionary.Question`
-instances, it takes a dictionary.
-
-Example
-*******
-
-The following are equivalent:
-
-.. code:: python3
-
-  import questionary
-
-  questions = [
-    {
-      "type": "confirm",
-      "name": "first",
-      "message": "Would you like the next question?",
-      "default": True,
-    },
-    {
-      "type": "select",
-      "name": "second",
-      "message": "Select item",
-      "choices": ["item1", "item2", "item3"],
-    },
-  ]
-
-.. code:: python3
-
-  import questionary
-
-  answers = questionary.prompt(questions)
-  print(answers)
-
-  answers = questionary.form(
-      first = questionary.confirm("Would you like the next question?", default=True),
-      second = questionary.select("Select item", choices=["item1", "item2", "item3"])
-  ).ask()
-
-  print(answers)
 
 
-Asynchronous Innovation
+Asynchronous Invocation
 #######################
 
+If you are running asynchronous code and you want to avoid blocking your
+async loop, you can ask your questions using ``await``.
 :class:`questionary.Question` and :class:`questionary.Form` have
-:code:`ask_async` and :code:`unsafe_ask_async` methods to invoke the
-question using :mod:`python:asyncio`.
+``ask_async`` and ``unsafe_ask_async`` methods to invoke the
+question using :mod:`python:asyncio`:
 
-Customising Text
-################
+.. code-block:: python3
 
-* :code:`message` - set the text in the question.
+  import questionary
 
-* :code:`qmark` - change the :code:`?` symbol that appears at the beginning of
-  each question.
-
-* :code:`instruction` *(*:meth:`~questionary.select` *only)* - set the
-  instruction text that appears after the question.
+  answer = await questionary.text("What's your name?").ask_async()
 
 Themes & Styling
 ################
 
 You can customize all the colors used for the prompts. Every part of the prompt
-has an identifier, which you can use to style it. Let's create our own custom
+has an identifier, which you can use to style it. Let's create your own custom
 style:
 
 .. code-block:: python3
 
-  from prompt_toolkit.styles import Style
+  from questionary import Style
 
   custom_style_fancy = Style([
       ('qmark', 'fg:#673ab7 bold'),       # token in front of the question
@@ -233,57 +189,70 @@ style:
       ('disabled', 'fg:#858585 italic')   # disabled choices for select and checkbox prompts
   ])
 
-To use our custom style, we need to pass it to the question type:
+To use the custom style, you need to pass it to the question as a parameter:
 
 .. code-block:: python3
 
   questionary.text("What's your phone number", style=custom_style_fancy).ask()
 
-It is also possible to use a list of token tuples as a :code:`Choice` title.
-This example assumes there is a style token named :code:`bold` in the custom
-style that you are using:
+.. note::
+
+  Default values will be used for any token types not specified in your custom style.
+
+Styling Choices in Select & Checkbox Questions
+**********************************************
+
+It is also possible to use a list of token tuples as a ``Choice`` title to
+change how an option is displayed in :class:`questionary.select` and
+:class:`questionary.checkbox`. Make sure to define any additional styles
+as part of your custom style definition.
 
 .. code-block:: python3
 
-  Choice(
-      title=[
-          ('class:text', 'plain text '),
-          ('class:bold', 'bold text')
-      ]
-  )
+  import questionary
+  from questionary import Choice, Style
 
-As you can see, it is possible to use custom style tokens for this purpose as
-well. Note that :code:`Choices` with token tuple titles will not be styled by
-the :code:`selected` or :code:`highlighted` tokens. If not provided, the
-:code:`value` of the :code:`Choice` will be the text concatenated
-(:code:`'plain text bold text'` in the above example).
+  custom_style_fancy = questionary.Style([
+      ("highlighted", "bold"),  # style for a token which should appear highlighted
+  ])
 
-Workflows
-#########
+  choices = [Choice(title=[("class:text", "order a "),
+                           ("class:highlighted", "big pizza")])]
 
-Skipping Questions Using Conditions
-***********************************
+  questionary.select(
+     "What do you want to do?",
+     choices=choices,
+     style=custom_style_fancy).ask()
+
+Conditionally Skip Questions
+############################
 
 Sometimes it is helpful to be able to skip a question based on a condition.
-To avoid the need for an :code:`if` around the question, you can pass the
+To avoid the need for an ``if`` around the question, you can pass the
 condition when you create the question:
 
 .. code-block:: python3
 
+  import questionary
+
   DISABLED = True
   response = questionary.confirm("Are you amazed?").skip_if(DISABLED, default=True).ask()
 
-If the condition (in this case :code:`DISABLED`) is :code:`True`, the question
+If the condition (in this case ``DISABLED``) is ``True``, the question
 will be skipped and the default value gets returned, otherwise the user will
 be prompted as usual and the default value will be ignored.
 
-Dictionary Configuration
-************************
+.. _question_dictionaries:
+
+Create Questions from Dictionaries
+##################################
 
 Instead of creating questions using the Python functions, you can also create
 them using a configuration dictionary:
 
 .. code-block:: python3
+
+  from questionary import prompt
 
   questions = [
       {
@@ -301,32 +270,50 @@ them using a configuration dictionary:
 
   answers = prompt(questions)
 
-The returned :code:`answers` will be a dict containing the responses, e.g.
-:code:`{"phone": "0123123", "continue": False, ""}`. The questions will be
-prompted one after another and :code:`prompt` will return once all of them
-are answered.
+The questions will be prompted one after another and ``prompt`` will return
+as soon as all of them are answered. The returned ``answers``
+will be a dictionary containing the responses, e.g.
 
-Each configuration dictionary needs to contain the following keys:
+.. code-block:: python3
 
-* :code:`type` - The type of the question.
-* :code:`name` - The name of the question (will be used as key in the
-  :code:`answers` dictionary).
-* :code:`message` - Message that will be shown to the user.
+  {"phone": "0123123", "continue": False}.
 
-Optional Keys:
+Each configuration dictionary for a question must contain the
+following keys:
 
-* :code:`qmark` - Question mark to use - defaults to :code:`?`.
-* :code:`default` - Preselected value.
-* :code:`choices` - List of choices (applies when :code:`'type': 'select'`) or
-  function returning a list of choices.
+``type`` (required)
+   The type of the question.
 
-* :code:`when` - Function checking if this question should be shown or skipped
-  (same functionality as :attr:`~questionary.Question.skip_if`).
+``name`` (required)
+  The name of the question (will be used as key in the
+  ``answers`` dictionary).
 
-* :code:`validate` - Function or Validator Class performing validation (will
+``message`` (required)
+  Message that will be shown to the user.
+
+In addition to these required configuration parameters, you can
+add the following optional parameters:
+
+``qmark`` (optional)
+  Question mark to use - defaults to ``?``.
+
+``default`` (optional)
+  Preselected value.
+
+``choices`` (optional)
+  List of choices (applies when ``'type': 'select'``)
+  or function returning a list of choices.
+
+``when`` (optional)
+  Function checking if this question should be shown
+  or skipped (same functionality as :attr:`~questionary.Question.skip_if`).
+
+``validate`` (optional)
+  Function or Validator Class performing validation (will
   be performed in real time as users type).
 
-* :code:`filter` - Receive the user input and return the filtered value to be
+``filter`` (optional)
+  Receive the user input and return the filtered value to be
   used inside the program. 
 
 Further information can be found at the :class:`questionary.prompt`
@@ -334,25 +321,25 @@ documentation.
 
 .. _random_label:
 
-Example
-*******
+A Complex Example using a Dictionary Configuration
+**************************************************
 
 Questionary allows creating quite complex workflows when combining all of the
 above concepts:
 
-.. literalinclude:: ../../../examples/advanced_workflow.py
+.. literalinclude:: ../../examples/advanced_workflow.py
    :language: python3
 
 
 The above workflow will show to the user the following prompts:
 
-1. Yes/No question :code:`Would you like the next question?`.
+1. Yes/No question ``"Would you like the next question?"``.
 
-2. :code:`Name this library?` - only shown when the first question is answered
+2. ``"Name this library?"`` - only shown when the first question is answered
    with yes.
 
 3. A question to select an item from a list.
-4. Free text input if :code:`'other'` is selected in step 3.
+4. Free text input if ``"other"`` is selected in step 3.
 
 Depending on the route the user took, the result will look like the following:
 

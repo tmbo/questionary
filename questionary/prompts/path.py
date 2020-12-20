@@ -76,10 +76,10 @@ def path(
         default: Default return value (single value).
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a :code:`?`.
+               By default this is a ``?``.
 
-        complete_style: How autocomplete menu would be shown, it could be :code:`COLUMN`
-                        :code:`MULTI_COLUMN` or :code:`READLINE_LIKE` from
+        complete_style: How autocomplete menu would be shown, it could be ``COLUMN``
+                        ``MULTI_COLUMN`` or ``READLINE_LIKE`` from
                         :class:`prompt_toolkit.shortcuts.CompleteStyle`.
 
         validate: Require the entered value to pass a validation. The
@@ -96,15 +96,15 @@ def path(
         only_directories: Only show directories in auto completion
 
         file_filter: Optional callable to filter suggested paths. Only paths
-                     where the passed callable evaluates to :code:`True` will show up in
+                     where the passed callable evaluates to ``True`` will show up in
                      the suggested paths. This does not validate the typed path, e.g.
                      it is still possible for the user to enter a path manually, even
-                     though this filter evaluates to :code:`False`. If in addition to
+                     though this filter evaluates to ``False``. If in addition to
                      filtering suggestions you also want to validate the result, use
-                     :code:`validate` in combination with the :code:`file_filter`.
+                     ``validate`` in combination with the ``file_filter``.
 
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])

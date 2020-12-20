@@ -43,12 +43,12 @@ def select(
                  to initially set the pointer position to.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a :code:`?`.
+               By default this is a ``?``.
 
         instruction: A hint on how to navigate the menu.
-                     It's :code:`(Use shortcuts)` if only :code:`use_shortcuts` is set
-                     to True, :code:`(Use arrow keys or shortcuts)` if :code:`use_arrow_keys`
-                     & :code:`use_shortcuts` are set and :code:`(Use arrow keys)` by default.
+                     It's ``(Use shortcuts)`` if only ``use_shortcuts`` is set
+                     to True, ``(Use arrow keys or shortcuts)`` if ``use_arrow_keys``
+                     & ``use_shortcuts`` are set and ``(Use arrow keys)`` by default.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -67,7 +67,7 @@ def select(
                      highlighted element.
 
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")

@@ -1,8 +1,8 @@
-.. _release-history:
+.. _changelog:
 
-***************
-Release History
-***************
+*********
+Changelog
+*********
 
 1.8.1 (2020-11-17)
 ##################
@@ -13,10 +13,10 @@ Release History
 1.8.0 (2020-11-08)
 ##################
 
-* Added additional question type :code:`questionary.path`
+* Added additional question type ``questionary.path``
 * Added possibility to validate select and checkboxes selections before
   submitting them.
-* Added a helper to print formatted text :code:`questionary.print`.
+* Added a helper to print formatted text ``questionary.print``.
 * Added API method to call prompt in an unsafe way.
 * Hide cursor on select only showing the item marker.
 
@@ -32,10 +32,10 @@ Release History
 
 * Updated black code style formatting and fixed version.
 * Fixed colour of answer for some prompts.
-* Added :code:`py.typed` marker file.
+* Added ``py.typed`` marker file.
 * Documented multiline input for devs and users and added tests.
-* Accept style tuples in :code:`title` argument annotation of :code:`Choice`.
-* Added :code:`default` for select and :code:`initial_choice` for checkbox
+* Accept style tuples in ``title`` argument annotation of ``Choice``.
+* Added ``default`` for select and ``initial_choice`` for checkbox
   prompts.
 * Removed check for choices if completer is present.
 
@@ -44,14 +44,14 @@ Release History
 
 Bug fix release.
 
-* Added :code:`.ask_async` support for forms.
+* Added ``.ask_async`` support for forms.
 
 1.5.1 (2020-01-22)
 ##################
 
 Bug fix release.
 
-* Fixed :code:`.ask_async` for questions on :code:`prompt_toolkit==2.*`.
+* Fixed ``.ask_async`` for questions on ``prompt_toolkit==2.*``.
   Added tests for it.
 
 1.5.0 (2020-01-22)
@@ -59,9 +59,9 @@ Bug fix release.
 
 Feature release.
 
-* Added support for :code:`prompt_toolkit` 3.
-* All tests will be run against :code:`prompt_toolkit` 2 and 3.
-* Removed support for Python 3.5 (:code:`prompt_toolkit` 3 does not support
+* Added support for ``prompt_toolkit`` 3.
+* All tests will be run against ``prompt_toolkit`` 2 and 3.
+* Removed support for Python 3.5 (``prompt_toolkit`` 3 does not support
   that any more).
 
 1.4.0 (2019-11-10)
@@ -69,7 +69,7 @@ Feature release.
 
 Feature release.
 
-* Added additional question type :code:`autocomplete`.
+* Added additional question type ``autocomplete``.
 * Allow pointer and highlight in select question type.
 
 1.3.0 (2019-08-25)
@@ -85,7 +85,7 @@ Feature release.
 
 Bug fix release.
 
-* Fixed compatibility with Python 3.5.2 by removing `Type` annotation (this
+* Fixed compatibility with Python 3.5.2 by removing ``Type`` annotation (this
   time for real).
 
 1.2.0 (2019-07-30)
@@ -101,14 +101,14 @@ Feature release.
 
 Bug fix release.
 
-* Fixed compatibility with python 3.5.2 by removing :code:`Type` annotation.
+* Fixed compatibility with python 3.5.2 by removing ``Type`` annotation.
 
 1.1.0 (2019-03-10)
 ##################
 
 Feature release.
 
-* Added :code:`skip_if` to questions to allow skipping questions using a flag.
+* Added ``skip_if`` to questions to allow skipping questions using a flag.
 
 1.0.2 (2019-01-23)
 ##################
@@ -116,7 +116,7 @@ Feature release.
 Bug fix release.
 
 * Fixed odd behaviour if select is created without providing any choices
-  instead, we will raise a :code:`ValueError` now
+  instead, we will raise a ``ValueError`` now
   `#6 <https://github.com/tmbo/questionary/pull/6>`_.
 
 1.0.1 (2019-01-12)
@@ -125,10 +125,10 @@ Bug fix release.
 Bug fix release, adding some convenience shortcuts.
 
 * Added shortcut keys :kbd:`j` (move down the list) and :kbd:`k` (move up) to
-  the prompts `select` and `checkbox` (fixes
+  the prompts ``select`` and ``checkbox`` (fixes
   `#2 <https://github.com/tmbo/questionary/issues/2>`_).
 
-* Fixed unclosed file handle in :code:`setup.py`.
+* Fixed unclosed file handle in ``setup.py``.
 * Fixed unnecessary empty lines moving selections to far down
   (fixes `#3 <https://github.com/tmbo/questionary/issues/3>`_).
 

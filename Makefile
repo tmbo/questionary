@@ -45,6 +45,9 @@ types:
 	poetry run mypy questionary
 
 docs:
-	make -C docs html
+	poetry run make -C docs html
+
+livedocs:
+	poetry run sphinx-autobuild docs docs/build/html
 
 .PHONY: clean, install, formatter, lint, test, types, docs

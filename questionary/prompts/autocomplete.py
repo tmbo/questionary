@@ -121,7 +121,7 @@ def autocomplete(
         default: Default return value (single value).
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a :code:`?`
+               By default this is a ``?``
 
         completer: A prompt_toolkit :class:`prompt_toolkit.completion.Completion`
                    implementation. If not set, a questionary completer implementation
@@ -134,8 +134,8 @@ def autocomplete(
         match_middle: If true autocomplete would search in every string position
                       not only in string begin.
 
-        complete_style: How autocomplete menu would be shown, it could be :code:`COLUMN`
-                        :code:`MULTI_COLUMN` or :code:`READLINE_LIKE` from
+        complete_style: How autocomplete menu would be shown, it could be ``COLUMN``
+                        ``MULTI_COLUMN`` or ``READLINE_LIKE`` from
                         :class:`prompt_toolkit.shortcuts.CompleteStyle`.
 
         validate: Require the entered value to pass a validation. The
@@ -150,7 +150,7 @@ def autocomplete(
                configure colors as well as font types for different elements.
 
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     merged_style = merge_styles([DEFAULT_STYLE, style])

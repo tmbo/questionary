@@ -93,8 +93,8 @@ class Choice(object):
 
         Args:
             c: Either a :obj:`str`, :class:`Choice` or :obj:`dict` with
-               :code:`name`, :code:`value`, :code:`disabled`, :code:`checked` and
-               :code:`key` properties.
+               ``name``, ``value``, ``disabled``, ``checked`` and
+               ``key`` properties.
 
         Returns:
             An instance of the :class:`Choice` object.
@@ -127,7 +127,7 @@ class Separator(Choice):
         """Create a separator in a list.
 
         Args:
-            line: Text to be displayed in the list, by default uses :code:`---`.
+            line: Text to be displayed in the list, by default uses ``---``.
         """
 
         self.line = line or self.default_separator

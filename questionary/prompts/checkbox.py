@@ -38,7 +38,7 @@ def checkbox(
                  (e.g. preselecting it or disabling it).
 
         default: Default return value (single value). If you want to preselect
-                 multiple items, use :code:`Choice("foo", checked=True)` instead.
+                 multiple items, use ``Choice("foo", checked=True)`` instead.
 
         validate: Require the entered value to pass a validation. The
                   value can not be submitted until the validator accepts
@@ -50,7 +50,7 @@ def checkbox(
                   the error message to be displayed.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a :code:`?`.
+               By default this is a ``?``.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -62,7 +62,7 @@ def checkbox(
                         to initially set the pointer position to.
 
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using :code:`.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     merged_style = merge_styles(

@@ -1,5 +1,6 @@
 # noinspection PyUnresolvedReferences
 from prompt_toolkit.validation import Validator, ValidationError
+from prompt_toolkit.styles import Style
 
 import questionary.version
 from questionary.form import Form
@@ -40,6 +41,7 @@ __all__ = [
     "Question",
     "unsafe_prompt",
     "Choice",
+    "Style",
     "Separator",
     "Validator",
     "ValidationError",
