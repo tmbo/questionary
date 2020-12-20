@@ -1,4 +1,4 @@
-.PHONY: clean install formatter lint types
+.PHONY: clean install formatter lint test types docs livedocs
 
 JOBS ?= 1
 
@@ -18,6 +18,8 @@ help:
 	@echo "        Check for type errors using pytype."
 	@echo "    docs"
 	@echo "        Build the documentation."
+	@echo "    livedocs"
+	@echo "        Build the documentation with a live preview for quick iteration."
 
 clean:
 	find . -name '*.pyc' -exec rm -f {} +
@@ -49,5 +51,3 @@ docs:
 
 livedocs:
 	poetry run sphinx-autobuild docs docs/build/html
-
-.PHONY: clean, install, formatter, lint, test, types, docs

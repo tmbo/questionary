@@ -150,8 +150,8 @@ when calling these methods. Here is an example:
         print("Cancelled by user")
 
 
-Asynchronous Invocation
-#######################
+Asynchronous Usage
+##################
 
 If you are running asynchronous code and you want to avoid blocking your
 async loop, you can ask your questions using ``await``.
