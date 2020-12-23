@@ -13,7 +13,7 @@ def rawselect(
     choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[str] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
-    pointer: str = DEFAULT_SELECTED_POINTER,
+    pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     **kwargs: Any,
 ) -> Question:

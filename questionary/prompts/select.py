@@ -23,7 +23,7 @@ def select(
     choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
-    pointer: str = DEFAULT_SELECTED_POINTER,
+    pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
     use_arrow_keys: bool = True,

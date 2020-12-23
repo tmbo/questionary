@@ -180,7 +180,7 @@ class InquirerControl(FormattedTextControl):
     use_indicator: bool
     use_shortcuts: bool
     use_arrow_keys: bool
-    pointer: str
+    pointer: Optional[str]
     pointed_at: int
     is_answered: bool
 
@@ -188,7 +188,7 @@ class InquirerControl(FormattedTextControl):
         self,
         choices: Sequence[Union[str, Choice, Dict[str, Any]]],
         default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
-        pointer: str = DEFAULT_SELECTED_POINTER,
+        pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         use_arrow_keys: bool = True,

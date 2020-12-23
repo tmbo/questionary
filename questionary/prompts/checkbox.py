@@ -24,7 +24,7 @@ def checkbox(
     default: Optional[str] = None,
     validate: Callable[[List[str]], Union[bool, str]] = lambda a: True,
     qmark: str = DEFAULT_QUESTION_PREFIX,
-    pointer: str = DEFAULT_SELECTED_POINTER,
+    pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     **kwargs: Any,
