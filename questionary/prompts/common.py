@@ -307,11 +307,12 @@ class InquirerControl(FormattedTextControl):
                 if self.pointer is not None:
                     tokens.append(("class:pointer", " {} ".format(self.pointer)))
                 else:
-                    tokens.append(("class:text", "   "))
+                    tokens.append(("class:text", " " * 3))
 
                 tokens.append(("[SetCursorPosition]", ""))
             else:
-                tokens.append(("class:text", "   "))
+                pointer_length = len(self.pointer) if self.pointer is not None else 1
+                tokens.append(("class:text", " " * (2 + pointer_length)))
 
             if isinstance(choice, Separator):
                 tokens.append(("class:separator", "{}".format(choice.title)))
