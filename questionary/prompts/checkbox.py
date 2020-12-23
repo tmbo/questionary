@@ -7,7 +7,12 @@ from prompt_toolkit.styles import Style, merge_styles
 from prompt_toolkit.formatted_text import FormattedText
 
 from questionary import utils
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE, INVALID_INPUT
+from questionary.constants import (
+    DEFAULT_QUESTION_PREFIX,
+    DEFAULT_SELECTED_POINTER,
+    DEFAULT_STYLE,
+    INVALID_INPUT,
+)
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
@@ -19,8 +24,8 @@ def checkbox(
     default: Optional[str] = None,
     validate: Callable[[List[str]], Union[bool, str]] = lambda a: True,
     qmark: str = DEFAULT_QUESTION_PREFIX,
+    pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
-    use_pointer: bool = True,
     initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     **kwargs: Any,
 ) -> Question:
@@ -70,11 +75,12 @@ def checkbox(
         qmark: Question prefix displayed in front of the question.
                By default this is a ``?``.
 
+        pointer: Pointer symbol in front of the currently highlighted element.
+                 By default this is a ``»``.
+                 Use ``None`` to disable it.
+
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
-
-        use_pointer: Flag to enable the pointer in front of the currently
-                     highlighted element.
 
         initial_choice: A value corresponding to a selectable item in the choices,
                         to initially set the pointer position to.
@@ -98,7 +104,7 @@ def checkbox(
         raise ValueError("validate must be callable")
 
     ic = InquirerControl(
-        choices, default, use_pointer=use_pointer, initial_choice=initial_choice
+        choices, default, pointer=pointer, initial_choice=initial_choice
     )
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:
