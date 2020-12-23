@@ -8,7 +8,11 @@ from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style, merge_styles
 
 from questionary import utils
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
+from questionary.constants import (
+    DEFAULT_QUESTION_PREFIX,
+    DEFAULT_SELECTED_POINTER,
+    DEFAULT_STYLE,
+)
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
@@ -19,6 +23,7 @@ def select(
     choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
+    pointer: str = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
     use_arrow_keys: bool = True,
@@ -105,6 +110,7 @@ def select(
     ic = InquirerControl(
         choices,
         default,
+        pointer=pointer,
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
         use_arrow_keys=use_arrow_keys,

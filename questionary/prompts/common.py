@@ -14,7 +14,7 @@ from typing import Optional, Any, List, Dict, Union, Callable, Sequence, Tuple
 
 from questionary.constants import (
     DEFAULT_STYLE,
-    SELECTED_POINTER,
+    DEFAULT_SELECTED_POINTER,
     INDICATOR_SELECTED,
     INDICATOR_UNSELECTED,
     INVALID_INPUT,
@@ -188,6 +188,7 @@ class InquirerControl(FormattedTextControl):
         self,
         choices: Sequence[Union[str, Choice, Dict[str, Any]]],
         default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
+        pointer: str = DEFAULT_SELECTED_POINTER,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         use_arrow_keys: bool = True,
@@ -201,6 +202,7 @@ class InquirerControl(FormattedTextControl):
         self.use_arrow_keys = use_arrow_keys
         self.use_pointer = use_pointer
         self.default = default
+        self.pointer = pointer
 
         if default is not None and default not in choices:
             raise ValueError(
@@ -305,7 +307,7 @@ class InquirerControl(FormattedTextControl):
 
             if index == self.pointed_at:
                 if self.use_pointer:
-                    tokens.append(("class:pointer", " {} ".format(SELECTED_POINTER)))
+                    tokens.append(("class:pointer", " {} ".format(self.pointer)))
                 else:
                     tokens.append(("class:text", "   "))
 

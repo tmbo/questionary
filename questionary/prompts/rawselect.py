@@ -2,7 +2,7 @@ from typing import Sequence, Optional, Any, Union, Dict
 
 from prompt_toolkit.styles import Style
 
-from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_SELECTED_POINTER
 from questionary.prompts import select
 from questionary.prompts.common import Choice
 from questionary.question import Question
@@ -13,6 +13,7 @@ def rawselect(
     choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[str] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
+    pointer: str = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     **kwargs: Any,
 ) -> Question:
@@ -61,6 +62,7 @@ def rawselect(
         choices,
         default,
         qmark,
+        pointer,
         style,
         use_shortcuts=True,
         use_arrow_keys=False,
