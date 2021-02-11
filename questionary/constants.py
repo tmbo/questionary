@@ -16,7 +16,7 @@ NO_OR_YES = "(y/N)"
 INSTRUCTION_MULTILINE = "(Finish with 'Alt+Enter' or 'Esc, Enter')\n>"
 
 # Selection token used to indicate the selection cursor in a list
-DEFAULT_SELECTED_POINTER = "»"
+DEFAULT_SELECTED_POINTER = "👉"
 
 # Item prefix to identify selected items in a checkbox list
 INDICATOR_SELECTED = "●"
