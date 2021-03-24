@@ -111,4 +111,4 @@ It is based on the great work by [Oyetoke Toby](https://github.com/CITGuru/PyInq
 and [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## License
-Licensed under the [MIT License](https://github.com/tmbo/questionary/blob/master/LICENSE). Copyright 2020 Tom Bocklisch.
+Licensed under the [MIT License](https://github.com/tmbo/questionary/blob/master/LICENSE). Copyright 2021 Tom Bocklisch.
