@@ -28,7 +28,6 @@ classifiers=[
     "Topic :: Software Development :: Libraries",
 ]
 keywords = [ "cli", "ui", "inquirer", "questions", "prompt",]
-include = [ "LICENSE", "README.md", "questionary/py.typed",]
 readme = "README.md"
 license = "MIT"
 
