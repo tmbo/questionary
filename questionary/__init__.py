@@ -2,6 +2,16 @@
 from prompt_toolkit.validation import Validator, ValidationError
 from prompt_toolkit.styles import Style
 
+# Asyncio bug workaround
+# https://github.com/prompt-toolkit/python-prompt-toolkit/issues/1023
+import asyncio
+import selectors
+
+selector = selectors.SelectSelector()
+loop = asyncio.SelectorEventLoop(selector)
+asyncio.set_event_loop(loop)
+# End workaround
+
 import questionary.version
 from questionary.form import Form
 from questionary.form import form
