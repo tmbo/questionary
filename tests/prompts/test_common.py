@@ -1,11 +1,18 @@
+from unittest.mock import Mock, call
+
+from prompt_toolkit.styles import Attrs
 import pytest
 from prompt_toolkit.document import Document
 from prompt_toolkit.input.defaults import create_pipe_input
-from prompt_toolkit.output import DummyOutput
+from prompt_toolkit.output import ColorDepth, DummyOutput
 from prompt_toolkit.validation import ValidationError, Validator
 from questionary.prompts import common
 
-from questionary.prompts.common import InquirerControl, build_validator
+from questionary.prompts.common import (
+    InquirerControl,
+    build_validator,
+    print_formatted_text,
+)
 
 
 def test_to_many_choices_for_shortcut_assignment():
@@ -33,7 +40,7 @@ def test_validator_bool_function_fails():
     with pytest.raises(ValidationError) as e:
         validator.validate(Document("fooooo"))
 
-    assert e.value.message == "invalid input"
+    assert e.value.message == "Invalid input"
 
 
 def test_validator_instance():
@@ -119,3 +126,38 @@ def test_prompt_highlight_coexist():
     ]
     assert ic.pointed_at == 2
     assert ic._get_choice_tokens() == expected_tokens
+
+
+def test_print(monkeypatch):
+    mock = Mock(return_value=None)
+    monkeypatch.setattr(DummyOutput, "write", mock)
+
+    print_formatted_text("Hello World", output=DummyOutput())
+
+    mock.assert_has_calls([call("Hello World"), call("\r\n")])
+
+
+def test_print_with_style(monkeypatch):
+    mock = Mock(return_value=None)
+    monkeypatch.setattr(DummyOutput, "write", mock.write)
+    monkeypatch.setattr(DummyOutput, "set_attributes", mock.set_attributes)
+
+    print_formatted_text(
+        "Hello World", style="bold italic fg:darkred", output=DummyOutput()
+    )
+
+    assert len(mock.method_calls) == 4
+    assert mock.method_calls[0][0] == "set_attributes"
+    assert mock.method_calls[0][1][0] == Attrs(
+        color="8b0000",
+        bgcolor="",
+        bold=True,
+        underline=False,
+        italic=True,
+        blink=False,
+        reverse=False,
+        hidden=False,
+    )
+
+    assert mock.method_calls[1][0] == "write"
+    assert mock.method_calls[1][1][0] == "Hello World"

@@ -1,4 +1,4 @@
-from prompt_toolkit.styles import Style
+from questionary import Style
 
 custom_style_fancy = Style(
     [

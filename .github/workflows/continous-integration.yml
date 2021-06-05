@@ -1,0 +1,147 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+    - master
+    tags:
+    - '*'
+  pull_request:
+
+env:
+  POETRY_VIRTUALENVS_CREATE: false
+
+# SECRETS
+# - PYPI_TOKEN: publishing token for tmbo account, needs to be maintainer of
+#               tmbo/questionary on pypi
+
+jobs:
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout git repository 🕝
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.7 🐍
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: Install poetry 🦄
+      uses: Gr1N/setup-poetry@v4
+
+    - name: Load Poetry Cached Libraries ⬇
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: ${{ runner.os }}-poetry-
+
+    - name: Install dependencies 🖥
+      run: poetry install --no-interaction
+
+    - name: Lint Code 🎎
+      run: make lint
+
+    - name: Check Types 📚
+      run: make types
+
+    - name: Check Version Numbers 🕸
+      run: python3 scripts/validate_version.py
+
+  test:
+    name: Run Tests
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: [3.6, 3.7, 3.8, 3.9]
+        promttoolkit: [3.*, 2.*]
+        exclude:
+          # tests on windows with prompt-toolkit 2.* do not complete
+          - os: windows-latest
+            promttoolkit: 2.*
+
+    steps:
+    - name: Checkout git repository 🕝
+      uses: actions/checkout@v2
+
+    - name: Set up Python ${{ matrix.python-version }} 🐍
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install poetry 🦄
+      uses: Gr1N/setup-poetry@v4
+
+    - name: Load Poetry Cached Libraries ⬇
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pypoetry
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+        restore-keys: ${{ runner.os }}-poetry-
+
+    - name: Install dependencies 🖥
+      run: |
+        poetry install --no-interaction
+        poetry run pip install prompt_toolkit==${{ matrix.promttoolkit }}
+
+    - name: Test Code 🔍
+      run: make test
+
+    - name: Send Coverage Report 📊
+      if: matrix.python-version == 3.6 && matrix.os != 'windows-latest'
+      env:
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_SERVICE_NAME: github
+      run: poetry run coveralls
+
+  docs:
+    name: Test Docs
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout git repository 🕝
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.7 🐍
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+    
+    - name: Install poetry 🦄
+      uses: Gr1N/setup-poetry@v4
+    
+    - name: Install dependencies 🖥
+      run: poetry install --no-interaction --extras "docs"
+
+    - name: Build docs ⚒️
+      run: make docs
+
+  deploy:
+    name: Deploy to PyPI
+    runs-on: ubuntu-latest
+
+    # deploy will only be run when there is a tag available
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+    needs: [quality, test, docs]  # only run after all other stages succeeded
+
+    steps:
+    - name: Checkout git repository 🕝
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.7 🐍
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.7
+
+    - name: Install poetry 🦄
+      uses: Gr1N/setup-poetry@v4
+
+    - name: Build ⚒️ Distributions
+      run: |
+        poetry build
+        poetry publish -u __token__ -p ${{ secrets.PYPI_TOKEN }}

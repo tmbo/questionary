@@ -1,12 +1,9 @@
-# -*- coding: utf-8 -*-
 from typing import (
     Any,
     Callable,
     Dict,
-    Generator,
     List,
     Optional,
-    Text,
     Tuple,
     Union,
     Iterable,
@@ -17,6 +14,7 @@ from prompt_toolkit.document import Document
 from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit.shortcuts.prompt import PromptSession, CompleteStyle
 from prompt_toolkit.styles import Style, merge_styles
+from prompt_toolkit.lexers import SimpleLexer
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
 from questionary.prompts.common import build_validator
@@ -24,27 +22,31 @@ from questionary.question import Question
 
 
 class WordCompleter(Completer):
+    choices_source: Union[List[str], Callable[[], List[str]]]
+    ignore_case: bool
+    meta_information: Dict[str, Any]
+    match_middle: bool
+
     def __init__(
         self,
-        choices: Union[List[Text], Callable[[], List[Text]]],
+        choices: Union[List[str], Callable[[], List[str]]],
         ignore_case: bool = True,
-        meta_information: Optional[Dict[Text, Any]] = None,
+        meta_information: Optional[Dict[str, Any]] = None,
         match_middle: bool = True,
-    ):
-
+    ) -> None:
         self.choices_source = choices
         self.ignore_case = ignore_case
         self.meta_information = meta_information or {}
         self.match_middle = match_middle
 
-    def _choices(self) -> List[Text]:
+    def _choices(self) -> Iterable[str]:
         return (
             self.choices_source()
             if callable(self.choices_source)
             else self.choices_source
         )
 
-    def _choice_matches(self, word_before_cursor: Text, choice: Text) -> int:
+    def _choice_matches(self, word_before_cursor: str, choice: str) -> int:
         """Match index if found, -1 if not. """
 
         if self.ignore_case:
@@ -58,7 +60,7 @@ class WordCompleter(Completer):
             return -1
 
     @staticmethod
-    def _display_for_choice(choice: Text, index: int, word_before_cursor: Text) -> HTML:
+    def _display_for_choice(choice: str, index: int, word_before_cursor: str) -> HTML:
         return HTML("{}<b><u>{}</u></b>{}").format(
             choice[:index],
             choice[index : index + len(word_before_cursor)],
@@ -96,20 +98,41 @@ class WordCompleter(Completer):
 
 
 def autocomplete(
-    message: Text,
-    choices: List[Text],
-    default: Text = "",
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: List[str],
+    default: str = "",
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     completer: Optional[Completer] = None,
-    meta_information: Optional[Dict[Text, Any]] = None,
+    meta_information: Optional[Dict[str, Any]] = None,
     ignore_case: bool = True,
     match_middle: bool = True,
     complete_style: CompleteStyle = CompleteStyle.COLUMN,
     validate: Any = None,
     style: Optional[Style] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a message with autocomplete help.
+
+    Example:
+        >>> import questionary
+        >>> questionary.autocomplete(
+        ...    'Choose ant specie',
+        ...    choices=[
+        ...         'Camponotus pennsylvanicus',
+        ...         'Linepithema humile',
+        ...         'Eciton burchellii',
+        ...         "Atta colombica",
+        ...         'Polyergus lucidus',
+        ...         'Polyergus rufescens',
+        ...    ]).ask()
+        ? Choose ant specie Atta colombica
+        'Atta colombica'
+
+    .. image:: ../images/autocomplete.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
 
     Args:
         message: Question text
@@ -119,10 +142,11 @@ def autocomplete(
         default: Default return value (single value).
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`
+               By default this is a ``?``
 
-        completer: A prompt_toolkit `Completer` implementation. If not set, a
-                questionary completer implementation will be used.
+        completer: A prompt_toolkit :class:`prompt_toolkit.completion.Completion`
+                   implementation. If not set, a questionary completer implementation
+                   will be used.
 
         meta_information: A dictionary with information/anything about choices.
 
@@ -131,8 +155,9 @@ def autocomplete(
         match_middle: If true autocomplete would search in every string position
                       not only in string begin.
 
-        complete_style: How autocomplete menu would be shown, it could be
-                        COLUMN, MULTI_COLUMN or READLINE_LIKE
+        complete_style: How autocomplete menu would be shown, it could be ``COLUMN``
+                        ``MULTI_COLUMN`` or ``READLINE_LIKE`` from
+                        :class:`prompt_toolkit.shortcuts.CompleteStyle`.
 
         validate: Require the entered value to pass a validation. The
                   value can not be submitted until the validator accepts
@@ -146,18 +171,15 @@ def autocomplete(
                configure colors as well as font types for different elements.
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
-
-    if not choices:
-        raise ValueError("No choices is given, you should use Text question.")
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
-    def get_prompt_tokens() -> List[Tuple[Text, Text]]:
+    def get_prompt_tokens() -> List[Tuple[str, str]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
-    def get_meta_style(meta: Dict[Text, Any]):
+    def get_meta_style(meta: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         if meta:
             for key in meta:
                 meta[key] = HTML("<text>{}</text>").format(meta[key])
@@ -167,6 +189,8 @@ def autocomplete(
     validator = build_validator(validate)
 
     if completer is None:
+        if not choices:
+            raise ValueError("No choices is given, you should use Text question.")
         # use the default completer
         completer = WordCompleter(
             choices,
@@ -177,6 +201,7 @@ def autocomplete(
 
     p = PromptSession(
         get_prompt_tokens,
+        lexer=SimpleLexer("class:answer"),
         style=merged_style,
         completer=completer,
         validator=validator,

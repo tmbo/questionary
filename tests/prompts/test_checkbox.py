@@ -182,3 +182,85 @@ def test_list_ctr_c():
 
     with pytest.raises(KeyboardInterrupt):
         feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_checkbox_initial_choice():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bazz"}
+    text = KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["bazz"]
+
+
+def test_checkbox_initial_choice_not_selectable():
+    message = "Foo message"
+    separator = Separator()
+    kwargs = {"choices": ["foo", "bazz", separator], "initial_choice": separator}
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_checkbox_initial_choice_non_existant():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bar"}
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_validate_default_message():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"], "validate": lambda a: len(a) != 0}
+    text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo", "bar", "bazz"]
+
+
+def test_validate_with_message():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bar", "bazz"],
+        "validate": lambda a: True if len(a) > 0 else "Error Message",
+    }
+    text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo", "bar", "bazz"]
+
+
+def test_validate_not_callable():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"], "validate": "invalid"}
+    text = KeyInputs.ENTER + "i" + KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_proper_type_returned():
+    message = "Foo message"
+    kwargs = {
+        "choices": [
+            Choice("one", value=1),
+            Choice("two", value="foo"),
+            Choice("three", value=[3, "bar"]),
+        ]
+    }
+    text = (
+        KeyInputs.SPACE
+        + KeyInputs.DOWN
+        + KeyInputs.SPACE
+        + KeyInputs.DOWN
+        + KeyInputs.SPACE
+        + KeyInputs.DOWN
+        + KeyInputs.ENTER
+        + "\r"
+    )
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == [1, "foo", [3, "bar"]]

@@ -16,3 +16,4 @@ if __name__ == "__main__":
     questionary.checkbox(
         "Select toppings", choices=["foo", "bar", "bazz"], style=custom_style_dope
     ).ask()
+    questionary.path("Path to the projects version file").ask()

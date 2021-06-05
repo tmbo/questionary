@@ -62,3 +62,14 @@ def test_async_ask_question():
         assert response == "World"
     finally:
         inp.close()
+
+
+def test_multiline_text():
+    inp = create_pipe_input()
+    try:
+        inp.send_text(f"Hello{KeyInputs.ENTER}world{KeyInputs.ESCAPE}{KeyInputs.ENTER}")
+        question = text("Hello?", input=inp, output=DummyOutput(), multiline=True)
+        response = question.ask()
+        assert response == "Hello\nworld"
+    finally:
+        inp.close()

@@ -1,53 +1,84 @@
 # -*- coding: utf-8 -*-
 
-from typing import Any, Dict, List, Optional, Text, Union
+from typing import Any, Dict, Sequence, Optional, Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style, merge_styles
 
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
+from questionary import utils
+from questionary.constants import (
+    DEFAULT_QUESTION_PREFIX,
+    DEFAULT_SELECTED_POINTER,
+    DEFAULT_STYLE,
+)
 from questionary.prompts import common
 from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
 
 
 def select(
-    message: Text,
-    choices: List[Union[Text, Choice, Dict[Text, Any]]],
-    default: Optional[Text] = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    message: str,
+    choices: Sequence[Union[str, Choice, Dict[str, Any]]],
+    default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
+    pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     use_shortcuts: bool = False,
+    use_arrow_keys: bool = True,
     use_indicator: bool = False,
     use_pointer: bool = True,
-    use_arrow_keys: bool = True,
     use_ij_keys: bool = True,
     show_selected: bool = True,
-    instruction: Text = None,
-    **kwargs: Any
+    instruction: Optional[str] = None,
+    **kwargs: Any,
 ) -> Question:
-    """Prompt the user to select one item from the list of choices.
+    """A list of items to select **one** option from.
 
-    The user can only select one option.
+    The user can pick one option and confirm it (if you want to allow
+    the user to select multiple options, use :meth:`questionary.checkbox` instead).
+
+    Example:
+        >>> import questionary
+        >>> questionary.select(
+        ...     "What do you want to do?",
+        ...     choices=[
+        ...         "Order a pizza",
+        ...         "Make a reservation",
+        ...         "Ask for opening hours"
+        ...     ]).ask()
+        ? What do you want to do? Order a pizza
+        'Order a pizza'
+
+    .. image:: ../images/select.gif
+
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
+
 
     Args:
         message: Question text
 
-        choices: Items shown in the selection, this can contain `Choice` or
-                 or `Separator` objects or simple items as strings. Passing
-                 `Choice` objects, allows you to configure the item more
-                 (e.g. preselecting it or disabeling it).
+        choices: Items shown in the selection, this can contain :class:`Choice` or
+                 or :class:`Separator` objects or simple items as strings. Passing
+                 :class:`Choice` objects, allows you to configure the item more
+                 (e.g. preselecting it or disabling it).
 
-        default: Default return value (single value).
+        default: A value corresponding to a selectable item in the choices,
+                 to initially set the pointer position to.
 
         qmark: Question prefix displayed in front of the question.
-               By default this is a `?`
+               By default this is a ``?``.
+
+        pointer: Pointer symbol in front of the currently highlighted element.
+                 By default this is a ``»``.
+                 Use ``None`` to disable it.
 
         instruction: A hint on how to navigate the menu.
-                     It's `(Use arrow keys)` if `use_shortcuts` is not set
-                     to True and`(Use shortcuts)` otherwise by default
+                     It's ``(Use shortcuts)`` if only ``use_shortcuts`` is set
+                     to True, ``(Use arrow keys or shortcuts)`` if ``use_arrow_keys``
+                     & ``use_shortcuts`` are set and ``(Use arrow keys)`` by default.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
@@ -75,7 +106,7 @@ def select(
         show_selected: Display current selection choice at the bottom of list
 
     Returns:
-        Question: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
     if not (use_arrow_keys or use_shortcuts):
         raise ValueError(
@@ -105,10 +136,13 @@ def select(
     ic = InquirerControl(
         choices,
         default,
+        pointer=pointer,
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
         use_pointer=use_pointer,
         show_selected=show_selected,
+        use_arrow_keys=use_arrow_keys,
+        initial_choice=default,
     )
 
     def get_prompt_tokens():
@@ -124,17 +158,18 @@ def select(
                     )
                 )
             else:
-                tokens.append(("class:answer", " " + ic.get_pointed_at().title))
+                tokens.append(("class:answer", ic.get_pointed_at().title))
         else:
             if instruction:
                 tokens.append(("class:instruction", instruction))
             else:
-                tokens.append(
-                    (
-                        "class:instruction",
-                        " (Use shortcuts)" if use_shortcuts else " (Use arrow keys)",
-                    )
-                )
+                if use_shortcuts and use_arrow_keys:
+                    instruction_msg = "(Use shortcuts or arrow keys)"
+                elif use_shortcuts and not use_arrow_keys:
+                    instruction_msg = "(Use shortcuts)"
+                else:
+                    instruction_msg = "(Use arrow keys)"
+                tokens.append(("class:instruction", instruction_msg))
 
         return tokens
 
@@ -197,5 +232,10 @@ def select(
         pass
 
     return Question(
-        Application(layout=layout, key_bindings=bindings, style=merged_style, **kwargs)
+        Application(
+            layout=layout,
+            key_bindings=bindings,
+            style=merged_style,
+            **utils.used_kwargs(kwargs, Application.__init__),
+        )
     )

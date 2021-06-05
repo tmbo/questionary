@@ -33,6 +33,37 @@ def test_arguments_of_no_args():
     assert defaults == []
 
 
+def test_filter_kwargs():
+    def f(a, b=1, *, c=2):
+        pass
+
+    kwargs = {
+        "a": 1,
+        "b": 2,
+        "c": 3,
+        "d": 4,
+    }
+
+    filtered = utils.used_kwargs(kwargs, f)
+    assert "a" in filtered
+    assert "b" in filtered
+    assert "c" in filtered
+    assert "d" not in filtered
+
+
+def test_filter_kwargs_empty():
+    def f():
+        pass
+
+    kwargs = {
+        "a": 1,
+        "b": 2,
+    }
+
+    filtered = utils.used_kwargs(kwargs, f)
+    assert filtered == {}
+
+
 def test_required_arguments_of():
     def f(a, b=2, c=None, *args, **kwargs):
         pass

@@ -1,40 +1,84 @@
-from collections import namedtuple
+from typing import Any, Dict, NamedTuple, Sequence
 
 from questionary.constants import DEFAULT_KBI_MESSAGE
 from questionary.question import Question
 
-FormField = namedtuple("FormField", ["key", "question"])
+
+class FormField(NamedTuple):
+    key: str
+    question: Question
 
 
-def form(**kwargs: Question):
+def form(**kwargs: Question) -> "Form":
     """Create a form with multiple questions.
 
     The parameter name of a question will be the key for the answer in
-    the returned dict."""
+    the returned dict.
+
+    Args:
+        kwargs: Questions to ask in the form.
+    """
     return Form(*(FormField(k, q) for k, q in kwargs.items()))
 
 
 class Form:
     """Multi question prompts. Questions are asked one after another.
 
-    All the answers are returned as a dict with one entry per question."""
+    All the answers are returned as a dict with one entry per question.
 
-    def __init__(self, *form_fields: FormField):
+    This class should not be invoked directly, instead use :func:`form`.
+    """
+
+    form_fields: Sequence[FormField]
+
+    def __init__(self, *form_fields: FormField) -> None:
         self.form_fields = form_fields
 
-    def unsafe_ask(self, patch_stdout=False):
-        answers = {}
-        for f in self.form_fields:
-            answers[f.key] = f.question.unsafe_ask(patch_stdout)
-        return answers
+    def unsafe_ask(self, patch_stdout: bool = False) -> Dict[str, Any]:
+        """Ask the questions synchronously and return user response.
 
-    async def unsafe_ask_async(self, patch_stdout=False):
-        answers = {}
-        for f in self.form_fields:
-            answers[f.key] = await f.question.unsafe_ask_async(patch_stdout)
-        return answers
+        Does not catch keyboard interrupts.
 
-    def ask(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+        Returns:
+            The answers from the form.
+        """
+        return {f.key: f.question.unsafe_ask(patch_stdout) for f in self.form_fields}
+
+    async def unsafe_ask_async(self, patch_stdout: bool = False) -> Dict[str, Any]:
+        """Ask the questions using asyncio and return user response.
+
+        Does not catch keyboard interrupts.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+        Returns:
+            The answers from the form.
+        """
+        return {
+            f.key: await f.question.unsafe_ask_async(patch_stdout)
+            for f in self.form_fields
+        }
+
+    def ask(
+        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+    ) -> Dict[str, Any]:
+        """Ask the questions synchronously and return user response.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+            kbi_msg: The message to be printed on a keyboard interrupt.
+
+        Returns:
+            The answers from the form.
+        """
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
@@ -43,7 +87,20 @@ class Form:
             print("")
             return {}
 
-    async def ask_async(self, patch_stdout=False, kbi_msg=DEFAULT_KBI_MESSAGE):
+    async def ask_async(
+        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+    ) -> Dict[str, Any]:
+        """Ask the questions using asyncio and return user response.
+
+        Args:
+            patch_stdout: Ensure that the prompt renders correctly if other threads
+                          are printing to stdout.
+
+            kbi_msg: The message to be printed on a keyboard interrupt.
+
+        Returns:
+            The answers from the form.
+        """
         try:
             return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:

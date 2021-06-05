@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-from typing import Any, Optional, Text
+from typing import Any, Optional
 
-from prompt_toolkit.styles import Style
+from questionary import Style
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.prompts import text
@@ -9,41 +8,52 @@ from questionary.question import Question
 
 
 def password(
-    message: Text,
-    default: Text = "",
+    message: str,
+    default: str = "",
     validate: Any = None,
-    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
-    **kwargs: Any
+    **kwargs: Any,
 ) -> Question:
-    """Question the user to enter a secret text not displayed in the prompt.
+    """A text input where a user can enter a secret which won't be displayed on the CLI.
 
-       This question type can be used to prompt the user for information
-       that should not be shown in the command line. The typed text will be
-       replaced with `*`.
+    This question type can be used to prompt the user for information
+    that should not be shown in the command line. The typed text will be
+    replaced with ``*``.
 
-       Args:
-           message: Question text
+    Example:
+        >>> import questionary
+        >>> questionary.password("What's your secret?").ask()
+        ? What's your secret? ********
+        'secret42'
 
-           default: Default value will be returned if the user just hits
-                    enter.
+    .. image:: ../images/password.gif
 
-           validate: Require the entered value to pass a validation. The
-                     value can not be submited until the validator accepts
-                     it (e.g. to check minimum password length).
+    This is just a realy basic example, the prompt can be customised using the
+    parameters.
 
-                     This can either be a function accepting the input and
-                     returning a boolean, or an class reference to a
-                     subclass of the prompt toolkit Validator class.
+    Args:
+        message: Question text.
 
-           qmark: Question prefix displayed in front of the question.
-                  By default this is a `?`
+        default: Default value will be returned if the user just hits
+                 enter.
 
-           style: A custom color and style for the question parts. You can
-                  configure colors as well as font types for different elements.
+        validate: Require the entered value to pass a validation. The
+                  value can not be submitted until the validator accepts
+                  it (e.g. to check minimum password length).
 
-       Returns:
-           Question: Question instance, ready to be prompted (using `.ask()`).
+                  This can either be a function accepting the input and
+                  returning a boolean, or an class reference to a
+                  subclass of the prompt toolkit Validator class.
+
+        qmark: Question prefix displayed in front of the question.
+               By default this is a ``?``.
+
+        style: A custom color and style for the question parts. You can
+               configure colors as well as font types for different elements.
+
+    Returns:
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     return text.text(

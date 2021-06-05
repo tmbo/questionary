@@ -2,7 +2,7 @@
 import pytest
 
 from questionary import Separator, Choice
-from tests.utils import feed_cli_with_input, KeyInputs
+from tests.utils import feed_cli_with_input, KeyInputs, patched_prompt
 
 
 def test_legacy_name():
@@ -148,7 +148,6 @@ def test_select_empty_choices():
         feed_cli_with_input("select", message, text, **kwargs)
 
 
-
 def test_disallow_shortcut_key():
     message = "Foo message"
     kwargs = {
@@ -168,6 +167,64 @@ def test_allow_shortcut_key_with_True():
         "use_shortcuts": True,
     }
     text = KeyInputs.THREE + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_initial_choice():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "default": "bazz"}
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_initial_choice_not_selectable():
+    message = "Foo message"
+    separator = Separator()
+    kwargs = {"choices": ["foo", "bazz", separator], "default": separator}
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("select", message, text, **kwargs)
+
+
+def test_select_initial_choice_non_existant():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "default": "bar"}
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("select", message, text, **kwargs)
+
+
+def test_no_invalid_parameters_are_forwarded():
+    # the `validate_while_typing` parameter is an additional parameter that
+    # gets forwarded to the `PromptSession`. this checks that the parameter
+    # isn't forwarded to a method that does not expect it
+    patched_prompt(
+        [
+            {
+                "type": "select",
+                "name": "theme",
+                "message": "What do you want to do?",
+                "choices": [
+                    "Order a pizza",
+                    "Make a reservation",
+                ],
+            }
+        ],
+        text=KeyInputs.ENTER + "\r",
+        validate_while_typing=False,
+    )
+
+
+def test_select_arrow_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "use_arrow_keys": True}
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "bazz"
@@ -224,3 +281,47 @@ def test_ij_and_shortcut_conflict_avoided_by_disabling_ij_keys():
     text = KeyInputs.ENTER + "\r"
 
     feed_cli_with_input("select", message, text, **kwargs)
+
+
+def test_select_shortcuts():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"], "use_shortcuts": True}
+    text = "2" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_no_arrow_keys():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bazz"],
+        "use_arrow_keys": False,
+        "use_shortcuts": True,
+    }
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "foo"
+
+
+def test_select_no_shortcuts():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bazz"],
+        "use_arrow_keys": True,
+        "use_shortcuts": False,
+    }
+    text = "2" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "foo"
+
+
+def test_select_default_has_arrow_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bazz"]}
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"

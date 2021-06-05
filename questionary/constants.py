@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
-
-from prompt_toolkit.styles import Style
+from questionary import Style
 
 # Value to display as an answer when "affirming" a confirmation question
 YES = "Yes"
@@ -14,8 +12,11 @@ YES_OR_NO = "(Y/n)"
 # Instruction text for a confirmation question (no is default)
 NO_OR_YES = "(y/N)"
 
+# Instruction for multiline input
+INSTRUCTION_MULTILINE = "(Finish with 'Alt+Enter' or 'Esc then Enter')\n>"
+
 # Selection token used to indicate the selection cursor in a list
-SELECTED_POINTER = "»"
+DEFAULT_SELECTED_POINTER = "»"
 
 # Item prefix to identify selected items in a checkbox list
 INDICATOR_SELECTED = "●"
@@ -29,6 +30,9 @@ DEFAULT_QUESTION_PREFIX = "?"
 # Message shown when a user aborts a question prompt using CTRL-C
 DEFAULT_KBI_MESSAGE = "Cancelled by user"
 
+# Default text shown when the input is invalid
+INVALID_INPUT = "Invalid input"
+
 # Default message style
 DEFAULT_STYLE = Style(
     [
@@ -38,6 +42,8 @@ DEFAULT_STYLE = Style(
         ("pointer", ""),  # pointer used in select and checkbox prompts
         ("selected", ""),  # style for a selected item of a checkbox
         ("separator", ""),  # separator in lists
+        ("instruction", ""),  # user instructions for select, rawselect, checkbox
+        ("text", ""),  # any other text
         ("instruction", ""),  # user instructions for select, rawselect, checkbox
     ]
 )
