@@ -28,7 +28,6 @@ def select(
     use_shortcuts: bool = False,
     use_arrow_keys: bool = True,
     use_indicator: bool = False,
-    use_pointer: bool = True,
     use_jk_keys: bool = True,
     show_selected: bool = False,
     instruction: Optional[str] = None,
@@ -92,9 +91,6 @@ def select(
                        the list items. Arrow keys and shortcuts are not mutually
                        exclusive.
 
-        use_pointer: Flag to enable the pointer in front of the currently
-                     highlighted element.
-
         use_arrow_keys: Allow the user to select items from the list using
                         arrow keys. Arrow keys and shortcuts are not mutually
                         exclusive.
@@ -141,7 +137,6 @@ def select(
         pointer=pointer,
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
-        use_pointer=use_pointer,
         show_selected=show_selected,
         use_arrow_keys=use_arrow_keys,
         initial_choice=default,

@@ -197,7 +197,6 @@ class InquirerControl(FormattedTextControl):
         pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
-        use_pointer: bool = True,
         show_selected: bool = False,
         use_arrow_keys: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
@@ -206,7 +205,6 @@ class InquirerControl(FormattedTextControl):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
-        self.use_pointer = use_pointer
         self.show_selected = show_selected
         self.use_arrow_keys = use_arrow_keys
         self.default = default
