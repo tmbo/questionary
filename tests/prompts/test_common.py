@@ -7,6 +7,7 @@ from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import ColorDepth, DummyOutput
 from prompt_toolkit.validation import ValidationError, Validator
 from questionary.prompts import common
+from questionary import Choice
 
 from questionary.prompts.common import (
     InquirerControl,
@@ -125,6 +126,53 @@ def test_prompt_highlight_coexist():
         ("class:highlighted", "c"),
     ]
     assert ic.pointed_at == 2
+    assert ic._get_choice_tokens() == expected_tokens
+
+
+def test_prompt_show_answer_with_shortcuts():
+    ic = InquirerControl(
+        ["a", Choice("b", shortcut_key=False), "c"],
+        show_selected=True,
+        use_shortcuts=True,
+    )
+
+    expected_tokens = [
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "1) a"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "-) b"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "2) c"),
+        ("", "\n"),
+        ("class:text", "  Answer: 1) a"),
+    ]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    ic.select_next()
+    expected_tokens = [
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "1) a"),
+        ("", "\n"),
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "-) b"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "2) c"),
+        ("", "\n"),
+        ("class:text", "  Answer: -) b"),
+    ]
+    assert ic.pointed_at == 1
     assert ic._get_choice_tokens() == expected_tokens
 
 

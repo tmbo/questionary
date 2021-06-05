@@ -405,7 +405,7 @@ class InquirerControl(FormattedTextControl):
                 current.title if isinstance(current.title, str) else current.title[0][1]
             )
 
-            tokens.append(("class:text", "  Answer: {}" "".format(string)))
+            tokens.append(("class:text", "  Answer: {}".format(string)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens
