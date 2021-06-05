@@ -181,4 +181,4 @@ def test_list_ctr_c():
     text = KeyInputs.CONTROLC
 
     with pytest.raises(KeyboardInterrupt):
-        feed_cli_with_input('checkbox', message, text, **kwargs)
+        feed_cli_with_input("checkbox", message, text, **kwargs)

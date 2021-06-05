@@ -13,20 +13,21 @@ from questionary.prompts.common import Choice, InquirerControl, Separator
 from questionary.question import Question
 
 
-def select(message: Text,
-     choices: List[Union[Text, Choice, Dict[Text, Any]]],
-     default: Optional[Text] = None,
-     qmark: Text = DEFAULT_QUESTION_PREFIX,
-     style: Optional[Style] = None,
-     use_shortcuts: bool = False,
-     use_indicator: bool = False,
-     use_pointer: bool = True,
-     use_arrow_keys: bool = True,
-     use_ij_keys: bool = True,
-     show_selected: bool = True,
-     start: Optional[Union[Text, int, None]] = None,
-     instruction: Text = None,
-     **kwargs: Any
+def select(
+    message: Text,
+    choices: List[Union[Text, Choice, Dict[Text, Any]]],
+    default: Optional[Text] = None,
+    qmark: Text = DEFAULT_QUESTION_PREFIX,
+    style: Optional[Style] = None,
+    use_shortcuts: bool = False,
+    use_indicator: bool = False,
+    use_pointer: bool = True,
+    use_arrow_keys: bool = True,
+    use_ij_keys: bool = True,
+    show_selected: bool = True,
+    start: Optional[Union[Text, int, None]] = None,
+    instruction: Text = None,
+    **kwargs: Any
 ) -> Question:
     """Prompt the user to select one item from the list of choices.
 
@@ -81,13 +82,16 @@ def select(message: Text,
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
     if not (use_arrow_keys or use_shortcuts):
-        raise ValueError('Some option to move the selection is required. '
-                         'Arrow keys or shortcuts')
+        raise ValueError(
+            "Some option to move the selection is required. " "Arrow keys or shortcuts"
+        )
     if use_shortcuts and use_ij_keys:
-        if any(getattr(c, "shortcut_key", "") in ['i', 'j'] for c in choices):
-            raise ValueError("A choice is trying to register i/j as a "
-                             "shortcut key when they are in use as arrow keys "
-                             "disable one or the other.")
+        if any(getattr(c, "shortcut_key", "") in ["i", "j"] for c in choices):
+            raise ValueError(
+                "A choice is trying to register i/j as a "
+                "shortcut key when they are in use as arrow keys "
+                "disable one or the other."
+            )
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")
 
@@ -103,13 +107,13 @@ def select(message: Text,
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     ic = InquirerControl(
-         choices, 
-         default,
-         use_indicator=use_indicator,
-         use_shortcuts=use_shortcuts,
-         use_pointer=use_pointer,
-         show_selected=show_selected,
-         pointed_at=start,
+        choices,
+        default,
+        use_indicator=use_indicator,
+        use_shortcuts=use_shortcuts,
+        use_pointer=use_pointer,
+        show_selected=show_selected,
+        pointed_at=start,
     )
 
     def get_prompt_tokens():
@@ -152,10 +156,11 @@ def select(message: Text,
         # add key bindings for choices
         for i, c in enumerate(ic.choices):
             if c.shortcut_key is None and not use_arrow_keys:
-                raise RuntimeError("{} does not have a shortcut and arrow keys "
-                                   "for movement are disabled. "
-                                   "This choice is not reachable."
-                                   .format(c.title))
+                raise RuntimeError(
+                    "{} does not have a shortcut and arrow keys "
+                    "for movement are disabled. "
+                    "This choice is not reachable.".format(c.title)
+                )
             if isinstance(c, Separator) or c.shortcut_key is None:
                 continue
 

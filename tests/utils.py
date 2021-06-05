@@ -10,21 +10,21 @@ from questionary.utils import is_prompt_toolkit_3
 
 
 class KeyInputs(object):
-    DOWN = '\x1b[B'
-    UP = '\x1b[A'
-    LEFT = '\x1b[D'
-    RIGHT = '\x1b[C'
-    ENTER = '\x0a'
-    ESCAPE = '\x1b'
-    CONTROLC = '\x03'
-    BACK = '\x7f'
-    SPACE = ' '
+    DOWN = "\x1b[B"
+    UP = "\x1b[A"
+    LEFT = "\x1b[D"
+    RIGHT = "\x1b[C"
+    ENTER = "\x0a"
+    ESCAPE = "\x1b"
+    CONTROLC = "\x03"
+    BACK = "\x7f"
+    SPACE = " "
     TAB = "\x09"
-    ONE = '1'
-    TWO = '2'
-    THREE = '3'
+    ONE = "1"
+    TWO = "2"
+    THREE = "3"
 
-    
+
 def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
     """
     Create a Prompt, feed it with the given user input and return the CLI

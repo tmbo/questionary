@@ -50,8 +50,7 @@ def test_validator_instance_fails():
     def validate(t):
         return len(t) == 3
 
-    validator = Validator.from_callable(
-        validate, error_message="invalid input")
+    validator = Validator.from_callable(validate, error_message="invalid input")
     with pytest.raises(ValidationError) as e:
         validator.validate(Document("fooooo"))
 
