@@ -249,6 +249,7 @@ def test_fail_on_no_method_to_move_selection():
         "choices": ["foo", Choice("bar", disabled="bad"), "bazz"],
         "use_shortcuts": False,
         "use_arrow_keys": False,
+        "use_jk_keys": False,
     }
     text = KeyInputs.ENTER + "\r"
 

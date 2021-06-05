@@ -104,9 +104,9 @@ def select(
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
-    if not (use_arrow_keys or use_shortcuts):
+    if not (use_arrow_keys or use_shortcuts or use_jk_keys):
         raise ValueError(
-            "Some option to move the selection is required. Arrow keys or shortcuts"
+            "Some option to move the selection is required. Arrow keys or shortcuts."
         )
 
     if use_shortcuts and use_jk_keys:
