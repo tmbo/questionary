@@ -29,8 +29,8 @@ def select(
     use_arrow_keys: bool = True,
     use_indicator: bool = False,
     use_pointer: bool = True,
-    use_ij_keys: bool = True,
-    show_selected: bool = True,
+    use_jk_keys: bool = True,
+    show_selected: bool = False,
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
@@ -89,19 +89,19 @@ def select(
 
         use_shortcuts: Allow the user to select items from the list using
                        shortcuts. The shortcuts will be displayed in front of
-                       the list items. Arrow keys and shortcuts are NOT mutually
-                       exclusive
+                       the list items. Arrow keys and shortcuts are not mutually
+                       exclusive.
 
         use_pointer: Flag to enable the pointer in front of the currently
                      highlighted element.
 
         use_arrow_keys: Allow the user to select items from the list using
-                       arrow keys. Arrow keys and shortcuts are NOT mutually
-                       exclusive
+                        arrow keys. Arrow keys and shortcuts are not mutually
+                        exclusive.
 
-        use_ij_keys: Allow the user to select items from the list using
-                     i and j keys. Arrow keys and shortcuts are NOT mutually
-                     exclusive
+        use_jk_keys: Allow the user to select items from the list using
+                     `j` (down) and `k` (up) keys. Arrow keys and shortcuts
+                     are not mutually exclusive.
 
         show_selected: Display current selection choice at the bottom of list
 
@@ -110,15 +110,17 @@ def select(
     """
     if not (use_arrow_keys or use_shortcuts):
         raise ValueError(
-            "Some option to move the selection is required. " "Arrow keys or shortcuts"
+            "Some option to move the selection is required. Arrow keys or shortcuts"
         )
-    if use_shortcuts and use_ij_keys:
-        if any(getattr(c, "shortcut_key", "") in ["i", "j"] for c in choices):
+
+    if use_shortcuts and use_jk_keys:
+        if any(getattr(c, "shortcut_key", "") in ["j", "k"] for c in choices):
             raise ValueError(
-                "A choice is trying to register i/j as a "
+                "A choice is trying to register k/j as a "
                 "shortcut key when they are in use as arrow keys "
                 "disable one or the other."
             )
+
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")
 
@@ -185,7 +187,7 @@ def select(
     if use_shortcuts:
         # add key bindings for choices
         for i, c in enumerate(ic.choices):
-            if c.shortcut_key is None and not use_arrow_keys:
+            if c.shortcut_key is None and not c.disabled and not use_arrow_keys:
                 raise RuntimeError(
                     "{} does not have a shortcut and arrow keys "
                     "for movement are disabled. "
@@ -217,9 +219,10 @@ def select(
     if use_arrow_keys:
         bindings.add(Keys.Down, eager=True)(move_cursor_down)
         bindings.add(Keys.Up, eager=True)(move_cursor_up)
-    if use_ij_keys:
-        bindings.add("k", eager=True)(move_cursor_down)
-        bindings.add("j", eager=True)(move_cursor_up)
+
+    if use_jk_keys:
+        bindings.add("j", eager=True)(move_cursor_down)
+        bindings.add("k", eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):

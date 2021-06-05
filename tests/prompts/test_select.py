@@ -256,13 +256,13 @@ def test_fail_on_no_method_to_move_selection():
         feed_cli_with_input("select", message, text, **kwargs)
 
 
-def test_ij_and_shortcut_conflict_fails():
+def test_jk_and_shortcut_conflict_fails():
     message = "Foo message"
     kwargs = {
-        "choices": ["foo", Choice("bar", shortcut_key="i"), "bazz"],
+        "choices": ["foo", Choice("bar", shortcut_key="j"), "bazz"],
         "use_shortcuts": True,
         "use_arrow_keys": True,
-        "use_ij_keys": True,
+        "use_jk_keys": True,
     }
     text = KeyInputs.ENTER + "\r"
 
@@ -270,13 +270,13 @@ def test_ij_and_shortcut_conflict_fails():
         feed_cli_with_input("select", message, text, **kwargs)
 
 
-def test_ij_and_shortcut_conflict_avoided_by_disabling_ij_keys():
+def test_jk_and_shortcut_conflict_avoided_by_disabling_ij_keys():
     message = "Foo message"
     kwargs = {
-        "choices": ["foo", Choice("bar", shortcut_key="i"), "bazz"],
+        "choices": ["foo", Choice("bar", shortcut_key="j"), "bazz"],
         "use_shortcuts": True,
         "use_arrow_keys": True,
-        "use_ij_keys": False,
+        "use_jk_keys": False,
     }
     text = KeyInputs.ENTER + "\r"
 

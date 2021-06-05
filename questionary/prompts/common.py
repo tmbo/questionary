@@ -198,7 +198,7 @@ class InquirerControl(FormattedTextControl):
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         use_pointer: bool = True,
-        show_selected: bool = True,
+        show_selected: bool = False,
         use_arrow_keys: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs: Any,
@@ -351,10 +351,13 @@ class InquirerControl(FormattedTextControl):
                     )
                 )
             else:
-                if self.use_shortcuts and choice.shortcut_key is not None:
-                    shortcut = "{}) ".format(choice.shortcut_key)
+                if self.use_shortcuts:
+                    if choice.shortcut_key is not None:
+                        shortcut = "{}) ".format(choice.shortcut_key)
+                    else:
+                        shortcut = "-) "
                 else:
-                    shortcut = "-) "
+                    shortcut = ""
 
                 if selected:
                     if self.use_indicator:
@@ -392,13 +395,18 @@ class InquirerControl(FormattedTextControl):
 
         if self.show_selected:
             current = self.get_pointed_at()
-            if self.use_shortcuts and current.shortcut_key is not None:
-                string = "{}) ".format(current.shortcut_key)
+            if self.use_shortcuts:
+                if current.shortcut_key is not None:
+                    string = "{}) ".format(current.shortcut_key)
+                else:
+                    string = "-) "
             else:
-                string = " "
+                string = ""
+
             string += (
                 current.title if isinstance(current.title, str) else current.title[0][1]
             )
+
             tokens.append(("class:text", "  Answer: {}" "".format(string)))
         else:
             tokens.pop()  # Remove last newline.
