@@ -36,7 +36,8 @@ class Choice:
     Args:
         title: Text shown in the selection list.
 
-        value: Value returned, when the choice is selected.
+        value: Value returned, when the choice is selected. If this argument
+               is `None` or unset, then the value of `title` is used.
 
         disabled: If set, the choice can not be selected by the user. The
                   provided text is used to explain, why the selection is
