@@ -148,41 +148,6 @@ def test_select_empty_choices():
         feed_cli_with_input("select", message, text, **kwargs)
 
 
-def test_start_at_second_choice_with_int():
-    message = "Foo message"
-    kwargs = {"choices": ["foo", "bar", "bazz"], "start": 1}
-    text = KeyInputs.ENTER + "\r"
-
-    result, cli = feed_cli_with_input("select", message, text, **kwargs)
-    assert result == "bar"
-
-
-def test_start_at_third_choice_with_title():
-    message = "Foo message"
-    kwargs = {"choices": ["foo", "bar", Choice("bazz")], "start": "bazz"}
-    text = KeyInputs.ENTER + "\r"
-
-    result, cli = feed_cli_with_input("select", message, text, **kwargs)
-    assert result == "bazz"
-
-
-def test_fails_on_bad_title_start():
-    message = "Foo message"
-    kwargs = {"choices": ["foo", "bar", Choice("bazz")], "start": "bad"}
-    text = KeyInputs.ENTER + "\r"
-
-    with pytest.raises(KeyError):
-        feed_cli_with_input("select", message, text, **kwargs)
-
-
-def test_fails_on_bad_index_start():
-    message = "Foo message"
-    kwargs = {"choices": ["foo", "bar", Choice("bazz")], "start": 100}
-    text = KeyInputs.ENTER + "\r"
-
-    with pytest.raises(IndexError):
-        feed_cli_with_input("select", message, text, **kwargs)
-
 
 def test_disallow_shortcut_key():
     message = "Foo message"
@@ -216,20 +181,6 @@ def test_fail_for_unreachable_choice():
         "use_arrow_keys": False,
     }
     text = KeyInputs.THREE + "\r"
-
-    with pytest.raises(RuntimeError):
-        feed_cli_with_input("select", message, text, **kwargs)
-
-
-def test_fail_for_starting_at_disabled_choice():
-    message = "Foo message"
-    kwargs = {
-        "choices": ["foo", Choice("bar", disabled="bad"), "bazz"],
-        "use_shortcuts": True,
-        "use_arrow_keys": False,
-        "start": 1,
-    }
-    text = KeyInputs.ENTER + "\r"
 
     with pytest.raises(RuntimeError):
         feed_cli_with_input("select", message, text, **kwargs)

@@ -25,7 +25,6 @@ def select(
     use_arrow_keys: bool = True,
     use_ij_keys: bool = True,
     show_selected: bool = True,
-    start: Optional[Union[Text, int, None]] = None,
     instruction: Text = None,
     **kwargs: Any
 ) -> Question:
@@ -75,9 +74,6 @@ def select(
 
         show_selected: Display current selection choice at the bottom of list
 
-        start: The choice where the pointer starts. Can be int
-               (index of the choice) or a str (title of the choice)
-
     Returns:
         Question: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -113,7 +109,6 @@ def select(
         use_shortcuts=use_shortcuts,
         use_pointer=use_pointer,
         show_selected=show_selected,
-        pointed_at=start,
     )
 
     def get_prompt_tokens():
