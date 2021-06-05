@@ -37,7 +37,7 @@ def text(
 
     .. image:: ../images/text.gif
 
-    This is just a realy basic example, the prompt can be customised using the
+    This is just a really basic example, the prompt can be customised using the
     parameters.
 
     Args:
