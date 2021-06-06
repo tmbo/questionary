@@ -49,7 +49,7 @@ class Choice:
     """
 
     title: FormattedText
-    """Dispay string for the choice"""
+    """Display string for the choice"""
 
     value: Optional[Any]
     """Value of the choice"""
@@ -119,10 +119,10 @@ class Separator(Choice):
     """Used to space/separate choices group."""
 
     default_separator: str = "-" * 15
-    """The default seperator used if none is specified"""
+    """The default separator used if none is specified"""
 
     line: str
-    """The string being used as a seperator"""
+    """The string being used as a separator"""
 
     def __init__(self, line: Optional[str] = None) -> None:
         """Create a separator in a list.
