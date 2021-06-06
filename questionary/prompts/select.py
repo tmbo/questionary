@@ -88,16 +88,16 @@ def select(
 
         use_shortcuts: Allow the user to select items from the list using
                        shortcuts. The shortcuts will be displayed in front of
-                       the list items. Arrow keys and shortcuts are not mutually
-                       exclusive.
+                       the list items. Arrow keys, j/k keys and shortcuts are
+                       not mutually exclusive.
 
         use_arrow_keys: Allow the user to select items from the list using
-                        arrow keys. Arrow keys and shortcuts are not mutually
-                        exclusive.
+                        arrow keys. Arrow keys, j/k keys and shortcuts are not
+                        mutually exclusive.
 
         use_jk_keys: Allow the user to select items from the list using
-                     `j` (down) and `k` (up) keys. Arrow keys and shortcuts
-                     are not mutually exclusive.
+                     `j` (down) and `k` (up) keys. Arrow keys, j/k keys and
+                     shortcuts are not mutually exclusive.
 
         show_selected: Display current selection choice at the bottom of list.
 
@@ -106,13 +106,13 @@ def select(
     """
     if not (use_arrow_keys or use_shortcuts or use_jk_keys):
         raise ValueError(
-            "Some option to move the selection is required. Arrow keys or shortcuts."
+            "Some option to move the selection is required. Arrow keys, j/k keys or shortcuts."
         )
 
     if use_shortcuts and use_jk_keys:
         if any(getattr(c, "shortcut_key", "") in ["j", "k"] for c in choices):
             raise ValueError(
-                "A choice is trying to register k/j as a "
+                "A choice is trying to register j/k as a "
                 "shortcut key when they are in use as arrow keys "
                 "disable one or the other."
             )
