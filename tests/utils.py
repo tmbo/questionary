@@ -20,6 +20,9 @@ class KeyInputs:
     BACK = "\x7f"
     SPACE = " "
     TAB = "\x09"
+    ONE = "1"
+    TWO = "2"
+    THREE = "3"
 
 
 def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):

@@ -28,6 +28,8 @@ def select(
     use_shortcuts: bool = False,
     use_arrow_keys: bool = True,
     use_indicator: bool = False,
+    use_jk_keys: bool = True,
+    show_selected: bool = False,
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
@@ -86,13 +88,35 @@ def select(
 
         use_shortcuts: Allow the user to select items from the list using
                        shortcuts. The shortcuts will be displayed in front of
-                       the list items.
+                       the list items. Arrow keys, j/k keys and shortcuts are
+                       not mutually exclusive.
 
-        use_arrow_keys: Allow usage of arrow keys to select item.
+        use_arrow_keys: Allow the user to select items from the list using
+                        arrow keys. Arrow keys, j/k keys and shortcuts are not
+                        mutually exclusive.
+
+        use_jk_keys: Allow the user to select items from the list using
+                     `j` (down) and `k` (up) keys. Arrow keys, j/k keys and
+                     shortcuts are not mutually exclusive.
+
+        show_selected: Display current selection choice at the bottom of list.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
+    if not (use_arrow_keys or use_shortcuts or use_jk_keys):
+        raise ValueError(
+            "Some option to move the selection is required. Arrow keys, j/k keys or shortcuts."
+        )
+
+    if use_shortcuts and use_jk_keys:
+        if any(getattr(c, "shortcut_key", "") in ["j", "k"] for c in choices):
+            raise ValueError(
+                "A choice is trying to register j/k as a "
+                "shortcut key when they are in use as arrow keys "
+                "disable one or the other."
+            )
+
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")
 
@@ -113,6 +137,7 @@ def select(
         pointer=pointer,
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
+        show_selected=show_selected,
         use_arrow_keys=use_arrow_keys,
         initial_choice=default,
     )
@@ -157,7 +182,13 @@ def select(
     if use_shortcuts:
         # add key bindings for choices
         for i, c in enumerate(ic.choices):
-            if isinstance(c, Separator):
+            if c.shortcut_key is None and not c.disabled and not use_arrow_keys:
+                raise RuntimeError(
+                    "{} does not have a shortcut and arrow keys "
+                    "for movement are disabled. "
+                    "This choice is not reachable.".format(c.title)
+                )
+            if isinstance(c, Separator) or c.shortcut_key is None:
                 continue
 
             # noinspection PyShadowingNames
@@ -170,21 +201,23 @@ def select(
 
             _reg_binding(i, c.shortcut_key)
 
-    if use_arrow_keys or use_shortcuts is False:
-
-        @bindings.add(Keys.Down, eager=True)
-        @bindings.add("j", eager=True)
-        def move_cursor_down(event):
+    def move_cursor_down(event):
+        ic.select_next()
+        while not ic.is_selection_valid():
             ic.select_next()
-            while not ic.is_selection_valid():
-                ic.select_next()
 
-        @bindings.add(Keys.Up, eager=True)
-        @bindings.add("k", eager=True)
-        def move_cursor_up(event):
+    def move_cursor_up(event):
+        ic.select_previous()
+        while not ic.is_selection_valid():
             ic.select_previous()
-            while not ic.is_selection_valid():
-                ic.select_previous()
+
+    if use_arrow_keys:
+        bindings.add(Keys.Down, eager=True)(move_cursor_down)
+        bindings.add(Keys.Up, eager=True)(move_cursor_up)
+
+    if use_jk_keys:
+        bindings.add("j", eager=True)(move_cursor_down)
+        bindings.add("k", eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):

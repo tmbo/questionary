@@ -27,6 +27,8 @@ def checkbox(
     pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
     initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
+    use_arrow_keys: bool = True,
+    use_jk_keys: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -85,9 +87,20 @@ def checkbox(
         initial_choice: A value corresponding to a selectable item in the choices,
                         to initially set the pointer position to.
 
+        use_arrow_keys: Allow the user to select items from the list using
+                        arrow keys.
+
+        use_jk_keys: Allow the user to select items from the list using
+                     `j` (down) and `k` (up) keys.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
+
+    if not (use_arrow_keys or use_jk_keys):
+        raise ValueError(
+            "Some option to move the selection is required. Arrow keys or j/k keys."
+        )
 
     merged_style = merge_styles(
         [
@@ -220,19 +233,23 @@ def checkbox(
 
         perform_validation(get_selected_values())
 
-    @bindings.add(Keys.Down, eager=True)
-    @bindings.add("j", eager=True)
-    def move_cursor_down(_event):
+    def move_cursor_down(event):
         ic.select_next()
         while not ic.is_selection_valid():
             ic.select_next()
 
-    @bindings.add(Keys.Up, eager=True)
-    @bindings.add("k", eager=True)
-    def move_cursor_up(_event):
+    def move_cursor_up(event):
         ic.select_previous()
         while not ic.is_selection_valid():
             ic.select_previous()
+
+    if use_arrow_keys:
+        bindings.add(Keys.Down, eager=True)(move_cursor_down)
+        bindings.add(Keys.Up, eager=True)(move_cursor_up)
+
+    if use_jk_keys:
+        bindings.add("j", eager=True)(move_cursor_down)
+        bindings.add("k", eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):

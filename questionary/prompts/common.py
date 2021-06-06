@@ -69,7 +69,7 @@ class Choice:
         value: Optional[Any] = None,
         disabled: Optional[str] = None,
         checked: Optional[bool] = False,
-        shortcut_key: Optional[str] = None,
+        shortcut_key: Optional[Union[str, bool]] = True,
     ) -> None:
 
         self.disabled = disabled
@@ -84,9 +84,15 @@ class Choice:
             self.value = title
 
         if shortcut_key is not None:
-            self.shortcut_key = str(shortcut_key)
+            if isinstance(shortcut_key, bool):
+                self.auto_shortcut = shortcut_key
+                self.shortcut_key = None
+            else:
+                self.shortcut_key = str(shortcut_key)
+                self.auto_shortcut = False
         else:
             self.shortcut_key = None
+            self.auto_shortcut = True
 
     @staticmethod
     def build(c: Union[str, "Choice", Dict[str, Any]]) -> "Choice":
@@ -113,6 +119,12 @@ class Choice:
                 c.get("checked"),
                 c.get("key"),
             )
+
+    def get_shortcut_title(self):
+        if self.shortcut_key is None:
+            return "-) "
+        else:
+            return "{}) ".format(self.shortcut_key)
 
 
 class Separator(Choice):
@@ -192,6 +204,7 @@ class InquirerControl(FormattedTextControl):
         pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
         use_indicator: bool = True,
         use_shortcuts: bool = False,
+        show_selected: bool = False,
         use_arrow_keys: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs: Any,
@@ -199,6 +212,7 @@ class InquirerControl(FormattedTextControl):
 
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
+        self.show_selected = show_selected
         self.use_arrow_keys = use_arrow_keys
         self.default = default
         self.pointer = pointer
@@ -263,7 +277,7 @@ class InquirerControl(FormattedTextControl):
 
         shortcut_idx = 0
         for c in self.choices:
-            if c.shortcut_key is None and not c.disabled:
+            if c.auto_shortcut and not c.disabled:
                 c.shortcut_key = available_shortcuts[shortcut_idx]
                 shortcut_idx += 1
 
@@ -342,10 +356,7 @@ class InquirerControl(FormattedTextControl):
                     )
                 )
             else:
-                if self.use_shortcuts and choice.shortcut_key is not None:
-                    shortcut = "{}) ".format(choice.shortcut_key)
-                else:
-                    shortcut = ""
+                shortcut = choice.get_shortcut_title() if self.use_shortcuts else ""
 
                 if selected:
                     if self.use_indicator:
@@ -381,13 +392,16 @@ class InquirerControl(FormattedTextControl):
         for i, c in enumerate(self.choices):
             append(i, c)
 
-        if self.use_shortcuts:
-            tokens.append(
-                (
-                    "class:text",
-                    "  Answer: {}" "".format(self.get_pointed_at().shortcut_key),
-                )
+        if self.show_selected:
+            current = self.get_pointed_at()
+
+            answer = current.get_shortcut_title() if self.use_shortcuts else ""
+
+            answer += (
+                current.title if isinstance(current.title, str) else current.title[0][1]
             )
+
+            tokens.append(("class:text", "  Answer: {}".format(answer)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens
