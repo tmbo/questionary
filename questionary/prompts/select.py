@@ -99,7 +99,7 @@ def select(
                      `j` (down) and `k` (up) keys. Arrow keys and shortcuts
                      are not mutually exclusive.
 
-        show_selected: Display current selection choice at the bottom of list
+        show_selected: Display current selection choice at the bottom of list.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).

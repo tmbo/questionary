@@ -88,12 +88,10 @@ def checkbox(
                         to initially set the pointer position to.
 
         use_arrow_keys: Allow the user to select items from the list using
-                        arrow keys. Arrow keys and shortcuts are not mutually
-                        exclusive.
+                        arrow keys.
 
         use_jk_keys: Allow the user to select items from the list using
-                     `j` (down) and `k` (up) keys. Arrow keys and shortcuts
-                     are not mutually exclusive.
+                     `j` (down) and `k` (up) keys.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
