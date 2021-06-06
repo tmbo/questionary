@@ -119,6 +119,12 @@ class Choice:
                 c.get("key"),
             )
 
+    def get_shortcut_title(self):
+        if self.shortcut_key is None:
+            return "-) "
+        else:
+            return "{}) ".format(self.shortcut_key)
+
 
 class Separator(Choice):
     """Used to space/separate choices group."""
@@ -349,13 +355,7 @@ class InquirerControl(FormattedTextControl):
                     )
                 )
             else:
-                if self.use_shortcuts:
-                    if choice.shortcut_key is not None:
-                        shortcut = "{}) ".format(choice.shortcut_key)
-                    else:
-                        shortcut = "-) "
-                else:
-                    shortcut = ""
+                shortcut = choice.get_shortcut_title() if self.use_shortcuts else ""
 
                 if selected:
                     if self.use_indicator:
@@ -393,19 +393,14 @@ class InquirerControl(FormattedTextControl):
 
         if self.show_selected:
             current = self.get_pointed_at()
-            if self.use_shortcuts:
-                if current.shortcut_key is not None:
-                    string = "{}) ".format(current.shortcut_key)
-                else:
-                    string = "-) "
-            else:
-                string = ""
 
-            string += (
+            answer = current.get_shortcut_title() if self.use_shortcuts else ""
+
+            answer += (
                 current.title if isinstance(current.title, str) else current.title[0][1]
             )
 
-            tokens.append(("class:text", "  Answer: {}".format(string)))
+            tokens.append(("class:text", "  Answer: {}".format(answer)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens
