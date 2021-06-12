@@ -186,8 +186,28 @@ def test_list_ctr_c():
 
 def test_checkbox_initial_choice():
     message = "Foo message"
+    choice = Choice("bazz")
+    kwargs = {"choices": ["foo", choice], "initial_choice": choice}
+    text = KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["bazz"]
+
+
+def test_select_initial_choice_string():
+    message = "Foo message"
     kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bazz"}
     text = KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["bazz"]
+
+
+def test_select_initial_choice_duplicate():
+    message = "Foo message"
+    choice = Choice("foo")
+    kwargs = {"choices": ["foo", choice, "bazz"], "initial_choice": choice}
+    text = KeyInputs.DOWN + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["bazz"]
