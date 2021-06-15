@@ -217,14 +217,15 @@ class InquirerControl(FormattedTextControl):
         self.default = default
         self.pointer = pointer
 
+        if isinstance(default, Choice):
+            default = default.value
+
         choices_values = list()
         for choice in choices:
             if isinstance(choice, Choice):
                 choices_values.append(choice.value)
-            else:
-                choices_values.append(choice)
 
-        if default is not None and default not in choices_values:
+        if default is not None and default not in choices and default not in choices_values:
             raise ValueError(
                 f"Invalid `default` value passed. The value (`{default}`) "
                 f"does not exist in the set of choices. Please make sure the "
@@ -233,8 +234,16 @@ class InquirerControl(FormattedTextControl):
 
         if initial_choice is None:
             pointed_at = None
+        elif initial_choice in choices:
+            print("its in choices")
+            pointed_at = choices.index(initial_choice)
         elif initial_choice in choices_values:
-            pointed_at = choices_values.index(initial_choice)
+            for k,choice in enumerate(choices):
+                if isinstance(choice, Choice):
+                    if choice.value == initial_choice:
+                        pointed_at = k
+                        break
+
         else:
             raise ValueError(
                 f"Invalid `initial_choice` value passed. The value "
@@ -242,7 +251,6 @@ class InquirerControl(FormattedTextControl):
                 f"the set of choices. Please make sure the initial value is "
                 f"one of the available choices."
             )
-
         self.is_answered = False
         self.choices = []
         self.submission_attempted = False
