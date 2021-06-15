@@ -220,7 +220,7 @@ class InquirerControl(FormattedTextControl):
         if isinstance(default, Choice):
             default = default.value
 
-        choices_values = list()
+        choices_values = []
         for choice in choices:
             if isinstance(choice, Choice):
                 choices_values.append(choice.value)
