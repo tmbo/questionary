@@ -237,7 +237,7 @@ class InquirerControl(FormattedTextControl):
         elif initial_choice in choices:
             pointed_at = choices.index(initial_choice)
         elif initial_choice in choices_values:
-            for k,choice in enumerate(choices):
+            for k, choice in enumerate(choices):
                 if isinstance(choice, Choice):
                     if choice.value == initial_choice:
                         pointed_at = k
