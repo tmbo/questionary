@@ -174,8 +174,28 @@ def test_allow_shortcut_key_with_True():
 
 def test_select_initial_choice():
     message = "Foo message"
+    choice = Choice("bazz")
+    kwargs = {"choices": ["foo", choice], "default": choice}
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_initial_choice_string():
+    message = "Foo message"
     kwargs = {"choices": ["foo", "bazz"], "default": "bazz"}
     text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_initial_choice_duplicate():
+    message = "Foo message"
+    choice = Choice("foo")
+    kwargs = {"choices": ["foo", choice, "bazz"], "default": choice}
+    text = KeyInputs.DOWN + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "bazz"
