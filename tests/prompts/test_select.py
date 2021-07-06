@@ -167,6 +167,16 @@ def test_select_initial_choice_with_value():
 
 def test_select_initial_choice_string():
     message = "Foo message"
+    choice = Choice("bazz")
+    kwargs = {"choices": ["foo", choice], "default": choice}
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bazz"
+
+
+def test_select_initial_choice_string():
+    message = "Foo message"
     kwargs = {"choices": ["foo", "bazz"], "default": "bazz"}
     text = KeyInputs.ENTER + "\r"
 
