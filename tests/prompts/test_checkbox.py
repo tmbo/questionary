@@ -186,8 +186,28 @@ def test_list_ctr_c():
 
 def test_checkbox_initial_choice():
     message = "Foo message"
+    choice = Choice("bazz")
+    kwargs = {"choices": ["foo", choice], "initial_choice": choice}
+    text = KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["bazz"]
+
+
+def test_select_initial_choice_string():
+    message = "Foo message"
     kwargs = {"choices": ["foo", "bazz"], "initial_choice": "bazz"}
     text = KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["bazz"]
+
+
+def test_select_initial_choice_duplicate():
+    message = "Foo message"
+    choice = Choice("foo")
+    kwargs = {"choices": ["foo", choice, "bazz"], "initial_choice": choice}
+    text = KeyInputs.DOWN + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["bazz"]
@@ -264,17 +284,3 @@ def test_proper_type_returned():
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == [1, "foo", [3, "bar"]]
-
-
-def test_fail_on_no_method_to_move_selection():
-    message = "Foo message"
-    kwargs = {
-        "choices": ["foo", Choice("bar", disabled="bad"), "bazz"],
-        "use_shortcuts": False,
-        "use_arrow_keys": False,
-        "use_jk_keys": False,
-    }
-    text = KeyInputs.ENTER + "\r"
-
-    with pytest.raises(ValueError):
-        feed_cli_with_input("checkbox", message, text, **kwargs)
