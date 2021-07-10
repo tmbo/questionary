@@ -4,6 +4,20 @@
 Changelog
 *********
 
+1.10.0 (2021-07-10)
+###################
+
+* Use direct image URLs in ``README.md``.
+* Switched to ``poetry-core``.
+* Relax Python version constraint.
+* Add ``pointer`` option to ``checkbox`` and ``select``.
+* Change enter instruction for multiline input.
+* Removed unnecessary Poetry includes.
+* Minor updates to documentation.
+* Added additional unit tests.
+* Added ``use_arrow_keys`` and ``use_jk_keys`` options to ``checkbox``.
+* Added ``use_jk_keys`` and ``show_selected`` options to ``select``.
+
 1.9.0 (2020-12-20)
 ##################
 
