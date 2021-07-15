@@ -17,6 +17,7 @@ Changelog
 * Added additional unit tests.
 * Added ``use_arrow_keys`` and ``use_jk_keys`` options to ``checkbox``.
 * Added ``use_jk_keys`` and ``show_selected`` options to ``select``.
+* Fix highlighting bug when using ``default`` parameter for ``select``.
 
 1.9.0 (2020-12-20)
 ##################
