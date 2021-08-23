@@ -1,0 +1,91 @@
+name: Bug report
+description: File a bug report to help us improve
+labels: [Bug]
+
+body:      
+  - type: textarea
+    id: describe-bug
+    attributes:
+      label: Describe the bug
+      description: >
+        Please give us a clear and concise description of what the bug is.
+        Please include a screenshot if you are able to.
+    validations:
+      required: true
+
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: >
+        Please provide a small and concise example to reproduce the issue.
+        This will be automatically formatted into code, so no need for
+        backticks.
+      render: python
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Please provide any further steps to reproduce the issue.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+
+  - type: textarea
+    id: expected-outcome
+    attributes:
+      label: Expected behaviour
+      description: Please tell us what the expected behaviour should be been.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checked-latest
+    attributes:
+      label: Latest version
+      description: >
+        Please ensure that you have checked that this issue occurs on the
+        latest version of questionary. You can upgrade by running
+        `pip install -U questionary`.
+      options:
+        - label: >
+            I have checked that this issue occurs on the latest version of
+            questionary.
+          required: true
+
+  - type: input
+    id: questionary-version
+    attributes:
+      label: Questionary version
+      description: >
+        You can run `pip show questionary` to see the version of questionary
+        that is installed.
+    validations:
+      required: true
+
+  - type: input
+    id: prompt-toolkit-version
+    attributes:
+      label: Prompt Toolkit version
+      description: >
+        You can run `pip show prompt_toolkit` to see the version of Prompt
+        Toolkit that is installed.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: operating-system
+    attributes:
+      label: Operating System
+      description: Which operating system are you using?
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other (please specify in description)
+    validations:
+      required: true

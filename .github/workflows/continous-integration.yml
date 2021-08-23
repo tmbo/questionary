@@ -8,9 +8,6 @@ on:
     - '*'
   pull_request:
 
-env:
-  POETRY_VIRTUALENVS_CREATE: false
-
 # SECRETS
 # - PYPI_TOKEN: publishing token for tmbo account, needs to be maintainer of
 #               tmbo/questionary on pypi
@@ -49,7 +46,7 @@ jobs:
       run: make types
 
     - name: Check Version Numbers 🕸
-      run: python3 scripts/validate_version.py
+      run: poetry run python scripts/validate_version.py
 
   test:
     name: Run Tests
@@ -57,7 +54,7 @@ jobs:
     timeout-minutes: 10
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: [3.6, 3.7, 3.8, 3.9]
         promttoolkit: [3.*, 2.*]
 
@@ -89,11 +86,24 @@ jobs:
       run: make test
 
     - name: Send Coverage Report 📊
-      if: matrix.python-version == 3.6 && matrix.os != 'windows-latest'
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_SERVICE_NAME: github
+        COVERALLS_PARALLEL: true
       run: poetry run coveralls
+
+  post-test:
+    name: Signal test completion
+    needs: test
+    runs-on: ubuntu-latest
+    container: python:3-slim
+    steps:
+    - name: Finished
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls --service=github --finish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
     name: Test Docs
