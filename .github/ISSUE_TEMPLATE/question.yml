@@ -1,0 +1,39 @@
+name: Need help
+description: Ask a question if you need help
+labels: [Question]
+
+body:      
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: >
+        Please describe the problem that you are having.
+    validations:
+      required: true
+
+  - type: textarea
+    id: previous-attempts
+    attributes:
+      label: What have you already tried?
+      description: >
+        Please describe any attempts that you have made to solve the problem.
+        This might include code examples. This will help us get a better
+        understanding of what you are trying to do.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: read-the-docs
+    attributes:
+      label: Read the documentation
+      description: >
+        Please check if your question is answered by the
+        [documentation](https://questionary.readthedocs.io/). Don't worry if
+        you ask a question that is already answered by the documentation - we'll
+        just point you to the right place.
+      options:
+        - label: >
+            I have checked to ensure that my question is not answered by the
+            documentation.
+          required: true
