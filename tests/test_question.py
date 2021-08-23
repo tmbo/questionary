@@ -1,10 +1,13 @@
 import asyncio
+import pytest
+import platform
 
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
 
 from questionary import text
+from questionary.utils import is_prompt_toolkit_3
 from tests.utils import KeyInputs
 
 
@@ -51,6 +54,10 @@ def test_skipping_of_skipping_of_questions():
         inp.close()
 
 
+@pytest.mark.skipif(
+    not is_prompt_toolkit_3() and platform.system() == "Windows",
+    reason="requires prompt_toolkit >= 3",
+)
 def test_async_ask_question():
     loop = asyncio.new_event_loop()
 
