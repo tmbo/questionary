@@ -93,11 +93,24 @@ jobs:
       run: make test
 
     - name: Send Coverage Report 📊
-      if: matrix.python-version == 3.6 && matrix.os != 'windows-latest'
       env:
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COVERALLS_SERVICE_NAME: github
+        COVERALLS_PARALLEL: true
       run: poetry run coveralls
+
+  post-test:
+    name: Signal test completion
+    needs: test
+    runs-on: ubuntu-latest
+    container: python:3-slim
+    steps:
+    - name: Finished
+      run: |
+        pip3 install --upgrade coveralls
+        coveralls --service=github --finish
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   docs:
     name: Test Docs
