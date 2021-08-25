@@ -27,7 +27,7 @@ jobs:
         python-version: 3.7
 
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Load Poetry Cached Libraries ⬇
       uses: actions/cache@v2
@@ -72,7 +72,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Load Poetry Cached Libraries ⬇
       uses: actions/cache@v2
@@ -123,7 +123,7 @@ jobs:
         python-version: 3.7
     
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Load Poetry Cached Libraries ⬇
       uses: actions/cache@v2
@@ -156,7 +156,7 @@ jobs:
         python-version: 3.7
 
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Build ⚒️ Distributions
       run: |
