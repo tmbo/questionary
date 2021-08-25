@@ -32,7 +32,7 @@ clean:
 	rm -rf dist/
 
 install:
-	poetry install
+	poetry install --extras "docs"
 
 formatter:
 	poetry run black .

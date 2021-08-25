@@ -268,8 +268,12 @@ class InquirerControl(FormattedTextControl):
             )
 
     def _is_selected(self, choice: Choice):
+        if isinstance(self.default, Choice):
+            compare_default = self.default == choice
+        else:
+            compare_default = self.default == choice.value
         return (
-            choice.checked or choice.value == self.default and self.default is not None
+            choice.checked or compare_default and self.default is not None
         ) and not choice.disabled
 
     def _assign_shortcut_keys(self):

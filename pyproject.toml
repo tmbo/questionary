@@ -9,7 +9,7 @@ exclude = "((.eggs | .git | .pytype | .pytest_cache | build | dist))"
 
 [tool.poetry]
 name = "questionary"
-version = "1.9.0"
+version = "1.10.0"
 description = "Python library to build pretty command line user prompts ⭐️"
 authors = [ "Tom Bocklisch <tombocklisch@gmail.com>",]
 maintainers = [ "Tom Bocklisch <tombocklisch@gmail.com>", "Kian Cross <kian@kiancross.co.uk>"]
@@ -36,8 +36,8 @@ python = "^3.6"
 prompt_toolkit = ">=2.0,<4.0"
 Sphinx = {version = "^3.3", optional = true}
 sphinx-rtd-theme = {version = "^0.5.0", optional = true}
-sphinx-autobuild = {version = "^2020.9.1", optional = true}
-sphinx-copybutton = {version = "^0.3.1", optional = true}
+sphinx-autobuild = {version = ">=2020.9.1,<2022.0.0", optional = true}
+sphinx-copybutton = {version = ">=0.3.1,<0.5.0", optional = true}
 sphinx-autodoc-typehints = {version = "^1.11.1", optional = true}
 
 [tool.poetry.extras]
@@ -45,9 +45,9 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "
 
 [tool.poetry.dev-dependencies]
 pytest-pycodestyle = "^2.1"
-pytest-cov = "^2.8.1"
-pytest = "^5.3.5"
-coveralls = "^2.0.0"
+pytest-cov = "^2.12.1"
+pytest = "^6.2.4"
+coveralls = "^3.2.0"
 black = "^20.8b1"
-mypy = "^0.782"
+mypy = "^0.910"
 toml = "^0.10.1"
