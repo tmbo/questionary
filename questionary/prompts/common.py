@@ -254,6 +254,7 @@ class InquirerControl(FormattedTextControl):
                 f"the set of choices. Please make sure the initial value is "
                 f"one of the available choices."
             )
+
         self.is_answered = False
         self.choices = []
         self.submission_attempted = False
