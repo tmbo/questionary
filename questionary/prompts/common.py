@@ -225,7 +225,11 @@ class InquirerControl(FormattedTextControl):
             if isinstance(choice, Choice):
                 choices_values.append(choice.value)
 
-        if default is not None and default not in choices and default not in choices_values:
+        if (
+            default is not None
+            and default not in choices
+            and default not in choices_values
+        ):
             raise ValueError(
                 f"Invalid `default` value passed. The value (`{default}`) "
                 f"does not exist in the set of choices. Please make sure the "

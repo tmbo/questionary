@@ -155,9 +155,10 @@ def test_select_initial_choice():
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "bazz"
 
+
 def test_select_initial_choice_with_value():
     message = "Foo message"
-    choice = Choice(title="bazz",value="bar")
+    choice = Choice(title="bazz", value="bar")
     kwargs = {"choices": ["foo", choice], "default": "bar"}
     text = KeyInputs.ENTER + "\r"
 
