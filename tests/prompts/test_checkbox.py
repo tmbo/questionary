@@ -284,3 +284,17 @@ def test_proper_type_returned():
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == [1, "foo", [3, "bar"]]
+
+
+def test_fail_on_no_method_to_move_selection():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", Choice("bar", disabled="bad"), "bazz"],
+        "use_shortcuts": False,
+        "use_arrow_keys": False,
+        "use_jk_keys": False,
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("checkbox", message, text, **kwargs)
