@@ -3,6 +3,7 @@ import prompt_toolkit
 import pytest
 
 from tests.utils import KeyInputs, feed_cli_with_input
+from prompt_toolkit.completion import Completer, Completion
 
 
 @pytest.fixture
@@ -76,3 +77,22 @@ def test_complete_path_directories_only(path_completion_tree):
 
     result, cli = feed_cli_with_input("path", message, texts, only_directories=True)
     assert result == str(path_completion_tree / "foo" / "buz")
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_complete_custom_completer():
+    test_path = "foobar"
+
+    class CustomCompleter(Completer):
+        def get_completions(self, _, __):
+            yield Completion(test_path)
+
+    message = "Pick your path"
+    texts = ["baz", KeyInputs.TAB + KeyInputs.ENTER, KeyInputs.ENTER]
+
+    result, cli = feed_cli_with_input(
+        "path", message, texts, completer=CustomCompleter()
+    )
+    assert result == "baz" + test_path

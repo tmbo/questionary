@@ -8,7 +8,12 @@ from typing import (
     Tuple,
 )
 
-from prompt_toolkit.completion import CompleteEvent, Completion, PathCompleter
+from prompt_toolkit.completion import (
+    CompleteEvent,
+    Completion,
+    PathCompleter,
+    Completer,
+)
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.completion import (
@@ -25,7 +30,7 @@ from questionary.prompts.common import build_validator
 from questionary.question import Question
 
 
-class GreatUXPathCompleter(PathCompleter):
+class FilteredPathCompleter(PathCompleter):
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
     ) -> Iterable[Completion]:
@@ -34,7 +39,7 @@ class GreatUXPathCompleter(PathCompleter):
         Wraps :class:`prompt_toolkit.completion.PathCompleter`. Makes sure completions
         for directories end with a path separator. Also make sure the right path
         separator is used."""
-        completions = super(GreatUXPathCompleter, self).get_completions(
+        completions = super(FilteredPathCompleter, self).get_completions(
             document, complete_event
         )
 
@@ -65,6 +70,7 @@ def path(
     style: Optional[Style] = None,
     only_directories: bool = False,
     file_filter: Optional[Callable[[str], bool]] = None,
+    completer: Optional[Completer] = None,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     **kwargs: Any,
 ) -> Question:
@@ -104,7 +110,9 @@ def path(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
-        only_directories: Only show directories in auto completion
+        only_directories: Only show directories in auto completion. This option
+                          does not do anything if a custom ``completer`` is
+                          passed.
 
         file_filter: Optional callable to filter suggested paths. Only paths
                      where the passed callable evaluates to ``True`` will show up in
@@ -113,6 +121,13 @@ def path(
                      though this filter evaluates to ``False``. If in addition to
                      filtering suggestions you also want to validate the result, use
                      ``validate`` in combination with the ``file_filter``.
+
+                     This option does not do anything if a custom ``completer``
+                     is passed.
+
+        completer: A custom completer to use in the prompt. For more information,
+                  see `this <https://python-prompt-toolkit.readthedocs.io/en/master/pages/asking_for_input.html#a-custom-completer>`_.
+                  By default, this is a :class:`FilteredPathCompleter`.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
@@ -153,13 +168,16 @@ def path(
 
         b.start_completion(select_first=False)
 
+    if completer is None:
+        completer = FilteredPathCompleter(
+            only_directories=only_directories, file_filter=file_filter, expanduser=True
+        )
+
     p = PromptSession(
         get_prompt_tokens,
         lexer=SimpleLexer("class:answer"),
         style=merged_style,
-        completer=GreatUXPathCompleter(
-            only_directories=only_directories, file_filter=file_filter, expanduser=True
-        ),
+        completer=completer,
         validator=validator,
         complete_style=complete_style,
         key_bindings=bindings,

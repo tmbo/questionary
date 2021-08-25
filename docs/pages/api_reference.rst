@@ -16,6 +16,9 @@ API Reference
 .. autoclass:: questionary::Separator
    :members:
 
+.. autoclass:: questionary::FilteredPathCompleter
+   :members:
+
 .. automethod:: questionary::form
 
 .. automethod:: questionary::prompt
