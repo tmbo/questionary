@@ -137,10 +137,6 @@ def unsafe_prompt(
         if "name" not in question_config:
             raise PromptParameterException("name")
 
-        choices = question_config.get("choices")
-        if choices is not None and callable(choices):
-            question_config["choices"] = choices(answers)
-
         _kwargs = kwargs.copy()
         _kwargs.update(question_config)
 
@@ -166,6 +162,11 @@ def unsafe_prompt(
                 raise ValueError(
                     "'when' needs to be function that accepts a dict argument"
                 )
+
+        choices = question_config.get("choices")
+        if choices is not None and callable(choices):
+            question_config["choices"] = choices(answers)
+
         if _filter:
             # at least a little sanity check!
             if not callable(_filter):
