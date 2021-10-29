@@ -91,5 +91,29 @@ def test_get_paths(path_completion_tree):
         KeyInputs.ENTER,
     ]
 
-    result, cli = feed_cli_with_input("path", message, texts, get_paths=path_completion_tree / "foo")
+    result, cli = feed_cli_with_input(
+        "path", message, texts, get_paths=lambda: [str(path_completion_tree / "foo")]
+    )
     assert result == str(path_completion_tree / "baz.any")
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_get_paths_validation(path_completion_tree):
+    """`get_paths` must contain only existing directories."""
+    test_input = str(path_completion_tree / "ba")
+    message = "Pick your path"
+    texts = [
+        test_input,
+        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
+        KeyInputs.ENTER,
+    ]
+    with pytest.raises(ValueError) as excinfo:
+        feed_cli_with_input(
+            "path",
+            message,
+            texts,
+            get_paths=lambda: [str(path_completion_tree / "not_existing")],
+        )
+    assert str(path_completion_tree / "not_existing") in str(excinfo)
