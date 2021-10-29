@@ -76,3 +76,20 @@ def test_complete_path_directories_only(path_completion_tree):
 
     result, cli = feed_cli_with_input("path", message, texts, only_directories=True)
     assert result == str(path_completion_tree / "foo" / "buz")
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_get_paths(path_completion_tree):
+    """Starting directories for path completion can be set."""
+    test_input = str(path_completion_tree / "ba")
+    message = "Pick your path"
+    texts = [
+        test_input,
+        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
+        KeyInputs.ENTER,
+    ]
+
+    result, cli = feed_cli_with_input("path", message, texts, get_paths=path_completion_tree / "foo")
+    assert result == str(path_completion_tree / "baz.any")
