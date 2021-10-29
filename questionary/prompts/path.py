@@ -26,6 +26,50 @@ from questionary.question import Question
 
 
 class GreatUXPathCompleter(PathCompleter):
+    def __init__(
+        self,
+        only_directories: bool = False,
+        get_paths: Optional[Callable[[], List[str]]] = None,
+        file_filter: Optional[Callable[[str], bool]] = None,
+        min_input_len: int = 0,
+        expanduser: bool = False,
+    ) -> None:
+        """__init__ for :class: `GreatUXPathCompleter`.
+
+        Adds validation of 'get_paths' to :class: `prompt_toolkit.completion.PathCompleter`.
+
+        Args:
+            only_directories (bool, optional): If True, only directories will be returned, but no files. Defaults to False.
+            get_paths (Optional[Callable[[], List[str]]], optional): Callable which returns a list of directories to look into
+                      when the user enters a relative path. If None, set to (lamda: ["."]). Defaults to None.
+            file_filter (Optional[Callable[[str], bool]], optional): Callable which takes a filename and returns whether
+                        this file should show up in the completion. ``None``
+                        when no filtering has to be done. Defaults to None.
+            min_input_len (int, optional): Don't do autocompletion when the input string is shorter.. Defaults to 0.
+            expanduser (bool, optional): If True, tilde (~) is expanded. Defaults to False.
+
+        Raises:
+            ValueError: If any of the by `get_paths` returned directories does not exist.
+        """
+        # if get_paths is None, make it return the current working dir
+        get_paths = get_paths or (lambda: ["."])
+        # validation of get_paths
+        for path in get_paths():
+            if not os.path.isdir(path):
+                raise (
+                    ValueError(
+                        "\n  'get_paths' must return only existing directories, but"
+                        f" '{path}' is not. (at get_paths()[{get_paths().index(path)}])"
+                    )
+                )
+        # call PathCompleter __init__
+        super().__init__(
+            only_directories=only_directories,
+            get_paths=get_paths,
+            file_filter=file_filter,
+            min_input_len=min_input_len,
+            expanduser=expanduser,
+        )
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
     ) -> Iterable[Completion]:
