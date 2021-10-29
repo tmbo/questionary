@@ -83,18 +83,18 @@ def test_complete_path_directories_only(path_completion_tree):
 )
 def test_get_paths(path_completion_tree):
     """Starting directories for path completion can be set."""
-    test_input = str(path_completion_tree / "ba")
+    test_input = "ba"
     message = "Pick your path"
     texts = [
         test_input,
-        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
+        KeyInputs.TAB + KeyInputs.ENTER,
         KeyInputs.ENTER,
     ]
 
     result, cli = feed_cli_with_input(
         "path", message, texts, get_paths=lambda: [str(path_completion_tree / "foo")]
     )
-    assert result == str(path_completion_tree / "baz.any")
+    assert result == "baz.any"
 
 
 @pytest.mark.skipif(
@@ -116,4 +116,4 @@ def test_get_paths_validation(path_completion_tree):
             texts,
             get_paths=lambda: [str(path_completion_tree / "not_existing")],
         )
-    assert str(path_completion_tree / "not_existing") in str(excinfo)
+    assert "'get_paths' must return only existing directories" in str(excinfo)
