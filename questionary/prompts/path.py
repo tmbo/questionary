@@ -1,32 +1,33 @@
-import os
-from typing import (
-    Any,
-    Callable,
-    Iterable,
-    List,
-    Optional,
-    Tuple,
-)
+from typing import Any
+from typing import Callable
+from typing import Iterable
+from typing import List
+from typing import Optional
+from typing import Tuple
 
-from prompt_toolkit.completion import CompleteEvent, Completion, PathCompleter
+import os
+
+from prompt_toolkit.completion import CompleteEvent
+from prompt_toolkit.completion import Completion
+from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
-from prompt_toolkit.key_binding.bindings.completion import (
-    display_completions_like_readline,
-)
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.lexers import SimpleLexer
-from prompt_toolkit.shortcuts.prompt import CompleteStyle, PromptSession
-from prompt_toolkit.styles import Style, merge_styles
-
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
+from prompt_toolkit.shortcuts.prompt import CompleteStyle
+from prompt_toolkit.shortcuts.prompt import PromptSession
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
 
 
 class GreatUXPathCompleter(PathCompleter):
-    """Wraps :class:`prompt_toolkit.completion.PathCompleter`.
+    """Wraps :class: `prompt_toolkit.completion.PathCompleter`.
+
     Makes sure completions for directories end with a path separator. Also make sure
     the right path separator is used. Checks if `get_paths` returns list of existing
     directories.
@@ -42,20 +43,26 @@ class GreatUXPathCompleter(PathCompleter):
     ) -> None:
         """__init__ for :class: `GreatUXPathCompleter`.
 
-        Adds validation of 'get_paths' to :class: `prompt_toolkit.completion.PathCompleter`.
+        Adds validation of 'get_paths' to
+        :class: `prompt_toolkit.completion.PathCompleter`.
 
         Args:
-            only_directories (bool, optional): If True, only directories will be returned, but no files. Defaults to False.
-            get_paths (Optional[Callable[[], List[str]]], optional): Callable which returns a list of directories to look into
-                      when the user enters a relative path. If None, set to (lamda: ["."]). Defaults to None.
-            file_filter (Optional[Callable[[str], bool]], optional): Callable which takes a filename and returns whether
-                        this file should show up in the completion. ``None``
-                        when no filtering has to be done. Defaults to None.
-            min_input_len (int, optional): Don't do autocompletion when the input string is shorter.. Defaults to 0.
-            expanduser (bool, optional): If True, tilde (~) is expanded. Defaults to False.
+            only_directories (bool): If True, only directories will be
+                returned, but no files. Defaults to False.
+            get_paths (Callable[[], List[str]], optional): Callable which
+                returns a list of directories to look into when the user enters a
+                relative path. If None, set to (lambda: ["."]). Defaults to None.
+            file_filter (Callable[[str], bool], optional): Callable which
+                takes a filename and returns whether this file should show up in the
+                completion. ``None`` when no filtering has to be done. Defaults to None.
+            min_input_len (int): Don't do autocompletion when the input string
+                is shorter. Defaults to 0.
+            expanduser (bool): If True, tilde (~) is expanded. Defaults to
+                False.
 
         Raises:
-            ValueError: If any of the by `get_paths` returned directories does not exist.
+            ValueError: If any of the by `get_paths` returned directories does not
+                exist.
         """
         # if get_paths is None, make it return the current working dir
         get_paths = get_paths or (lambda: ["."])
@@ -84,7 +91,8 @@ class GreatUXPathCompleter(PathCompleter):
 
         Wraps :class:`prompt_toolkit.completion.PathCompleter`. Makes sure completions
         for directories end with a path separator. Also make sure the right path
-        separator is used."""
+        separator is used.
+        """
         completions = super(GreatUXPathCompleter, self).get_completions(
             document, complete_event
         )

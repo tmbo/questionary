@@ -2,7 +2,8 @@
 import prompt_toolkit
 import pytest
 
-from tests.utils import KeyInputs, feed_cli_with_input
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
 
 
 @pytest.fixture
