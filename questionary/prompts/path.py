@@ -31,6 +31,7 @@ class GreatUXPathCompleter(PathCompleter):
     the right path separator is used. Checks if `get_paths` returns list of existing
     directories.
     """
+
     def __init__(
         self,
         only_directories: bool = False,
@@ -75,6 +76,7 @@ class GreatUXPathCompleter(PathCompleter):
             min_input_len=min_input_len,
             expanduser=expanduser,
         )
+
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
     ) -> Iterable[Completion]:
