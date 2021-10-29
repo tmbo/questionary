@@ -64,6 +64,7 @@ def path(
     validate: Any = None,
     style: Optional[Style] = None,
     only_directories: bool = False,
+    get_paths: Optional[Callable[[], List[str]]] = None,
     file_filter: Optional[Callable[[str], bool]] = None,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     **kwargs: Any,
@@ -158,7 +159,10 @@ def path(
         lexer=SimpleLexer("class:answer"),
         style=merged_style,
         completer=GreatUXPathCompleter(
-            only_directories=only_directories, file_filter=file_filter, expanduser=True
+            get_paths=get_paths,
+            only_directories=only_directories,
+            file_filter=file_filter,
+            expanduser=True,
         ),
         validator=validator,
         complete_style=complete_style,
