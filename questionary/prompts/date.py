@@ -428,3 +428,134 @@ class FullDateValidator(Validator):
             self.simple_validator.validate(document)
         else:
             self.parsing_validator.validate(document)
+
+
+###################################
+#            THE PROMPT
+###################################
+
+
+def date(
+    message: str,
+    default: str = "",
+    qmark: str = DEFAULT_QUESTION_PREFIX,
+    validate: Any = None,
+    completer: Completer = None,
+    style: Optional[Style] = None,
+    date_format: Optional[str] = ISO8601,
+    print_date_format: bool = True,
+    parser: Optional[Callable[[str], AnyDate]] = None,
+    complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
+    **kwargs: Any,
+) -> Question:
+    """A text input for a date or time with autocompletion enabled.
+
+    Args:
+        message (str): Question text.
+        default (str): Default return value (single value). Defaults to "".
+        qmark (str): Question prefix displayed in front of the question. By default this
+            is a ``?``. Defaults to DEFAULT_QUESTION_PREFIX.
+        validate (Any, optional): Require the entered value to pass a validation. The
+            value can not be submitted until the validator accepts it (e.g. to check
+        minimum password length). This can either be a function accepting the input and
+        returning a boolean, or an class reference to a subclass of the prompt toolkit
+        Validator class. Defaults to None.
+        completer (Completer, optional): A :class: `prompt_toolkit.completion.Completer`
+            yielding completions for user input. If None, :class: `FullDateCompleter` is
+            used. Defaults to None. Defaults to None.
+        style (Style, optional): A custom color and style for the question parts. You
+            can configure colors as well as font types for different elements.
+            Defaults to None.
+        date_format (str, optional): Format determining the format that is to be used
+            for parsing :class: `datetime.date`. If set to None (and no ``completer`` was
+            set) completions of :class: `SimpleDateCompleter` are deactivated.Defaults to
+            ``ISO8601``.. Defaults to ISO8601.
+        print_date_format (bool): If set to True, ``date_format`` is printed on the
+            right of the prompt. Defaults to True.
+        parser (Callable[[str], AnyDate], optional): A callable that parses
+                a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
+                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+        complete_style (CompleteStyle): How autocomplete menu would be shown, it could
+            be ``COLUMN`` ``MULTI_COLUMN`` or ``READLINE_LIKE`` from
+            :class:`prompt_toolkit.shortcuts.CompleteStyle`. Defaults to
+            CompleteStyle.MULTI_COLUMN.
+
+    Returns:
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
+
+    Example:
+        >>> import questionary
+        >>> questionary.date("Type a date: ").ask()
+        ? Type a date: 2021-01-01
+        '2021-01-01'
+
+    .. _dateparser: https://github.com/scrapinghub/dateparser
+    .. _dateutil: https://github.com/dateutil/dateutil
+    """
+    # delimeter used to separate year, month and day
+    delimeter: str = date_format[-3]
+
+    merged_style = merge_styles([DEFAULT_STYLE, style])
+
+    if print_date_format:
+        rprompt = to_formatted_text(
+            f"Date format: {date_format}", style="bg: ansigreen bold"
+        )
+    else:
+        rprompt = None
+
+    def get_prompt_tokens() -> List[Tuple[str, str]]:
+        return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
+
+    # set validator
+    validate = validate or FullDateValidator(date_format=date_format, parser=parser)
+    validator: Validator = build_validator(validate)
+
+    # set completer
+    completer = completer or FullDateCompleter(date_format=date_format, parser=parser)
+
+    bindings = KeyBindings()
+
+    # set behavior on `carriage return`
+    @bindings.add(Keys.ControlM, eager=True)
+    def set_answer(event: KeyPressEvent):
+        if event.current_buffer.complete_state is not None:
+            event.current_buffer.complete_state = None
+        elif event.app.current_buffer.validate(set_cursor=True):
+            # When the validation succeeded, accept the input.
+            result_date = event.app.current_buffer.document.text
+            if result_date.endswith(delimeter):
+                result_date = result_date[:-1]
+
+            event.app.exit(result=result_date)
+            event.app.current_buffer.append_to_history()
+
+    # delimeter should not be placed twice
+    @bindings.add(delimeter, eager=True)
+    def next_segment(event: KeyPressEvent):
+        b = event.app.current_buffer
+
+        if b.complete_state:
+            b.complete_state = None
+
+        current_date = b.document.text
+        if not current_date.endswith(delimeter):
+            b.insert_text(delimeter)
+
+        b.start_completion(select_first=False)
+
+    # initiate ``PromptSession``
+    p = PromptSession(
+        get_prompt_tokens,
+        lexer=SimpleLexer("class:answer"),
+        style=merged_style,
+        completer=completer,
+        validator=validator,
+        complete_style=complete_style,
+        key_bindings=bindings,
+        rprompt=rprompt,
+        **kwargs,
+    )
+    p.default_buffer.reset(Document(default))
+
+    return Question(p.app)
