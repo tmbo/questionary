@@ -367,3 +367,64 @@ class FullDateCompleter(Completer):
             yield completion
         for completion in parsed_completions:
             yield completion
+
+
+class FullDateValidator(Validator):
+    """Validation of user input for :function: `date`.
+
+    Validates the user input for :func: `date` via calling validation of :class:
+    `ParsingDateValidator` (if ``parsing`` is a callable) or via calling ``validate`` of
+    :class: `SimpleDateValidator`.
+
+        Args:
+            date_format (str): Format determining the format that is to be used
+                for parsing :class: `datetime.date`.
+            parser (Callable[[str], AnyDate], optional): A callable that parses
+                a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
+                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+
+        .. _dateparser: https://github.com/scrapinghub/dateparser
+        .. _dateutil: https://github.com/dateutil/dateutil
+    """
+
+    def __init__(
+        self,
+        date_format: Optional[str] = ISO8601,
+        parser: Optional[Callable[[str], AnyDate]] = None,
+    ) -> None:
+        """__init__ of :class: `FullDateValidator`.
+
+        Validates the user input for :func: `date` via calling validation of :class:
+        `ParsingDateValidator` (if ``parser`` is a callable) or via calling
+        ``validate`` of :class: `SimpleDateValidator`.
+
+        Args:
+            date_format (str): Format determining the format that is to be used
+                for parsing :class: `datetime.date`. Defaults to ``ISO8601``.
+            parser (Callable[[str], AnyDate], optional): A callable that parses
+                a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
+                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+
+        .. _dateparser: https://github.com/scrapinghub/dateparser
+        .. _dateutil: https://github.com/dateutil/dateutil
+        """
+        self.date_format = date_format
+        self.parser = parser
+        self.simple_validator = SimpleDateValidator(date_format=date_format)
+        self.parsing_validator = ParsingDateValidator(parser=parser)
+
+    def validate(self, document: Document) -> None:
+        """Validaton of user input for :function: `date`.
+
+        Validates the user input for :func: `date` via calling validation of :class:
+        `ParsingDateValidator` (if ``parsing`` is a callable) or via calling
+        ``validate`` of :class: `SimpleDateValidator`.
+
+        Args:
+            document (Document): The :class: `prompt_toolkit.document.Document` created
+                of the user input.
+        """
+        if self.parser is None:
+            self.simple_validator.validate(document)
+        else:
+            self.parsing_validator.validate(document)
