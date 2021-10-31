@@ -297,3 +297,73 @@ class ParsingDateValidator(Validator):
         if self.parser is not None:
             if parsed_date is None:
                 raise (ValidationError(message="Can not parse input to date object."))
+
+
+###################################
+#  FULL COMLETION AND VALIDATION
+###################################
+
+
+class FullDateCompleter(Completer):
+    """Completer for date prompts.
+
+    Yields completions from both :class: `SimpleDateCompleter´ and :class:
+    `ParsingDateCompleter`
+    """
+
+    def __init__(
+        self,
+        date_format: Optional[str] = ISO8601,
+        parser: Optional[Callable[[str], AnyDate]] = None,
+    ) -> None:
+        """Completer for date prompts.
+
+        Yields completions from both :class: `SimpleDateCompleter´ and :class:
+        `ParsingDateCompleter`
+
+        Args:
+            date_format (str): Format determining the format that is to be used
+                for parsing :class: `datetime.date`. If set to None, completion of
+                :class: `SimpleDateCompleter´ is deactivated. Defaults to ´´ISO8601``.
+            parser (Optional[Callable[str], AnyDate], optional): A callable that parses
+                a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
+                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+
+        .. _dateparser: https://github.com/scrapinghub/dateparser
+        .. _dateutil: https://github.com/dateutil/dateutil
+        """
+        self.date_format = date_format
+        self.parser = parser
+        self.simple_completer = SimpleDateCompleter(date_format=date_format)
+        self.parsing_completer = ParsingDateCompleter(parser=parser)
+
+    def get_completions(
+        self, document: Document, complete_event: CompleteEvent
+    ) -> Iterable[Completion]:
+        """Completion method of :class: `FullDateCompleter`.
+
+        Yields completions from both :class: `SimpleDateCompleter´ and :class:
+        `ParsingDateCompleter`
+
+
+        Args:
+            document (Document): The :class: `prompt_toolkit.document.Document` created
+                from the user input.
+            complete_event (CompleteEvent): The complete event.
+
+        Yields:
+            Iterator[Iterable[Completion]]: The completions
+        """
+        if self.date_format is not None:
+            simple_completions = (
+                self.simple_completer.get_completions(document, complete_event) or []
+            )
+        else:
+            simple_completions = []
+        parsed_completions = (
+            self.parsing_completer.get_completions(document, complete_event) or []
+        )
+        for completion in simple_completions:
+            yield completion
+        for completion in parsed_completions:
+            yield completion
