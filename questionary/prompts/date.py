@@ -167,3 +167,45 @@ class SimpleDateCompleter(Completer):
                     selected_style="fg:white bg:ansired bold",
                     display=completion,
                 )
+
+
+class SimpleDateValidator(Validator):
+    def __init__(self, date_format: Optional[str] = None) -> None:
+        """__init__ of :class: `DateValidator`.
+
+        Validates given input for dates.
+
+        Args:
+            date_format (str): Format determining the format that is to be used
+                for parsing :class: `datetime.date`.
+        """
+        self.format: str = date_format or ISO8601
+        if self.format not in SUPPORTED_FORMATS:
+            raise (
+                ValueError(
+                    f"Date format '{self.format}' is not supported.\nSupported"
+                    f" formats:\n{SUPPORTED_FORMATS}"
+                )
+            )
+
+    def validate(self, document: Document) -> None:
+        """Validates the user input.
+
+        Only inputs that can be parsed into `dateobject`_ via the `datetime-parser`_ are
+        accepted.
+
+        Args:
+            document (Document): The :class: `prompt_toolkit.document.Document` created
+                from the user input.
+
+        Raises:
+            ValidationError: if parsing text input via ``datetime.datetime.strptime``
+                fails.
+
+        .. _dateobject: :class: `datetime.datetime`
+        .. _datetime_parser: :function: `datetime.datetime.strptime`
+        """
+        try:
+            datetime.datetime.strptime(document.text, self.format)
+        except Exception:
+            raise (ValidationError(message="Invalid date."))
