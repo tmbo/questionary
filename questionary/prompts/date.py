@@ -256,3 +256,44 @@ class ParsingDateCompleter(Completer):
         # if input can be parsed, yield the string of the parsed date as completion
         if parsed_date is not None:
             yield Completion(str(parsed_date), start_position=-len(document.text))
+
+
+class ParsingDateValidator(Validator):
+    """Validator class for date validation via a parser."""
+
+    def __init__(self, parser: Optional[Callable[[str], AnyDate]] = None) -> None:
+        """__init__ of :class: `ParsingDateValidator`.
+
+        Validates the string input for :function: `date` using a parser.
+
+        Args:
+            parser (Optional[Callable[str], AnyDate], optional): A callable that parses
+                a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
+                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+
+        .. _dateparser: https://github.com/scrapinghub/dateparser
+        .. _dateutil: https://github.com/dateutil/dateutil
+        """
+        self.parser = parser
+
+    def validate(self, document: Document) -> None:
+        """Validates the date input using a date parser.
+
+        If `self.parser` is None, no validation is performed. Otherwise, only those
+        inputs that can be parsed to a valid dateobject (:class: `datetime.date` or
+        :class: `datetime.date`) are considered to be valid.
+
+        Args:
+            document (Document): The :class: `prompt_toolkit.document.Document` created
+                of the user input.
+
+        Raises:
+            ValidationError: if parsing text input via ``self.parser`` fails.
+        """
+        try:
+            parsed_date = self.parser(document.text)
+        except Exception:
+            parsed_date = None
+        if self.parser is not None:
+            if parsed_date is None:
+                raise (ValidationError(message="Can not parse input to date object."))
