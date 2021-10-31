@@ -12,6 +12,8 @@ as `dateutil`_ or `dateparser`_, for completion. Similar class are there for val
 Both ``Completer`` and ``Validator``, the 'simple' and the 'parsing' ones are combined
 in :class: `FullDateCompleter` and :class: `FullDateValidator`.
 
+By default date returns an :class: `datetime.datetime` instance.
+
 Typical usage could look like this:
 
 Example:
@@ -445,6 +447,7 @@ def date(
     date_format: Optional[str] = ISO8601,
     print_date_format: bool = True,
     parser: Optional[Callable[[str], AnyDate]] = None,
+    return_date_object: bool = True,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     **kwargs: Any,
 ) -> Question:
@@ -475,6 +478,8 @@ def date(
         parser (Callable[[str], AnyDate], optional): A callable that parses
                 a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
                 the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+        return_date_object (bool): If True, a parsed date object is returned. Else, string
+            the text input is returned. Defaults to True.
         complete_style (CompleteStyle): How autocomplete menu would be shown, it could
             be ``COLUMN`` ``MULTI_COLUMN`` or ``READLINE_LIKE`` from
             :class:`prompt_toolkit.shortcuts.CompleteStyle`. Defaults to
@@ -507,6 +512,15 @@ def date(
     def get_prompt_tokens() -> List[Tuple[str, str]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
+    def _parse_to_date(input: str) -> datetime.datetime:
+        if return_date_object:
+            if parser is not None:
+                return parser(input)
+            else:
+                return datetime.datetime.strptime(input, format=date_format)
+        else:
+            return input
+
     # set validator
     validate = validate or FullDateValidator(date_format=date_format, parser=parser)
     validator: Validator = build_validator(validate)
@@ -527,7 +541,7 @@ def date(
             if result_date.endswith(delimeter):
                 result_date = result_date[:-1]
 
-            event.app.exit(result=result_date)
+            event.app.exit(result=_parse_to_date(result_date))
             event.app.current_buffer.append_to_history()
 
     # delimeter should not be placed twice
