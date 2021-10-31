@@ -209,3 +209,50 @@ class SimpleDateValidator(Validator):
             datetime.datetime.strptime(document.text, self.format)
         except Exception:
             raise (ValidationError(message="Invalid date."))
+
+
+###################################
+#  PARSING COMLETION AND VALIDATION
+###################################
+
+
+class ParsingDateCompleter(Completer):
+    def __init__(self, parser: Optional[Callable[[str], AnyDate]] = None) -> None:
+        """__init__ of :class: `ParsingDateCompleter`.
+
+        Completes the date using a parser.
+
+        Args:
+            parser (Optional[Callable[str], AnyDate], optional): A callable that parses
+                a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
+                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+
+        .. _dateparser: https://github.com/scrapinghub/dateparser
+        .. _dateutil: https://github.com/dateutil/dateutil
+        """
+        self.parser = parser or (lambda: None)
+
+    def get_completions(
+        self, document: Document, complete_event: CompleteEvent
+    ) -> Iterable[Completion]:
+        """Completions using a date parser.
+
+        Calls a parser, which converts the string typed by the user into some date
+        object (:class: `datetime.date` or :class: `datetime.date`) and yields its
+        string as the completion.
+
+        Args:
+            document (Document): The :class: `prompt_toolkit.document.Document` created
+                from the user input.
+            complete_event (CompleteEvent): The complete event.
+
+        Yields:
+            Iterator[Iterable[Completion]]: The completions
+        """
+        try:
+            parsed_date = self.parser(document.text)
+        except Exception:
+            parsed_date = None
+        # if input can be parsed, yield the string of the parsed date as completion
+        if parsed_date is not None:
+            yield Completion(str(parsed_date), start_position=-len(document.text))
