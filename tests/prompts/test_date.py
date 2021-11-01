@@ -104,6 +104,9 @@ def test_simple_date_validator_exception():
 def test_parsing_completer():
     """Completion using a custom date parser."""
     completer = date.ParsingDateCompleter(parser=date.custom_date_parser)
+    input = document.Document("2021")
+    completions = [c.text for c in completer.get_completions(input, CompleteEvent())]
+    assert "2021-01-01 00:00:00" in completions
 
 
 def test_date():
