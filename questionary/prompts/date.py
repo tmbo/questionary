@@ -145,7 +145,7 @@ def custom_date_parser(input: str) -> Optional[datetime.date]:
             return None
 
     # remove all delimeters from the input
-    pattern = re.compile("[\d]")
+    pattern = re.compile(r"[\d]")
     relevant_input = "".join(pattern.findall(input))
     # try parsing for the several date_formats
     for date_format in date_formats:
