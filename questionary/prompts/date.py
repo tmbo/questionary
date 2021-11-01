@@ -43,6 +43,7 @@ from typing import Union
 
 import re
 import datetime
+from attr.validators import is_callable
 
 from prompt_toolkit.completion import CompleteEvent
 from prompt_toolkit.completion import Completer
@@ -299,10 +300,15 @@ class ParsingDateCompleter(Completer):
                 a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
                 the ones from `dateparser`_ or `dateutil`_. Defaults to None.
 
+        Raises:
+            ValueError: if ``parser`` is neither None nor a callable.
+
         .. _dateparser: https://github.com/scrapinghub/dateparser
         .. _dateutil: https://github.com/dateutil/dateutil
         """
         self.parser = parser or custom_date_parser
+        if not is_callable(self.parser):
+            raise(ValueError(f"'parser' needs to be a callable (not a {type(parser).__name__})."))
 
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
@@ -343,10 +349,15 @@ class ParsingDateValidator(Validator):
                 a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
                 the ones from `dateparser`_ or `dateutil`_. Defaults to None.
 
+        Raises:
+            ValueError: if ``parser`` is neither None nor a callable
+
         .. _dateparser: https://github.com/scrapinghub/dateparser
         .. _dateutil: https://github.com/dateutil/dateutil
         """
-        self.parser = parser
+        self.parser = parser or custom_date_parser
+        if not is_callable(self.parser):
+            raise(ValueError(f"'parser' needs to be a callable (not a {type(parser).__name__})."))
 
     def validate(self, document: Document) -> None:
         """Validates the date input using a date parser.
