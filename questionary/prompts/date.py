@@ -6,11 +6,12 @@ completion and validation are provided: :class: `SimpleDateCompleter` and :class
 `ParsingDateCompleter`. The former one, using only the build in module :module:
 `datetime`, whereas the latter one offers the option to use third part libraries, e.g.
 as `dateutil`_ or `dateparser`_, for completion. Similar class are there for validation
-(:class: `SimpleDateValidator` and :class: `ParsingDateValidator`) Note that the
-'simple' completer and validator currently only supports dates and not times, but the
-'parsing' ones may support times as well (depending on the used third part library).
-Both ``Completer`` and ``Validator``, the 'simple' and the 'parsing' ones are combined
-in :class: `FullDateCompleter` and :class: `FullDateValidator`.
+(:class: `SimpleDateValidator` and :class: `ParsingDateValidator`). Note that the
+'simple' completer and validator currently only supports dates or times, but not both at
+the same time. The 'parsing' ones, on the other hand, may support times as well
+(depending on the used third part library). Both ``Completer`` and ``Validator``, the
+'simple' and the 'parsing' ones are combined in :class: `FullDateCompleter`
+and :class: `FullDateValidator`.
 
 By default date returns an :class: `datetime.datetime` instance.
 
@@ -63,10 +64,12 @@ from questionary.question import Question
 
 # date format according to ISO8601
 ISO8601 = "%Y-%m-%d"
+ISO8601_TIME = "%H:%M:%S"
 
 # list of supported date formats
 SUPPORTED_FORMATS = [
     ISO8601,
+    ISO8601_TIME,
     "%d.%m.%Y",
     "%d-%m-%Y",
     # ISO8601,
@@ -83,6 +86,7 @@ MONTH = [str(i) for i in range(1, 13)]
 YEAR = ["0" * (4 - len(str(i))) + str(i) for i in range(9999)]
 HOUR = [str(i) for i in range(0, 24)]
 MINUTE = [str(i) for i in range(60)]
+SECOND = [str[i] for i in range(60)]
 
 # dict used to determine correct order for completions
 PARSE_FORMAT_DICT = {"%d": DAY, "%m": MONTH, "%Y": YEAR, "%H": HOUR, "%M": MINUTE}
@@ -517,7 +521,7 @@ def date(
             if parser is not None:
                 return parser(input)
             else:
-                return datetime.datetime.strptime(input, format=date_format)
+                return datetime.datetime.strptime(input, date_format)
         else:
             return input
 
