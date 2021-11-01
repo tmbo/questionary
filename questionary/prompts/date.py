@@ -557,7 +557,8 @@ def date(
             right of the prompt. Defaults to True.
         parser (Callable[[str], AnyDate], optional): A callable that parses
                 a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
-                the ones from `dateparser`_ or `dateutil`_. Defaults to None.
+                the ones from `dateparser`_ or `dateutil`_. If None, set to
+                :function: `custom_date_parser`.Defaults to None.
         return_date_object (bool): If True, a parsed date object is returned. Else, string
             the text input is returned. Defaults to True.
         complete_style (CompleteStyle): How autocomplete menu would be shown, it could
@@ -579,6 +580,8 @@ def date(
     """
     # delimeter used to separate year, month and day
     delimeter: str = date_format[-3]
+
+    parser = parser or custom_date_parser
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
