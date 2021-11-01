@@ -5,6 +5,7 @@ from typing import List
 import datetime
 
 import prompt_toolkit
+from prompt_toolkit.validation import ValidationError
 import pytest
 from prompt_toolkit import document
 from prompt_toolkit.completion.base import CompleteEvent
@@ -107,6 +108,33 @@ def test_parsing_completer():
     input = document.Document("2021")
     completions = [c.text for c in completer.get_completions(input, CompleteEvent())]
     assert "2021-01-01 00:00:00" in completions
+
+
+def test_parsing_completer_exception():
+    """Parser needs to be a callable or None."""
+    date.ParsingDateCompleter()
+
+    with pytest.raises(ValueError):
+        date.ParsingDateCompleter(parser="i am not a callable")
+
+
+def test_parsing_validator():
+    """Validaton using a custom date parser."""
+    validator = date.ParsingDateValidator(parser=date.custom_date_parser)
+    input = document.Document("2021")
+    validator.validate(input)
+
+    # raises if date cannot be validated
+    with pytest.raises(ValidationError):
+        validator.validate(document.Document("invalid"))
+
+
+def test_parsing_validator_init_exception():
+    """Parser needs to be a callable or None."""
+    date.ParsingDateValidator()
+
+    with pytest.raises(ValueError):
+        date.ParsingDateValidator(parser="i am not a callable")
 
 
 def test_date():
