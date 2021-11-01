@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Testsuite for date module."""
-from typing import List, Optional
+from typing import List
 
 import datetime
 
@@ -60,15 +60,6 @@ def _check_simple_completions(
         )
 
 
-def custom_date_parser(input: str) -> Optional[datetime.date]:
-    """Some date parser."""
-    try:
-        _date = datetime.datetime.strptime(input, "%Y-%m-%d %H:%M")
-    except Exception:
-        _date = None
-    return _date
-
-
 def test_simple_date_completer():
     """Yields completions depending on the chosen ``date_format``."""
     # check order of completions
@@ -108,6 +99,11 @@ def test_simple_date_validator_exception():
     # not supported ones make it raise ``ValueError``
     with pytest.raises(ValueError):
         date.SimpleDateValidator(date_format="not-supported")
+
+
+def test_parsing_completer():
+    """Completion using a custom date parser."""
+    completer = date.ParsingDateCompleter(parser=date.custom_date_parser)
 
 
 def test_date():
