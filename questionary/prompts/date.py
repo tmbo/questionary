@@ -131,7 +131,8 @@ def custom_date_parser(input: str) -> Optional[datetime.date]:
         "%d",
         "%H",
         "%M",
-        "%S"
+        "%S",
+        "%f"
     ]
     date_formats = [
         "".join(_time_format_codes[0:i]) for i in range(len(_time_format_codes))
