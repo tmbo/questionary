@@ -43,7 +43,6 @@ from typing import Union
 
 import re
 import datetime
-from attr.validators import is_callable
 
 from prompt_toolkit.completion import CompleteEvent
 from prompt_toolkit.completion import Completer
@@ -136,7 +135,7 @@ def custom_date_parser(input: str) -> Optional[datetime.date]:
         "%f"
     ]
     date_formats = [
-        "".join(_time_format_codes[0:i]) for i in range(len(_time_format_codes))
+        "".join(_time_format_codes[0:i]) for i in range(1, len(_time_format_codes) + 1)
     ]
 
     def _try_date_format(date_format:str, text:str) -> Optional[datetime.datetime]:
@@ -307,7 +306,7 @@ class ParsingDateCompleter(Completer):
         .. _dateutil: https://github.com/dateutil/dateutil
         """
         self.parser = parser or custom_date_parser
-        if not is_callable(self.parser):
+        if not isinstance(self.parser, Callable):
             raise(ValueError(f"'parser' needs to be a callable (not a {type(parser).__name__})."))
 
     def get_completions(
@@ -356,7 +355,7 @@ class ParsingDateValidator(Validator):
         .. _dateutil: https://github.com/dateutil/dateutil
         """
         self.parser = parser or custom_date_parser
-        if not is_callable(self.parser):
+        if not isinstance(self.parser, Callable):
             raise(ValueError(f"'parser' needs to be a callable (not a {type(parser).__name__})."))
 
     def validate(self, document: Document) -> None:
