@@ -86,7 +86,7 @@ MONTH = [str(i) for i in range(1, 13)]
 YEAR = ["0" * (4 - len(str(i))) + str(i) for i in range(9999)]
 HOUR = [str(i) for i in range(0, 24)]
 MINUTE = [str(i) for i in range(60)]
-SECOND = [str[i] for i in range(60)]
+SECOND = [str(i) for i in range(60)]
 
 # dict used to determine correct order for completions
 PARSE_FORMAT_DICT = {"%d": DAY, "%m": MONTH, "%Y": YEAR, "%H": HOUR, "%M": MINUTE}
