@@ -1,19 +1,21 @@
 """Module for prompting for dates.
 
 
-This module provides a prompting method for dates and times. Two basic types of
-completion and validation are provided: :class: `SimpleDateCompleter` and :class:
+Core of this module forms the function :function: `date`, which allows to prompt for for
+dates and times with completion and validation. Two basic types of completion and
+validation are provided: :class: `SimpleDateCompleter` and :class:
 `ParsingDateCompleter`. The former one, using only the build in module :module:
-`datetime`, whereas the latter one offers the option to easily include third part libraries, e.g.
-as `dateutil`_ or `dateparser`_, for completion. Similar class are there for validation
-(:class: `SimpleDateValidator` and :class: `ParsingDateValidator`). Note that the
-'simple' completer and validator currently only supports dates or times, but not both at
-the same time. The 'parsing' ones, on the other hand, may support times as well
-(depending on the used third part library). Both ``Completer`` and ``Validator``, the
-'simple' and the 'parsing' ones are combined in :class: `FullDateCompleter`
-and :class: `FullDateValidator`. If no parser is given to the 'full' completer and
+`datetime`, whereas the latter one offers the option to easily include third part
+libraries, e.g. as `dateutil`_ or `dateparser`_, for completion. Similar class are there
+for validation (:class: `SimpleDateValidator` and :class: `ParsingDateValidator`). Note
+that the 'simple' completer and validator currently only supports dates or times, but
+not both at the same time. The 'parsing' ones, on the other hand, may support times as
+well (depending on the used third part library). Both ``Completer`` and ``Validator``,
+the 'simple' and the 'parsing' ones are combined in :class: `FullDateCompleter` and
+:class: `FullDateValidator`. If no parser is given to the 'full' completer and
 validator, :function: `custom_date_parser` is used by default. If you want to deactivate
-'parsing' validation and completion, ``parser`` needs to be (lambda: None).
+'parsing' validation and completion, you need to call :function: `date` with
+``no_extra_parser`` set to True.
 
 By default date returns an :class: `datetime.datetime` instance.
 
@@ -445,6 +447,8 @@ class FullDateCompleter(Completer):
         parsed_completions = (
             self.parsing_completer.get_completions(document, complete_event) or []
         )
+        if self.parser is None:
+            parsed_completions = []
         for completion in simple_completions:
             yield completion
         for completion in parsed_completions:
@@ -527,6 +531,7 @@ def date(
     date_format: Optional[str] = ISO8601,
     print_date_format: bool = True,
     parser: Optional[Callable[[str], AnyDate]] = None,
+    no_extra_parser: bool = False,
     return_date_object: bool = True,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     **kwargs: Any,
@@ -558,7 +563,10 @@ def date(
         parser (Callable[[str], AnyDate], optional): A callable that parses
                 a string into a :class: `datetime.date` or :class: `datetime.date`, e.g.
                 the ones from `dateparser`_ or `dateutil`_. If None, set to
-                :function: `custom_date_parser`.Defaults to None.
+                :function: `custom_date_parser`. Defaults to None.
+                Has no effect is ``no_extra_parser`` is set to True.
+        no_extra_parser (bool): If True, completion and validation using the ``parser`` is
+            not performed. Defaults to False.
         return_date_object (bool): If True, a parsed date object is returned. Else, string
             the text input is returned. Defaults to True.
         complete_style (CompleteStyle): How autocomplete menu would be shown, it could
@@ -582,6 +590,9 @@ def date(
     delimeter: str = date_format[-3]
 
     parser = parser or custom_date_parser
+    if no_extra_parser:
+        parser = None
+
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
