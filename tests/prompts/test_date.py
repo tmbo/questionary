@@ -90,6 +90,17 @@ def test_simple_date_completer_exception():
         date.SimpleDateCompleter(date_format="not-supported")
 
 
+def test_simple_date_validator_exception():
+    """Raises ``ValueError``, if ``date_format`` is not supported."""
+    # supported date_formats are allowed
+    for date_format in date.SUPPORTED_FORMATS:
+        date.SimpleDateValidator(date_format=date_format)
+
+    # not supported ones make it raise ``ValueError``
+    with pytest.raises(ValueError):
+        date.SimpleDateValidator(date_format="not-supported")
+
+
 def test_date():
     """Test date on default behavior."""
     message = "Type a date: "
