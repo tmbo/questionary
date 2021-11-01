@@ -77,13 +77,6 @@ def test_simple_date_completer():
         order=[date.HOUR, date.MINUTE, date.SECOND],
         delimeter=":"
     )
-    # completer = date.SimpleDateCompleter(date_format=date.ISO8601_TIME)
-    # input = document.Document("20")
-    # assert completer.get_completions(document=input, complete_event=CompleteEvent()) in map(lambda x: x + ":", date.HOUR)
-    # input = document.Document("20:02")
-    # assert completer.get_completions(document=input, complete_event=CompleteEvent()) in map(lambda x: x + ":", date.MONTH)
-    # input = document.Document("2021:02:02")
-    # assert completer.get_completions(document=input, complete_event=CompleteEvent()) in map(lambda x: x, date.SECOND)
 
 
 def test_simple_date_completer_exception():
