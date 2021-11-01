@@ -77,9 +77,6 @@ SUPPORTED_FORMATS = [
     ISO8601_TIME,
     "%d.%m.%Y",
     "%d-%m-%Y",
-    # ISO8601,
-    # "%d.%m.%y",
-    # "%d-%m-%y",
     "%m-%d-%Y",
     "%m/%d/%Y",
     "%m.%d.%Y",
@@ -94,7 +91,14 @@ MINUTE = [str(i) for i in range(60)]
 SECOND = [str(i) for i in range(60)]
 
 # dict used to determine correct order for completions
-PARSE_FORMAT_DICT = {"%d": DAY, "%m": MONTH, "%Y": YEAR, "%H": HOUR, "%M": MINUTE, "%S": SECOND}
+PARSE_FORMAT_DICT = {
+    "%d": DAY,
+    "%m": MONTH,
+    "%Y": YEAR,
+    "%H": HOUR,
+    "%M": MINUTE,
+    "%S": SECOND,
+}
 
 
 AnyDate = Union[datetime.date, datetime.datetime, None]
@@ -127,20 +131,12 @@ def custom_date_parser(input: str) -> Optional[datetime.date]:
 
     .. _ISO8601: https://en.wikipedia.org/wiki/ISO_8601
     """
-    _time_format_codes = [
-        "%Y",
-        "%m",
-        "%d",
-        "%H",
-        "%M",
-        "%S",
-        "%f"
-    ]
+    _time_format_codes = ["%Y", "%m", "%d", "%H", "%M", "%S", "%f"]
     date_formats = [
         "".join(_time_format_codes[0:i]) for i in range(1, len(_time_format_codes) + 1)
     ]
 
-    def _try_date_format(date_format:str, text:str) -> Optional[datetime.datetime]:
+    def _try_date_format(date_format: str, text: str) -> Optional[datetime.datetime]:
         """Tries to parse ``text`to :class: `datetime.datetime`."""
         try:
             return datetime.datetime.strptime(text, date_format)
@@ -152,10 +148,7 @@ def custom_date_parser(input: str) -> Optional[datetime.date]:
     relevant_input = "".join(pattern.findall(input))
     # try parsing for the several date_formats
     for date_format in date_formats:
-        _date = _try_date_format(
-            date_format=date_format,
-            text=relevant_input
-        )
+        _date = _try_date_format(date_format=date_format, text=relevant_input)
         # if parsing succeeded return the result
         if _date is not None:
             return _date
@@ -309,7 +302,11 @@ class ParsingDateCompleter(Completer):
         """
         self.parser = parser or custom_date_parser
         if not isinstance(self.parser, Callable):
-            raise(ValueError(f"'parser' needs to be a callable (not a {type(parser).__name__})."))
+            raise (
+                ValueError(
+                    f"'parser' needs to be a callable (not a {type(parser).__name__})."
+                )
+            )
 
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
@@ -358,7 +355,11 @@ class ParsingDateValidator(Validator):
         """
         self.parser = parser or custom_date_parser
         if not isinstance(self.parser, Callable):
-            raise(ValueError(f"'parser' needs to be a callable (not a {type(parser).__name__})."))
+            raise (
+                ValueError(
+                    f"'parser' needs to be a callable (not a {type(parser).__name__})."
+                )
+            )
 
     def validate(self, document: Document) -> None:
         """Validates the date input using a date parser.
@@ -592,7 +593,6 @@ def date(
     parser = parser or custom_date_parser
     if no_extra_parser:
         parser = None
-
 
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
