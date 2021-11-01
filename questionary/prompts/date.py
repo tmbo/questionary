@@ -39,6 +39,7 @@ from typing import Optional
 from typing import Tuple
 from typing import Union
 
+import re
 import datetime
 
 from prompt_toolkit.completion import CompleteEvent
@@ -93,6 +94,53 @@ PARSE_FORMAT_DICT = {"%d": DAY, "%m": MONTH, "%Y": YEAR, "%H": HOUR, "%M": MINUT
 
 
 AnyDate = Union[datetime.date, datetime.datetime, None]
+
+
+def custom_date_parser(input: str) -> Optional[datetime.date]:
+    """A very simple date parser.
+
+    Parses dates given by ISO8601.
+
+    Args:
+        input (str): Text input that is to be parsed.
+
+    Returns:
+        Optional[datetime.date]: The parsed :class: `datetime.datetime` instance. None,
+            if parsing failed.
+    """
+    _time_format_codes = [
+        "%Y",
+        "%m",
+        "%d",
+        "%H",
+        "%M",
+        "%S"
+    ]
+    date_formats = [
+        "".join(_time_format_codes[0:i]) for i in range(len(_time_format_codes))
+    ]
+
+    def _try_date_format(date_format:str, text:str) -> Optional[datetime.datetime]:
+        """Tries to parse ``text`to :class: `datetime.datetime`."""
+        try:
+            return datetime.datetime.strptime(text, date_format)
+        except Exception:
+            return None
+
+    # remove all delimeters from the input
+    pattern = re.compile("[\d]")
+    relevant_input = "".join(pattern.findall(input))
+    # try parsing for the several date_formats
+    for date_format in date_formats:
+        _date = _try_date_format(
+            date_format=date_format,
+            text=relevant_input
+        )
+        # if parsing succeeded return the result
+        if _date is not None:
+            return _date
+    # no parsing succeeded so return None
+    return None
 
 
 ###################################
