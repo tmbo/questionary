@@ -4,14 +4,16 @@
 This module provides a prompting method for dates and times. Two basic types of
 completion and validation are provided: :class: `SimpleDateCompleter` and :class:
 `ParsingDateCompleter`. The former one, using only the build in module :module:
-`datetime`, whereas the latter one offers the option to use third part libraries, e.g.
+`datetime`, whereas the latter one offers the option to easily include third part libraries, e.g.
 as `dateutil`_ or `dateparser`_, for completion. Similar class are there for validation
 (:class: `SimpleDateValidator` and :class: `ParsingDateValidator`). Note that the
 'simple' completer and validator currently only supports dates or times, but not both at
 the same time. The 'parsing' ones, on the other hand, may support times as well
 (depending on the used third part library). Both ``Completer`` and ``Validator``, the
 'simple' and the 'parsing' ones are combined in :class: `FullDateCompleter`
-and :class: `FullDateValidator`.
+and :class: `FullDateValidator`. If no parser is given to the 'full' completer and
+validator, :function: `custom_date_parser` is used by default. If you want to deactivate
+'parsing' validation and completion, ``parser`` needs to be (lambda: None).
 
 By default date returns an :class: `datetime.datetime` instance.
 
@@ -99,14 +101,29 @@ AnyDate = Union[datetime.date, datetime.datetime, None]
 def custom_date_parser(input: str) -> Optional[datetime.date]:
     """A very simple date parser.
 
-    Parses dates given by ISO8601.
+    Tries to parse text inputs into :class: ´datetime.datetime` objects. Assumes
+    the input to follow ISO8601_.
 
     Args:
         input (str): Text input that is to be parsed.
 
     Returns:
         Optional[datetime.date]: The parsed :class: `datetime.datetime` instance. None,
-            if parsing failed.
+            if parsing fails.
+
+    Example:
+        >>> from questionary import date
+        >>> _date = date.custom_date_parser("2021-01-01 00:00:00")
+        >>> print(f"The formatted date is: {_date}.")
+        The formatted date is: 2021-01-01 00:00:00.
+        >>> assert _date == datetime.datetime(2021, 1, 1, 0, 0)
+        >>> _date_weird = date.custom_date_parser("2021.01 some 01 at time 12  :30")
+        >>> assert _date_weird == datetime.datetime(2021, 1, 1, 0, 0)
+        >>> print(f"The formatted date is: {_date_weird}.")
+        The formatted date is: 2021-01-01 00:00:00.
+        >>> assert date.custom_date_parser("this is no date') is None
+
+    .. _ISO8601: https://en.wikipedia.org/wiki/ISO_8601
     """
     _time_format_codes = [
         "%Y",
@@ -284,7 +301,7 @@ class ParsingDateCompleter(Completer):
         .. _dateparser: https://github.com/scrapinghub/dateparser
         .. _dateutil: https://github.com/dateutil/dateutil
         """
-        self.parser = parser or (lambda: None)
+        self.parser = parser or custom_date_parser
 
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
