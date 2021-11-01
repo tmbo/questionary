@@ -588,7 +588,10 @@ def date(
     .. _dateutil: https://github.com/dateutil/dateutil
     """
     # delimeter used to separate year, month and day
-    delimeter: str = date_format[-3]
+    if isinstance(date_format, str):
+        delimeter: str = date_format[-3]
+    else:
+        delimeter = " "
 
     parser = parser or custom_date_parser
     if no_extra_parser:
