@@ -184,14 +184,14 @@ class SimpleDateCompleter(Completer):
             )
         self.delimeter: str = self.format[-3]
 
-    def _get_parse_order(self) -> List[str]:
+    def _get_parse_order(self) -> List[List[str]]:
         """Returns the order for completions.
 
         Parses ``self.date_format`` into a list representing the order for completions,
         e.g. [YEAR, MONTH, DAY].
         """
         parse_order = self.format.split(self.delimeter)
-        return [PARSE_FORMAT_DICT.get(item) for item in parse_order]
+        return [PARSE_FORMAT_DICT.get(item) for item in parse_order]  # type: ignore[misc]
 
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
@@ -301,7 +301,7 @@ class ParsingDateCompleter(Completer):
         .. _dateutil: https://github.com/dateutil/dateutil
         """
         self.parser = parser or custom_date_parser
-        if not isinstance(self.parser, Callable):
+        if not callable(self.parser):
             raise (
                 ValueError(
                     f"'parser' needs to be a callable (not a {type(parser).__name__})."
@@ -354,7 +354,7 @@ class ParsingDateValidator(Validator):
         .. _dateutil: https://github.com/dateutil/dateutil
         """
         self.parser = parser or custom_date_parser
-        if not isinstance(self.parser, Callable):
+        if not callable(self.parser):
             raise (
                 ValueError(
                     f"'parser' needs to be a callable (not a {type(parser).__name__})."
@@ -609,12 +609,14 @@ def date(
     def get_prompt_tokens() -> List[Tuple[str, str]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
-    def _parse_to_date(input: str) -> datetime.datetime:
+    def _parse_to_date(
+        input: str,
+    ) -> Union[str, datetime.datetime, datetime.date, None]:
         if return_date_object:
             if parser is not None:
                 return parser(input)
             else:
-                return datetime.datetime.strptime(input, date_format)
+                return datetime.datetime.strptime(input, date_format)  # type: ignore[arg-type]
         else:
             return input
 
