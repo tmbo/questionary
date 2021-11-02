@@ -35,7 +35,7 @@ def _check_simple_completions(
     if len(text_inputs) != len(order):
         raise (
             ValueError(
-                "'tect_inputs' and 'order' need to have the same number of items."
+                "'text_inputs' and 'order' need to have the same number of items."
             )
         )
 
@@ -137,6 +137,50 @@ def test_parsing_validator_init_exception():
         date.ParsingDateValidator(parser="i am not a callable")
 
 
+def test_full_completer():
+    """Completion using a custom date parser and 'simple' method."""
+    completer = date.FullDateCompleter(parser=date.custom_date_parser)
+    input = document.Document("2021")
+    completions = [c.text for c in completer.get_completions(input, CompleteEvent())]
+    assert "2021-01-01 00:00:00" in completions
+
+
+def test_full_completer_deactivations():
+    """Parser or 'simple' one can be deactivated."""
+    # deactivate 'ParsingDateCompleter'
+    completer = date.FullDateCompleter(parser=None)
+    input = document.Document("2021")
+    completions = [c.text for c in completer.get_completions(input, CompleteEvent())]
+    assert "2021-01-01 00:00:00" not in completions
+
+    # deactivate 'SimpleDateCompleter'
+    completer = date.FullDateCompleter(date_format=None)
+    input = document.Document("2021")
+    completions = [c.text for c in completer.get_completions(input, CompleteEvent())]
+    assert "2021-" not in completions
+
+
+def test_full_validator():
+    """Validaton using a custom date parser and 'simple' method."""
+    validator = date.FullDateValidator(parser=date.custom_date_parser)
+    input = document.Document("2021")
+    validator.validate(input)
+
+    # raises if date cannot be validated
+    with pytest.raises(ValidationError):
+        validator.validate(document.Document("invalid"))
+
+
+def test_full_validator_parser_deactivated():
+    """Validaton using a custom date parser and 'simple' method."""
+    validator = date.FullDateValidator(parser=None)
+    input = document.Document("2021")
+
+    # raises if date cannot be validated
+    with pytest.raises(ValidationError):
+        validator.validate(input)
+
+
 def test_date():
     """Test date on default behavior."""
     message = "Type a date: "
@@ -151,3 +195,83 @@ def test_date_string_return():
     text = "2021-01-01" + KeyInputs.ENTER
     result, cli = feed_cli_with_input("date", message, text, return_date_object=False)
     assert result == "2021-01-01"
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_complete_date():
+    test_input = "202"
+    message = "Type a date: "
+    texts = [
+        test_input,
+        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
+        KeyInputs.ENTER,
+    ]
+
+    result, cli = feed_cli_with_input("date", message, texts, 0.1)
+    assert result == datetime.datetime(2021, 1, 1, 0, 0)
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_complete_date():
+    """Date has a completer."""
+    test_input = "202"
+    message = "Type a date: "
+    texts = [
+        test_input,
+        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
+        KeyInputs.ENTER,
+    ]
+
+    result, cli = feed_cli_with_input("date", message, texts, 0.1)
+    assert result == datetime.datetime(2021, 1, 1, 0, 0)
+
+
+def test_date_print_date_format_to_right():
+    """``date_format`` can be printed to the right or not."""
+    message = "Type a date: "
+    text = "2021-01-01" + KeyInputs.ENTER
+    result, cli = feed_cli_with_input("date", message, text, print_date_format=False)
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_complete_date_no_parser():
+    """'Parsing' validation and completion can be deactivated.
+
+    :class: `ParsingDateCompleter` and :class: `ParsingDateValidator` can be
+    deactivated.
+    """
+    test_input = "202"
+    message = "Type a date: "
+    texts = [
+        test_input,
+        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
+        "1",
+        KeyInputs.TAB + KeyInputs.ENTER,
+        "1",
+        KeyInputs.TAB + KeyInputs.ENTER,
+        KeyInputs.ENTER,
+    ]
+    result, cli = feed_cli_with_input("date", message, texts, 0.1, no_extra_parser=True)
+    assert result == datetime.datetime(2021, 1, 1, 0, 0)
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_complete_no_simple_date_validation_and_completion():
+    """'Simple' validation and completion can be deactivated.
+
+    :class: `SimpleDateCompleter` and :class: `SimpleDateValidator` can be
+    deactivated.
+    """
+    test_input = "2021"
+    message = "Type a date: "
+    texts = [test_input, KeyInputs.TAB + KeyInputs.ENTER, KeyInputs.ENTER]
+    result, cli = feed_cli_with_input("date", message, texts, 0.1, date_format=None)
+    assert result == datetime.datetime(2021, 1, 1, 0, 0)
