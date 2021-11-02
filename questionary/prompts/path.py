@@ -10,6 +10,7 @@ import os
 from prompt_toolkit.completion import CompleteEvent
 from prompt_toolkit.completion import Completion
 from prompt_toolkit.completion import PathCompleter
+from prompt_toolkit.completion.base import Completer
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
@@ -121,6 +122,7 @@ def path(
     default: str = "",
     qmark: str = DEFAULT_QUESTION_PREFIX,
     validate: Any = None,
+    completer: Optional[Completer] = None,
     style: Optional[Style] = None,
     only_directories: bool = False,
     get_paths: Optional[Callable[[], List[str]]] = None,
@@ -161,10 +163,16 @@ def path(
                   returning a boolean, or an class reference to a
                   subclass of the prompt toolkit Validator class.
 
+        completer: A custom completer to use in the prompt. For more information,
+                   see `this <https://python-prompt-toolkit.readthedocs.io/en/master/pages/asking_for_input.html#a-custom-completer>`_.
+                   By default, this is a :class:`GreatUXPathCompleter`.
+
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
-        only_directories: Only show directories in auto completion
+        only_directories: Only show directories in auto completion. This option
+                          does not do anything if a custom ``completer`` is
+                          passed.
 
         file_filter: Optional callable to filter suggested paths. Only paths
                      where the passed callable evaluates to ``True`` will show up in
@@ -184,6 +192,13 @@ def path(
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
 
     validator = build_validator(validate)
+
+    completer = completer or GreatUXPathCompleter(
+        get_paths=get_paths,
+        only_directories=only_directories,
+        file_filter=file_filter,
+        expanduser=True,
+    )
 
     bindings = KeyBindings()
 
@@ -217,12 +232,7 @@ def path(
         get_prompt_tokens,
         lexer=SimpleLexer("class:answer"),
         style=merged_style,
-        completer=GreatUXPathCompleter(
-            get_paths=get_paths,
-            only_directories=only_directories,
-            file_filter=file_filter,
-            expanduser=True,
-        ),
+        completer=completer,
         validator=validator,
         complete_style=complete_style,
         key_bindings=bindings,

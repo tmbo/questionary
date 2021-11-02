@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import prompt_toolkit
 import pytest
+from prompt_toolkit.completion import Completer
+from prompt_toolkit.completion import Completion
 
 from tests.utils import KeyInputs
 from tests.utils import feed_cli_with_input
@@ -44,7 +46,7 @@ def test_complete_path(path_completion_tree):
         KeyInputs.ENTER,
     ]
 
-    result, cli = feed_cli_with_input("path", message, texts)
+    result, cli = feed_cli_with_input("path", message, texts, 0.1)
     assert result == str(path_completion_tree / "baz")
 
 
@@ -62,7 +64,7 @@ def test_complete_requires_explicit_enter(path_completion_tree):
         "foo" + KeyInputs.ENTER,
     ]
 
-    result, cli = feed_cli_with_input("path", message, texts)
+    result, cli = feed_cli_with_input("path", message, texts, 0.1)
 
     assert result == str(path_completion_tree / "baz" / "foo")
 
@@ -75,7 +77,9 @@ def test_complete_path_directories_only(path_completion_tree):
     message = "Pick your path"
     texts = [test_input, KeyInputs.TAB + KeyInputs.ENTER, KeyInputs.ENTER]
 
-    result, cli = feed_cli_with_input("path", message, texts, only_directories=True)
+    result, cli = feed_cli_with_input(
+        "path", message, texts, 0.1, only_directories=True
+    )
     assert result == str(path_completion_tree / "foo" / "buz")
 
 
@@ -93,7 +97,11 @@ def test_get_paths(path_completion_tree):
     ]
 
     result, cli = feed_cli_with_input(
-        "path", message, texts, get_paths=lambda: [str(path_completion_tree / "foo")]
+        "path",
+        message,
+        texts,
+        0.1,
+        get_paths=lambda: [str(path_completion_tree / "foo")],
     )
     assert result == "baz.any"
 
@@ -115,6 +123,26 @@ def test_get_paths_validation(path_completion_tree):
             "path",
             message,
             texts,
+            0.1,
             get_paths=lambda: [str(path_completion_tree / "not_existing")],
         )
     assert "'get_paths' must return only existing directories" in str(excinfo)
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_complete_custom_completer():
+    test_path = "foobar"
+
+    class CustomCompleter(Completer):
+        def get_completions(self, _, __):
+            yield Completion(test_path)
+
+    message = "Pick your path"
+    texts = ["baz", KeyInputs.TAB + KeyInputs.ENTER, KeyInputs.ENTER]
+
+    result, cli = feed_cli_with_input(
+        "path", message, texts, 0.1, completer=CustomCompleter()
+    )
+    assert result == "baz" + test_path
