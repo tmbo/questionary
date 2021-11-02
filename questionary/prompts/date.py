@@ -23,7 +23,7 @@ Typical usage could look like this:
 
 Example:
     >>> import questionary
-    >>> import dateutil
+    >>> import dateutil.parser
     >>> questionary.date("Type a date: ").ask()
     ? Type a date: 2021-01-01
     '2021-01-01'
