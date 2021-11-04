@@ -118,14 +118,14 @@ toml = ["toml"]
 
 [[package]]
 name = "coveralls"
-version = "3.2.0"
+version = "3.3.0"
 description = "Show coverage stats online via coveralls.io"
 category = "dev"
 optional = false
 python-versions = ">= 3.5"
 
 [package.dependencies]
-coverage = ">=4.1,<6.0"
+coverage = ">=4.1,<7.0"
 docopt = ">=0.6.1"
 requests = ">=1.0.0"
 
@@ -668,7 +668,7 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "8312f4567bfac06f655034e5807fc1b5dbbdc53333c631194f0e3849d68a0800"
+content-hash = "99dcdd8b23dfb14d90dcef9574092e2a87e3485d79a38f9fddf6e19b07333278"
 
 [metadata.files]
 alabaster = [
@@ -762,8 +762,8 @@ coverage = [
     {file = "coverage-5.3.1.tar.gz", hash = "sha256:38f16b1317b8dd82df67ed5daa5f5e7c959e46579840d77a67a4ceb9cef0a50b"},
 ]
 coveralls = [
-    {file = "coveralls-3.2.0-py2.py3-none-any.whl", hash = "sha256:aedfcc5296b788ebaf8ace8029376e5f102f67c53d1373f2e821515c15b36527"},
-    {file = "coveralls-3.2.0.tar.gz", hash = "sha256:15a987d9df877fff44cd81948c5806ffb6eafb757b3443f737888358e96156ee"},
+    {file = "coveralls-3.3.0-py2.py3-none-any.whl", hash = "sha256:f3c2142c9117c6dd04bc721cc733e59cdb9fd516924c551f98a458d16f8facf0"},
+    {file = "coveralls-3.3.0.tar.gz", hash = "sha256:4508b8f18344b421a736a276b813daddfdbbe45928c3f878fa72bf54442ea641"},
 ]
 dataclasses = [
     {file = "dataclasses-0.8-py3-none-any.whl", hash = "sha256:0201d89fa866f68c8ebd9d08ee6ff50c0b255f8ec63a71c16fda7af82bb887bf"},
