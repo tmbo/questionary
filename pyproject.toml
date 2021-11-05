@@ -34,7 +34,7 @@ license = "MIT"
 [tool.poetry.dependencies]
 python = "^3.6"
 prompt_toolkit = ">=2.0,<4.0"
-Sphinx = {version = "^3.3", optional = true}
+Sphinx = {version = ">=3.3,<5.0", optional = true}
 sphinx-rtd-theme = {version = "^0.5.0", optional = true}
 sphinx-autobuild = {version = ">=2020.9.1,<2022.0.0", optional = true}
 sphinx-copybutton = {version = ">=0.3.1,<0.5.0", optional = true}
