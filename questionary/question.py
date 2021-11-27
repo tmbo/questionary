@@ -38,9 +38,6 @@ class Question:
             `Any`: The answer from the question.
         """
 
-        if self.should_skip_question:
-            return self.default
-
         try:
             sys.stdout.flush()
             return await self.unsafe_ask_async(patch_stdout)
@@ -63,9 +60,6 @@ class Question:
             `Any`: The answer from the question.
         """
 
-        if self.should_skip_question:
-            return self.default
-
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
@@ -84,6 +78,9 @@ class Question:
         Returns:
             `Any`: The answer from the question.
         """
+
+        if self.should_skip_question:
+            return self.default
 
         if patch_stdout:
             with prompt_toolkit.patch_stdout.patch_stdout():
@@ -118,6 +115,9 @@ class Question:
         Returns:
             `Any`: The answer from the question.
         """
+
+        if self.should_skip_question:
+            return self.default
 
         if not utils.ACTIVATED_ASYNC_MODE:
             await utils.activate_prompt_toolkit_async_mode()
