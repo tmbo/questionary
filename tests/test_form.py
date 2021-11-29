@@ -15,6 +15,7 @@ def example_form(inp):
         ),
     )
 
+
 def example_form_with_skip(inp):
     return form(
         q1=questionary.confirm("Hello?", input=inp, output=DummyOutput()),
