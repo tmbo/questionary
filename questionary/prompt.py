@@ -1,5 +1,5 @@
 from prompt_toolkit.output import ColorDepth
-from typing import Any, Dict, Optional, Iterable, Mapping
+from typing import Any, Dict, Optional, Iterable, Mapping, Union
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
@@ -13,7 +13,7 @@ class PromptParameterException(ValueError):
 
 
 def prompt(
-    questions: Iterable[Mapping[str, Any]],
+    questions: Union[Dict[str, Any], Iterable[Mapping[str, Any]]],
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
@@ -74,7 +74,7 @@ def prompt(
 
 
 def unsafe_prompt(
-    questions: Iterable[Mapping[str, Any]],
+    questions: Union[Dict[str, Any], Iterable[Mapping[str, Any]]],
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
