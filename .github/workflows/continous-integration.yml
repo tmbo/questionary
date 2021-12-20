@@ -27,7 +27,7 @@ jobs:
         python-version: 3.7
 
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Load Poetry Cached Libraries ⬇
       uses: actions/cache@v2
@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8, 3.9, '3.10']
         promttoolkit: [3.*, 2.*]
 
     steps:
@@ -68,7 +68,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Load Poetry Cached Libraries ⬇
       uses: actions/cache@v2
@@ -108,7 +108,7 @@ jobs:
   docs:
     name: Test Docs
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout git repository 🕝
       uses: actions/checkout@v2
@@ -117,10 +117,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    
+
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
-    
+      uses: Gr1N/setup-poetry@v7
+
     - name: Install dependencies 🖥
       run: poetry install --no-interaction --extras "docs"
 
@@ -145,7 +145,7 @@ jobs:
         python-version: 3.7
 
     - name: Install poetry 🦄
-      uses: Gr1N/setup-poetry@v4
+      uses: Gr1N/setup-poetry@v7
 
     - name: Build ⚒️ Distributions
       run: |
