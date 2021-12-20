@@ -35,6 +35,18 @@ def test_skipping_of_questions():
         inp.close()
 
 
+def test_skipping_of_questions_unsafe():
+    inp = create_pipe_input()
+    try:
+        question = text("Hello?", input=inp, output=DummyOutput()).skip_if(
+            condition=True, default=42
+        )
+        response = question.unsafe_ask()
+        assert response == 42
+    finally:
+        inp.close()
+
+
 def test_skipping_of_skipping_of_questions():
     inp = create_pipe_input()
     try:
@@ -45,6 +57,22 @@ def test_skipping_of_skipping_of_questions():
         )
 
         response = question.ask()
+
+        assert response == "World" and not response == 42
+    finally:
+        inp.close()
+
+
+def test_skipping_of_skipping_of_questions_unsafe():
+    inp = create_pipe_input()
+    try:
+        inp.send_text("World" + KeyInputs.ENTER + "\r")
+
+        question = text("Hello?", input=inp, output=DummyOutput()).skip_if(
+            condition=False, default=42
+        )
+
+        response = question.unsafe_ask()
 
         assert response == "World" and not response == 42
     finally:

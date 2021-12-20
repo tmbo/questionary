@@ -3,11 +3,9 @@ from prompt_toolkit.validation import Validator, ValidationError
 from prompt_toolkit.styles import Style
 
 import questionary.version
-from questionary.form import Form
-from questionary.form import form
+from questionary.form import FormField, Form, form
 from questionary.prompt import prompt, unsafe_prompt
-from questionary.prompts.common import Choice
-from questionary.prompts.common import Separator
+from questionary.prompts.common import Choice, Separator
 from questionary.prompts.common import print_formatted_text as print
 from questionary.question import Question
 
@@ -42,6 +40,7 @@ __all__ = [
     "unsafe_prompt",
     # commonly used classes
     "Form",
+    "FormField",
     "Question",
     "Choice",
     "Style",

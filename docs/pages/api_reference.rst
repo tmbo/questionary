@@ -19,6 +19,9 @@ API Reference
 .. autoclass:: questionary::FilteredPathCompleter
    :members:
 
+.. autoclass:: questionary::FormField
+   :members:
+
 .. automethod:: questionary::form
 
 .. automethod:: questionary::prompt
