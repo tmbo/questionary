@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: [3.6, 3.7, 3.8, 3.9]
+        python-version: [3.6, 3.7, 3.8, 3.9, '3.10']
         promttoolkit: [3.*, 2.*]
         exclude:
           # tests on windows with prompt-toolkit 2.* do not complete
@@ -112,7 +112,7 @@ jobs:
   docs:
     name: Test Docs
     runs-on: ubuntu-latest
-    
+
     steps:
     - name: Checkout git repository 🕝
       uses: actions/checkout@v2
@@ -121,7 +121,7 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: 3.7
-    
+
     - name: Install poetry 🦄
       uses: Gr1N/setup-poetry@v7
 
@@ -130,8 +130,8 @@ jobs:
       with:
         path: ~/.cache/pypoetry
         key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-        restore-keys: ${{ runner.os }}-poetry-
-    
+        restore-keys: ${{ runner.os }}-poetry
+
     - name: Install dependencies 🖥
       run: poetry install --no-interaction --extras "docs"
 

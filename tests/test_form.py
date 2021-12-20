@@ -16,6 +16,15 @@ def example_form(inp):
     )
 
 
+def example_form_with_skip(inp):
+    return form(
+        q1=questionary.confirm("Hello?", input=inp, output=DummyOutput()),
+        q2=questionary.select(
+            "World?", choices=["foo", "bar"], input=inp, output=DummyOutput()
+        ).skip_if(True, 42),
+    )
+
+
 def test_form_creation():
     inp = create_pipe_input()
     text = "Y" + KeyInputs.ENTER + "\r"
@@ -27,6 +36,36 @@ def test_form_creation():
         result = f.unsafe_ask()
 
         assert result == {"q1": True, "q2": "foo"}
+    finally:
+        inp.close()
+
+
+def test_form_skips_questions():
+    inp = create_pipe_input()
+    text = "Y" + KeyInputs.ENTER + "\r"
+
+    try:
+        inp.send_text(text)
+        f = example_form_with_skip(inp)
+
+        result = f.ask()
+
+        assert result == {"q1": True, "q2": 42}
+    finally:
+        inp.close()
+
+
+def test_form_skips_questions_unsafe_ask():
+    inp = create_pipe_input()
+    text = "Y" + KeyInputs.ENTER + "\r"
+
+    try:
+        inp.send_text(text)
+        f = example_form_with_skip(inp)
+
+        result = f.unsafe_ask()
+
+        assert result == {"q1": True, "q2": 42}
     finally:
         inp.close()
 
