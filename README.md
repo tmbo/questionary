@@ -9,15 +9,14 @@
 
 ✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
 
-- [Questionary](#questionary)
-  - [Features](#features)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Documentation](#documentation)
-  - [Support](#support)
-  - [Contributing](#contributing)
-  - [Authors and Acknowledgment](#authors-and-acknowledgment)
-  - [License](#license)
+[Features](#features)
+[Installation](#installation)
+[Usage](#usage)
+[Documentation](#documentation)
+[Support](#support)
+[Contributing](#contributing)
+[Authors and Acknowledgment](#authors-and-acknowledgment)
+[License](#license)
 
 
 ![Example](https://raw.githubusercontent.com/tmbo/questionary/master/docs/images/example.gif)
