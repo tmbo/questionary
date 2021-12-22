@@ -279,7 +279,7 @@ class SimpleDateValidator(Validator):
 
 
 ###################################
-#  PARSING COMLETION AND VALIDATION
+#  PARSING COMPLETION AND VALIDATION
 ###################################
 
 
