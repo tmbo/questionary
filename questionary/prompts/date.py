@@ -157,7 +157,7 @@ def custom_date_parser(input: str) -> Optional[datetime.date]:
 
 
 ###################################
-#  SIMPLE COMLETION AND VALIDATION
+#  SIMPLE COMPLETION AND VALIDATION
 ###################################
 
 
