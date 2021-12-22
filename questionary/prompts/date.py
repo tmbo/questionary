@@ -385,7 +385,7 @@ class ParsingDateValidator(Validator):
 
 
 ###################################
-#  FULL COMLETION AND VALIDATION
+#  FULL COMPLETION AND VALIDATION
 ###################################
 
 
