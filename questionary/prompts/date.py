@@ -198,7 +198,7 @@ class SimpleDateCompleter(Completer):
     ) -> Iterable[Completion]:
         """Completion of text input following a given ``date_format``.
 
-        According what has allready been typed and the given ``date_format``
+        According what has already been typed and the given ``date_format``
         completions for year, month and day are given (numbers only).
         Date format ``date_format`` needs to be one of the ``SUPPORTED_FORMATS´´.
         Supports only dates at the moment.
