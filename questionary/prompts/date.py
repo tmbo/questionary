@@ -193,6 +193,45 @@ class SimpleDateCompleter(Completer):
         parse_order = self.format.split(self.delimeter)
         return [PARSE_FORMAT_DICT.get(item) for item in parse_order]  # type: ignore[misc]
 
+    def _valid_completion(self, completion: str) -> bool:
+        """Checks if a completion is a valid date.
+
+        Used in :function: `get_completion` to reduce all options for completions
+        to only those that lead to a valid date.
+        Similar to :function: `custom_date_parser`, but does not ignore delimeters.
+
+        Args:
+            completion (str): The completion-option that is to be checked, if it
+            leads to an valid date.
+        """
+        format_as_list = self.format.split(self.delimeter)
+        date_formats = [
+            self.delimeter.join(format_as_list[0:i])
+            for i in range(1, len(format_as_list) + 1)
+        ]
+
+        # add delimeter to all but the last entry
+        for i in range(len(date_formats) - 1):
+            date_formats[i] += self.delimeter
+
+        def _try_date_format(
+            date_format: str, text: str
+        ) -> Optional[datetime.datetime]:
+            """Tries to parse ``text`to :class: `datetime.datetime`."""
+            try:
+                return datetime.datetime.strptime(text, date_format)
+            except Exception:
+                return None
+
+        # try parsing for the several date_formats
+        for date_format in date_formats:
+            _date = _try_date_format(date_format=date_format, text=completion)
+            # if parsing succeeded return True
+            if _date is not None:
+                return True
+        # no parsing succeeded so return False
+        return False
+
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
     ) -> Iterable[Completion]:
@@ -227,8 +266,11 @@ class SimpleDateCompleter(Completer):
             if entry.startswith(user_input):
                 completion = entry if int(entry) >= 10 else "0" + entry
                 completion += self.delimeter if len(text_split) < 3 else ""
+                full_output = old_input + completion
+            # if completion leads to a valid date, yield this completion
+            if self._valid_completion(full_output):
                 yield Completion(
-                    old_input + completion,
+                    full_output,
                     start_position=-len(document.text),
                     style="fg:ansigreen bold",
                     selected_style="fg:white bg:ansired bold",
