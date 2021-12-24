@@ -258,9 +258,7 @@ class InquirerControl(FormattedTextControl):
             compare_default = self.default == choice
         else:
             compare_default = self.default == choice.value
-        return (
-            choice.checked or compare_default and self.default is not None
-        ) and not choice.disabled
+        return choice.checked or compare_default and self.default is not None
 
     def _assign_shortcut_keys(self):
         available_shortcuts = self.SHORTCUT_KEYS[:]
