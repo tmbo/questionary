@@ -6,12 +6,12 @@ def main():
         x = questionary.password("Password").ask()
         y = questionary.password("Repeat password").ask()
 
-    if x == y:
-        print(x)
-        break
+        if x == y:
+            print(x)
+            break
 
-    else:
-        print("Passwords do not match. Try again.")
+        else:
+            print("Passwords do not match. Try again.")
 
 
 if __name__ == "__main__":
