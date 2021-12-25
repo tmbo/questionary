@@ -85,6 +85,16 @@ def test_password_example():
     assert result_dict["password"] == result_py
 
 
+def test_password_confirm_example():
+    from examples.password_confirm import create_password
+
+    text = KeyInputs.ENTER + "\r" + KeyInputs.ENTER + "\r"
+
+    result_py = ask_with_patched_input(create_password, text)
+
+    assert result_py == ""
+
+
 def test_autocomplete_example():
     from examples.autocomplete_ants import ask_dictstyle, ask_pystyle
 
