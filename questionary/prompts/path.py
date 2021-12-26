@@ -68,12 +68,12 @@ class GreatUXPathCompleter(PathCompleter):
         # if get_paths is None, make it return the current working dir
         get_paths = get_paths or (lambda: ["."])
         # validation of get_paths
-        for path in get_paths():
-            if not os.path.isdir(path):
+        for current_path in get_paths():
+            if not os.path.isdir(current_path):
                 raise (
                     ValueError(
-                        "\n  'get_paths' must return only existing directories, but"
-                        f" '{path}' is not. (at get_paths()[{get_paths().index(path)}])"
+                        "\n Completer for file paths 'get_paths' must return only existing directories, but"
+                        f" '{current_path}' does not exist."
                     )
                 )
         # call PathCompleter __init__
