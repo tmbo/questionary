@@ -5,8 +5,6 @@ ARG VARIANT="3.9-bullseye"
 
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
-ARG POETRY_VERSION="1.1.8"
-
 ENV PYTHONFAULTHANDLER=1 \
   PYTHONUNBUFFERED=1 \
   PYTHONHASHSEED=random \
@@ -18,8 +16,8 @@ ENV PYTHONFAULTHANDLER=1 \
 # COPY requirements.txt /tmp/pip-tmp/
 # RUN pip3 --disable-pip-version-check --no-cache-dir install -r /tmp/pip-tmp/requirements.txt \
 #    && rm -rf /tmp/pip-tmp
-RUN pip install 'poetry==${POETRY_VERSION}'
-COPY poetry.lock pyproject.toml /code/
+RUN pip install 'poetry==1.1.8'
+COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false \
   && poetry install --no-interaction --no-ansi
 
