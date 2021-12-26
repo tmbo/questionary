@@ -67,6 +67,15 @@ def test_select_third_choice_using_shortcuts_and_arrows():
     assert result == "bazz"
 
 
+def test_select_second_choice_using_j_k():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = "jjk" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bar"
+
+
 def test_select_with_instruction():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"], "instruction": "sample instruction"}
@@ -170,6 +179,16 @@ def test_allow_shortcut_key_with_True():
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "bazz"
+
+
+def test_select_initial_choice_with_value():
+    message = "Foo message"
+    choice = Choice(title="bazz", value="bar")
+    kwargs = {"choices": ["foo", choice], "default": "bar"}
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bar"
 
 
 def test_select_initial_choice():
