@@ -15,6 +15,8 @@ with the available question types**:
 
 * use :ref:`type_path` to ask for a **file or directory** path with autocompletion
 
+* use :ref:`type_date` to ask for a **date** or **time** with validation and autocompletion
+
 * use :ref:`type_confirm` to ask a **yes or no** question
 
 * use :ref:`type_select` to ask the user to select **one item** from a beautiful list
@@ -45,6 +47,13 @@ File Path
 #########
 
 .. automethod:: questionary::path
+
+.. _type_date:
+
+Dates and Times
+###############
+
+.. automethod:: questionary::date
 
 .. _type_confirm:
 
