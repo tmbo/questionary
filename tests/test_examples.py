@@ -13,6 +13,18 @@ def ask_with_patched_input(q, text):
         inp.close()
 
 
+def test_confirm_example():
+    from examples.confirm_continue import ask_dictstyle, ask_pystyle
+
+    text = "n" + KeyInputs.ENTER + "\r"
+
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+    result_py = ask_with_patched_input(ask_pystyle, text)
+
+    assert result_dict == {"continue": False}
+    assert result_dict["continue"] == result_py
+
+
 def test_text_example():
     from examples.text_phone_number import ask_dictstyle, ask_pystyle
 
@@ -71,16 +83,6 @@ def test_password_example():
 
     assert result_dict == {"password": "asdf"}
     assert result_dict["password"] == result_py
-
-
-def test_password_confirm_example():
-    from examples.password_confirm import create_password
-
-    text = KeyInputs.ENTER + "\r" + KeyInputs.ENTER + "\r"
-
-    result_py = ask_with_patched_input(create_password, text)
-
-    assert result_py == ""
 
 
 def test_autocomplete_example():
