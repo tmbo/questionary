@@ -13,18 +13,6 @@ def ask_with_patched_input(q, text):
         inp.close()
 
 
-def test_confirm_example():
-    from examples.confirm_continue import ask_dictstyle, ask_pystyle
-
-    text = "n" + KeyInputs.ENTER + "\r"
-
-    result_dict = ask_with_patched_input(ask_dictstyle, text)
-    result_py = ask_with_patched_input(ask_pystyle, text)
-
-    assert result_dict == {"continue": False}
-    assert result_dict["continue"] == result_py
-
-
 def test_text_example():
     from examples.text_phone_number import ask_dictstyle, ask_pystyle
 
