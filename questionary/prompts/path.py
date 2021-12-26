@@ -27,7 +27,7 @@ from questionary.question import Question
 
 
 class GreatUXPathCompleter(PathCompleter):
-    """Wraps :class: `prompt_toolkit.completion.PathCompleter`.
+    """Wraps :class:`prompt_toolkit.completion.PathCompleter`.
 
     Makes sure completions for directories end with a path separator. Also make sure
     the right path separator is used. Checks if `get_paths` returns list of existing
@@ -45,7 +45,7 @@ class GreatUXPathCompleter(PathCompleter):
         """__init__ for :class: `GreatUXPathCompleter`.
 
         Adds validation of 'get_paths' to
-        :class: `prompt_toolkit.completion.PathCompleter`.
+        :class:`prompt_toolkit.completion.PathCompleter`.
 
         Args:
             only_directories (bool): If True, only directories will be
