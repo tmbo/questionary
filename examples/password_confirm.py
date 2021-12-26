@@ -10,8 +10,9 @@ def create_password(**kwargs):
         return x
 
     else:
-        questionary.print("Passwords do not match. Try again.",
-                          style="italic fg:darkred")
+        questionary.print(
+            "Passwords do not match. Try again.", style="italic fg:darkred"
+        )
         # until passwords match, we keep repeating the question
         return create_password(**kwargs)
 
