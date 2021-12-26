@@ -42,10 +42,7 @@ class GreatUXPathCompleter(PathCompleter):
         min_input_len: int = 0,
         expanduser: bool = False,
     ) -> None:
-        """__init__ for :class: `GreatUXPathCompleter`.
-
-        Adds validation of 'get_paths' to
-        :class:`prompt_toolkit.completion.PathCompleter`.
+        """Adds validation of 'get_paths' to :class:`prompt_toolkit.completion.PathCompleter`.
 
         Args:
             only_directories (bool): If True, only directories will be
@@ -165,7 +162,6 @@ def path(
 
         completer: A custom completer to use in the prompt. For more information,
                    see `this <https://python-prompt-toolkit.readthedocs.io/en/master/pages/asking_for_input.html#a-custom-completer>`_.
-                   By default, this is a :class:`GreatUXPathCompleter`.
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.

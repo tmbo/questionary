@@ -19,7 +19,7 @@ ENV PYTHONFAULTHANDLER=1 \
 RUN pip install 'poetry==1.1.8'
 COPY poetry.lock pyproject.toml ./
 RUN poetry config virtualenvs.create false \
-  && poetry install --no-interaction --no-ansi
+  && poetry install --no-interaction --no-ansi --extras "docs"
 
 
 # [Optional] Uncomment this section to install additional OS packages.
