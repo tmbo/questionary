@@ -34,3 +34,4 @@ profile.*
 server/
 tmp/
 .python-version
+.venv
