@@ -263,6 +263,7 @@ class SimpleDateCompleter(Completer):
         completion_list = self._get_parse_order()[len(text_split) - 1]
         # find fitting completions in completion_list
         for entry in completion_list:
+            full_output = entry
             if entry.startswith(user_input):
                 completion = entry if int(entry) >= 10 else "0" + entry
                 completion += self.delimeter if len(text_split) < 3 else ""
