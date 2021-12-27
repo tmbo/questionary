@@ -34,54 +34,6 @@ class GreatUXPathCompleter(PathCompleter):
     directories.
     """
 
-    def __init__(
-        self,
-        only_directories: bool = False,
-        get_paths: Optional[Callable[[], List[str]]] = None,
-        file_filter: Optional[Callable[[str], bool]] = None,
-        min_input_len: int = 0,
-        expanduser: bool = False,
-    ) -> None:
-        """Adds validation of 'get_paths' to :class:`prompt_toolkit.completion.PathCompleter`.
-
-        Args:
-            only_directories (bool): If True, only directories will be
-                returned, but no files. Defaults to False.
-            get_paths (Callable[[], List[str]], optional): Callable which
-                returns a list of directories to look into when the user enters a
-                relative path. If None, set to (lambda: ["."]). Defaults to None.
-            file_filter (Callable[[str], bool], optional): Callable which
-                takes a filename and returns whether this file should show up in the
-                completion. ``None`` when no filtering has to be done. Defaults to None.
-            min_input_len (int): Don't do autocompletion when the input string
-                is shorter. Defaults to 0.
-            expanduser (bool): If True, tilde (~) is expanded. Defaults to
-                False.
-
-        Raises:
-            ValueError: If any of the by `get_paths` returned directories does not
-                exist.
-        """
-        # if get_paths is None, make it return the current working dir
-        get_paths = get_paths or (lambda: ["."])
-        # validation of get_paths
-        for current_path in get_paths():
-            if not os.path.isdir(current_path):
-                raise (
-                    ValueError(
-                        "\n Completer for file paths 'get_paths' must return only existing directories, but"
-                        f" '{current_path}' does not exist."
-                    )
-                )
-        # call PathCompleter __init__
-        super().__init__(
-            only_directories=only_directories,
-            get_paths=get_paths,
-            file_filter=file_filter,
-            min_input_len=min_input_len,
-            expanduser=expanduser,
-        )
-
     def get_completions(
         self, document: Document, complete_event: CompleteEvent
     ) -> Iterable[Completion]:
@@ -169,6 +121,10 @@ def path(
         only_directories: Only show directories in auto completion. This option
                           does not do anything if a custom ``completer`` is
                           passed.
+
+        get_paths: Set a callable to generate paths to traverse for suggestions. This option
+                   does not do anything if a custom ``completer`` is
+                   passed.
 
         file_filter: Optional callable to filter suggested paths. Only paths
                      where the passed callable evaluates to ``True`` will show up in
