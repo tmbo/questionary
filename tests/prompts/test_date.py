@@ -201,22 +201,6 @@ def test_date_string_return():
     prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
 )
 def test_complete_date():
-    test_input = "202"
-    message = "Type a date: "
-    texts = [
-        test_input,
-        KeyInputs.TAB + KeyInputs.TAB + KeyInputs.ENTER,
-        KeyInputs.ENTER,
-    ]
-
-    result, cli = feed_cli_with_input("date", message, texts, 0.1)
-    assert result == datetime.datetime(2021, 1, 1, 0, 0)
-
-
-@pytest.mark.skipif(
-    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
-)
-def test_complete_date():
     """Date has a completer."""
     test_input = "202"
     message = "Type a date: "
