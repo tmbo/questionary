@@ -170,6 +170,10 @@ def path(
                           does not do anything if a custom ``completer`` is
                           passed.
 
+        get_paths: Set a callable to generate paths to traverse for suggestions. This option
+                   does not do anything if a custom ``completer`` is
+                   passed.
+
         file_filter: Optional callable to filter suggested paths. Only paths
                      where the passed callable evaluates to ``True`` will show up in
                      the suggested paths. This does not validate the typed path, e.g.
