@@ -45,5 +45,7 @@ DEFAULT_STYLE = Style(
         ("instruction", ""),  # user instructions for select, rawselect, checkbox
         ("text", ""),  # any other text
         ("instruction", ""),  # user instructions for select, rawselect, checkbox
+        ("options", ""),  # options given by autocomplete
+        ("information", ""),  # information displayed at the lower right
     ]
 )
