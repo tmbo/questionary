@@ -67,7 +67,7 @@ def test_simple_date_completer():
     _check_simple_completions(
         date_format=date.ISO8601,
         text_inputs=["202", "2021-02", "2021-02-02"],
-        order=[date.YEAR, date.MONTH, date.DAY],
+        order=[date.YEAR, date.MONTH, date.DAY[0:28]],  # February has only 28 days 2021
         delimeter="-",
     )
 
