@@ -273,8 +273,8 @@ class SimpleDateCompleter(Completer):
                 yield Completion(
                     full_output,
                     start_position=-len(document.text),
-                    style="fg:ansigreen bold",
-                    selected_style="fg:white bg:ansired bold",
+                    style="class:options",
+                    selected_style="class:selected",
                     display=completion,
                 )
 
@@ -374,7 +374,12 @@ class ParsingDateCompleter(Completer):
             parsed_date = None
         # if input can be parsed, yield the string of the parsed date as completion
         if parsed_date is not None:
-            yield Completion(str(parsed_date), start_position=-len(document.text))
+            yield Completion(
+                str(parsed_date),
+                start_position=-len(document.text),
+                style="class:options",
+                selected_style="class:selected",
+            )
 
 
 class ParsingDateValidator(Validator):
@@ -640,11 +645,15 @@ def date(
     if no_extra_parser:
         parser = None
 
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    # define a default style for selected completions. Gets overwritten if another
+    # format for selected is given by `style`
+    default_date_styles = Style([("selected", "fg: white bg: ansired bold")])
+
+    merged_style = merge_styles([DEFAULT_STYLE, default_date_styles, style])
 
     if print_date_format:
         rprompt = to_formatted_text(
-            f"Date format: {date_format}", style="bg: ansigreen bold"
+            f"Date format: {date_format}", style="class:information"
         )
     else:
         rprompt = None
