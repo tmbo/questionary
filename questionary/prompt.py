@@ -158,8 +158,8 @@ def unsafe_prompt(
                         continue
                 except Exception as exception:
                     raise ValueError(
-                        f"Problem in 'when' check of "
-                        f"{name} question: {exception}") from exception
+                        f"Problem in 'when' check of " f"{name} question: {exception}"
+                    ) from exception
             else:
                 raise ValueError(
                     "'when' needs to be function that accepts a dict argument"
@@ -167,7 +167,7 @@ def unsafe_prompt(
 
         choices = question_config.get("choices")
         if choices is not None and callable(choices):
-            calculated_choices =  choices(answers)
+            calculated_choices = choices(answers)
             question_config["choices"] = calculated_choices
             kwargs["choices"] = calculated_choices
 
