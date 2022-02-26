@@ -217,7 +217,18 @@ class InquirerControl(FormattedTextControl):
         self.default = default
         self.pointer = pointer
 
-        if default is not None and default not in choices:
+        if isinstance(default, Choice):
+            default = default.value
+
+        choices_values = [
+            choice.value for choice in choices if isinstance(choice, Choice)
+        ]
+
+        if (
+            default is not None
+            and default not in choices
+            and default not in choices_values
+        ):
             raise ValueError(
                 f"Invalid `default` value passed. The value (`{default}`) "
                 f"does not exist in the set of choices. Please make sure the "
@@ -228,6 +239,13 @@ class InquirerControl(FormattedTextControl):
             pointed_at = None
         elif initial_choice in choices:
             pointed_at = choices.index(initial_choice)
+        elif initial_choice in choices_values:
+            for k, choice in enumerate(choices):
+                if isinstance(choice, Choice):
+                    if choice.value == initial_choice:
+                        pointed_at = k
+                        break
+
         else:
             raise ValueError(
                 f"Invalid `initial_choice` value passed. The value "
@@ -258,9 +276,7 @@ class InquirerControl(FormattedTextControl):
             compare_default = self.default == choice
         else:
             compare_default = self.default == choice.value
-        return (
-            choice.checked or compare_default and self.default is not None
-        ) and not choice.disabled
+        return choice.checked or compare_default and self.default is not None
 
     def _assign_shortcut_keys(self):
         available_shortcuts = self.SHORTCUT_KEYS[:]

@@ -5,6 +5,14 @@ from questionary.question import Question
 
 
 class FormField(NamedTuple):
+    """
+    Represents a question within a form
+
+    Args:
+        key: The name of the form field.
+        question: The question to ask in the form field.
+    """
+
     key: str
     question: Question
 

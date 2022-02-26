@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Iterable, Mapping
+from typing import Any, Dict, Optional, Iterable, Mapping, Union
 from prompt_toolkit.output import ColorDepth
 
 from questionary import utils
@@ -15,7 +15,7 @@ class PromptParameterException(ValueError):
 
 
 def prompt(
-    questions: Iterable[Mapping[str, Any]],
+    questions: Union[Dict[str, Any], Iterable[Mapping[str, Any]]],
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
@@ -76,7 +76,7 @@ def prompt(
 
 
 def unsafe_prompt(
-    questions: Iterable[Mapping[str, Any]],
+    questions: Union[Dict[str, Any], Iterable[Mapping[str, Any]]],
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,

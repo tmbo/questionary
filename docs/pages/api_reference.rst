@@ -16,6 +16,9 @@ API Reference
 .. autoclass:: questionary::Separator
    :members:
 
+.. autoclass:: questionary::FormField
+   :members:
+
 .. automethod:: questionary::form
 
 .. automethod:: questionary::prompt

@@ -38,6 +38,21 @@ def test_select_first_choice_with_token_title():
     assert result == ["foo"]
 
 
+def test_select_disabled_choices_if_they_are_default():
+    message = "Foo message"
+    kwargs = {
+        "choices": [
+            Choice("foo", checked=True),
+            Choice("bar", disabled="unavailable", checked=True),
+            Choice("baz", disabled="unavailable"),
+        ]
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo", "bar"]
+
+
 def test_select_and_deselct():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"]}
