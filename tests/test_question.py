@@ -1,10 +1,13 @@
 import asyncio
+import pytest
+import platform
 
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
 
 from questionary import text
+from questionary.utils import is_prompt_toolkit_3
 from tests.utils import KeyInputs
 
 
@@ -35,6 +38,18 @@ def test_skipping_of_questions():
         inp.close()
 
 
+def test_skipping_of_questions_unsafe():
+    inp = create_pipe_input()
+    try:
+        question = text("Hello?", input=inp, output=DummyOutput()).skip_if(
+            condition=True, default=42
+        )
+        response = question.unsafe_ask()
+        assert response == 42
+    finally:
+        inp.close()
+
+
 def test_skipping_of_skipping_of_questions():
     inp = create_pipe_input()
     try:
@@ -51,6 +66,26 @@ def test_skipping_of_skipping_of_questions():
         inp.close()
 
 
+def test_skipping_of_skipping_of_questions_unsafe():
+    inp = create_pipe_input()
+    try:
+        inp.send_text("World" + KeyInputs.ENTER + "\r")
+
+        question = text("Hello?", input=inp, output=DummyOutput()).skip_if(
+            condition=False, default=42
+        )
+
+        response = question.unsafe_ask()
+
+        assert response == "World" and not response == 42
+    finally:
+        inp.close()
+
+
+@pytest.mark.skipif(
+    not is_prompt_toolkit_3() and platform.system() == "Windows",
+    reason="requires prompt_toolkit >= 3",
+)
 def test_async_ask_question():
     loop = asyncio.new_event_loop()
 
