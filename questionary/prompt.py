@@ -1,5 +1,5 @@
-from prompt_toolkit.output import ColorDepth
 from typing import Any, Dict, Optional, Iterable, Mapping, Union
+from prompt_toolkit.output import ColorDepth
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
@@ -7,9 +7,11 @@ from questionary.prompts import AVAILABLE_PROMPTS, prompt_by_name
 
 
 class PromptParameterException(ValueError):
+    """Received a prompt with a missing parameter."""
+
     def __init__(self, message: str, errors: Optional[BaseException] = None) -> None:
         # Call the base class constructor with the parameters it needs
-        super().__init__("You must provide a `%s` value" % message, errors)
+        super().__init__(f"You must provide a `{message}` value", errors)
 
 
 def prompt(
@@ -137,10 +139,6 @@ def unsafe_prompt(
         if "name" not in question_config:
             raise PromptParameterException("name")
 
-        choices = question_config.get("choices")
-        if choices is not None and callable(choices):
-            question_config["choices"] = choices(answers)
-
         _kwargs = kwargs.copy()
         _kwargs.update(question_config)
 
@@ -158,14 +156,21 @@ def unsafe_prompt(
                 try:
                     if not question_config["when"](answers):
                         continue
-                except Exception as e:
+                except Exception as exception:
                     raise ValueError(
-                        "Problem in 'when' check of {} " "question: {}".format(name, e)
-                    )
+                        f"Problem in 'when' check of " f"{name} question: {exception}"
+                    ) from exception
             else:
                 raise ValueError(
                     "'when' needs to be function that accepts a dict argument"
                 )
+
+        choices = question_config.get("choices")
+        if choices is not None and callable(choices):
+            calculated_choices = choices(answers)
+            question_config["choices"] = calculated_choices
+            kwargs["choices"] = calculated_choices
+
         if _filter:
             # at least a little sanity check!
             if not callable(_filter):
@@ -180,9 +185,8 @@ def unsafe_prompt(
 
         if not create_question_func:
             raise ValueError(
-                "No question type '{}' found. "
-                "Known question types are {}."
-                "".format(_type, ", ".join(AVAILABLE_PROMPTS))
+                f"No question type '{_type}' found. "
+                f"Known question types are {', '.join(AVAILABLE_PROMPTS)}."
             )
 
         missing_args = list(utils.missing_arguments(create_question_func, _kwargs))
@@ -197,11 +201,11 @@ def unsafe_prompt(
             if _filter:
                 try:
                     answer = _filter(answer)
-                except Exception as e:
+                except Exception as exception:
                     raise ValueError(
-                        "Problem processing 'filter' of {} "
-                        "question: {}".format(name, e)
-                    )
+                        f"Problem processing 'filter' of {name} "
+                        f"question: {exception}"
+                    ) from exception
             answers[name] = answer
 
     return answers
