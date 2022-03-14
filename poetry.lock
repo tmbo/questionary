@@ -383,7 +383,7 @@ testing = ["fields", "hunter", "process-tests", "six", "pytest-xdist", "virtuale
 
 [[package]]
 name = "pytest-pycodestyle"
-version = "2.2.0"
+version = "2.2.1"
 description = "pytest plugin to run pycodestyle"
 category = "dev"
 optional = false
@@ -689,7 +689,7 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.6"
-content-hash = "c03df17a29c7a33022f32614c79fd5359321ecd265c4548f8f2292469bd545e9"
+content-hash = "ea79272f8bbd7283358da0650ac7eed78244d2f60289271d0196f14946f5f711"
 
 [metadata.files]
 alabaster = [
@@ -956,7 +956,7 @@ pytest-cov = [
     {file = "pytest_cov-3.0.0-py3-none-any.whl", hash = "sha256:578d5d15ac4a25e5f961c938b85a05b09fdaae9deef3bb6de9a6e766622ca7a6"},
 ]
 pytest-pycodestyle = [
-    {file = "pytest-pycodestyle-2.2.0.tar.gz", hash = "sha256:e755e4235ed399760257026b8c3c696520848cb0261277c2df1c8e64af979eb2"},
+    {file = "pytest-pycodestyle-2.2.1.tar.gz", hash = "sha256:64b1512303bf05d96a4d5de5e4022ee9ba98255b5ed39b2a2a4acc3e0b0a8533"},
 ]
 pytz = [
     {file = "pytz-2021.3-py2.py3-none-any.whl", hash = "sha256:3672058bc3453457b622aab7a1c3bfd5ab0bdae451512f6cf25f64ed37f5b87c"},

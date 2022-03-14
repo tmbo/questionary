@@ -44,7 +44,7 @@ sphinx-autodoc-typehints = {version = "^1.11.1", optional = true}
 docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "sphinx-autodoc-typehints"]
 
 [tool.poetry.dev-dependencies]
-pytest-pycodestyle = "^2.1"
+pytest-pycodestyle = "^2.2"
 pytest-cov = "^3.0.0"
 pytest = "^7.0.1"
 coveralls = "^3.3.1"
