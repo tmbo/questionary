@@ -35,7 +35,7 @@ install:
 	poetry install --extras "docs"
 
 formatter:
-	poetry run black .
+	pre-commit run -a
 
 lint:
 	poetry run black --check --diff .

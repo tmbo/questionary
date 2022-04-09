@@ -1,24 +1,31 @@
 import inspect
-from prompt_toolkit import PromptSession
-from prompt_toolkit.filters import IsDone, Always, Condition
-from prompt_toolkit.layout import (
-    FormattedTextControl,
-    Layout,
-    HSplit,
-    ConditionalContainer,
-    Window,
-)
-from prompt_toolkit.styles import Style, merge_styles
-from prompt_toolkit.validation import Validator, ValidationError
-from typing import Optional, Any, List, Dict, Union, Callable, Sequence, Tuple
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Sequence
+from typing import Tuple
+from typing import Union
 
-from questionary.constants import (
-    DEFAULT_STYLE,
-    DEFAULT_SELECTED_POINTER,
-    INDICATOR_SELECTED,
-    INDICATOR_UNSELECTED,
-    INVALID_INPUT,
-)
+from prompt_toolkit import PromptSession
+from prompt_toolkit.filters import Always
+from prompt_toolkit.filters import Condition
+from prompt_toolkit.filters import IsDone
+from prompt_toolkit.layout import ConditionalContainer
+from prompt_toolkit.layout import FormattedTextControl
+from prompt_toolkit.layout import HSplit
+from prompt_toolkit.layout import Layout
+from prompt_toolkit.layout import Window
+from prompt_toolkit.styles import Style
+from prompt_toolkit.validation import ValidationError
+from prompt_toolkit.validation import Validator
+
+from questionary.constants import DEFAULT_SELECTED_POINTER
+from questionary.constants import DEFAULT_STYLE
+from questionary.constants import INDICATOR_SELECTED
+from questionary.constants import INDICATOR_UNSELECTED
+from questionary.constants import INVALID_INPUT
 
 # This is a cut-down version of `prompt_toolkit.formatted_text.AnyFormattedText`
 # which does not exist in v2 of prompt_toolkit

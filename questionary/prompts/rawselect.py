@@ -1,8 +1,13 @@
-from typing import Sequence, Optional, Any, Union, Dict
+from typing import Any
+from typing import Dict
+from typing import Optional
+from typing import Sequence
+from typing import Union
 
 from prompt_toolkit.styles import Style
 
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_SELECTED_POINTER
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_SELECTED_POINTER
 from questionary.prompts import select
 from questionary.prompts.common import Choice
 from questionary.question import Question

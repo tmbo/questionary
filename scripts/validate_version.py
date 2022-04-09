@@ -1,7 +1,8 @@
 import os
-from pathlib import Path
 import sys
-from typing import Optional, Text
+from pathlib import Path
+from typing import Optional
+from typing import Text
 
 import toml
 

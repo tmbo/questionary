@@ -6,7 +6,7 @@ from pprint import pprint
 
 import questionary
 from examples import custom_style_dope
-from questionary import Separator, Choice, prompt
+from questionary import prompt
 
 
 def ask_pystyle(**kwargs):

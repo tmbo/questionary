@@ -1,20 +1,28 @@
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Sequence
+from typing import Tuple
+from typing import Union
 
 from prompt_toolkit.application import Application
+from prompt_toolkit.formatted_text import FormattedText
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.styles import Style, merge_styles
-from prompt_toolkit.formatted_text import FormattedText
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
 
 from questionary import utils
-from questionary.constants import (
-    DEFAULT_QUESTION_PREFIX,
-    DEFAULT_SELECTED_POINTER,
-    DEFAULT_STYLE,
-    INVALID_INPUT,
-)
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_SELECTED_POINTER
+from questionary.constants import DEFAULT_STYLE
+from questionary.constants import INVALID_INPUT
 from questionary.prompts import common
-from questionary.prompts.common import Choice, InquirerControl, Separator
+from questionary.prompts.common import Choice
+from questionary.prompts.common import InquirerControl
+from questionary.prompts.common import Separator
 from questionary.question import Question
 
 
@@ -263,8 +271,7 @@ def checkbox(
 
     @bindings.add(Keys.Any)
     def other(_event):
-        """Disallow inserting other text. """
-        pass
+        """Disallow inserting other text."""
 
     return Question(
         Application(

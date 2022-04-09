@@ -1,6 +1,7 @@
 import pytest
 
-from questionary.prompt import PromptParameterException, prompt
+from questionary.prompt import PromptParameterException
+from questionary.prompt import prompt
 
 
 def test_missing_message():

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import re
 
-from prompt_toolkit.validation import Validator, ValidationError
+from prompt_toolkit.validation import ValidationError
+from prompt_toolkit.validation import Validator
 
 from tests.utils import feed_cli_with_input
 

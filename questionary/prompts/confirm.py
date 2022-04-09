@@ -1,18 +1,19 @@
+from typing import Any
+from typing import Optional
+
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import to_formatted_text
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.styles import merge_styles, Style
-from typing import Optional, Any
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import (
-    NO_OR_YES,
-    YES,
-    NO,
-    YES_OR_NO,
-    DEFAULT_STYLE,
-    DEFAULT_QUESTION_PREFIX,
-)
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_STYLE
+from questionary.constants import NO
+from questionary.constants import NO_OR_YES
+from questionary.constants import YES
+from questionary.constants import YES_OR_NO
 from questionary.question import Question
 
 
@@ -121,7 +122,6 @@ def confirm(
     @bindings.add(Keys.Any)
     def other(event):
         """Disallow inserting other text."""
-        pass
 
     return Question(
         PromptSession(
