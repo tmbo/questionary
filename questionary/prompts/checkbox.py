@@ -29,6 +29,7 @@ def checkbox(
     initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
+    use_emacs_keys: bool = False,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -93,13 +94,17 @@ def checkbox(
         use_jk_keys: Allow the user to select items from the list using
                      `j` (down) and `k` (up) keys.
 
+        use_emacs_keys: Allow the user to select items from the list using
+                        `Ctrl+N` (down) and `Ctrl+P` (up) keys.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
-    if not (use_arrow_keys or use_jk_keys):
+    if not (use_arrow_keys or use_jk_keys or use_emacs_keys):
         raise ValueError(
-            "Some option to move the selection is required. Arrow keys or j/k keys."
+            "Some option to move the selection is required. Arrow keys or j/k or "
+            "Emacs keys."
         )
 
     merged_style = merge_styles(
@@ -250,6 +255,10 @@ def checkbox(
     if use_jk_keys:
         bindings.add("j", eager=True)(move_cursor_down)
         bindings.add("k", eager=True)(move_cursor_up)
+
+    if use_emacs_keys:
+        bindings.add(Keys.ControlN, eager=True)(move_cursor_down)
+        bindings.add(Keys.ControlP, eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
