@@ -39,9 +39,6 @@ jobs:
     - name: Install dependencies 🖥
       run: poetry install --no-interaction
 
-    - name: Lint Code 🎎
-      run: make lint
-
     - name: Check Types 📚
       run: make types
 

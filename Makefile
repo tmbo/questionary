@@ -37,9 +37,6 @@ install:
 formatter:
 	pre-commit run -a
 
-lint:
-	poetry run black --check --diff .
-
 test:
 	poetry run pytest --pycodestyle --cov questionary -v
 
