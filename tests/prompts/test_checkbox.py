@@ -76,14 +76,30 @@ def test_select_first_and_third_choice():
     text = (
         KeyInputs.SPACE
         + KeyInputs.DOWN
-        + KeyInputs.SPACE
         + "j"
+        + KeyInputs.SPACE
         + KeyInputs.ENTER
         + "\r"
     )
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
-    assert result == ["foo", "bar"]
+    assert result == ["foo", "bazz"]
+
+
+def test_select_first_and_third_choice_using_emacs_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = (
+        KeyInputs.SPACE
+        + KeyInputs.CONTROLN
+        + KeyInputs.CONTROLN
+        + KeyInputs.SPACE
+        + KeyInputs.ENTER
+        + "\r"
+    )
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo", "bazz"]
 
 
 def test_cycle_to_first_choice():
@@ -106,6 +122,15 @@ def test_cycle_backwards():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"]}
     text = KeyInputs.UP + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["bazz"]
+
+
+def test_cycle_backwards_using_emacs_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = KeyInputs.CONTROLP + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["bazz"]
@@ -308,6 +333,7 @@ def test_fail_on_no_method_to_move_selection():
         "use_shortcuts": False,
         "use_arrow_keys": False,
         "use_jk_keys": False,
+        "use_emacs_keys": False,
     }
     text = KeyInputs.ENTER + "\r"
 

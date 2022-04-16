@@ -76,6 +76,21 @@ def test_select_second_choice_using_j_k():
     assert result == "bar"
 
 
+def test_select_second_choice_using_emacs_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = (
+        KeyInputs.CONTROLN
+        + KeyInputs.CONTROLN
+        + KeyInputs.CONTROLP
+        + KeyInputs.ENTER
+        + "\r"
+    )
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bar"
+
+
 def test_select_with_instruction():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"], "instruction": "sample instruction"}
@@ -289,6 +304,7 @@ def test_fail_on_no_method_to_move_selection():
         "use_shortcuts": False,
         "use_arrow_keys": False,
         "use_jk_keys": False,
+        "use_emacs_keys": False,
     }
     text = KeyInputs.ENTER + "\r"
 
