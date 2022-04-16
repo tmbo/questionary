@@ -29,7 +29,7 @@ def select(
     use_arrow_keys: bool = True,
     use_indicator: bool = False,
     use_jk_keys: bool = True,
-    use_emacs_keys: bool = False,
+    use_emacs_keys: bool = True,
     show_selected: bool = False,
     instruction: Optional[str] = None,
     **kwargs: Any,

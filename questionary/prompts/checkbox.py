@@ -29,7 +29,7 @@ def checkbox(
     initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
-    use_emacs_keys: bool = False,
+    use_emacs_keys: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
