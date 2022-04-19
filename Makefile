@@ -35,7 +35,7 @@ install:
 	poetry install --extras "docs"
 
 formatter:
-	pre-commit run -a
+	poetry run pre-commit run -a
 
 test:
 	poetry run pytest --pycodestyle --cov questionary -v
