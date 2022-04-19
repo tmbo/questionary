@@ -39,19 +39,14 @@ jobs:
     - name: Install dependencies 🖥
       run: poetry install --no-interaction
 
+    - name: pre-commit
+      run: make formatter
+
     - name: Check Types 📚
       run: make types
 
     - name: Check Version Numbers 🕸
       run: poetry run python scripts/validate_version.py
-
-  pre-commit:
-    name: pre-commit formatting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-python@v2
-      - uses: pre-commit/action@v2.0.3
 
   test:
     name: Run Tests
@@ -145,7 +140,7 @@ jobs:
 
     # deploy will only be run when there is a tag available
     if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-    needs: [quality, test, docs, pre-commit]  # only run after all other stages succeeded
+    needs: [quality, test, docs]  # only run after all other stages succeeded
 
     steps:
     - name: Checkout git repository 🕝

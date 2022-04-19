@@ -4,20 +4,18 @@ repos:
     hooks:
       - id: autoflake
         args: ['-i', '--remove-all-unused-imports']
+
   - repo: https://github.com/psf/black
     rev: 22.3.0
     hooks:
       - id: black
         args: ['-l', '88']
+
   - repo: https://github.com/pycqa/isort
     rev: 5.10.1
     hooks:
       - id: isort
         name: isort (python)
-        args: ['-sl', '--profile', 'black']
-      - id: isort
-        name: isort (pyi)
-        types: [ pyi ]
         args: ['-sl', '--profile', 'black']
 
   - repo: https://github.com/pycqa/flake8
