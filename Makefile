@@ -6,6 +6,8 @@ help:
 	@echo "make"
 	@echo "    clean"
 	@echo "        Remove Python/build artifacts."
+	@echo "    devinstall"
+	@echo "        Configure development environment for questionary."
 	@echo "    install"
 	@echo "        Install questionary."
 	@echo "    lint"
@@ -31,6 +33,11 @@ clean:
 
 install:
 	poetry install --extras "docs"
+
+devinstall:
+	pip install poetry
+	$(MAKE) install
+	pre-commit install
 
 lint:
 	poetry run pre-commit run -a
