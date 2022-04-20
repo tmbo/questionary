@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from questionary import Separator, Choice
-from tests.utils import feed_cli_with_input, KeyInputs
+from questionary import Choice
+from questionary import Separator
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
 
 
 def test_submit_empty():

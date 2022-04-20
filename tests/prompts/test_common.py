@@ -1,19 +1,19 @@
-from unittest.mock import Mock, call
+from unittest.mock import Mock
+from unittest.mock import call
 
-from prompt_toolkit.styles import Attrs
 import pytest
 from prompt_toolkit.document import Document
 from prompt_toolkit.input.defaults import create_pipe_input
-from prompt_toolkit.output import ColorDepth, DummyOutput
-from prompt_toolkit.validation import ValidationError, Validator
-from questionary.prompts import common
-from questionary import Choice
+from prompt_toolkit.output import DummyOutput
+from prompt_toolkit.styles import Attrs
+from prompt_toolkit.validation import ValidationError
+from prompt_toolkit.validation import Validator
 
-from questionary.prompts.common import (
-    InquirerControl,
-    build_validator,
-    print_formatted_text,
-)
+from questionary import Choice
+from questionary.prompts import common
+from questionary.prompts.common import InquirerControl
+from questionary.prompts.common import build_validator
+from questionary.prompts.common import print_formatted_text
 
 
 def test_to_many_choices_for_shortcut_assignment():

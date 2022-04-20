@@ -4,7 +4,8 @@ import uuid
 import pytest
 
 from questionary import Separator
-from tests.utils import feed_cli_with_input, KeyInputs
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
 
 
 def test_legacy_name():

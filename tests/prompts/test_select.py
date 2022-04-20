@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from questionary import Separator, Choice
-from tests.utils import feed_cli_with_input, KeyInputs, patched_prompt
+from questionary import Choice
+from questionary import Separator
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
+from tests.utils import patched_prompt
 
 
 def test_legacy_name():

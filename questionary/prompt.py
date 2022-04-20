@@ -1,9 +1,16 @@
-from typing import Any, Dict, Optional, Iterable, Mapping, Union
+from typing import Any
+from typing import Dict
+from typing import Iterable
+from typing import Mapping
+from typing import Optional
+from typing import Union
+
 from prompt_toolkit.output import ColorDepth
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
-from questionary.prompts import AVAILABLE_PROMPTS, prompt_by_name
+from questionary.prompts import AVAILABLE_PROMPTS
+from questionary.prompts import prompt_by_name
 
 
 class PromptParameterException(ValueError):

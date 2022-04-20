@@ -14,7 +14,8 @@ def ask_with_patched_input(q, text):
 
 
 def test_confirm_example():
-    from examples.confirm_continue import ask_dictstyle, ask_pystyle
+    from examples.confirm_continue import ask_dictstyle
+    from examples.confirm_continue import ask_pystyle
 
     text = "n" + KeyInputs.ENTER + "\r"
 
@@ -26,7 +27,8 @@ def test_confirm_example():
 
 
 def test_text_example():
-    from examples.text_phone_number import ask_dictstyle, ask_pystyle
+    from examples.text_phone_number import ask_dictstyle
+    from examples.text_phone_number import ask_pystyle
 
     text = "1234567890" + KeyInputs.ENTER + "\r"
 
@@ -38,7 +40,8 @@ def test_text_example():
 
 
 def test_select_example():
-    from examples.select_restaurant import ask_dictstyle, ask_pystyle
+    from examples.select_restaurant import ask_dictstyle
+    from examples.select_restaurant import ask_pystyle
 
     text = KeyInputs.DOWN + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
@@ -50,7 +53,8 @@ def test_select_example():
 
 
 def test_rawselect_example():
-    from examples.rawselect_separator import ask_dictstyle, ask_pystyle
+    from examples.rawselect_separator import ask_dictstyle
+    from examples.rawselect_separator import ask_pystyle
 
     text = "3" + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
@@ -62,7 +66,8 @@ def test_rawselect_example():
 
 
 def test_checkbox_example():
-    from examples.checkbox_separators import ask_dictstyle, ask_pystyle
+    from examples.checkbox_separators import ask_dictstyle
+    from examples.checkbox_separators import ask_pystyle
 
     text = "n" + KeyInputs.ENTER + KeyInputs.ENTER + KeyInputs.ENTER + "\r"
 
@@ -74,7 +79,8 @@ def test_checkbox_example():
 
 
 def test_password_example():
-    from examples.password_git import ask_dictstyle, ask_pystyle
+    from examples.password_git import ask_dictstyle
+    from examples.password_git import ask_pystyle
 
     text = "asdf" + KeyInputs.ENTER + "\r"
 
@@ -86,7 +92,8 @@ def test_password_example():
 
 
 def test_autocomplete_example():
-    from examples.autocomplete_ants import ask_dictstyle, ask_pystyle
+    from examples.autocomplete_ants import ask_dictstyle
+    from examples.autocomplete_ants import ask_pystyle
 
     text = "Polyergus lucidus" + KeyInputs.ENTER + "\r"
 

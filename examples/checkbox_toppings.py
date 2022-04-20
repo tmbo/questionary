@@ -1,5 +1,5 @@
-from examples import custom_style_dope
 import questionary
+from examples import custom_style_dope
 
 if __name__ == "__main__":
     toppings = (

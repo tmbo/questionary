@@ -1,5 +1,7 @@
 from pprint import pprint
-from questionary import Separator, prompt
+
+from questionary import Separator
+from questionary import prompt
 
 
 def ask_dictstyle(**kwargs):

@@ -2,7 +2,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath("../"))
-from questionary import __version__
+from questionary import __version__  # noqa: E402
 
 project = "Questionary"
 copyright = "2021, Questionary"
