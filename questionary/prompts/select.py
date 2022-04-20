@@ -34,6 +34,7 @@ def select(
     use_arrow_keys: bool = True,
     use_indicator: bool = False,
     use_jk_keys: bool = True,
+    use_emacs_keys: bool = True,
     show_selected: bool = False,
     instruction: Optional[str] = None,
     **kwargs: Any,
@@ -104,16 +105,20 @@ def select(
                      `j` (down) and `k` (up) keys. Arrow keys, j/k keys and
                      shortcuts are not mutually exclusive.
 
+        use_emacs_keys: Allow the user to select items from the list using
+                        `Ctrl+N` (down) and `Ctrl+P` (up) keys. Arrow keys, j/k keys,
+                        emacs keys and shortcuts are not mutually exclusive.
+
         show_selected: Display current selection choice at the bottom of list.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
-    if not (use_arrow_keys or use_shortcuts or use_jk_keys):
+    if not (use_arrow_keys or use_shortcuts or use_jk_keys or use_emacs_keys):
         raise ValueError(
             (
                 "Some option to move the selection is required. "
-                "Arrow keys, j/k keys or shortcuts."
+                "Arrow keys, j/k keys, emacs keys, or shortcuts."
             )
         )
 
@@ -226,6 +231,10 @@ def select(
     if use_jk_keys:
         bindings.add("j", eager=True)(move_cursor_down)
         bindings.add("k", eager=True)(move_cursor_up)
+
+    if use_emacs_keys:
+        bindings.add(Keys.ControlN, eager=True)(move_cursor_down)
+        bindings.add(Keys.ControlP, eager=True)(move_cursor_up)
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):

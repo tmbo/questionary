@@ -17,6 +17,8 @@ class KeyInputs:
     ENTER = "\r"
     ESCAPE = "\x1b"
     CONTROLC = "\x03"
+    CONTROLN = "\x0e"
+    CONTROLP = "\x10"
     BACK = "\x7f"
     SPACE = " "
     TAB = "\x09"
