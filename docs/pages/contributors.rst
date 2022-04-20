@@ -14,26 +14,40 @@ counts, so do not hesitate!
 2. Fork `the repository <https://github.com/tmbo/questionary>`_ on GitHub to
    start making your changes.
 
-3. Write some tests that show the bug is fixed or that the feature works as
-   expected.
+3. Configure development environment.
 
-4. Ensure your code passes the style checks by running
+  a. create python virtual environment, eg
 
   .. code-block:: console
 
-    $ black questionary
+    virtualenv .env && source .env/bin/activate
+
+  b. Configure development requirements:
+
+  .. code-block:: console
+
+    make develop
+
+4. Write some tests that show the bug is fixed or that the feature works as
+   expected.
+
+5. Ensure your code passes the code quality checks by running
+
+  .. code-block:: console
+
+    make lint
 
 5. Check all of the unit tests pass by running
 
   .. code-block:: console
 
-    $ pytest --pycodestyle --cov questionary -v
+    make test
 
 6. Check the type checks pass by running
 
   .. code-block:: console
 
-    $ mypy questionary
+    make types
 
 7. Send a pull request and bug the maintainer until it gets merged and
    published 🙂

@@ -1,4 +1,4 @@
-.PHONY: clean install lint test types docs livedocs
+.PHONY: clean install develop lint test types docs livedocs
 
 JOBS ?= 1
 
@@ -34,7 +34,7 @@ clean:
 install:
 	poetry install --extras "docs"
 
-devinstall:
+develop:
 	pip install poetry
 	$(MAKE) install
 	pre-commit install
