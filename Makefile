@@ -6,7 +6,7 @@ help:
 	@echo "make"
 	@echo "    clean"
 	@echo "        Remove Python/build artifacts."
-	@echo "    devinstall"
+	@echo "    develop"
 	@echo "        Configure development environment for questionary."
 	@echo "    install"
 	@echo "        Install questionary."
