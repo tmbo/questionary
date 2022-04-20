@@ -1,11 +1,11 @@
 import sys
+from typing import Any
 
-from prompt_toolkit import Application
 import prompt_toolkit.patch_stdout
+from prompt_toolkit import Application
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
-from typing import Any
 
 
 class Question:

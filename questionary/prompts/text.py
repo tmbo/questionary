@@ -1,15 +1,18 @@
-from typing import Any, Optional, List, Tuple
+from typing import Any
+from typing import List
+from typing import Optional
+from typing import Tuple
 
 from prompt_toolkit.document import Document
+from prompt_toolkit.lexers import Lexer
+from prompt_toolkit.lexers import SimpleLexer
 from prompt_toolkit.shortcuts.prompt import PromptSession
-from prompt_toolkit.styles import Style, merge_styles
-from prompt_toolkit.lexers import Lexer, SimpleLexer
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import (
-    DEFAULT_QUESTION_PREFIX,
-    DEFAULT_STYLE,
-    INSTRUCTION_MULTILINE,
-)
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_STYLE
+from questionary.constants import INSTRUCTION_MULTILINE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
 

@@ -1,4 +1,7 @@
-from typing import Any, Dict, NamedTuple, Sequence
+from typing import Any
+from typing import Dict
+from typing import NamedTuple
+from typing import Sequence
 
 from questionary.constants import DEFAULT_KBI_MESSAGE
 from questionary.question import Question

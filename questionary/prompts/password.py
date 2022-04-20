@@ -1,7 +1,7 @@
-from typing import Any, Optional
+from typing import Any
+from typing import Optional
 
 from questionary import Style
-
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.prompts import text
 from questionary.question import Question

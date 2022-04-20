@@ -1,7 +1,7 @@
 import asyncio
-import pytest
 import platform
 
+import pytest
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
