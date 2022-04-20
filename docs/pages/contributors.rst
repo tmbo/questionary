@@ -37,19 +37,19 @@ counts, so do not hesitate!
 
     make lint
 
-5. Check all of the unit tests pass by running
+6. Check all of the unit tests pass by running
 
   .. code-block:: console
 
     make test
 
-6. Check the type checks pass by running
+7. Check the type checks pass by running
 
   .. code-block:: console
 
     make types
 
-7. Send a pull request and bug the maintainer until it gets merged and
+8. Send a pull request and bug the maintainer until it gets merged and
    published 🙂
 
 .. _`contributor friendly tag`: https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd
