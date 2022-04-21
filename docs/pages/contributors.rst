@@ -16,14 +16,6 @@ counts, so do not hesitate!
 
 3. Configure development environment.
 
-  a. create python virtual environment, eg
-
-  .. code-block:: console
-
-    virtualenv .env && source .env/bin/activate
-
-  b. Configure development requirements:
-
   .. code-block:: console
 
     make develop
