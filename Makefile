@@ -37,7 +37,7 @@ install:
 develop:
 	pip install poetry
 	$(MAKE) install
-	pre-commit install
+	poetry run pre-commit install
 
 lint:
 	poetry run pre-commit run -a
