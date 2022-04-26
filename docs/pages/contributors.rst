@@ -14,8 +14,7 @@ counts, so do not hesitate!
 2. Fork `the repository <https://github.com/tmbo/questionary>`_ on GitHub to
    start making your changes.
 
-3. Install Poetry using one of the described methods
-   in `official documentation <https://python-poetry.org/docs/#installation>`_
+3. `Install Poetry <https://python-poetry.org/docs/#installation>`_.
 
 4. Configure development environment.
 
