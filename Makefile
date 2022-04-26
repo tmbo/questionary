@@ -41,7 +41,7 @@ lint:
 	poetry run pre-commit run -a
 
 test:
-	poetry run pytest --pycodestyle --cov questionary -v
+	poetry run pytest --cov questionary -v
 
 types:
 	poetry run mypy questionary
