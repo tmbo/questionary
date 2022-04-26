@@ -2,6 +2,7 @@
 import asyncio
 
 import prompt_toolkit
+from prompt_toolkit.input import create_pipe_input
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
@@ -93,3 +94,19 @@ def patched_prompt(questions, text, **kwargs):
 
     finally:
         inp.close()
+
+
+def _execute(func):
+    if (
+            _prompt_toolkit_version[0] <= 3
+            and _prompt_toolkit_version[1] == 0
+            and _prompt_toolkit_version[2] < 29
+    ):
+        inp = create_pipe_input()
+        try:
+            func(inp)
+        finally:
+            inp.close()
+    else:
+        with create_pipe_input() as inp:
+            func(inp)
