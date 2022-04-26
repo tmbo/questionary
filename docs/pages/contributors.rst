@@ -29,19 +29,19 @@ counts, so do not hesitate!
 
   .. code-block:: console
 
-    make lint
+    $ make lint
 
 7. Check all of the unit tests pass by running
 
   .. code-block:: console
 
-    make test
+    $ make test
 
 8. Check the type checks pass by running
 
   .. code-block:: console
 
-    make types
+    $ make types
 
 9. Send a pull request and bug the maintainer until it gets merged and
    published 🙂
