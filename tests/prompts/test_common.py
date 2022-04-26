@@ -196,9 +196,7 @@ def test_print_with_style(monkeypatch):
     assert len(mock.method_calls) == 4
     assert mock.method_calls[0][0] == "set_attributes"
 
-    if (
-        prompt_toolkit_version < (3, 0, 20)
-    ):
+    if prompt_toolkit_version < (3, 0, 20):
         assert mock.method_calls[0][1][0] == Attrs(
             color="8b0000",
             bgcolor="",

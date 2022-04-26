@@ -79,8 +79,7 @@ def patched_prompt(questions, text, **kwargs):
 
 
 def execute_with_input_pipe(func):
-    if ( prompt_toolkit_version < (3, 0, 29)
-    ):
+    if prompt_toolkit_version < (3, 0, 29):
         inp = create_pipe_input()
         try:
             return func(inp)
