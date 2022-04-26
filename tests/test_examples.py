@@ -2,15 +2,16 @@ from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
 from tests.utils import KeyInputs
+from tests.utils import _execute_with_input_pipe
 
 
 def ask_with_patched_input(q, text):
-    inp = create_pipe_input()
-    try:
+    def run(inp):
         inp.send_text(text)
         return q(input=inp, output=DummyOutput())
-    finally:
-        inp.close()
+
+    return _execute_with_input_pipe(run)
+
 
 
 def test_confirm_example():

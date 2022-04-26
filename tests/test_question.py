@@ -7,7 +7,7 @@ from pytest import fail
 
 from questionary import text
 from questionary.utils import is_prompt_toolkit_3
-from tests.utils import KeyInputs, _execute
+from tests.utils import KeyInputs, _execute_with_input_pipe
 
 
 def test_ask_should_catch_keyboard_exception():
@@ -20,7 +20,7 @@ def test_ask_should_catch_keyboard_exception():
         except KeyboardInterrupt:
             fail("Keyboard Interrupt should be caught by `ask()`")
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 
 
 def test_skipping_of_questions():
@@ -31,7 +31,7 @@ def test_skipping_of_questions():
         response = question.ask()
         assert response == 42
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 
 
 def test_skipping_of_questions_unsafe():
@@ -42,7 +42,7 @@ def test_skipping_of_questions_unsafe():
         response = question.unsafe_ask()
         assert response == 42
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 
 
 def test_skipping_of_skipping_of_questions():
@@ -54,7 +54,7 @@ def test_skipping_of_skipping_of_questions():
         response = question.ask()
         assert response == "World" and not response == 42
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 
 
 def test_skipping_of_skipping_of_questions_unsafe():
@@ -66,7 +66,7 @@ def test_skipping_of_skipping_of_questions_unsafe():
         response = question.unsafe_ask()
         assert response == "World" and not response == 42
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 
 
 @pytest.mark.skipif(
@@ -82,7 +82,7 @@ def test_async_ask_question():
         response = loop.run_until_complete(question.ask_async())
         assert response == "World"
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 
 
 def test_multiline_text():
@@ -92,5 +92,5 @@ def test_multiline_text():
         response = question.ask()
         assert response == "Hello\nworld"
 
-    _execute(run)
+    _execute_with_input_pipe(run)
 

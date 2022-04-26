@@ -14,7 +14,7 @@ from questionary.prompts import common
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import build_validator
 from questionary.prompts.common import print_formatted_text
-from tests.utils import _prompt_toolkit_version
+from tests.utils import _prompt_toolkit_version, _execute_with_input_pipe
 
 
 def test_to_many_choices_for_shortcut_assignment():
@@ -72,9 +72,7 @@ def test_blank_line_fix():
 
     ic = InquirerControl(["a", "b", "c"])
 
-    inp = create_pipe_input()
-
-    try:
+    def run(inp):
         inp.send_text("")
         layout = common.create_inquirer_layout(
             ic, get_prompt_tokens, input=inp, output=DummyOutput()
@@ -87,8 +85,8 @@ def test_blank_line_fix():
             layout.container.preferred_height(100, 200).max
             == 1000000000000000000000000000001
         )
-    finally:
-        inp.close()
+
+    _execute_with_input_pipe(run)
 
 
 def test_prompt_highlight_coexist():

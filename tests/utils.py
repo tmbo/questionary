@@ -83,20 +83,17 @@ def _create_input(_type, inp, kwargs, message, sleep_time, texts):
 
 def patched_prompt(questions, text, **kwargs):
     """Create a prompt where the input and output are predefined."""
-
-    inp = create_pipe_input()
-
-    try:
+    def run(inp):
         # noinspection PyUnresolvedReferences
         inp.send_text(text)
         result = prompt(questions, input=inp, output=DummyOutput(), **kwargs)
         return result
 
-    finally:
-        inp.close()
+    return _execute_with_input_pipe(run)
 
 
-def _execute(func):
+
+def _execute_with_input_pipe(func):
     if (
             _prompt_toolkit_version[0] <= 3
             and _prompt_toolkit_version[1] == 0
@@ -104,9 +101,9 @@ def _execute(func):
     ):
         inp = create_pipe_input()
         try:
-            func(inp)
+            return func(inp)
         finally:
             inp.close()
     else:
         with create_pipe_input() as inp:
-            func(inp)
+            return func(inp)

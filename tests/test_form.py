@@ -1,10 +1,9 @@
-from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
 
 import questionary
 from questionary import form
-from tests.utils import KeyInputs
+from tests.utils import KeyInputs, _execute_with_input_pipe
 
 
 def example_form(inp):
@@ -26,60 +25,57 @@ def example_form_with_skip(inp):
 
 
 def test_form_creation():
-    inp = create_pipe_input()
     text = "Y" + KeyInputs.ENTER + "\r"
 
-    try:
+    def run(inp):
         inp.send_text(text)
         f = example_form(inp)
-
         result = f.unsafe_ask()
-
         assert result == {"q1": True, "q2": "foo"}
-    finally:
-        inp.close()
+
+    _execute_with_input_pipe(run)
 
 
 def test_form_skips_questions():
-    inp = create_pipe_input()
     text = "Y" + KeyInputs.ENTER + "\r"
 
-    try:
+    def run(inp):
         inp.send_text(text)
         f = example_form_with_skip(inp)
 
         result = f.ask()
 
         assert result == {"q1": True, "q2": 42}
-    finally:
-        inp.close()
+
+    _execute_with_input_pipe(run)
+
 
 
 def test_form_skips_questions_unsafe_ask():
-    inp = create_pipe_input()
     text = "Y" + KeyInputs.ENTER + "\r"
 
-    try:
+    def run(inp):
         inp.send_text(text)
         f = example_form_with_skip(inp)
 
         result = f.unsafe_ask()
 
         assert result == {"q1": True, "q2": 42}
-    finally:
-        inp.close()
+
+    _execute_with_input_pipe(run)
 
 
 def test_ask_should_catch_keyboard_exception():
-    inp = create_pipe_input()
 
-    try:
-        inp.send_text(KeyInputs.CONTROLC)
-        f = example_form(inp)
+    def run(inp):
+        try:
+            inp.send_text(KeyInputs.CONTROLC)
+            f = example_form(inp)
 
-        result = f.ask()
-        assert result == {}
-    except KeyboardInterrupt:
-        fail("Keyboard Interrupt should be caught by `ask()`")
-    finally:
-        inp.close()
+            result = f.ask()
+            assert result == {}
+        except KeyboardInterrupt:
+            fail("Keyboard Interrupt should be caught by `ask()`")
+
+
+    _execute_with_input_pipe(run)
