@@ -81,6 +81,7 @@ Create a Command Line Recording
       $ npm install --global asciicast2gif
 
 2. Start the recording with ``asciinema``:
+
     .. code-block:: console
 
       $ asciinema rec
@@ -88,6 +89,7 @@ Create a Command Line Recording
 3. Do the thing you want to record.
 
 4. Convert to gif using ``asciicast2gif``:
+
     .. code-block:: console
 
       $ asciicast2gif -h 7 -w 120 -s 2 <recording> output.gif
