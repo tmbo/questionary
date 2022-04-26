@@ -14,6 +14,7 @@ from questionary.prompts import common
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import build_validator
 from questionary.prompts.common import print_formatted_text
+from tests.utils import _prompt_toolkit_version
 
 
 def test_to_many_choices_for_shortcut_assignment():
@@ -196,16 +197,34 @@ def test_print_with_style(monkeypatch):
 
     assert len(mock.method_calls) == 4
     assert mock.method_calls[0][0] == "set_attributes"
-    assert mock.method_calls[0][1][0] == Attrs(
-        color="8b0000",
-        bgcolor="",
-        bold=True,
-        underline=False,
-        italic=True,
-        blink=False,
-        reverse=False,
-        hidden=False,
-    )
+
+    if (
+        _prompt_toolkit_version[0] <= 3
+        and _prompt_toolkit_version[1] == 0
+        and _prompt_toolkit_version[2] < 20
+    ):
+        assert mock.method_calls[0][1][0] == Attrs(
+            color="8b0000",
+            bgcolor="",
+            bold=True,
+            underline=False,
+            italic=True,
+            blink=False,
+            reverse=False,
+            hidden=False,
+        )
+    else:
+        assert mock.method_calls[0][1][0] == Attrs(
+            color="8b0000",
+            bgcolor="",
+            bold=True,
+            underline=False,
+            italic=True,
+            blink=False,
+            reverse=False,
+            hidden=False,
+            strike=False,
+        )
 
     assert mock.method_calls[1][0] == "write"
     assert mock.method_calls[1][1][0] == "Hello World"
