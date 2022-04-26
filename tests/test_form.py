@@ -4,7 +4,7 @@ from pytest import fail
 import questionary
 from questionary import form
 from tests.utils import KeyInputs
-from tests.utils import _execute_with_input_pipe
+from tests.utils import execute_with_input_pipe
 
 
 def example_form(inp):
@@ -34,7 +34,7 @@ def test_form_creation():
         result = f.unsafe_ask()
         assert result == {"q1": True, "q2": "foo"}
 
-    _execute_with_input_pipe(run)
+    execute_with_input_pipe(run)
 
 
 def test_form_skips_questions():
@@ -48,7 +48,7 @@ def test_form_skips_questions():
 
         assert result == {"q1": True, "q2": 42}
 
-    _execute_with_input_pipe(run)
+    execute_with_input_pipe(run)
 
 
 def test_form_skips_questions_unsafe_ask():
@@ -62,7 +62,7 @@ def test_form_skips_questions_unsafe_ask():
 
         assert result == {"q1": True, "q2": 42}
 
-    _execute_with_input_pipe(run)
+    execute_with_input_pipe(run)
 
 
 def test_ask_should_catch_keyboard_exception():
@@ -76,4 +76,4 @@ def test_ask_should_catch_keyboard_exception():
         except KeyboardInterrupt:
             fail("Keyboard Interrupt should be caught by `ask()`")
 
-    _execute_with_input_pipe(run)
+    execute_with_input_pipe(run)

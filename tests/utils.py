@@ -9,7 +9,7 @@ from questionary import prompt
 from questionary.prompts import prompt_by_name
 from questionary.utils import is_prompt_toolkit_3
 
-_prompt_toolkit_version = [int(v) for v in prompt_toolkit.VERSION]
+prompt_toolkit_version = tuple([int(v) for v in prompt_toolkit.VERSION])
 
 
 class KeyInputs:
@@ -43,41 +43,27 @@ def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
     if not isinstance(texts, list):
         texts = [texts]
 
-    inp = create_pipe_input()
+    def _create_input(inp):
+        prompter = prompt_by_name(_type)
+        application = prompter(message, input=inp, output=DummyOutput(), **kwargs)
+        if is_prompt_toolkit_3():
+            loop = asyncio.new_event_loop()
+            future_result = loop.create_task(application.unsafe_ask_async())
 
-    if (
-        _prompt_toolkit_version[0] <= 3
-        and _prompt_toolkit_version[1] == 0
-        and _prompt_toolkit_version[2] < 29
-    ):
-        try:
-            return _create_input(_type, inp, kwargs, message, sleep_time, texts)
-        finally:
-            inp.close()
-    else:
-        with create_pipe_input() as inp:
-            return _create_input(_type, inp, kwargs, message, sleep_time, texts)
+            for i, text in enumerate(texts):
+                # noinspection PyUnresolvedReferences
+                inp.send_text(text)
 
+                if i != len(texts) - 1:
+                    loop.run_until_complete(asyncio.sleep(sleep_time))
+            result = loop.run_until_complete(future_result)
+        else:
+            for text in texts:
+                inp.send_text(text)
+            result = application.unsafe_ask()
+        return result, application
 
-def _create_input(_type, inp, kwargs, message, sleep_time, texts):
-    prompter = prompt_by_name(_type)
-    application = prompter(message, input=inp, output=DummyOutput(), **kwargs)
-    if is_prompt_toolkit_3():
-        loop = asyncio.new_event_loop()
-        future_result = loop.create_task(application.unsafe_ask_async())
-
-        for i, text in enumerate(texts):
-            # noinspection PyUnresolvedReferences
-            inp.send_text(text)
-
-            if i != len(texts) - 1:
-                loop.run_until_complete(asyncio.sleep(sleep_time))
-        result = loop.run_until_complete(future_result)
-    else:
-        for text in texts:
-            inp.send_text(text)
-        result = application.unsafe_ask()
-    return result, application
+    return execute_with_input_pipe(_create_input)
 
 
 def patched_prompt(questions, text, **kwargs):
@@ -89,14 +75,11 @@ def patched_prompt(questions, text, **kwargs):
         result = prompt(questions, input=inp, output=DummyOutput(), **kwargs)
         return result
 
-    return _execute_with_input_pipe(run)
+    return execute_with_input_pipe(run)
 
 
-def _execute_with_input_pipe(func):
-    if (
-        _prompt_toolkit_version[0] <= 3
-        and _prompt_toolkit_version[1] == 0
-        and _prompt_toolkit_version[2] < 29
+def execute_with_input_pipe(func):
+    if ( prompt_toolkit_version < (3, 0, 29)
     ):
         inp = create_pipe_input()
         try:

@@ -13,8 +13,8 @@ from questionary.prompts import common
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import build_validator
 from questionary.prompts.common import print_formatted_text
-from tests.utils import _execute_with_input_pipe
-from tests.utils import _prompt_toolkit_version
+from tests.utils import execute_with_input_pipe
+from tests.utils import prompt_toolkit_version
 
 
 def test_to_many_choices_for_shortcut_assignment():
@@ -86,7 +86,7 @@ def test_blank_line_fix():
             == 1000000000000000000000000000001
         )
 
-    _execute_with_input_pipe(run)
+    execute_with_input_pipe(run)
 
 
 def test_prompt_highlight_coexist():
@@ -197,9 +197,7 @@ def test_print_with_style(monkeypatch):
     assert mock.method_calls[0][0] == "set_attributes"
 
     if (
-        _prompt_toolkit_version[0] <= 3
-        and _prompt_toolkit_version[1] == 0
-        and _prompt_toolkit_version[2] < 20
+        prompt_toolkit_version < (3, 0, 20)
     ):
         assert mock.method_calls[0][1][0] == Attrs(
             color="8b0000",

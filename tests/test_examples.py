@@ -1,7 +1,7 @@
 from prompt_toolkit.output import DummyOutput
 
 from tests.utils import KeyInputs
-from tests.utils import _execute_with_input_pipe
+from tests.utils import execute_with_input_pipe
 
 
 def ask_with_patched_input(q, text):
@@ -9,7 +9,7 @@ def ask_with_patched_input(q, text):
         inp.send_text(text)
         return q(input=inp, output=DummyOutput())
 
-    return _execute_with_input_pipe(run)
+    return execute_with_input_pipe(run)
 
 
 def test_confirm_example():
