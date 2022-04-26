@@ -34,9 +34,7 @@ clean:
 install:
 	poetry install --extras "docs"
 
-develop:
-	pip install poetry
-	$(MAKE) install
+develop: install
 	poetry run pre-commit install
 
 lint:

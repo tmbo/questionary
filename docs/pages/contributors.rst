@@ -14,34 +14,37 @@ counts, so do not hesitate!
 2. Fork `the repository <https://github.com/tmbo/questionary>`_ on GitHub to
    start making your changes.
 
-3. Configure development environment.
+3. Install Poetry using one of the described methods
+   in `official documentation <https://python-poetry.org/docs/#installation>`_
+
+4. Configure development environment.
 
   .. code-block:: console
 
     make develop
 
-4. Write some tests that show the bug is fixed or that the feature works as
+5. Write some tests that show the bug is fixed or that the feature works as
    expected.
 
-5. Ensure your code passes the code quality checks by running
+6. Ensure your code passes the code quality checks by running
 
   .. code-block:: console
 
     make lint
 
-6. Check all of the unit tests pass by running
+7. Check all of the unit tests pass by running
 
   .. code-block:: console
 
     make test
 
-7. Check the type checks pass by running
+8. Check the type checks pass by running
 
   .. code-block:: console
 
     make types
 
-8. Send a pull request and bug the maintainer until it gets merged and
+9. Send a pull request and bug the maintainer until it gets merged and
    published 🙂
 
 .. _`contributor friendly tag`: https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd
