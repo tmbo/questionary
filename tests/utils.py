@@ -2,7 +2,6 @@
 import asyncio
 
 import prompt_toolkit
-from prompt_toolkit.input import create_pipe_input
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
@@ -83,6 +82,7 @@ def _create_input(_type, inp, kwargs, message, sleep_time, texts):
 
 def patched_prompt(questions, text, **kwargs):
     """Create a prompt where the input and output are predefined."""
+
     def run(inp):
         # noinspection PyUnresolvedReferences
         inp.send_text(text)
@@ -92,12 +92,11 @@ def patched_prompt(questions, text, **kwargs):
     return _execute_with_input_pipe(run)
 
 
-
 def _execute_with_input_pipe(func):
     if (
-            _prompt_toolkit_version[0] <= 3
-            and _prompt_toolkit_version[1] == 0
-            and _prompt_toolkit_version[2] < 29
+        _prompt_toolkit_version[0] <= 3
+        and _prompt_toolkit_version[1] == 0
+        and _prompt_toolkit_version[2] < 29
     ):
         inp = create_pipe_input()
         try:

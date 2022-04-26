@@ -7,7 +7,8 @@ from pytest import fail
 
 from questionary import text
 from questionary.utils import is_prompt_toolkit_3
-from tests.utils import KeyInputs, _execute_with_input_pipe
+from tests.utils import KeyInputs
+from tests.utils import _execute_with_input_pipe
 
 
 def test_ask_should_catch_keyboard_exception():
@@ -93,4 +94,3 @@ def test_multiline_text():
         assert response == "Hello\nworld"
 
     _execute_with_input_pipe(run)
-

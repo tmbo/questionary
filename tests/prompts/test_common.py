@@ -3,7 +3,6 @@ from unittest.mock import call
 
 import pytest
 from prompt_toolkit.document import Document
-from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 from prompt_toolkit.styles import Attrs
 from prompt_toolkit.validation import ValidationError
@@ -14,7 +13,8 @@ from questionary.prompts import common
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import build_validator
 from questionary.prompts.common import print_formatted_text
-from tests.utils import _prompt_toolkit_version, _execute_with_input_pipe
+from tests.utils import _execute_with_input_pipe
+from tests.utils import _prompt_toolkit_version
 
 
 def test_to_many_choices_for_shortcut_assignment():

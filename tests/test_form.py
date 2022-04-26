@@ -3,7 +3,8 @@ from pytest import fail
 
 import questionary
 from questionary import form
-from tests.utils import KeyInputs, _execute_with_input_pipe
+from tests.utils import KeyInputs
+from tests.utils import _execute_with_input_pipe
 
 
 def example_form(inp):
@@ -50,7 +51,6 @@ def test_form_skips_questions():
     _execute_with_input_pipe(run)
 
 
-
 def test_form_skips_questions_unsafe_ask():
     text = "Y" + KeyInputs.ENTER + "\r"
 
@@ -66,7 +66,6 @@ def test_form_skips_questions_unsafe_ask():
 
 
 def test_ask_should_catch_keyboard_exception():
-
     def run(inp):
         try:
             inp.send_text(KeyInputs.CONTROLC)
@@ -76,6 +75,5 @@ def test_ask_should_catch_keyboard_exception():
             assert result == {}
         except KeyboardInterrupt:
             fail("Keyboard Interrupt should be caught by `ask()`")
-
 
     _execute_with_input_pipe(run)
