@@ -1,4 +1,4 @@
-.PHONY: clean install lint test types docs livedocs
+.PHONY: clean install develop lint test types docs livedocs
 
 JOBS ?= 1
 
@@ -6,6 +6,8 @@ help:
 	@echo "make"
 	@echo "    clean"
 	@echo "        Remove Python/build artifacts."
+	@echo "    develop"
+	@echo "        Configure development environment for questionary."
 	@echo "    install"
 	@echo "        Install questionary."
 	@echo "    lint"
@@ -31,6 +33,9 @@ clean:
 
 install:
 	poetry install --extras "docs"
+
+develop: install
+	poetry run pre-commit install
 
 lint:
 	poetry run pre-commit run -a

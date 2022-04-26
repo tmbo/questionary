@@ -14,28 +14,36 @@ counts, so do not hesitate!
 2. Fork `the repository <https://github.com/tmbo/questionary>`_ on GitHub to
    start making your changes.
 
-3. Write some tests that show the bug is fixed or that the feature works as
+3. `Install Poetry <https://python-poetry.org/docs/#installation>`_.
+
+4. Configure development environment.
+
+  .. code-block:: console
+
+    make develop
+
+5. Write some tests that show the bug is fixed or that the feature works as
    expected.
 
-4. Ensure your code passes the style checks by running
+6. Ensure your code passes the code quality checks by running
 
   .. code-block:: console
 
-    $ black questionary
+    $ make lint
 
-5. Check all of the unit tests pass by running
-
-  .. code-block:: console
-
-    $ pytest --pycodestyle --cov questionary -v
-
-6. Check the type checks pass by running
+7. Check all of the unit tests pass by running
 
   .. code-block:: console
 
-    $ mypy questionary
+    $ make test
 
-7. Send a pull request and bug the maintainer until it gets merged and
+8. Check the type checks pass by running
+
+  .. code-block:: console
+
+    $ make types
+
+9. Send a pull request and bug the maintainer until it gets merged and
    published 🙂
 
 .. _`contributor friendly tag`: https://github.com/tmbo/questionary/issues?direction=desc&labels=good+first+issue&page=1&sort=upd
