@@ -48,6 +48,6 @@ pytest-pycodestyle = "^2.2"
 pytest-cov = "^3.0.0"
 pytest = "^7.0.1"
 coveralls = "^3.3.1"
-mypy = "^0.942"
+mypy = "^0.950"
 toml = "^0.10.1"
 pre-commit = { version = "^2.18.1", python = ">=3.7,<4.0"}
