@@ -47,6 +47,6 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "
 pytest-cov = "^3.0.0"
 pytest = "^7.0.1"
 coveralls = "^3.3.1"
-mypy = "^0.942"
+mypy = "^0.950"
 toml = "^0.10.1"
-pre-commit = { version = "^2.18.1", python = ">=3.7,<4.0"}
+pre-commit = { version = "^2.19.0", python = ">=3.7,<4.0"}
