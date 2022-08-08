@@ -145,7 +145,7 @@ def unsafe_prompt(
         if "type" not in question_config:
             raise PromptParameterException("type")
         # every type except 'print' needs a name
-        if "name" not in question_config and question_config["type"] != "print":
+        if "name" not in question_config and question_config["type"] != "print": # noqa
             raise PromptParameterException("name")
 
         _kwargs = kwargs.copy()
@@ -153,7 +153,7 @@ def unsafe_prompt(
 
         _type = _kwargs.pop("type")
         _filter = _kwargs.pop("filter", None)
-        name = _kwargs.pop("name", None) if _type == "print" else _kwargs.pop("name")
+        name = _kwargs.pop("name", None) if _type == "print" else _kwargs.pop("name") # noqa
         when = _kwargs.pop("when", None)
 
         if true_color:
@@ -181,8 +181,8 @@ def unsafe_prompt(
             except KeyError as e:
                 raise PromptParameterException("message") from e
 
-            # questions can take 'input' arg but print_formatted_text does not (it only outputs)
-            # Need to remove 'input', if present, to avoid breakage when testing or using custom input
+            # questions can take 'input' arg but print_formatted_text does not
+            # Remove 'input', if present, to avoid breaking during tests
             _kwargs.pop("input", None)
 
             print_formatted_text(message, **_kwargs)

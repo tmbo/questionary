@@ -63,5 +63,6 @@ def test_missing_print_message():
 
 
 def test_print_no_name():
-    """'print' type doesn't require a name so it should not throw PromptParameterException"""
+    """'print' type doesn't require a name so it
+    should not throw PromptParameterException"""
     assert prompt([{"type": "print", "message": "Hello World"}]) == {}
