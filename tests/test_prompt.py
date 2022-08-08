@@ -47,3 +47,21 @@ def test_invalid_question_type():
                 }
             ]
         )
+
+
+def test_missing_print_message():
+    """Test 'print' raises exception if missing 'message'"""
+    with pytest.raises(PromptParameterException):
+        prompt(
+            [
+                {
+                    "name": "test",
+                    "type": "print",
+                }
+            ]
+        )
+
+
+def test_print_no_name():
+    """'print' type doesn't require a name so it should not throw PromptParameterException"""
+    assert prompt([{"type": "print", "message": "Hello World"}]) == {}
