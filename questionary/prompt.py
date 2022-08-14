@@ -145,7 +145,7 @@ def unsafe_prompt(
         if "type" not in question_config:
             raise PromptParameterException("type")
         # every type except 'print' needs a name
-        if "name" not in question_config and question_config["type"] != "print": # noqa
+        if "name" not in question_config and question_config["type"] != "print":
             raise PromptParameterException("name")
 
         _kwargs = kwargs.copy()
@@ -153,7 +153,7 @@ def unsafe_prompt(
 
         _type = _kwargs.pop("type")
         _filter = _kwargs.pop("filter", None)
-        name = _kwargs.pop("name", None) if _type == "print" else _kwargs.pop("name") # noqa
+        name = _kwargs.pop("name", None) if _type == "print" else _kwargs.pop("name")
         when = _kwargs.pop("when", None)
 
         if true_color:
