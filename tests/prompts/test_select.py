@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from questionary import Separator, Choice
-from tests.utils import feed_cli_with_input, KeyInputs, patched_prompt
+from questionary import Choice
+from questionary import Separator
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
+from tests.utils import patched_prompt
 
 
 def test_legacy_name():
@@ -71,6 +74,21 @@ def test_select_second_choice_using_j_k():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"]}
     text = "jjk" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "bar"
+
+
+def test_select_second_choice_using_emacs_keys():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = (
+        KeyInputs.CONTROLN
+        + KeyInputs.CONTROLN
+        + KeyInputs.CONTROLP
+        + KeyInputs.ENTER
+        + "\r"
+    )
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "bar"
@@ -289,6 +307,7 @@ def test_fail_on_no_method_to_move_selection():
         "use_shortcuts": False,
         "use_arrow_keys": False,
         "use_jk_keys": False,
+        "use_emacs_keys": False,
     }
     text = KeyInputs.ENTER + "\r"
 

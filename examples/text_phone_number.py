@@ -7,7 +7,9 @@ from pprint import pprint
 
 import questionary
 from examples import custom_style_dope
-from questionary import Validator, ValidationError, prompt
+from questionary import ValidationError
+from questionary import Validator
+from questionary import prompt
 
 
 class PhoneNumberValidator(Validator):

@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import pytest
 
-from tests.utils import feed_cli_with_input, KeyInputs
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
 
 
 def test_confirm_enter_default_yes():

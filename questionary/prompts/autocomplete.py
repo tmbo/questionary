@@ -1,22 +1,25 @@
-from typing import (
-    Any,
-    Callable,
-    Dict,
-    List,
-    Optional,
-    Tuple,
-    Union,
-    Iterable,
-)
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import Iterable
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
 
-from prompt_toolkit.completion import CompleteEvent, Completer, Completion
+from prompt_toolkit.completion import CompleteEvent
+from prompt_toolkit.completion import Completer
+from prompt_toolkit.completion import Completion
 from prompt_toolkit.document import Document
 from prompt_toolkit.formatted_text import HTML
-from prompt_toolkit.shortcuts.prompt import PromptSession, CompleteStyle
-from prompt_toolkit.styles import Style, merge_styles
 from prompt_toolkit.lexers import SimpleLexer
+from prompt_toolkit.shortcuts.prompt import CompleteStyle
+from prompt_toolkit.shortcuts.prompt import PromptSession
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import DEFAULT_QUESTION_PREFIX, DEFAULT_STYLE
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
 
@@ -47,7 +50,7 @@ class WordCompleter(Completer):
         )
 
     def _choice_matches(self, word_before_cursor: str, choice: str) -> int:
-        """Match index if found, -1 if not. """
+        """Match index if found, -1 if not."""
 
         if self.ignore_case:
             choice = choice.lower()
@@ -63,8 +66,8 @@ class WordCompleter(Completer):
     def _display_for_choice(choice: str, index: int, word_before_cursor: str) -> HTML:
         return HTML("{}<b><u>{}</u></b>{}").format(
             choice[:index],
-            choice[index : index + len(word_before_cursor)],
-            choice[index + len(word_before_cursor) : len(choice)],
+            choice[index : index + len(word_before_cursor)],  # noqa: E203
+            choice[index + len(word_before_cursor) : len(choice)],  # noqa: E203
         )
 
     def get_completions(

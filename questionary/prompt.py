@@ -1,15 +1,25 @@
+from typing import Any
+from typing import Dict
+from typing import Iterable
+from typing import Mapping
+from typing import Optional
+from typing import Union
+
 from prompt_toolkit.output import ColorDepth
-from typing import Any, Dict, Optional, Iterable, Mapping, Union
 
 from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
-from questionary.prompts import AVAILABLE_PROMPTS, prompt_by_name
+from questionary.prompts import AVAILABLE_PROMPTS
+from questionary.prompts import prompt_by_name
+from questionary.prompts.common import print_formatted_text
 
 
 class PromptParameterException(ValueError):
+    """Received a prompt with a missing parameter."""
+
     def __init__(self, message: str, errors: Optional[BaseException] = None) -> None:
         # Call the base class constructor with the parameters it needs
-        super().__init__("You must provide a `%s` value" % message, errors)
+        super().__init__(f"You must provide a `{message}` value", errors)
 
 
 def prompt(
@@ -134,19 +144,16 @@ def unsafe_prompt(
         # import the question
         if "type" not in question_config:
             raise PromptParameterException("type")
-        if "name" not in question_config:
+        # every type except 'print' needs a name
+        if "name" not in question_config and question_config["type"] != "print":
             raise PromptParameterException("name")
-
-        choices = question_config.get("choices")
-        if choices is not None and callable(choices):
-            question_config["choices"] = choices(answers)
 
         _kwargs = kwargs.copy()
         _kwargs.update(question_config)
 
         _type = _kwargs.pop("type")
         _filter = _kwargs.pop("filter", None)
-        name = _kwargs.pop("name")
+        name = _kwargs.pop("name", None) if _type == "print" else _kwargs.pop("name")
         when = _kwargs.pop("when", None)
 
         if true_color:
@@ -158,14 +165,37 @@ def unsafe_prompt(
                 try:
                     if not question_config["when"](answers):
                         continue
-                except Exception as e:
+                except Exception as exception:
                     raise ValueError(
-                        "Problem in 'when' check of {} " "question: {}".format(name, e)
-                    )
+                        f"Problem in 'when' check of " f"{name} question: {exception}"
+                    ) from exception
             else:
                 raise ValueError(
                     "'when' needs to be function that accepts a dict argument"
                 )
+
+        # handle 'print' type
+        if _type == "print":
+            try:
+                message = _kwargs.pop("message")
+            except KeyError as e:
+                raise PromptParameterException("message") from e
+
+            # questions can take 'input' arg but print_formatted_text does not
+            # Remove 'input', if present, to avoid breaking during tests
+            _kwargs.pop("input", None)
+
+            print_formatted_text(message, **_kwargs)
+            if name:
+                answers[name] = None
+            continue
+
+        choices = question_config.get("choices")
+        if choices is not None and callable(choices):
+            calculated_choices = choices(answers)
+            question_config["choices"] = calculated_choices
+            kwargs["choices"] = calculated_choices
+
         if _filter:
             # at least a little sanity check!
             if not callable(_filter):
@@ -180,9 +210,8 @@ def unsafe_prompt(
 
         if not create_question_func:
             raise ValueError(
-                "No question type '{}' found. "
-                "Known question types are {}."
-                "".format(_type, ", ".join(AVAILABLE_PROMPTS))
+                f"No question type '{_type}' found. "
+                f"Known question types are {', '.join(AVAILABLE_PROMPTS)}."
             )
 
         missing_args = list(utils.missing_arguments(create_question_func, _kwargs))
@@ -197,11 +226,11 @@ def unsafe_prompt(
             if _filter:
                 try:
                     answer = _filter(answer)
-                except Exception as e:
+                except Exception as exception:
                     raise ValueError(
-                        "Problem processing 'filter' of {} "
-                        "question: {}".format(name, e)
-                    )
+                        f"Problem processing 'filter' of {name} "
+                        f"question: {exception}"
+                    ) from exception
             answers[name] = answer
 
     return answers

@@ -1,20 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from typing import Any, Dict, Sequence, Optional, Union
+from typing import Any
+from typing import Dict
+from typing import Optional
+from typing import Sequence
+from typing import Union
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.styles import Style, merge_styles
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
 
 from questionary import utils
-from questionary.constants import (
-    DEFAULT_QUESTION_PREFIX,
-    DEFAULT_SELECTED_POINTER,
-    DEFAULT_STYLE,
-)
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_SELECTED_POINTER
+from questionary.constants import DEFAULT_STYLE
 from questionary.prompts import common
-from questionary.prompts.common import Choice, InquirerControl, Separator
+from questionary.prompts.common import Choice
+from questionary.prompts.common import InquirerControl
+from questionary.prompts.common import Separator
 from questionary.question import Question
 
 
@@ -29,6 +34,7 @@ def select(
     use_arrow_keys: bool = True,
     use_indicator: bool = False,
     use_jk_keys: bool = True,
+    use_emacs_keys: bool = True,
     show_selected: bool = False,
     instruction: Optional[str] = None,
     **kwargs: Any,
@@ -99,14 +105,21 @@ def select(
                      `j` (down) and `k` (up) keys. Arrow keys, j/k keys and
                      shortcuts are not mutually exclusive.
 
+        use_emacs_keys: Allow the user to select items from the list using
+                        `Ctrl+N` (down) and `Ctrl+P` (up) keys. Arrow keys, j/k keys,
+                        emacs keys and shortcuts are not mutually exclusive.
+
         show_selected: Display current selection choice at the bottom of list.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
-    if not (use_arrow_keys or use_shortcuts or use_jk_keys):
+    if not (use_arrow_keys or use_shortcuts or use_jk_keys or use_emacs_keys):
         raise ValueError(
-            "Some option to move the selection is required. Arrow keys, j/k keys or shortcuts."
+            (
+                "Some option to move the selection is required. "
+                "Arrow keys, j/k keys, emacs keys, or shortcuts."
+            )
         )
 
     if use_shortcuts and use_jk_keys:
@@ -219,6 +232,10 @@ def select(
         bindings.add("j", eager=True)(move_cursor_down)
         bindings.add("k", eager=True)(move_cursor_up)
 
+    if use_emacs_keys:
+        bindings.add(Keys.ControlN, eager=True)(move_cursor_down)
+        bindings.add(Keys.ControlP, eager=True)(move_cursor_up)
+
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
         ic.is_answered = True
@@ -226,8 +243,7 @@ def select(
 
     @bindings.add(Keys.Any)
     def other(event):
-        """Disallow inserting other text. """
-        pass
+        """Disallow inserting other text."""
 
     return Question(
         Application(

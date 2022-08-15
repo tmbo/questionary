@@ -1,20 +1,28 @@
-from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple, Union
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import List
+from typing import Optional
+from typing import Sequence
+from typing import Tuple
+from typing import Union
 
 from prompt_toolkit.application import Application
+from prompt_toolkit.formatted_text import FormattedText
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
-from prompt_toolkit.styles import Style, merge_styles
-from prompt_toolkit.formatted_text import FormattedText
+from prompt_toolkit.styles import Style
+from prompt_toolkit.styles import merge_styles
 
 from questionary import utils
-from questionary.constants import (
-    DEFAULT_QUESTION_PREFIX,
-    DEFAULT_SELECTED_POINTER,
-    DEFAULT_STYLE,
-    INVALID_INPUT,
-)
+from questionary.constants import DEFAULT_QUESTION_PREFIX
+from questionary.constants import DEFAULT_SELECTED_POINTER
+from questionary.constants import DEFAULT_STYLE
+from questionary.constants import INVALID_INPUT
 from questionary.prompts import common
-from questionary.prompts.common import Choice, InquirerControl, Separator
+from questionary.prompts.common import Choice
+from questionary.prompts.common import InquirerControl
+from questionary.prompts.common import Separator
 from questionary.question import Question
 
 
@@ -29,6 +37,7 @@ def checkbox(
     initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
+    use_emacs_keys: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -93,13 +102,17 @@ def checkbox(
         use_jk_keys: Allow the user to select items from the list using
                      `j` (down) and `k` (up) keys.
 
+        use_emacs_keys: Allow the user to select items from the list using
+                        `Ctrl+N` (down) and `Ctrl+P` (up) keys.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
-    if not (use_arrow_keys or use_jk_keys):
+    if not (use_arrow_keys or use_jk_keys or use_emacs_keys):
         raise ValueError(
-            "Some option to move the selection is required. Arrow keys or j/k keys."
+            "Some option to move the selection is required. Arrow keys or j/k or "
+            "Emacs keys."
         )
 
     merged_style = merge_styles(
@@ -251,6 +264,10 @@ def checkbox(
         bindings.add("j", eager=True)(move_cursor_down)
         bindings.add("k", eager=True)(move_cursor_up)
 
+    if use_emacs_keys:
+        bindings.add(Keys.ControlN, eager=True)(move_cursor_down)
+        bindings.add(Keys.ControlP, eager=True)(move_cursor_up)
+
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
 
@@ -263,8 +280,7 @@ def checkbox(
 
     @bindings.add(Keys.Any)
     def other(_event):
-        """Disallow inserting other text. """
-        pass
+        """Disallow inserting other text."""
 
     return Question(
         Application(

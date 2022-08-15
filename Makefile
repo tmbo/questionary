@@ -1,4 +1,4 @@
-.PHONY: clean install formatter lint test types docs livedocs
+.PHONY: clean install develop lint test types docs livedocs
 
 JOBS ?= 1
 
@@ -6,12 +6,12 @@ help:
 	@echo "make"
 	@echo "    clean"
 	@echo "        Remove Python/build artifacts."
+	@echo "    develop"
+	@echo "        Configure development environment for questionary."
 	@echo "    install"
 	@echo "        Install questionary."
-	@echo "    formatter"
-	@echo "        Apply black formatting to code."
 	@echo "    lint"
-	@echo "        Check the code style."
+	@echo "        Check the code style and apply black formatting."
 	@echo "    test"
 	@echo "        Run the unit tests."
 	@echo "    types"
@@ -34,14 +34,14 @@ clean:
 install:
 	poetry install --extras "docs"
 
-formatter:
-	poetry run black .
+develop: install
+	poetry run pre-commit install
 
 lint:
-	poetry run black --check --diff .
+	poetry run pre-commit run -a
 
 test:
-	poetry run pytest --pycodestyle --cov questionary -v
+	poetry run pytest --cov questionary -v
 
 types:
 	poetry run mypy questionary

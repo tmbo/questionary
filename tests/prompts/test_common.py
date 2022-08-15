@@ -1,19 +1,20 @@
-from unittest.mock import Mock, call
+from unittest.mock import Mock
+from unittest.mock import call
 
-from prompt_toolkit.styles import Attrs
 import pytest
 from prompt_toolkit.document import Document
-from prompt_toolkit.input.defaults import create_pipe_input
-from prompt_toolkit.output import ColorDepth, DummyOutput
-from prompt_toolkit.validation import ValidationError, Validator
-from questionary.prompts import common
-from questionary import Choice
+from prompt_toolkit.output import DummyOutput
+from prompt_toolkit.styles import Attrs
+from prompt_toolkit.validation import ValidationError
+from prompt_toolkit.validation import Validator
 
-from questionary.prompts.common import (
-    InquirerControl,
-    build_validator,
-    print_formatted_text,
-)
+from questionary import Choice
+from questionary.prompts import common
+from questionary.prompts.common import InquirerControl
+from questionary.prompts.common import build_validator
+from questionary.prompts.common import print_formatted_text
+from tests.utils import execute_with_input_pipe
+from tests.utils import prompt_toolkit_version
 
 
 def test_to_many_choices_for_shortcut_assignment():
@@ -71,9 +72,7 @@ def test_blank_line_fix():
 
     ic = InquirerControl(["a", "b", "c"])
 
-    inp = create_pipe_input()
-
-    try:
+    def run(inp):
         inp.send_text("")
         layout = common.create_inquirer_layout(
             ic, get_prompt_tokens, input=inp, output=DummyOutput()
@@ -86,8 +85,8 @@ def test_blank_line_fix():
             layout.container.preferred_height(100, 200).max
             == 1000000000000000000000000000001
         )
-    finally:
-        inp.close()
+
+    execute_with_input_pipe(run)
 
 
 def test_prompt_highlight_coexist():
@@ -196,16 +195,30 @@ def test_print_with_style(monkeypatch):
 
     assert len(mock.method_calls) == 4
     assert mock.method_calls[0][0] == "set_attributes"
-    assert mock.method_calls[0][1][0] == Attrs(
-        color="8b0000",
-        bgcolor="",
-        bold=True,
-        underline=False,
-        italic=True,
-        blink=False,
-        reverse=False,
-        hidden=False,
-    )
+
+    if prompt_toolkit_version < (3, 0, 20):
+        assert mock.method_calls[0][1][0] == Attrs(
+            color="8b0000",
+            bgcolor="",
+            bold=True,
+            underline=False,
+            italic=True,
+            blink=False,
+            reverse=False,
+            hidden=False,
+        )
+    else:
+        assert mock.method_calls[0][1][0] == Attrs(
+            color="8b0000",
+            bgcolor="",
+            bold=True,
+            underline=False,
+            italic=True,
+            blink=False,
+            reverse=False,
+            hidden=False,
+            strike=False,
+        )
 
     assert mock.method_calls[1][0] == "write"
     assert mock.method_calls[1][1][0] == "Hello World"
