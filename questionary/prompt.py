@@ -11,6 +11,7 @@ from questionary import utils
 from questionary.constants import DEFAULT_KBI_MESSAGE
 from questionary.prompts import AVAILABLE_PROMPTS
 from questionary.prompts import prompt_by_name
+from questionary.prompts.common import print_formatted_text
 
 
 class PromptParameterException(ValueError):
@@ -143,7 +144,8 @@ def unsafe_prompt(
         # import the question
         if "type" not in question_config:
             raise PromptParameterException("type")
-        if "name" not in question_config:
+        # every type except 'print' needs a name
+        if "name" not in question_config and question_config["type"] != "print":
             raise PromptParameterException("name")
 
         _kwargs = kwargs.copy()
@@ -151,7 +153,7 @@ def unsafe_prompt(
 
         _type = _kwargs.pop("type")
         _filter = _kwargs.pop("filter", None)
-        name = _kwargs.pop("name")
+        name = _kwargs.pop("name", None) if _type == "print" else _kwargs.pop("name")
         when = _kwargs.pop("when", None)
 
         if true_color:
@@ -171,6 +173,22 @@ def unsafe_prompt(
                 raise ValueError(
                     "'when' needs to be function that accepts a dict argument"
                 )
+
+        # handle 'print' type
+        if _type == "print":
+            try:
+                message = _kwargs.pop("message")
+            except KeyError as e:
+                raise PromptParameterException("message") from e
+
+            # questions can take 'input' arg but print_formatted_text does not
+            # Remove 'input', if present, to avoid breaking during tests
+            _kwargs.pop("input", None)
+
+            print_formatted_text(message, **_kwargs)
+            if name:
+                answers[name] = None
+            continue
 
         choices = question_config.get("choices")
         if choices is not None and callable(choices):

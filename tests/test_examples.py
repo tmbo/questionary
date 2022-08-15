@@ -101,3 +101,28 @@ def test_autocomplete_example():
 
     assert result_dict == {"ants": "Polyergus lucidus"}
     assert result_py == "Polyergus lucidus"
+
+
+def test_advanced_workflow_example():
+    from examples.advanced_workflow import ask_dictstyle
+
+    text = (
+        KeyInputs.ENTER
+        + "questionary"
+        + KeyInputs.ENTER
+        + KeyInputs.DOWN
+        + KeyInputs.DOWN
+        + KeyInputs.ENTER
+        + "Hello World"
+        + KeyInputs.ENTER
+        + "\r"
+    )
+
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+
+    assert result_dict == {
+        "intro": None,
+        "conditional_step": True,
+        "next_question": "questionary",
+        "second_question": "Hello World",
+    }
