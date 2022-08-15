@@ -121,6 +121,7 @@ def test_advanced_workflow_example():
     result_dict = ask_with_patched_input(ask_dictstyle, text)
 
     assert result_dict == {
+        "intro": None,
         "conditional_step": True,
         "next_question": "questionary",
         "second_question": "Hello World",

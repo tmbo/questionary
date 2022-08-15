@@ -69,3 +69,10 @@ def test_print_no_name():
     questions = [{"type": "print", "message": "Hello World"}]
     result = patched_prompt(questions, "")
     assert result == {}
+
+
+def test_print_with_name():
+    """'print' type should return {name: None} when name is provided"""
+    questions = [{"name": "hello", "type": "print", "message": "Hello World"}]
+    result = patched_prompt(questions, "")
+    assert result == {"hello": None}

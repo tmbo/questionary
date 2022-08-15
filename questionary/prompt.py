@@ -186,6 +186,8 @@ def unsafe_prompt(
             _kwargs.pop("input", None)
 
             print_formatted_text(message, **_kwargs)
+            if name:
+                answers[name] = None
             continue
 
         choices = question_config.get("choices")
