@@ -718,8 +718,8 @@ docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "
 
 [metadata]
 lock-version = "1.1"
-python-versions = "^3.6"
-content-hash = "b195ac5272dfe6d63b58eaf3dfe09a6d775ef658215e3cae9ecf2ea36e2af2eb"
+python-versions = ">=3.6"
+content-hash = "135dec8d9200d37e7e94f2757a7b70ea6f4ab275466b8b5f6128d4700609a3c6"
 
 [metadata.files]
 alabaster = [
