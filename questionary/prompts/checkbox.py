@@ -246,6 +246,30 @@ def checkbox(
 
         perform_validation(get_selected_values())
 
+    @bindings.add(Keys.End, eager=True)
+    def move_cursor_start(event):
+        ic.pointed_at = 0
+
+    @bindings.add(Keys.Home, eager=True)
+    def move_cursor_end(event):
+        ic.pointed_at = len(ic.choices) - 1
+
+    @bindings.add(Keys.PageDown, eager=True)
+    def move_cursor_down_fast(event):
+        for _ in range(10):
+            ic.select_next()
+
+        while not ic.is_selection_valid():
+            ic.select_next()
+
+    @bindings.add(Keys.PageUp, eager=True)
+    def move_cursor_up_fast(event):
+        for _ in range(10):
+            ic.select_previous()
+
+        while not ic.is_selection_valid():
+            ic.select_previous()
+
     def move_cursor_down(event):
         ic.select_next()
         while not ic.is_selection_valid():
