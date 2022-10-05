@@ -246,11 +246,11 @@ def checkbox(
 
         perform_validation(get_selected_values())
 
-    @bindings.add(Keys.End, eager=True)
+    @bindings.add(Keys.Home, eager=True)
     def move_cursor_start(event):
         ic.pointed_at = 0
 
-    @bindings.add(Keys.Home, eager=True)
+    @bindings.add(Keys.End, eager=True)
     def move_cursor_end(event):
         ic.pointed_at = len(ic.choices) - 1
 
