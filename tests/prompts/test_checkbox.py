@@ -120,7 +120,6 @@ def test_cycle_to_first_choice():
     assert result == ["foo"]
 
 
-
 def test_cycle_backwards():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"]}
@@ -360,44 +359,52 @@ def test_end():
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["bazz"]
-    
+
+
 def test_pageup():
     message = "Foo message"
-    kwargs = {"choices": [
-        "foo0",
-        "foo1",
-        "foo2",
-        "foo3",
-        "foo4",
-        "foo5",
-        "foo6",
-        "foo7",
-        "foo8",
-        "foo9",
-        "bar",
-        "bazz"
-    ]}
-    text = KeyInputs.DOWN * 10 + KeyInputs.PGUP + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+    kwargs = {
+        "choices": [
+            "foo0",
+            "foo1",
+            "foo2",
+            "foo3",
+            "foo4",
+            "foo5",
+            "foo6",
+            "foo7",
+            "foo8",
+            "foo9",
+            "bar",
+            "bazz",
+        ]
+    }
+    text = (
+        KeyInputs.DOWN * 10 + KeyInputs.PGUP + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+    )
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["foo0"]
-    
+
+
 def test_pagedown():
     message = "Foo message"
-    kwargs = {"choices": [
-        "foo0",
-        "foo1",
-        "foo2",
-        "foo3",
-        "foo4",
-        "foo5",
-        "foo6",
-        "foo7",
-        "foo8",
-        "foo9",
-        "bar",
-        "bazz"
-    ]}
+    kwargs = {
+        "choices": [
+            "foo0",
+            "foo1",
+            "foo2",
+            "foo3",
+            "foo4",
+            "foo5",
+            "foo6",
+            "foo7",
+            "foo8",
+            "foo9",
+            "bar",
+            "bazz",
+        ]
+    }
     text = KeyInputs.PGDN + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
