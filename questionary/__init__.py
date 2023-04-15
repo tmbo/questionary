@@ -19,6 +19,7 @@ from questionary.prompts.common import print_formatted_text as print
 from questionary.prompts.confirm import confirm
 from questionary.prompts.password import password
 from questionary.prompts.path import path
+from questionary.prompts.press_any_key_to_continue import press_any_key_to_continue
 from questionary.prompts.rawselect import rawselect
 from questionary.prompts.select import select
 from questionary.prompts.text import text
@@ -34,6 +35,7 @@ __all__ = [
     "confirm",
     "password",
     "path",
+    "press_any_key_to_continue",
     "rawselect",
     "select",
     "text",
