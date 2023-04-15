@@ -6,20 +6,20 @@ repos:
         args: ['-i', '--remove-all-unused-imports']
 
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 23.3.0
     hooks:
       - id: black
         args: ['-l', '88']
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
+    rev: 5.12.0
     hooks:
       - id: isort
         name: isort (python)
         args: ['-sl', '--profile', 'black']
 
   - repo: https://github.com/pycqa/flake8
-    rev: 3.9.2
+    rev: 6.0.0
     hooks:
       - id: flake8
         args: ['--max-line-length', '120', '--max-doc-length', '140']

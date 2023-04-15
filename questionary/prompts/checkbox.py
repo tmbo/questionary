@@ -179,7 +179,6 @@ def checkbox(
         return [c.value for c in ic.get_selected_values()]
 
     def perform_validation(selected_values: List[str]) -> bool:
-
         verdict = validate(selected_values)
         valid = verdict is True
 
@@ -270,7 +269,6 @@ def checkbox(
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-
         selected_values = get_selected_values()
         ic.submission_attempted = True
 

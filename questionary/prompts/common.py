@@ -78,7 +78,6 @@ class Choice:
         checked: Optional[bool] = False,
         shortcut_key: Optional[Union[str, bool]] = True,
     ) -> None:
-
         self.disabled = disabled
         self.title = title
         self.checked = checked if checked is not None else False
@@ -216,7 +215,6 @@ class InquirerControl(FormattedTextControl):
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs: Any,
     ):
-
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
         self.show_selected = show_selected
