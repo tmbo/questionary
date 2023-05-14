@@ -490,7 +490,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
     default_container = ps.layout.container
 
     default_buffer_window = (
-        default_container.get_children()[0].content.get_children()[1].content
+        default_container.get_children()[0].content.get_children()[1].content  # type: ignore[attr-defined]
     )
 
     assert isinstance(default_buffer_window, Window)
@@ -507,10 +507,14 @@ def create_inquirer_layout(
 ) -> Layout:
     """Create a layout combining question and inquirer selection."""
 
-    ps = PromptSession(get_prompt_tokens, reserve_space_for_menu=0, **kwargs)
+    ps: PromptSession = PromptSession(
+        get_prompt_tokens, reserve_space_for_menu=0, **kwargs
+    )
     _fix_unecessary_blank_lines(ps)
 
-    validation_prompt = PromptSession(bottom_toolbar=lambda: ic.error_message, **kwargs)
+    validation_prompt: PromptSession = PromptSession(
+        bottom_toolbar=lambda: ic.error_message, **kwargs
+    )
 
     return Layout(
         HSplit(

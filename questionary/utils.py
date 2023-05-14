@@ -71,7 +71,9 @@ async def activate_prompt_toolkit_async_mode() -> None:
 
     if not is_prompt_toolkit_3():
         # Tell prompt_toolkit to use asyncio for the event loop.
-        from prompt_toolkit.eventloop import use_asyncio_event_loop
+        from prompt_toolkit.eventloop import (
+            use_asyncio_event_loop,  # type: ignore[attr-defined]
+        )
 
         use_asyncio_event_loop()
 

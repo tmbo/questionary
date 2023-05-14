@@ -18,12 +18,11 @@ from prompt_toolkit.lexers import SimpleLexer
 from prompt_toolkit.shortcuts.prompt import CompleteStyle
 from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import Style
-from prompt_toolkit.styles import merge_styles
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX
-from questionary.constants import DEFAULT_STYLE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
+from questionary.styles import merge_styles_default
 
 
 class GreatUXPathCompleter(PathCompleter):
@@ -187,8 +186,7 @@ def path(
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """  # noqa: W505, E501
-
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    merged_style = merge_styles_default([style])
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:
         return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
@@ -230,7 +228,7 @@ def path(
 
         b.start_completion(select_first=False)
 
-    p = PromptSession(
+    p: PromptSession = PromptSession(
         get_prompt_tokens,
         lexer=SimpleLexer("class:answer"),
         style=merged_style,

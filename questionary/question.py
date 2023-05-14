@@ -131,4 +131,4 @@ class Question:
         if utils.is_prompt_toolkit_3():
             return await r
         else:
-            return await r.to_asyncio_future()
+            return await r.to_asyncio_future()  # type: ignore[attr-defined]
