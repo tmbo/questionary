@@ -44,6 +44,7 @@ test:
 	poetry run pytest --cov questionary -v
 
 types:
+	poetry run mypy --version
 	poetry run mypy questionary
 
 docs:
