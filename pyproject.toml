@@ -1,5 +1,5 @@
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry>=1.4.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
@@ -50,5 +50,3 @@ coveralls = "^3.3.1"
 mypy = "^1.2.0"
 toml = "^0.10.2"
 pre-commit = { version = "^2.20.0", python = ">=3.7,<4.0"}
-
-[tool.mypy]

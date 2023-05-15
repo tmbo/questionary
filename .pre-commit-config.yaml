@@ -9,14 +9,21 @@ repos:
     rev: 23.3.0
     hooks:
       - id: black
-        args: ["-l", "88"]
+        args:
+          - "--target-version=py38"
+          - "--target-version=py39"
+          - "--target-version=py310"
+          - "--target-version=py311"
+          - "--line-length=88"
 
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
       - id: isort
         name: isort (python)
-        args: ["--force-single-line-imports", "--profile", "black"]
+        args:
+          - "--force-single-line-imports"
+          - "--profile=black"
 
   - repo: https://github.com/pycqa/flake8
     rev: 6.0.0
