@@ -33,7 +33,7 @@ html_theme_options = {
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
-    "prompt_toolkit": ("https://python-prompt-toolkit.readthedocs.io/en/master/", None),
+    "prompt_toolkit": ("https://python-prompt-toolkit.readthedocs.io/en/3.0.36/", None),
 }
 
 autodoc_member_order = "alphabetical"
