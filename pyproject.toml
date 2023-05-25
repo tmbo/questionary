@@ -32,7 +32,7 @@ readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8"
 prompt_toolkit = ">=2.0,<=3.0.36"  # once https://github.com/prompt-toolkit/python-prompt-toolkit/issues/1726 is fixed, this can be changed to ">=2.0,<4.0"
 
 [tool.poetry.group.docs]
