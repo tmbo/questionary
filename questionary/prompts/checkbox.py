@@ -105,7 +105,7 @@ def checkbox(
 
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
-        instruction: A hint on how to navigate the menu.
+        instruction: A message describing how to navigate the menu.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
@@ -166,7 +166,7 @@ def checkbox(
                     ("class:answer", "done ({} selections)".format(nbr_selected))
                 )
         else:
-            if instruction:
+            if instruction is not None:
                 tokens.append(("class:instruction", instruction))
             else:
                 tokens.append(
