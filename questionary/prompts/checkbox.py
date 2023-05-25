@@ -105,6 +105,7 @@ def checkbox(
 
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
+        instruction: A hint on how to navigate the menu.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
