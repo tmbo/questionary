@@ -9,11 +9,14 @@
 
 ✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
 
-* [Features](#features)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Documentation](#documentation)
-* [Support](#support)
+[Features](#features)
+[Installation](#installation)
+[Usage](#usage)
+[Documentation](#documentation)
+[Support](#support)
+[Contributing](#contributing)
+[Authors and Acknowledgment](#authors-and-acknowledgment)
+[License](#license)
 
 
 ![Example](https://raw.githubusercontent.com/tmbo/questionary/master/docs/images/example.gif)
@@ -24,6 +27,7 @@ import questionary
 questionary.text("What's your first name").ask()
 questionary.password("What's your secret?").ask()
 questionary.confirm("Are you amazed?").ask()
+questionary.date("Please enter your date of birth: ).ask()
 
 questionary.select(
     "What do you want to do?",
@@ -49,10 +53,11 @@ Used and supported by
 ## Features
 
 Questionary supports the following input prompts:
- 
+
  * [Text](https://questionary.readthedocs.io/en/stable/pages/types.html#text)
  * [Password](https://questionary.readthedocs.io/en/stable/pages/types.html#password)
  * [File Path](https://questionary.readthedocs.io/en/stable/pages/types.html#file-path)
+ * [Dates and Times](https://questionary.readthedocs.io/en/stable/pages/types.html#type-date)
  * [Confirmation](https://questionary.readthedocs.io/en/stable/pages/types.html#confirmation)
  * [Select](https://questionary.readthedocs.io/en/stable/pages/types.html#select)
  * [Raw select](https://questionary.readthedocs.io/en/stable/pages/types.html#raw-select)
@@ -107,7 +112,7 @@ Contributions are very much welcomed and appreciated. Head over to the documenta
 
 Questionary is written and maintained by Tom Bocklisch and Kian Cross.
 
-It is based on the great work by [Oyetoke Toby](https://github.com/CITGuru/PyInquirer) 
+It is based on the great work by [Oyetoke Toby](https://github.com/CITGuru/PyInquirer)
 and [Mark Fink](https://github.com/finklabs/whaaaaat).
 
 ## License

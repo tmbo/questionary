@@ -13,6 +13,9 @@ from questionary.prompt import unsafe_prompt
 # import the shortcuts to create single question prompts
 from questionary.prompts.autocomplete import autocomplete
 from questionary.prompts.checkbox import checkbox
+from questionary.prompts.text import text
+from questionary.prompts.path import path
+from questionary.prompts.date import date
 from questionary.prompts.common import Choice
 from questionary.prompts.common import Separator
 from questionary.prompts.common import print_formatted_text as print
@@ -33,6 +36,7 @@ __all__ = [
     "checkbox",
     "confirm",
     "password",
+    "date",
     "path",
     "rawselect",
     "select",

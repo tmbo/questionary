@@ -45,5 +45,10 @@ DEFAULT_STYLE = Style(
         ("instruction", ""),  # user instructions for select, rawselect, checkbox
         ("text", ""),  # any other text
         ("instruction", ""),  # user instructions for select, rawselect, checkbox
+        ("options", "fg: ansigreen bold"),  # options given by autocomplete
+        (
+            "information",
+            "bg: ansigreen bold",
+        ),  # information displayed at the lower right
     ]
 )
