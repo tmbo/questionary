@@ -25,6 +25,8 @@ with the available question types**:
 
 * use :ref:`type_autocomplete` to ask for free text with **autocomplete help**
 
+* use :ref:`type_press_any_key_to_continue` to ask the user to **press any key to continue**
+
 .. _type_text:
 
 Text
@@ -85,3 +87,10 @@ Printing Formatted Text
 #######################
 
 .. automethod:: questionary::print
+
+.. _type_press_any_key_to_continue:
+
+Press Any Key To Continue
+#########################
+
+.. automethod:: questionary::press_any_key_to_continue
