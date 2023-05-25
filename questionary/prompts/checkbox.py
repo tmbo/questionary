@@ -38,6 +38,7 @@ def checkbox(
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
+    instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -104,6 +105,7 @@ def checkbox(
 
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
+        instruction: A hint on how to navigate the menu.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
@@ -164,15 +166,18 @@ def checkbox(
                     ("class:answer", "done ({} selections)".format(nbr_selected))
                 )
         else:
-            tokens.append(
-                (
-                    "class:instruction",
-                    "(Use arrow keys to move, "
-                    "<space> to select, "
-                    "<a> to toggle, "
-                    "<i> to invert)",
+            if instruction:
+                tokens.append(("class:instruction", instruction))
+            else:
+                tokens.append(
+                    (
+                        "class:instruction",
+                        "(Use arrow keys to move, "
+                        "<space> to select, "
+                        "<a> to toggle, "
+                        "<i> to invert)",
+                    )
                 )
-            )
         return tokens
 
     def get_selected_values() -> List[Any]:
