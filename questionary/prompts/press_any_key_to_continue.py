@@ -6,10 +6,9 @@ from prompt_toolkit.formatted_text import to_formatted_text
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style
-from prompt_toolkit.styles import merge_styles
 
-from questionary.constants import DEFAULT_STYLE
 from questionary.question import Question
+from questionary.styles import merge_styles_default
 
 
 def press_any_key_to_continue(
@@ -34,7 +33,7 @@ def press_any_key_to_continue(
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    merged_style = merge_styles_default([style])
 
     if message is None:
         message = "Press any key to continue..."
