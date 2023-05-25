@@ -30,6 +30,7 @@ clean:
 	rm -rf .mypy_cache/
 	rm -rf .pytest_cache/
 	rm -rf dist/
+	poetry run make -C docs clean
 
 install:
 	poetry install --extras "docs"
@@ -44,6 +45,7 @@ test:
 	poetry run pytest --cov questionary -v
 
 types:
+	poetry run mypy --version
 	poetry run mypy questionary
 
 docs:

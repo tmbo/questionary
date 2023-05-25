@@ -10,17 +10,16 @@ from prompt_toolkit.application import Application
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style
-from prompt_toolkit.styles import merge_styles
 
 from questionary import utils
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.constants import DEFAULT_SELECTED_POINTER
-from questionary.constants import DEFAULT_STYLE
 from questionary.prompts import common
 from questionary.prompts.common import Choice
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import Separator
 from questionary.question import Question
+from questionary.styles import merge_styles_default
 
 
 def select(
@@ -142,7 +141,7 @@ def select(
             "".format(len(InquirerControl.SHORTCUT_KEYS), len(choices))
         )
 
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    merged_style = merge_styles_default([style])
 
     ic = InquirerControl(
         choices,

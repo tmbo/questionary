@@ -12,18 +12,17 @@ from prompt_toolkit.formatted_text import FormattedText
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style
-from prompt_toolkit.styles import merge_styles
 
 from questionary import utils
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.constants import DEFAULT_SELECTED_POINTER
-from questionary.constants import DEFAULT_STYLE
 from questionary.constants import INVALID_INPUT
 from questionary.prompts import common
 from questionary.prompts.common import Choice
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import Separator
 from questionary.question import Question
+from questionary.styles import merge_styles_default
 
 
 def checkbox(
@@ -115,9 +114,8 @@ def checkbox(
             "Emacs keys."
         )
 
-    merged_style = merge_styles(
+    merged_style = merge_styles_default(
         [
-            DEFAULT_STYLE,
             # Disable the default inverted colours bottom-toolbar behaviour (for
             # the error message). However it can be re-enabled with a custom
             # style.
@@ -179,7 +177,6 @@ def checkbox(
         return [c.value for c in ic.get_selected_values()]
 
     def perform_validation(selected_values: List[str]) -> bool:
-
         verdict = validate(selected_values)
         valid = verdict is True
 
@@ -192,7 +189,7 @@ def checkbox(
             error_message = FormattedText([("class:validation-toolbar", error_text)])
 
         ic.error_message = (
-            error_message if not valid and ic.submission_attempted else None
+            error_message if not valid and ic.submission_attempted else None  # type: ignore[assignment]
         )
 
         return valid
@@ -270,7 +267,6 @@ def checkbox(
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-
         selected_values = get_selected_values()
         ic.submission_attempted = True
 
