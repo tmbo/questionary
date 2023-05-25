@@ -3,7 +3,7 @@
 
 # You can set these variables from the command line.
 SPHINXOPTS    = -W --keep-going -n
-SPHINXBUILD   = sphinx-build
+SPHINXBUILD   = python -m sphinx
 SOURCEDIR     = .
 BUILDDIR      = build
 

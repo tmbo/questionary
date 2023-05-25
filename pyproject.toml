@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
-target-version = [ "py36", "py37", "py38",]
+target-version = ["py38", "py39", "py310", "py311"]
 exclude = "((.eggs | .git | .pytype | .pytest_cache | build | dist))"
 
 [tool.poetry]
@@ -21,10 +21,10 @@ classifiers=[
     "License :: OSI Approved :: MIT License",
     # supported python versions
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
     "Topic :: Software Development :: Libraries",
 ]
 keywords = [ "cli", "ui", "inquirer", "questions", "prompt",]
@@ -32,21 +32,23 @@ readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = "^3.6"
-prompt_toolkit = ">=2.0,<4.0"
-Sphinx = {version = ">=4.1,<6.0", optional = true}
-sphinx-rtd-theme = {version = ">=0.5,<1.1", optional = true}
-sphinx-autobuild = {version = ">=2020.9.1,<2022.0.0", optional = true}
-sphinx-copybutton = {version = ">=0.3.1,<0.6.0", optional = true}
-sphinx-autodoc-typehints = {version = "^1.11.1", optional = true}
+python = "^3.8"
+prompt_toolkit = ">=2.0,<=3.0.36"  # once https://github.com/prompt-toolkit/python-prompt-toolkit/issues/1726 is fixed, this can be changed to ">=2.0,<4.0"
 
-[tool.poetry.extras]
-docs = ["Sphinx", "sphinx-rtd-theme", "sphinx-autobuild", "sphinx-copybutton", "sphinx-autodoc-typehints"]
+[tool.poetry.group.docs]
+optional = true
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.docs.dependencies]
+Sphinx = ">=4.1,<6.0"
+sphinx-rtd-theme = ">=0.5,<1.1"
+sphinx-autobuild = ">=2020.9.1,<2022.0.0"
+sphinx-copybutton = ">=0.3.1,<0.6.0"
+sphinx-autodoc-typehints = "^1.11.1"
+
+[tool.poetry.group.dev.dependencies]
 pytest-cov = "^3.0.0"
 pytest = "^7.0.1"
 coveralls = "^3.3.1"
-mypy = "^0.971"
-toml = "^0.10.1"
+mypy = "^1.2.0"
+toml = "^0.10.2"
 pre-commit = { version = "^2.20.0", python = ">=3.7,<4.0"}

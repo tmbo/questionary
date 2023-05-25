@@ -6,15 +6,14 @@ from prompt_toolkit.formatted_text import to_formatted_text
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style
-from prompt_toolkit.styles import merge_styles
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX
-from questionary.constants import DEFAULT_STYLE
 from questionary.constants import NO
 from questionary.constants import NO_OR_YES
 from questionary.constants import YES
 from questionary.constants import YES_OR_NO
 from questionary.question import Question
+from questionary.styles import merge_styles_default
 
 
 def confirm(
@@ -62,8 +61,7 @@ def confirm(
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
-
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    merged_style = merge_styles_default([style])
 
     status = {"answer": None, "complete": False}
 

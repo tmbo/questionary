@@ -3,23 +3,30 @@ repos:
     rev: v1.1
     hooks:
       - id: autoflake
-        args: ['-i', '--remove-all-unused-imports']
+        args: ["-i", "--remove-all-unused-imports"]
 
   - repo: https://github.com/psf/black
-    rev: 22.3.0
+    rev: 23.3.0
     hooks:
       - id: black
-        args: ['-l', '88']
+        args:
+          - "--target-version=py38"
+          - "--target-version=py39"
+          - "--target-version=py310"
+          - "--target-version=py311"
+          - "--line-length=88"
 
   - repo: https://github.com/pycqa/isort
-    rev: 5.10.1
+    rev: 5.12.0
     hooks:
       - id: isort
         name: isort (python)
-        args: ['-sl', '--profile', 'black']
+        args:
+          - "--force-single-line-imports"
+          - "--profile=black"
 
   - repo: https://github.com/pycqa/flake8
-    rev: 3.9.2
+    rev: 6.0.0
     hooks:
       - id: flake8
-        args: ['--max-line-length', '120', '--max-doc-length', '140']
+        args: ["--max-line-length", "120", "--max-doc-length", "140"]
