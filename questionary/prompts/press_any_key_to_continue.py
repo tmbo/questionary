@@ -1,3 +1,4 @@
+from typing import Any
 from typing import Optional
 
 from prompt_toolkit import PromptSession
@@ -14,7 +15,7 @@ from questionary.question import Question
 def press_any_key_to_continue(
     message: Optional[str] = None,
     style: Optional[Style] = None,
-    **kwargs,
+    **kwargs: Any,
 ):
     """Wait until user presses any key to continue.
 
@@ -22,21 +23,21 @@ def press_any_key_to_continue(
         >>> import questionary
         >>> questionary.press_any_key_to_continue().ask()
          Press any key to continue...
-        None
+        ''
 
     Args:
-        message: Question text. Defaults to `"Press any key to continue..."`
+        message: Question text. Defaults to ``"Press any key to continue..."``
 
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
     Returns:
-        :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
+        :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
     merged_style = merge_styles([DEFAULT_STYLE, style])
 
     if message is None:
-        message = ("Press any key to continue...",)
+        message = "Press any key to continue..."
 
     def get_prompt_tokens():
         tokens = []
