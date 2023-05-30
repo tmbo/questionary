@@ -8,13 +8,12 @@ from prompt_toolkit.lexers import Lexer
 from prompt_toolkit.lexers import SimpleLexer
 from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import Style
-from prompt_toolkit.styles import merge_styles
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX
-from questionary.constants import DEFAULT_STYLE
 from questionary.constants import INSTRUCTION_MULTILINE
 from questionary.prompts.common import build_validator
 from questionary.question import Question
+from questionary.styles import merge_styles_default
 
 
 def text(
@@ -76,8 +75,7 @@ def text(
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
-
-    merged_style = merge_styles([DEFAULT_STYLE, style])
+    merged_style = merge_styles_default([style])
     lexer = lexer or SimpleLexer("class:answer")
     validator = build_validator(validate)
 
@@ -90,7 +88,7 @@ def text(
             result.append(("class:instruction", " {} ".format(instruction)))
         return result
 
-    p = PromptSession(
+    p: PromptSession = PromptSession(
         get_prompt_tokens,
         style=merged_style,
         validator=validator,
