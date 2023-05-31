@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from typing import Any
+from typing import Callable
 from typing import Dict
 from typing import Optional
 from typing import Sequence
@@ -36,6 +37,7 @@ def select(
     use_emacs_keys: bool = True,
     show_selected: bool = False,
     instruction: Optional[str] = None,
+    custom_key_binding: Optional[Dict[str | Keys, Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """A list of items to select **one** option from.
@@ -110,6 +112,18 @@ def select(
 
         show_selected: Display current selection choice at the bottom of list.
 
+        custom_key_binding: Dictionary of custom key bindings. The keys are either
+            strings or `prompt_toolkit.keys.Keys` objects and the values are
+            callables that accept a `prompt_toolkit.key_binding.KeyBinding` event
+
+            Example:
+                The following will exit the application with the result "custom" when the
+                user presses "c" and with the result "ctrl-q" when the user presses "ctrl-q"
+                ```
+                {
+                    "c": lambda event: event.app.exit(result="custom"),
+                    Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q"),
+                }
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
@@ -185,6 +199,10 @@ def select(
     layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
+
+    if custom_key_binding is not None:
+        for key, func in custom_key_binding.items():
+            bindings.add(key, eager=True)(func)
 
     @bindings.add(Keys.ControlQ, eager=True)
     @bindings.add(Keys.ControlC, eager=True)

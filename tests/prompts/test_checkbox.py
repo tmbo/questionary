@@ -34,6 +34,20 @@ def test_select_with_instruction():
     assert result == ["foo"]
 
 
+def test_select_with_custom_key_bindings():
+    message = "Foo message"
+    kwargs = {
+        "choices": ["foo", "bar", "bazz"], 
+        "custom_key_binding": {
+            KeyInputs.ONE: lambda event: event.app.exit(result="1-pressed")
+        }
+    }
+    text = KeyInputs.ONE + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == "1-pressed"
+
+
 def test_select_first_choice_with_token_title():
     message = "Foo message"
     kwargs = {

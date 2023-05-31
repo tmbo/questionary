@@ -1,5 +1,4 @@
-from typing import Any
-from typing import Optional
+from typing import Any, Callable, Optional, Dict
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import to_formatted_text
@@ -22,6 +21,7 @@ def confirm(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     auto_enter: bool = True,
+    custom_key_binding: Optional[Dict[str | Keys, Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """A yes or no question. The user can either confirm or deny.
@@ -58,6 +58,20 @@ def confirm(
             accept their answer. If set to `True`, a valid input will be
             accepted without the need to press 'Enter'.
 
+        custom_key_binding: Dictionary of custom key bindings. The keys are either
+            strings or `prompt_toolkit.keys.Keys` objects and the values are
+            callables that accept a `prompt_toolkit.key_binding.KeyBinding` event
+
+            Example:
+                The following will exit the application with the result "custom" when the
+                user presses "c" and with the result "ctrl-q" when the user presses "ctrl-q"
+                ```
+                {
+                    "c": lambda event: event.app.exit(result="custom"),
+                    Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q"),
+                }
+                ```
+            
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -86,6 +100,9 @@ def confirm(
         event.app.exit(result=status["answer"])
 
     bindings = KeyBindings()
+    if custom_key_binding is not None:
+        for key, func in custom_key_binding.items():
+            bindings.add(key, eager=True)(func)
 
     @bindings.add(Keys.ControlQ, eager=True)
     @bindings.add(Keys.ControlC, eager=True)
@@ -105,6 +122,8 @@ def confirm(
         status["answer"] = True
         if auto_enter:
             exit_with_result(event)
+
+    
 
     @bindings.add(Keys.ControlH)
     def key_backspace(event):
