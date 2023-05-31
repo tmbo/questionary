@@ -1,17 +1,17 @@
 from typing import Any
+from typing import Callable
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
-from typing import Dict
-from typing import Callable
 
 from prompt_toolkit.document import Document
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.keys import Keys
 from prompt_toolkit.lexers import Lexer
 from prompt_toolkit.lexers import SimpleLexer
-from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.shortcuts.prompt import PromptSession
 from prompt_toolkit.styles import Style
-from prompt_toolkit.keys import Keys
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.constants import INSTRUCTION_MULTILINE

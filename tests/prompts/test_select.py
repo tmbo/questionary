@@ -106,15 +106,16 @@ def test_select_with_instruction():
 def test_select_with_custom_key_bindings():
     message = "Foo message"
     kwargs = {
-        "choices": ["foo", "bar", "bazz"], 
+        "choices": ["foo", "bar", "bazz"],
         "custom_key_binding": {
             KeyInputs.ONE: lambda event: event.app.exit(result="1-pressed")
-        }
+        },
     }
     text = KeyInputs.ONE + "\r"
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "1-pressed"
+
 
 def test_cycle_to_first_choice():
     message = "Foo message"

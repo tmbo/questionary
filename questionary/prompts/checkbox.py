@@ -105,7 +105,7 @@ def checkbox(
 
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
-        
+
         instruction: A message describing how to navigate the menu.
 
         custom_key_binding: Dictionary of custom key bindings. The keys are either

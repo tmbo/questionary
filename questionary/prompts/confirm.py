@@ -1,4 +1,7 @@
-from typing import Any, Callable, Optional, Dict
+from typing import Any
+from typing import Callable
+from typing import Dict
+from typing import Optional
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import to_formatted_text
@@ -71,7 +74,7 @@ def confirm(
                     Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q"),
                 }
                 ```
-            
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -122,8 +125,6 @@ def confirm(
         status["answer"] = True
         if auto_enter:
             exit_with_result(event)
-
-    
 
     @bindings.add(Keys.ControlH)
     def key_backspace(event):

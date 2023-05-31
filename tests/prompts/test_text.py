@@ -4,7 +4,8 @@ import re
 from prompt_toolkit.validation import ValidationError
 from prompt_toolkit.validation import Validator
 
-from tests.utils import KeyInputs, feed_cli_with_input
+from tests.utils import KeyInputs
+from tests.utils import feed_cli_with_input
 
 
 def test_legacy_name():
@@ -47,6 +48,7 @@ def test_text_with_custom_key_bindings():
 
     result, cli = feed_cli_with_input("text", message, text, **kwargs)
     assert result == "1-pressed"
+
 
 def test_text_validate_with_class():
     class SimpleValidator(Validator):
