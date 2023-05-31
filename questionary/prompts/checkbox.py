@@ -108,14 +108,20 @@ def checkbox(
 
         instruction: A message describing how to navigate the menu.
 
-        custom_key_binding: Dictionary of custom key bindings. The keys are either
-                            strings or `prompt_toolkit.keys.Keys` objects and the values are
-                            callables that accept a `prompt_toolkit.key_binding.KeyBinding` event.
-                            The following will exit the application with the result "custom" when the
-                            user presses "c" and with the result "ctrl-q" when the user presses "ctrl-q"
-                            `{"c": lambda event: event.app.exit(result="custom")}` or
-                            `{Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}`
-                            respectively.
+        custom_key_binding: A dictionary specifying custom key bindings for the prompt.
+                            The dictionary should have key-value pairs where the key represents
+                            the key combination or key code, and the value is a callable
+                            that will be executed when the key is pressed. The callable should
+                            take an `event` object as its argument, which provides
+                            information about the key event.
+
+                            Example usages:
+
+                            - Exit with result "custom" when the user presses "c":
+                                ``{"c": lambda event: event.app.exit(result="custom")}``
+
+                            - Exit with result "ctrl-q" when the user presses "ctrl-q":
+                                ``{Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}``
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
