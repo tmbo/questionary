@@ -4,6 +4,7 @@ from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 from prompt_toolkit.document import Document
 from prompt_toolkit.key_binding import KeyBindings
@@ -29,7 +30,7 @@ def text(
     multiline: bool = False,
     instruction: Optional[str] = None,
     lexer: Optional[Lexer] = None,
-    custom_key_binding: Optional[Dict[str | Keys, Callable]] = None,
+    custom_key_binding: Optional[Dict[Union[str, Keys], Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.

@@ -2,6 +2,7 @@ from typing import Any
 from typing import Callable
 from typing import Dict
 from typing import Optional
+from typing import Union
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import to_formatted_text
@@ -24,7 +25,7 @@ def confirm(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     auto_enter: bool = True,
-    custom_key_binding: Optional[Dict[str | Keys, Callable]] = None,
+    custom_key_binding: Optional[Dict[Union[str, Keys], Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """A yes or no question. The user can either confirm or deny.

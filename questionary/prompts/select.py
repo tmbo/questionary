@@ -37,7 +37,7 @@ def select(
     use_emacs_keys: bool = True,
     show_selected: bool = False,
     instruction: Optional[str] = None,
-    custom_key_binding: Optional[Dict[str | Keys, Callable]] = None,
+    custom_key_binding: Optional[Dict[Union[str, Keys], Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """A list of items to select **one** option from.
