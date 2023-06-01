@@ -106,3 +106,13 @@ def test_confirm_with_custom_key_bindings():
         "confirm", message, text, auto_enter=False, **kwargs
     )
     assert result == "1-pressed"
+
+
+def test_confirm_instruction():
+    message = "Foo message"
+    text = "Y" + "\r"
+
+    result, cli = feed_cli_with_input(
+        "confirm", message, text, instruction="Foo instruction"
+    )
+    assert result is True
