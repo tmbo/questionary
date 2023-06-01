@@ -93,7 +93,7 @@ def confirm(
         tokens.append(("class:question", " {} ".format(message)))
 
         if instruction is not None:
-            tokens.append(("class:instruction", instruction))
+            tokens.append(("class:instruction", "{} ".format(instruction)))
         elif not status["complete"]:
             _instruction = YES_OR_NO if default else NO_OR_YES
             tokens.append(("class:instruction", "{} ".format(_instruction)))
