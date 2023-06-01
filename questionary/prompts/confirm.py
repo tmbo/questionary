@@ -22,6 +22,7 @@ def confirm(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     auto_enter: bool = True,
+    instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
     """A yes or no question. The user can either confirm or deny.
@@ -58,6 +59,7 @@ def confirm(
             accept their answer. If set to `True`, a valid input will be
             accepted without the need to press 'Enter'.
 
+        instruction: A message describing how to navigate the menu.
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -71,9 +73,11 @@ def confirm(
         tokens.append(("class:qmark", qmark))
         tokens.append(("class:question", " {} ".format(message)))
 
-        if not status["complete"]:
-            instruction = YES_OR_NO if default else NO_OR_YES
-            tokens.append(("class:instruction", "{} ".format(instruction)))
+        if instruction is not None:
+            tokens.append(("class:instruction", instruction))
+        elif not status["complete"]:
+            _instruction = YES_OR_NO if default else NO_OR_YES
+            tokens.append(("class:instruction", "{} ".format(_instruction)))
 
         if status["answer"] is not None:
             answer = YES if status["answer"] else NO

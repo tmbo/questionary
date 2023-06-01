@@ -91,3 +91,13 @@ def test_confirm_not_autoenter_backspace():
 
     result, cli = feed_cli_with_input("confirm", message, text, auto_enter=False)
     assert result is True
+
+
+def test_confirm_instruction():
+    message = "Foo message"
+    text = "Y" + "\r"
+
+    result, cli = feed_cli_with_input(
+        "confirm", message, text, instruction="Foo instruction"
+    )
+    assert result is True
