@@ -83,7 +83,8 @@ def confirm(
 
                                    {Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}
 
-        instruction: A message describing how to navigate the menu.
+        instruction: A message describing how to proceed through the
+                     confirmation prompt.
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
