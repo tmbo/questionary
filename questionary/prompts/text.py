@@ -110,8 +110,8 @@ def text(
         return result
 
     bindings = KeyBindings()
-    if custom_key_binding is not None:
-        for key, func in custom_key_binding.items():
+    if custom_key_bindings is not None:
+        for key, func in custom_key_bindings.items():
             bindings.add(key, eager=True)(func)
 
     p: PromptSession = PromptSession(
