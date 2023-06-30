@@ -40,7 +40,7 @@ def test_text_validate():
 def test_text_with_custom_key_bindings():
     message = "What is your name"
     kwargs = {
-        "custom_key_binding": {
+        "custom_key_bindings": {
             KeyInputs.ONE: lambda event: event.app.exit(result="1-pressed")
         }
     }
