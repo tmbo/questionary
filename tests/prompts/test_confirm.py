@@ -96,7 +96,7 @@ def test_confirm_not_autoenter_backspace():
 def test_confirm_with_custom_key_bindings():
     message = "Foo message"
     kwargs = {
-        "custom_key_binding": {
+        "custom_key_bindings": {
             KeyInputs.ONE: lambda event: event.app.exit(result="1-pressed")
         }
     }
