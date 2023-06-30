@@ -59,7 +59,8 @@ def confirm(
             accept their answer. If set to `True`, a valid input will be
             accepted without the need to press 'Enter'.
 
-        instruction: A message describing how to navigate the menu.
+        instruction: A message describing how to proceed through the
+                     confirmation prompt.
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
