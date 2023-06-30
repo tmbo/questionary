@@ -107,7 +107,7 @@ def test_select_with_custom_key_bindings():
     message = "Foo message"
     kwargs = {
         "choices": ["foo", "bar", "bazz"],
-        "custom_key_binding": {
+        "custom_key_bindings": {
             KeyInputs.ONE: lambda event: event.app.exit(result="1-pressed")
         },
     }
