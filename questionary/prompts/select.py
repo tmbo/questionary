@@ -112,20 +112,20 @@ def select(
 
         show_selected: Display current selection choice at the bottom of list.
 
-        custom_key_bindings: A dictionary specifying custom key bindings for the prompt.
-                            The dictionary should have key-value pairs where the key represents
-                            the key combination or key code, and the value is a callable
-                            that will be executed when the key is pressed. The callable should
-                            take an `event` object as its argument, which provides
-                            information about the key event.
-
-                            Example usages:
-
-                            - Exit with result "custom" when the user presses "c":
-                                ``{"c": lambda event: event.app.exit(result="custom")}``
-
-                            - Exit with result "ctrl-q" when the user presses "ctrl-q":
-                                ``{Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}``
+        custom_key_bindings: A dictionary specifying custom key bindings for the
+                             prompt. The dictionary should have key-value pairs,
+                             where the key represents the key combination or key
+                             code, and the value is a callable that will be
+                             executed when the key is pressed. The callable
+                             should take an ``event`` object as its argument,
+                             which will provide information about the key event.
+                             Examples:
+                             - Exit with a result of ``custom`` when the user
+                               presses :kbd:`c`::
+                                   {"c": lambda event: event.app.exit(result="custom")}
+                             - Exit with a result of ``ctrl-q`` when the user
+                               presses :kbd:`Ctrl` + :kbd:`q`::
+                                   {Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
