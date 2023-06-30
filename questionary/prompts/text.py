@@ -83,12 +83,17 @@ def text(
                              executed when the key is pressed. The callable
                              should take an ``event`` object as its argument,
                              which will provide information about the key event.
+
                              Examples:
+
                              - Exit with a result of ``custom`` when the user
                                presses :kbd:`c`::
+
                                    {"c": lambda event: event.app.exit(result="custom")}
+
                              - Exit with a result of ``ctrl-q`` when the user
                                presses :kbd:`Ctrl` + :kbd:`q`::
+
                                    {Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}
 
         kwargs: Additional arguments, they will be passed to prompt toolkit.
