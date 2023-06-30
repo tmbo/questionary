@@ -30,7 +30,7 @@ def text(
     multiline: bool = False,
     instruction: Optional[str] = None,
     lexer: Optional[Lexer] = None,
-    custom_key_binding: Optional[Dict[Union[str, Keys], Callable]] = None,
+    custom_key_bindings: Optional[Dict[Union[str, Keys], Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.
@@ -76,7 +76,7 @@ def text(
         lexer: Supply a valid lexer to style the answer. Leave empty to
                use a simple one by default.
 
-        custom_key_binding: A dictionary specifying custom key bindings for the prompt.
+        custom_key_bindings: A dictionary specifying custom key bindings for the prompt.
                             The dictionary should have key-value pairs where the key represents
                             the key combination or key code, and the value is a callable
                             that will be executed when the key is pressed. The callable should
