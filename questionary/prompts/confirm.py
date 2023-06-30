@@ -25,7 +25,7 @@ def confirm(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     auto_enter: bool = True,
-    custom_key_binding: Optional[Dict[Union[str, Keys], Callable]] = None,
+    custom_key_bindings: Optional[Dict[Union[str, Keys], Callable]] = None,
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
