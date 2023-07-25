@@ -4,6 +4,32 @@
 Changelog
 *********
 
+2.0.0 (2023-07-25)
+###################
+
+* Updated dependencies.
+* Modified default choice selection based on the ``Choice`` value. Now, it is
+  not necessary to pass the same instance of the ``Choice`` object: the same
+  ``value`` may be used.
+* Fixed various minor bugs in development scripts and continuous integration.
+* Improved continuous integration and testing process.
+* Added pull request and issue templates to the GitHub repository.
+* Implemented lazy function call for obtaining choices.
+* Expanded the test matrix to include additional Python versions.
+* Added the ability to specify the start point of a file path.
+* Enabled displaying arbitrary paths in file path input.
+* Allowed skipping of questions in the ``unsafe_ask`` function.
+* Resolved typing bugs.
+* Included a password confirmation example.
+* Now returning selected choices even if they are disabled.
+* Added support for Emacs keys (:kbd:`Ctrl+N` and :kbd:`Ctrl+P`).
+* Fixed rendering errors in the documentation.
+* Introduced a new ``print`` question type.
+* Deprecated support for Python 3.6 and 3.7.
+* Added dynamic instruction messages for ``checkbox`` and ``confirm``.
+* Removed the upper bound from the Python version specifier.
+* Added a ``press_any_key_to_continue`` prompt.
+
 1.10.0 (2021-07-10)
 ###################
 
