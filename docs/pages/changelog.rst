@@ -4,6 +4,12 @@
 Changelog
 *********
 
+2.0.1 (2023-09-08)
+###################
+
+* Updated dependencies.
+* Fixed broken documentation build.
+
 2.0.0 (2023-07-25)
 ###################
 
