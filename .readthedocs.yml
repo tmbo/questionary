@@ -7,9 +7,13 @@ sphinx:
   configuration: docs/conf.py
   fail_on_warning: true
 
-python:
-  install:
-    - method: pip
-      path: .
-      extra_requirements:
-        - docs
+build:
+  os: "ubuntu-22.04"
+  tools:
+    python: "3.11"
+  jobs:
+    post_create_environment:
+      - pip install poetry
+      - poetry config virtualenvs.create false
+    post_install:
+      - make install
