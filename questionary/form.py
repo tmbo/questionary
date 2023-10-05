@@ -93,9 +93,7 @@ class Form:
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
-            print("")
             print(kbi_msg)
-            print("")
             return {}
 
     async def ask_async(
@@ -115,7 +113,5 @@ class Form:
         try:
             return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:
-            print("")
             print(kbi_msg)
-            print("")
             return {}

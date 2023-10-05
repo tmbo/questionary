@@ -77,9 +77,7 @@ def prompt(
     try:
         return unsafe_prompt(questions, answers, patch_stdout, true_color, **kwargs)
     except KeyboardInterrupt:
-        print("")
         print(kbi_msg)
-        print("")
         return {}
 
 
