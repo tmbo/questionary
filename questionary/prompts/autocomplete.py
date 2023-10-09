@@ -118,7 +118,7 @@ def autocomplete(
     Example:
         >>> import questionary
         >>> questionary.autocomplete(
-        ...    'Choose ant specie',
+        ...    'Choose ant species',
         ...    choices=[
         ...         'Camponotus pennsylvanicus',
         ...         'Linepithema humile',
@@ -127,7 +127,7 @@ def autocomplete(
         ...         'Polyergus lucidus',
         ...         'Polyergus rufescens',
         ...    ]).ask()
-        ? Choose ant specie Atta colombica
+        ? Choose ant species Atta colombica
         'Atta colombica'
 
     .. image:: ../images/autocomplete.gif

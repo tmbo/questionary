@@ -42,7 +42,7 @@ meta_information = {
 def ask_pystyle(**kwargs):
     # create the question object
     question = questionary.autocomplete(
-        "Choose ant specie",
+        "Choose ant species",
         validate=PolyergusValidator,
         meta_information=meta_information,
         choices=[
