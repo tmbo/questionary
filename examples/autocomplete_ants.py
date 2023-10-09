@@ -76,7 +76,7 @@ def ask_dictstyle(**kwargs):
                 "Polyergus rufescens",
             ],
             "meta_information": meta_information,
-            "message": "Choose ant specie",
+            "message": "Choose ant species",
             "validate": PolyergusValidator,
         }
     ]
