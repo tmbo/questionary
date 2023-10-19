@@ -35,6 +35,7 @@ def select(
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
     show_selected: bool = False,
+    show_description: bool = False,
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
@@ -150,6 +151,7 @@ def select(
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
         show_selected=show_selected,
+        show_description=show_description,
         use_arrow_keys=use_arrow_keys,
         initial_choice=default,
     )
