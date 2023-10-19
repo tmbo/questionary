@@ -111,6 +111,8 @@ def select(
 
         show_selected: Display current selection choice at the bottom of list.
 
+        show_description: Display description of current selection if available.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
