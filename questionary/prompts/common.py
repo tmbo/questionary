@@ -218,7 +218,7 @@ class InquirerControl(FormattedTextControl):
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         show_selected: bool = False,
-        show_description: bool = False,
+        show_description: bool = True,
         use_arrow_keys: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs: Any,
@@ -442,7 +442,8 @@ class InquirerControl(FormattedTextControl):
 
             description = current.description
 
-            tokens.append(("class:text", "  Description: {}".format(description)))
+            if description is not None:
+                tokens.append(("class:text", "  Description: {}".format(description)))
         else:
             tokens.pop()  # Remove last newline.
         return tokens

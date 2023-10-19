@@ -35,7 +35,7 @@ def select(
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
     show_selected: bool = False,
-    show_description: bool = False,
+    show_description: bool = True,
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
