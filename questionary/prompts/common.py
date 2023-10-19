@@ -53,13 +53,12 @@ class Choice:
         checked: Preselect this choice when displaying the options.
 
         shortcut_key: Key shortcut used to select this item.
+
+        description: Optional description of the item that can be displayed.
     """
 
     title: FormattedText
     """Display string for the choice"""
-
-    description: Optional[str]
-    """Choice description"""
 
     value: Optional[Any]
     """Value of the choice"""
@@ -72,6 +71,9 @@ class Choice:
 
     shortcut_key: Optional[str]
     """A shortcut key for the choice"""
+
+    description: Optional[str]
+    """Choice description"""
 
     def __init__(
         self,
