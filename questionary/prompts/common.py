@@ -1,3 +1,4 @@
+import copy
 import inspect
 from typing import Any
 from typing import Callable
@@ -114,7 +115,7 @@ class Choice:
         """
 
         if isinstance(c, Choice):
-            return c
+            return copy.copy(c)
         elif isinstance(c, str):
             return Choice(c, c)
         else:
