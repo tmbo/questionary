@@ -42,7 +42,7 @@ class Question:
             sys.stdout.flush()
             return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:
-            print("\n{}\n".format(kbi_msg))
+            print("{}".format(kbi_msg))
             return None
 
     def ask(
@@ -63,7 +63,7 @@ class Question:
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
-            print("\n{}\n".format(kbi_msg))
+            print("{}".format(kbi_msg))
             return None
 
     def unsafe_ask(self, patch_stdout: bool = False) -> Any:
