@@ -428,9 +428,9 @@ class InquirerControl(FormattedTextControl):
         for i, c in enumerate(self.choices):
             append(i, c)
 
-        if self.show_selected:
-            current = self.get_pointed_at()
+        current = self.get_pointed_at()
 
+        if self.show_selected:
             answer = current.get_shortcut_title() if self.use_shortcuts else ""
 
             answer += (
@@ -439,15 +439,15 @@ class InquirerControl(FormattedTextControl):
 
             tokens.append(("class:text", "  Answer: {}".format(answer)))
 
-        if self.show_description:
-            current = self.get_pointed_at()
+        show_description = self.show_description and current.description is not None
+        if show_description:
+            tokens.append(
+                ("class:text", "  Description: {}".format(current.description))
+            )
 
-            description = current.description
-
-            if description is not None:
-                tokens.append(("class:text", "  Description: {}".format(description)))
-        else:
+        if not (self.show_selected or show_description):
             tokens.pop()  # Remove last newline.
+
         return tokens
 
     def is_selection_a_separator(self) -> bool:
