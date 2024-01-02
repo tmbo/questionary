@@ -28,7 +28,7 @@ INDICATOR_UNSELECTED = "○"
 DEFAULT_QUESTION_PREFIX = "?"
 
 # Message shown when a user aborts a question prompt using CTRL-C
-DEFAULT_KBI_MESSAGE = "Cancelled by user"
+DEFAULT_KBI_MESSAGE = "\nCancelled by user\n"
 
 # Default text shown when the input is invalid
 INVALID_INPUT = "Invalid input"
