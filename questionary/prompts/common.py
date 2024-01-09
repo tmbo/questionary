@@ -67,8 +67,7 @@ class Choice:
     checked: Optional[bool]
     """Whether the choice is initially selected"""
 
-    shortcut_key: Optional[str]
-    """A shortcut key for the choice"""
+    __shortcut_key: Optional[Union[str, bool]]
 
     def __init__(
         self,
@@ -80,6 +79,7 @@ class Choice:
     ) -> None:
         self.disabled = disabled
         self.title = title
+        self.shortcut_key = shortcut_key
         self.checked = checked if checked is not None else False
 
         if value is not None:
@@ -88,17 +88,6 @@ class Choice:
             self.value = "".join([token[1] for token in title])
         else:
             self.value = title
-
-        if shortcut_key is not None:
-            if isinstance(shortcut_key, bool):
-                self.auto_shortcut = shortcut_key
-                self.shortcut_key = None
-            else:
-                self.shortcut_key = str(shortcut_key)
-                self.auto_shortcut = False
-        else:
-            self.shortcut_key = None
-            self.auto_shortcut = True
 
     @staticmethod
     def build(c: Union[str, "Choice", Dict[str, Any]]) -> "Choice":
@@ -125,6 +114,29 @@ class Choice:
                 c.get("checked"),
                 c.get("key"),
             )
+
+    @property
+    def shortcut_key(self) -> Optional[Union[str, bool]]:
+        """A shortcut key for the choice"""
+        return self.__shortcut_key
+
+    @shortcut_key.setter
+    def shortcut_key(self, key: Optional[Union[str, bool]]):
+        if key is not None:
+            if isinstance(key, bool):
+                self.auto_shortcut = key
+                self.__shortcut_key = None
+            else:
+                self.__shortcut_key = str(key)
+                self.auto_shortcut = False
+        else:
+            self.__shortcut_key = None
+            self.auto_shortcut = True
+
+    @shortcut_key.deleter
+    def shortcut_key(self):
+        self.__shortcut_key = None
+        self.auto_shortcut = True
 
     def get_shortcut_title(self):
         if self.shortcut_key is None:

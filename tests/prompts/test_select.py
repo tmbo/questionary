@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from copy import copy
+
 import pytest
 
 from questionary import Choice
@@ -197,6 +199,29 @@ def test_allow_shortcut_key_with_True():
 
     result, cli = feed_cli_with_input("select", message, text, **kwargs)
     assert result == "bazz"
+
+
+def test_auto_shortcut_key_stable_in_loop():
+    message = "Foo message"
+    choices = [
+        Choice("foo"),
+        Choice("bar"),
+    ]
+    kwargs = {
+        "choices": choices,
+        "use_shortcuts": True,
+    }
+    text = "\r"
+
+    result, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result == "foo"
+    result_shortcut_keys = [copy(c.shortcut_key) for c in choices]
+    result2, cli = feed_cli_with_input("select", message, text, **kwargs)
+    assert result2 == "foo"
+    result2_shortcut_keys = [copy(c.shortcut_key) for c in choices]
+    assert (
+        result_shortcut_keys == result2_shortcut_keys
+    ), "Shortcut keys changed across two runs of 'select'"
 
 
 def test_select_initial_choice_with_value():
