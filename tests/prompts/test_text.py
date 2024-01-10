@@ -4,6 +4,7 @@ import re
 from prompt_toolkit.validation import ValidationError
 from prompt_toolkit.validation import Validator
 
+from tests.utils import KeyInputs
 from tests.utils import feed_cli_with_input
 
 
@@ -34,6 +35,19 @@ def test_text_validate():
         validate=lambda val: val == "Doe" or "is your last name Doe?",
     )
     assert result == "Doe"
+
+
+def test_text_with_custom_key_bindings():
+    message = "What is your name"
+    kwargs = {
+        "custom_key_bindings": {
+            KeyInputs.ONE: lambda event: event.app.exit(result="1-pressed")
+        }
+    }
+    text = KeyInputs.ONE + "\r"
+
+    result, cli = feed_cli_with_input("text", message, text, **kwargs)
+    assert result == "1-pressed"
 
 
 def test_text_validate_with_class():

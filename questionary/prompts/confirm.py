@@ -1,5 +1,8 @@
 from typing import Any
+from typing import Callable
+from typing import Dict
 from typing import Optional
+from typing import Union
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.formatted_text import to_formatted_text
@@ -22,6 +25,7 @@ def confirm(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     auto_enter: bool = True,
+    custom_key_bindings: Optional[Dict[Union[str, Keys], Callable]] = None,
     instruction: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
@@ -59,6 +63,26 @@ def confirm(
             accept their answer. If set to `True`, a valid input will be
             accepted without the need to press 'Enter'.
 
+        custom_key_bindings: A dictionary specifying custom key bindings for the
+                             prompt. The dictionary should have key-value pairs,
+                             where the key represents the key combination or key
+                             code, and the value is a callable that will be
+                             executed when the key is pressed. The callable
+                             should take an ``event`` object as its argument,
+                             which will provide information about the key event.
+
+                             Examples:
+
+                             - Exit with a result of ``custom`` when the user
+                               presses :kbd:`c`::
+
+                                   {"c": lambda event: event.app.exit(result="custom")}
+
+                             - Exit with a result of ``ctrl-q`` when the user
+                               presses :kbd:`Ctrl` + :kbd:`q`::
+
+                                   {Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}
+
         instruction: A message describing how to proceed through the
                      confirmation prompt.
     Returns:
@@ -75,7 +99,7 @@ def confirm(
         tokens.append(("class:question", " {} ".format(message)))
 
         if instruction is not None:
-            tokens.append(("class:instruction", instruction))
+            tokens.append(("class:instruction", "{} ".format(instruction)))
         elif not status["complete"]:
             _instruction = YES_OR_NO if default else NO_OR_YES
             tokens.append(("class:instruction", "{} ".format(_instruction)))
@@ -91,6 +115,9 @@ def confirm(
         event.app.exit(result=status["answer"])
 
     bindings = KeyBindings()
+    if custom_key_bindings is not None:
+        for key, func in custom_key_bindings.items():
+            bindings.add(key, eager=True)(func)
 
     @bindings.add(Keys.ControlQ, eager=True)
     @bindings.add(Keys.ControlC, eager=True)

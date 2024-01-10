@@ -38,6 +38,7 @@ def checkbox(
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
     instruction: Optional[str] = None,
+    custom_key_bindings: Optional[Dict[Union[str, Keys], Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -104,8 +105,28 @@ def checkbox(
 
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
+
         instruction: A message describing how to navigate the menu.
 
+        custom_key_bindings: A dictionary specifying custom key bindings for the
+                             prompt. The dictionary should have key-value pairs,
+                             where the key represents the key combination or key
+                             code, and the value is a callable that will be
+                             executed when the key is pressed. The callable
+                             should take an ``event`` object as its argument,
+                             which will provide information about the key event.
+
+                             Examples:
+
+                             - Exit with a result of ``custom`` when the user
+                               presses :kbd:`c`::
+
+                                   {"c": lambda event: event.app.exit(result="custom")}
+
+                             - Exit with a result of ``ctrl-q`` when the user
+                               presses :kbd:`Ctrl` + :kbd:`q`::
+
+                                   {Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
@@ -202,6 +223,9 @@ def checkbox(
     layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
 
     bindings = KeyBindings()
+    if custom_key_bindings is not None:
+        for key, func in custom_key_bindings.items():
+            bindings.add(key, eager=True)(func)
 
     @bindings.add(Keys.ControlQ, eager=True)
     @bindings.add(Keys.ControlC, eager=True)

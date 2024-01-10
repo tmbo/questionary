@@ -1,9 +1,14 @@
 from typing import Any
+from typing import Callable
+from typing import Dict
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 from prompt_toolkit.document import Document
+from prompt_toolkit.key_binding import KeyBindings
+from prompt_toolkit.keys import Keys
 from prompt_toolkit.lexers import Lexer
 from prompt_toolkit.lexers import SimpleLexer
 from prompt_toolkit.shortcuts.prompt import PromptSession
@@ -25,6 +30,7 @@ def text(
     multiline: bool = False,
     instruction: Optional[str] = None,
     lexer: Optional[Lexer] = None,
+    custom_key_bindings: Optional[Dict[Union[str, Keys], Callable]] = None,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.
@@ -70,6 +76,26 @@ def text(
         lexer: Supply a valid lexer to style the answer. Leave empty to
                use a simple one by default.
 
+        custom_key_bindings: A dictionary specifying custom key bindings for the
+                             prompt. The dictionary should have key-value pairs,
+                             where the key represents the key combination or key
+                             code, and the value is a callable that will be
+                             executed when the key is pressed. The callable
+                             should take an ``event`` object as its argument,
+                             which will provide information about the key event.
+
+                             Examples:
+
+                             - Exit with a result of ``custom`` when the user
+                               presses :kbd:`c`::
+
+                                   {"c": lambda event: event.app.exit(result="custom")}
+
+                             - Exit with a result of ``ctrl-q`` when the user
+                               presses :kbd:`Ctrl` + :kbd:`q`::
+
+                                   {Keys.ControlQ: lambda event: event.app.exit(result="ctrl-q")}
+
         kwargs: Additional arguments, they will be passed to prompt toolkit.
 
     Returns:
@@ -88,8 +114,14 @@ def text(
             result.append(("class:instruction", " {} ".format(instruction)))
         return result
 
+    bindings = KeyBindings()
+    if custom_key_bindings is not None:
+        for key, func in custom_key_bindings.items():
+            bindings.add(key, eager=True)(func)
+
     p: PromptSession = PromptSession(
         get_prompt_tokens,
+        key_bindings=bindings,
         style=merged_style,
         validator=validator,
         lexer=lexer,
