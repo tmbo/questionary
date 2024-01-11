@@ -133,9 +133,7 @@ def select(
         raise ValueError("A list of choices needs to be provided.")
 
     if use_shortcuts:
-        real_len_of_choices = sum(
-            1 for c in choices if not isinstance(c, Separator)
-        )
+        real_len_of_choices = sum(1 for c in choices if not isinstance(c, Separator))
         if real_len_of_choices > len(InquirerControl.SHORTCUT_KEYS):
             raise ValueError(
                 "A list with shortcuts supports a maximum of {} "
