@@ -53,6 +53,8 @@ class Choice:
         checked: Preselect this choice when displaying the options.
 
         shortcut_key: Key shortcut used to select this item.
+
+        description: Optional description of the item that can be displayed.
     """
 
     title: FormattedText
@@ -70,6 +72,9 @@ class Choice:
     shortcut_key: Optional[str]
     """A shortcut key for the choice"""
 
+    description: Optional[str]
+    """Choice description"""
+
     def __init__(
         self,
         title: FormattedText,
@@ -77,10 +82,12 @@ class Choice:
         disabled: Optional[str] = None,
         checked: Optional[bool] = False,
         shortcut_key: Optional[Union[str, bool]] = True,
+        description: Optional[str] = None,
     ) -> None:
         self.disabled = disabled
         self.title = title
         self.checked = checked if checked is not None else False
+        self.description = description
 
         if value is not None:
             self.value = value
@@ -124,6 +131,7 @@ class Choice:
                 c.get("disabled", None),
                 c.get("checked"),
                 c.get("key"),
+                c.get("description", None),
             )
 
     def get_shortcut_title(self):
@@ -202,6 +210,7 @@ class InquirerControl(FormattedTextControl):
     pointer: Optional[str]
     pointed_at: int
     is_answered: bool
+    show_description: bool
 
     def __init__(
         self,
@@ -211,6 +220,7 @@ class InquirerControl(FormattedTextControl):
         use_indicator: bool = True,
         use_shortcuts: bool = False,
         show_selected: bool = False,
+        show_description: bool = True,
         use_arrow_keys: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
         **kwargs: Any,
@@ -218,6 +228,7 @@ class InquirerControl(FormattedTextControl):
         self.use_indicator = use_indicator
         self.use_shortcuts = use_shortcuts
         self.show_selected = show_selected
+        self.show_description = show_description
         self.use_arrow_keys = use_arrow_keys
         self.default = default
         self.pointer = pointer
@@ -417,9 +428,9 @@ class InquirerControl(FormattedTextControl):
         for i, c in enumerate(self.choices):
             append(i, c)
 
-        if self.show_selected:
-            current = self.get_pointed_at()
+        current = self.get_pointed_at()
 
+        if self.show_selected:
             answer = current.get_shortcut_title() if self.use_shortcuts else ""
 
             answer += (
@@ -427,8 +438,16 @@ class InquirerControl(FormattedTextControl):
             )
 
             tokens.append(("class:text", "  Answer: {}".format(answer)))
-        else:
+
+        show_description = self.show_description and current.description is not None
+        if show_description:
+            tokens.append(
+                ("class:text", "  Description: {}".format(current.description))
+            )
+
+        if not (self.show_selected or show_description):
             tokens.pop()  # Remove last newline.
+
         return tokens
 
     def is_selection_a_separator(self) -> bool:

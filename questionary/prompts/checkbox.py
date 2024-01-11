@@ -38,6 +38,7 @@ def checkbox(
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
     instruction: Optional[str] = None,
+    show_description: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -106,6 +107,8 @@ def checkbox(
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
         instruction: A message describing how to navigate the menu.
 
+        show_description: Display description of current selection if available.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
@@ -130,7 +133,11 @@ def checkbox(
         raise ValueError("validate must be callable")
 
     ic = InquirerControl(
-        choices, default, pointer=pointer, initial_choice=initial_choice
+        choices,
+        default,
+        pointer=pointer,
+        initial_choice=initial_choice,
+        show_description=show_description,
     )
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:

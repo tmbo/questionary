@@ -222,3 +222,43 @@ def test_print_with_style(monkeypatch):
 
     assert mock.method_calls[1][0] == "write"
     assert mock.method_calls[1][1][0] == "Hello World"
+
+
+def test_prompt_show_description():
+    ic = InquirerControl(
+        ["a", Choice("b", description="B")],
+        show_selected=True,
+        show_description=True,
+    )
+
+    expected_tokens = [
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "a"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "b"),
+        ("", "\n"),
+        ("class:text", "  Answer: a"),
+    ]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    ic.select_next()
+    expected_tokens = [
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "a"),
+        ("", "\n"),
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "b"),
+        ("", "\n"),
+        ("class:text", "  Answer: b"),
+        ("class:text", "  Description: B"),
+    ]
+    assert ic.pointed_at == 1
+    assert ic._get_choice_tokens() == expected_tokens
