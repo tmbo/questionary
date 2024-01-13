@@ -1,3 +1,4 @@
+import copy
 import inspect
 from typing import Any
 from typing import Callable
@@ -121,7 +122,7 @@ class Choice:
         """
 
         if isinstance(c, Choice):
-            return c
+            return copy.copy(c)
         elif isinstance(c, str):
             return Choice(c, c)
         else:
@@ -289,7 +290,7 @@ class InquirerControl(FormattedTextControl):
 
     def _is_selected(self, choice: Choice):
         if isinstance(self.default, Choice):
-            compare_default = self.default == choice
+            compare_default = self.default.value == choice.value
         else:
             compare_default = self.default == choice.value
         return choice.checked or compare_default and self.default is not None
