@@ -67,9 +67,9 @@ for when you want to spice up your printed messages a bit.
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install Questionary:
 
 ```bash
-$ pip install questionary
-✨🎂✨
+pip install questionary
 ```
+✨🎂✨
 
 ## Usage
 
