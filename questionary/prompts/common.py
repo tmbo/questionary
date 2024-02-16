@@ -410,7 +410,12 @@ class InquirerControl(FormattedTextControl):
                     tokens.append(("class:text", "{}".format(indicator)))
 
                 if isinstance(choice.title, list):
-                    tokens.extend(choice.title)
+                    if selected:
+                        tokens.extend(map(lambda title : (title[0] + " class:selected", title[1])  , choice.title))
+                    elif index == self.pointed_at:
+                        tokens.extend(map(lambda title : (title[0] + " class:highlighted", title[1])  , choice.title))
+                    else:
+                        tokens.extend(choice.title)
                 elif selected:
                     tokens.append(
                         ("class:selected", "{}{}".format(shortcut, choice.title))
