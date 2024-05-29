@@ -1,3 +1,4 @@
+import string
 from typing import Any
 from typing import Callable
 from typing import Dict
@@ -37,6 +38,7 @@ def checkbox(
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
+    use_prefix_filter_search: Union[str, bool, None] = False,
     instruction: Optional[str] = None,
     show_description: bool = True,
     **kwargs: Any,
@@ -105,6 +107,15 @@ def checkbox(
 
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
+
+        use_prefix_filter_search: ["case_sensitive", "case_insensitive", None | False]
+                                  Flag to enable prefix filter. Typing some prefix will
+                                  filter the choices to keep only the one that match
+                                  the prefix.
+                                  Note that activating this option disables "vi-like"
+                                  navigation as "j" and "k" can be part of a prefix and
+                                  therefore cannot be used for navigation
+
         instruction: A message describing how to navigate the menu.
 
         show_description: Display description of current selection if available.
@@ -117,6 +128,11 @@ def checkbox(
         raise ValueError(
             "Some option to move the selection is required. Arrow keys or j/k or "
             "Emacs keys."
+        )
+
+    if use_jk_keys and use_prefix_filter_search:
+        raise ValueError(
+            "Cannot use j/k keys with prefix filter search, since j/k can be part of the prefix."
         )
 
     merged_style = merge_styles_default(
@@ -264,6 +280,17 @@ def checkbox(
         ic.select_previous()
         while not ic.is_selection_valid():
             ic.select_previous()
+
+    if use_prefix_filter_search:
+
+        def search_filter(event):
+            ic.add_search_character(event.key_sequence[0].key)
+
+        for character in string.printable:
+            if character in string.whitespace:
+                continue
+            bindings.add(character, eager=True)(search_filter)
+        bindings.add(Keys.Backspace, eager=True)(search_filter)
 
     if use_arrow_keys:
         bindings.add(Keys.Down, eager=True)(move_cursor_down)

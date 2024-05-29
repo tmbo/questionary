@@ -39,6 +39,14 @@ DEFAULT_STYLE = Style(
         ("qmark", "fg:#5f819d"),  # token in front of the question
         ("question", "bold"),  # question text
         ("answer", "fg:#FF9D00 bold"),  # submitted answer text behind the question
+        (
+            "search_success",
+            "noinherit fg:#00FF00 bold",
+        ),  # submitted answer text behind the question
+        (
+            "search_none",
+            "noinherit fg:#FF0000 bold",
+        ),  # submitted answer text behind the question
         ("pointer", ""),  # pointer used in select and checkbox prompts
         ("selected", ""),  # style for a selected item of a checkbox
         ("separator", ""),  # separator in lists

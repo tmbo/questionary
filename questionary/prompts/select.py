@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import string
 from typing import Any
 from typing import Dict
 from typing import Optional
@@ -34,6 +35,7 @@ def select(
     use_indicator: bool = False,
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
+    use_prefix_filter_search: bool = False,
     show_selected: bool = False,
     show_description: bool = True,
     instruction: Optional[str] = None,
@@ -109,6 +111,13 @@ def select(
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys. Arrow keys, j/k keys,
                         emacs keys and shortcuts are not mutually exclusive.
 
+        use_prefix_filter_search: Flag to enable prefix filter. Typing some prefix will
+                                  filter the choices to keep only the one that match
+                                  the prefix.
+                                  Note that activating this option disables "vi-like"
+                                  navigation as "j" and "k" can be part of a prefix and
+                                  therefore cannot be used for navigation
+
         show_selected: Display current selection choice at the bottom of list.
 
         show_description: Display description of current selection if available.
@@ -122,6 +131,11 @@ def select(
                 "Some option to move the selection is required. "
                 "Arrow keys, j/k keys, emacs keys, or shortcuts."
             )
+        )
+
+    if use_jk_keys and use_prefix_filter_search:
+        raise ValueError(
+            "Cannot use j/k keys with prefix filter search, since j/k can be part of the prefix."
         )
 
     if use_shortcuts and use_jk_keys:
@@ -228,6 +242,15 @@ def select(
         ic.select_previous()
         while not ic.is_selection_valid():
             ic.select_previous()
+
+    if use_prefix_filter_search:
+
+        def search_filter(event):
+            ic.add_search_character(event.key_sequence[0].key)
+
+        for character in string.printable:
+            bindings.add(character, eager=True)(search_filter)
+        bindings.add(Keys.Backspace, eager=True)(search_filter)
 
     if use_arrow_keys:
         bindings.add(Keys.Down, eager=True)(move_cursor_down)
