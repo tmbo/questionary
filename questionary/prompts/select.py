@@ -35,7 +35,7 @@ def select(
     use_indicator: bool = False,
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
-    use_prefix_filter_search: bool = False,
+    use_search_filter: bool = False,
     show_selected: bool = False,
     show_description: bool = True,
     instruction: Optional[str] = None,
@@ -111,12 +111,12 @@ def select(
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys. Arrow keys, j/k keys,
                         emacs keys and shortcuts are not mutually exclusive.
 
-        use_prefix_filter_search: Flag to enable prefix filter. Typing some prefix will
-                                  filter the choices to keep only the one that match
-                                  the prefix.
-                                  Note that activating this option disables "vi-like"
-                                  navigation as "j" and "k" can be part of a prefix and
-                                  therefore cannot be used for navigation
+        use_search_filter: Flag to enable search filtering. Typing some string will
+                           filter the choices to keep only the ones that contain the
+                           search string.
+                           Note that activating this option disables "vi-like"
+                           navigation as "j" and "k" can be part of a prefix and
+                           therefore cannot be used for navigation
 
         show_selected: Display current selection choice at the bottom of list.
 
@@ -133,7 +133,7 @@ def select(
             )
         )
 
-    if use_jk_keys and use_prefix_filter_search:
+    if use_jk_keys and use_search_filter:
         raise ValueError(
             "Cannot use j/k keys with prefix filter search, since j/k can be part of the prefix."
         )
@@ -193,11 +193,11 @@ def select(
                 tokens.append(("class:instruction", instruction))
             else:
                 if use_shortcuts and use_arrow_keys:
-                    instruction_msg = "(Use shortcuts or arrow keys)"
+                    instruction_msg = f"(Use shortcuts or arrow keys{', type to filter' if use_search_filter else ''})"
                 elif use_shortcuts and not use_arrow_keys:
-                    instruction_msg = "(Use shortcuts)"
+                    instruction_msg = f"(Use shortcuts{', type to filter' if use_search_filter else ''})"
                 else:
-                    instruction_msg = "(Use arrow keys)"
+                    instruction_msg = f"(Use arrow keys{', type to filter' if use_search_filter else ''})"
                 tokens.append(("class:instruction", instruction_msg))
 
         return tokens
@@ -243,7 +243,7 @@ def select(
         while not ic.is_selection_valid():
             ic.select_previous()
 
-    if use_prefix_filter_search:
+    if use_search_filter:
 
         def search_filter(event):
             ic.add_search_character(event.key_sequence[0].key)

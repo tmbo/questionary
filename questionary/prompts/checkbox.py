@@ -38,7 +38,7 @@ def checkbox(
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
-    use_prefix_filter_search: Union[str, bool, None] = False,
+    use_search_filter: Union[str, bool, None] = False,
     instruction: Optional[str] = None,
     show_description: bool = True,
     **kwargs: Any,
@@ -108,13 +108,12 @@ def checkbox(
         use_emacs_keys: Allow the user to select items from the list using
                         `Ctrl+N` (down) and `Ctrl+P` (up) keys.
 
-        use_prefix_filter_search: ["case_sensitive", "case_insensitive", None | False]
-                                  Flag to enable prefix filter. Typing some prefix will
-                                  filter the choices to keep only the one that match
-                                  the prefix.
-                                  Note that activating this option disables "vi-like"
-                                  navigation as "j" and "k" can be part of a prefix and
-                                  therefore cannot be used for navigation
+        use_search_filter: Flag to enable search filtering. Typing some string will
+                           filter the choices to keep only the ones that contain the
+                           search string.
+                           Note that activating this option disables "vi-like"
+                           navigation as "j" and "k" can be part of a prefix and
+                           therefore cannot be used for navigation
 
         instruction: A message describing how to navigate the menu.
 
@@ -130,7 +129,7 @@ def checkbox(
             "Emacs keys."
         )
 
-    if use_jk_keys and use_prefix_filter_search:
+    if use_jk_keys and use_search_filter:
         raise ValueError(
             "Cannot use j/k keys with prefix filter search, since j/k can be part of the prefix."
         )
@@ -195,8 +194,9 @@ def checkbox(
                         "class:instruction",
                         "(Use arrow keys to move, "
                         "<space> to select, "
-                        "<a> to toggle, "
-                        "<i> to invert)",
+                        f"<{'ctrl-a' if use_search_filter else 'a'}> to toggle, "
+                        f"<{'ctrl-a' if use_search_filter else 'i'}> to invert"
+                        f"{', type to filter' if use_search_filter else ''})",
                     )
                 )
         return tokens
@@ -241,7 +241,7 @@ def checkbox(
 
         perform_validation(get_selected_values())
 
-    @bindings.add("i", eager=True)
+    @bindings.add(Keys.ControlI if use_search_filter else "i", eager=True)
     def invert(_event):
         inverted_selection = [
             c.value
@@ -254,7 +254,7 @@ def checkbox(
 
         perform_validation(get_selected_values())
 
-    @bindings.add("a", eager=True)
+    @bindings.add(Keys.ControlA if use_search_filter else "a", eager=True)
     def all(_event):
         all_selected = True  # all choices have been selected
         for c in ic.choices:
@@ -281,7 +281,7 @@ def checkbox(
         while not ic.is_selection_valid():
             ic.select_previous()
 
-    if use_prefix_filter_search:
+    if use_search_filter:
 
         def search_filter(event):
             ic.add_search_character(event.key_sequence[0].key)

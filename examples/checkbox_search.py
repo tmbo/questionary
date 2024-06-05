@@ -65,7 +65,7 @@ if __name__ == "__main__":
             ),
             style=custom_style_dope,
             use_jk_keys=False,
-            use_prefix_filter_search=True,
+            use_search_filter=True,
         ).ask()
         or []
     )

@@ -206,7 +206,7 @@ class InquirerControl(FormattedTextControl):
     choices: List[Choice]
     default: Optional[Union[str, Choice, Dict[str, Any]]]
     selected_options: List[Any]
-    prefix_search_filter: Union[str, None] = None
+    search_filter: Union[str, None] = None
     use_indicator: bool
     use_shortcuts: bool
     use_arrow_keys: bool
@@ -349,12 +349,10 @@ class InquirerControl(FormattedTextControl):
 
     @property
     def filtered_choices(self):
-        if not self.prefix_search_filter:
+        if not self.search_filter:
             return self.choices
         filtered = [
-            c
-            for c in self.choices
-            if c.title.lower().startswith(self.prefix_search_filter.lower())
+            c for c in self.choices if self.search_filter.lower() in c.title.lower()
         ]
         self.found_in_search = len(filtered) > 0
         return filtered if self.found_in_search else self.choices
@@ -498,22 +496,22 @@ class InquirerControl(FormattedTextControl):
         if char == Keys.Backspace:
             self.remove_search_character()
         else:
-            if self.prefix_search_filter is None:
-                self.prefix_search_filter = str(char)
+            if self.search_filter is None:
+                self.search_filter = str(char)
             else:
-                self.prefix_search_filter += str(char)
+                self.search_filter += str(char)
 
         # Make sure that the selection is in the bounds of the filtered list
         self.pointed_at = 0
 
     def remove_search_character(self) -> None:
-        if self.prefix_search_filter and len(self.prefix_search_filter) > 1:
-            self.prefix_search_filter = self.prefix_search_filter[:-1]
+        if self.search_filter and len(self.search_filter) > 1:
+            self.search_filter = self.search_filter[:-1]
         else:
-            self.prefix_search_filter = None
+            self.search_filter = None
 
     def get_search_string_tokens(self):
-        if self.prefix_search_filter is None:
+        if self.search_filter is None:
             return None
 
         return [
@@ -521,7 +519,7 @@ class InquirerControl(FormattedTextControl):
             ("class:question-mark", "/ "),
             (
                 "class:search_success" if self.found_in_search else "class:search_none",
-                self.prefix_search_filter,
+                self.search_filter,
             ),
             ("class:question-mark", "..."),
         ]

@@ -395,9 +395,7 @@ def test_select_filter_with_jk_movement_exception():
     }
     text = "2" + KeyInputs.ENTER + "\r"
     with pytest.raises(ValueError):
-        feed_cli_with_input(
-            "select", message, text, use_prefix_filter_search=True, **kwargs
-        )
+        feed_cli_with_input("select", message, text, use_search_filter=True, **kwargs)
 
 
 def test_filter_prefix_one_letter():
@@ -409,7 +407,7 @@ def test_filter_prefix_one_letter():
         "select",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )
@@ -425,7 +423,7 @@ def test_filter_prefix_multiple_letters():
         "select",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )
@@ -441,7 +439,7 @@ def test_select_filter_handle_backspace():
         "select",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )
@@ -464,7 +462,7 @@ def test_select_filter_handle_backspace():
         "select",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )
@@ -480,7 +478,7 @@ def test_select_goes_back_to_top_after_filtering():
         "select",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )

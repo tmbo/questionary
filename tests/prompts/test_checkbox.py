@@ -361,7 +361,7 @@ def test_select_filter_first_choice():
         "checkbox",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )
@@ -384,7 +384,7 @@ def test_select_filter_multiple_after_search():
         "checkbox",
         message,
         text,
-        use_prefix_filter_search=True,
+        use_search_filter=True,
         use_jk_keys=False,
         **kwargs,
     )
