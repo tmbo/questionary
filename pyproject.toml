@@ -46,8 +46,8 @@ sphinx-copybutton = ">=0.3.1,<0.6.0"
 sphinx-autodoc-typehints = "^1.11.1"
 
 [tool.poetry.group.dev.dependencies]
-pytest-cov = ">=3,<5"
-pytest = "^7.0.1"
+pytest-cov = ">=5.0.0,<6"
+pytest = ">=7.0.1,<9.0.0"
 coveralls = "^3.3.1"
 mypy = "^1.2.0"
 toml = "^0.10.2"
