@@ -86,6 +86,7 @@ class Choice:
         self.disabled = disabled
         self.title = title
         self.shortcut_key = shortcut_key
+        # self.auto_shortcut is set by self.shortcut_key.fset
         self.checked = checked if checked is not None else False
         self.description = description
 
@@ -132,25 +133,44 @@ class Choice:
     def shortcut_key(self, key: Optional[Union[str, bool]]):
         if key is not None:
             if isinstance(key, bool):
-                self.auto_shortcut = key
+                self.__auto_shortcut = key
                 self.__shortcut_key = None
             else:
                 self.__shortcut_key = str(key)
-                self.auto_shortcut = False
+                self.__auto_shortcut = False
         else:
             self.__shortcut_key = None
-            self.auto_shortcut = True
+            self.__auto_shortcut = True
 
     @shortcut_key.deleter
     def shortcut_key(self):
         self.__shortcut_key = None
-        self.auto_shortcut = True
+        self.__auto_shortcut = True
 
     def get_shortcut_title(self):
         if self.shortcut_key is None:
             return "-) "
         else:
             return "{}) ".format(self.shortcut_key)
+
+    @property
+    def auto_shortcut(self) -> bool:
+        """Whether to assign a shortcut key to the choice
+
+        Keys are assigned starting with numbers and proceeding
+        through the ASCII alphabet.
+        """
+        return self.__auto_shortcut
+
+    @auto_shortcut.setter
+    def auto_shortcut(self, should_assign: bool):
+        self.__auto_shortcut = should_assign
+        if self.__auto_shortcut:
+            self.__shortcut_key = None
+
+    @auto_shortcut.deleter
+    def auto_shortcut(self):
+        self.__auto_shortcut = False
 
 
 class Separator(Choice):
