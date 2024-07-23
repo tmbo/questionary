@@ -1,6 +1,6 @@
 repos:
-  - repo: https://github.com/humitos/mirrors-autoflake
-    rev: v1.1
+  - repo: https://github.com/PyCQA/autoflake
+    rev: v2.3.1
     hooks:
       - id: autoflake
         args: ["-i", "--remove-all-unused-imports"]
