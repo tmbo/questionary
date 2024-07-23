@@ -69,8 +69,7 @@ class Choice:
     checked: Optional[bool]
     """Whether the choice is initially selected"""
 
-    shortcut_key: Optional[str]
-    """A shortcut key for the choice"""
+    __shortcut_key: Optional[Union[str, bool]]
 
     description: Optional[str]
     """Choice description"""
@@ -86,6 +85,8 @@ class Choice:
     ) -> None:
         self.disabled = disabled
         self.title = title
+        self.shortcut_key = shortcut_key
+        # self.auto_shortcut is set by the self.shortcut_key setter
         self.checked = checked if checked is not None else False
         self.description = description
 
@@ -95,17 +96,6 @@ class Choice:
             self.value = "".join([token[1] for token in title])
         else:
             self.value = title
-
-        if shortcut_key is not None:
-            if isinstance(shortcut_key, bool):
-                self.auto_shortcut = shortcut_key
-                self.shortcut_key = None
-            else:
-                self.shortcut_key = str(shortcut_key)
-                self.auto_shortcut = False
-        else:
-            self.shortcut_key = None
-            self.auto_shortcut = True
 
     @staticmethod
     def build(c: Union[str, "Choice", Dict[str, Any]]) -> "Choice":
@@ -134,11 +124,53 @@ class Choice:
                 c.get("description", None),
             )
 
+    @property
+    def shortcut_key(self) -> Optional[Union[str, bool]]:
+        """A shortcut key for the choice"""
+        return self.__shortcut_key
+
+    @shortcut_key.setter
+    def shortcut_key(self, key: Optional[Union[str, bool]]):
+        if key is not None:
+            if isinstance(key, bool):
+                self.__auto_shortcut = key
+                self.__shortcut_key = None
+            else:
+                self.__shortcut_key = str(key)
+                self.__auto_shortcut = False
+        else:
+            self.__shortcut_key = None
+            self.__auto_shortcut = True
+
+    @shortcut_key.deleter
+    def shortcut_key(self):
+        self.__shortcut_key = None
+        self.__auto_shortcut = True
+
     def get_shortcut_title(self):
         if self.shortcut_key is None:
             return "-) "
         else:
             return "{}) ".format(self.shortcut_key)
+
+    @property
+    def auto_shortcut(self) -> bool:
+        """Whether to assign a shortcut key to the choice
+
+        Keys are assigned starting with numbers and proceeding
+        through the ASCII alphabet.
+        """
+        return self.__auto_shortcut
+
+    @auto_shortcut.setter
+    def auto_shortcut(self, should_assign: bool):
+        self.__auto_shortcut = should_assign
+        if self.__auto_shortcut:
+            self.__shortcut_key = None
+
+    @auto_shortcut.deleter
+    def auto_shortcut(self):
+        self.__auto_shortcut = False
 
 
 class Separator(Choice):
