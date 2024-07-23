@@ -86,7 +86,7 @@ class Choice:
         self.disabled = disabled
         self.title = title
         self.shortcut_key = shortcut_key
-        # self.auto_shortcut is set by self.shortcut_key.fset
+        # self.auto_shortcut is set by the self.shortcut_key setter
         self.checked = checked if checked is not None else False
         self.description = description
 
