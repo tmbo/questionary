@@ -28,6 +28,10 @@ class KeyInputs:
     ONE = "1"
     TWO = "2"
     THREE = "3"
+    END = "\x1b[F"
+    HOME = "\x1b[H"
+    PGUP = "\x1b[5~"
+    PGDN = "\x1b[6~"
 
 
 def feed_cli_with_input(_type, message, texts, sleep_time=1, **kwargs):
