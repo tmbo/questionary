@@ -350,3 +350,42 @@ def test_fail_on_no_method_to_move_selection():
 
     with pytest.raises(ValueError):
         feed_cli_with_input("checkbox", message, text, **kwargs)
+
+
+def test_select_filter_first_choice():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input(
+        "checkbox",
+        message,
+        text,
+        use_search_filter=True,
+        use_jk_keys=False,
+        **kwargs,
+    )
+    assert result == ["foo"]
+
+
+def test_select_filter_multiple_after_search():
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz", "buzz"]}
+    text = (
+        KeyInputs.SPACE
+        + "bu"
+        + KeyInputs.SPACE
+        + KeyInputs.BACK
+        + KeyInputs.BACK
+        + "\r"
+    )
+
+    result, cli = feed_cli_with_input(
+        "checkbox",
+        message,
+        text,
+        use_search_filter=True,
+        use_jk_keys=False,
+        **kwargs,
+    )
+    assert result == ["foo", "buzz"]
