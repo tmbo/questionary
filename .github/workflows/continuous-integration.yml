@@ -21,10 +21,10 @@ jobs:
       - name: Checkout git repository 🕝
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11 🐍
+      - name: Set up Python 3.12 🐍
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install poetry 🦄
         uses: Gr1N/setup-poetry@v9
@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
         promttoolkit: [3.*, 2.*]
         include:
           - promttoolkit: 3.0.29
@@ -117,10 +117,10 @@ jobs:
       - name: Checkout git repository 🕝
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11 🐍
+      - name: Set up Python 3.12 🐍
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install poetry 🦄
         uses: Gr1N/setup-poetry@v9
@@ -150,10 +150,10 @@ jobs:
       - name: Checkout git repository 🕝
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11 🐍
+      - name: Set up Python 3.12 🐍
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
 
       - name: Install poetry 🦄
         uses: Gr1N/setup-poetry@v9
