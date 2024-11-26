@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 from typing import Any
 from typing import Callable
 from typing import Iterable
@@ -115,7 +116,7 @@ class GreatUXPathCompleter(PathCompleter):
 
 def path(
     message: str,
-    default: str = "",
+    default: Path | str = "",
     qmark: str = DEFAULT_QUESTION_PREFIX,
     validate: Any = None,
     completer: Optional[Completer] = None,
@@ -238,6 +239,6 @@ def path(
         key_bindings=bindings,
         **kwargs,
     )
-    p.default_buffer.reset(Document(default))
+    p.default_buffer.reset(Document(str(default)))
 
     return Question(p.app)
