@@ -1,9 +1,10 @@
+import getpass
 from typing import Any
 from typing import Optional
 
 from questionary import Style
 from questionary.constants import DEFAULT_QUESTION_PREFIX
-from questionary.prompts import text
+from questionary.prompts.common import build_validator
 from questionary.question import Question
 
 
@@ -55,7 +56,26 @@ def password(
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
+    # Créer un validateur si nécessaire
+    validator = build_validator(validate)
 
-    return text.text(
-        message, default, validate, qmark, style, is_password=True, **kwargs
-    )
+    def ask():
+        # Affiche le message
+        print(f"{qmark} {message}")
+        # Capture le mot de passe sans afficher de caractères
+        user_input = getpass.getpass(prompt="")
+
+        # Validation si nécessaire
+        if validator:
+            while not validator.validate(user_input):
+                print("Invalid input. Please try again.")
+                user_input = getpass.getpass(prompt="")
+
+        return user_input
+
+    # Retourner un objet Question simulant le comportement
+    class PasswordQuestion(Question):
+        def unsafe_ask(self, patch_stdout=False):
+            return ask()
+
+    return PasswordQuestion(ask)
