@@ -601,6 +601,7 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
 def create_inquirer_layout(
     ic: InquirerControl,
     get_prompt_tokens: Callable[[], List[Tuple[str, str]]],
+    keep_options_displayed: bool = True,  # New flag
     **kwargs: Any,
 ) -> Layout:
     """Create a layout combining question and inquirer selection."""
@@ -618,11 +619,14 @@ def create_inquirer_layout(
         bottom_toolbar=lambda: ic.error_message, **kwargs
     )
 
+    # Modify the filter for options based on `keep_options_displayed`
+    options_filter = ~IsDone() if not keep_options_displayed else Always()
+
     return Layout(
         HSplit(
             [
                 ps.layout.container,
-                ConditionalContainer(Window(ic), filter=~IsDone()),
+                ConditionalContainer(Window(ic), filter=options_filter),  # Change here
                 ConditionalContainer(
                     Window(
                         height=LayoutDimension.exact(2),

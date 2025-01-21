@@ -39,6 +39,7 @@ def select(
     show_selected: bool = False,
     show_description: bool = True,
     instruction: Optional[str] = None,
+    keep_options_displayed: bool = True,
     **kwargs: Any,
 ) -> Question:
     """A list of items to select **one** option from.
@@ -202,7 +203,9 @@ def select(
 
         return tokens
 
-    layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
+    layout = common.create_inquirer_layout(
+        ic, get_prompt_tokens, keep_options_displayed=keep_options_displayed, **kwargs
+    )
 
     bindings = KeyBindings()
 

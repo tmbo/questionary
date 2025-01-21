@@ -24,7 +24,10 @@ class Question:
         self.default = None
 
     async def ask_async(
-        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+        self,
+        patch_stdout: bool = False,
+        kbi_msg: str = DEFAULT_KBI_MESSAGE,
+        **kwargs: Any,
     ) -> Any:
         """Ask the question using asyncio and return user response.
 
@@ -40,13 +43,16 @@ class Question:
 
         try:
             sys.stdout.flush()
-            return await self.unsafe_ask_async(patch_stdout)
+            return await self.unsafe_ask_async(patch_stdout, **kwargs)
         except KeyboardInterrupt:
             print("{}".format(kbi_msg))
             return None
 
     def ask(
-        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+        self,
+        patch_stdout: bool = False,
+        kbi_msg: str = DEFAULT_KBI_MESSAGE,
+        **kwargs: Any,
     ) -> Any:
         """Ask the question synchronously and return user response.
 
@@ -61,12 +67,12 @@ class Question:
         """
 
         try:
-            return self.unsafe_ask(patch_stdout)
+            return self.unsafe_ask(patch_stdout, **kwargs)
         except KeyboardInterrupt:
             print("{}".format(kbi_msg))
             return None
 
-    def unsafe_ask(self, patch_stdout: bool = False) -> Any:
+    def unsafe_ask(self, patch_stdout: bool = False, **kwargs: Any) -> Any:
         """Ask the question synchronously and return user response.
 
         Does not catch keyboard interrupts.
@@ -84,9 +90,9 @@ class Question:
 
         if patch_stdout:
             with prompt_toolkit.patch_stdout.patch_stdout():
-                return self.application.run()
+                return self.application.run(**kwargs)
         else:
-            return self.application.run()
+            return self.application.run(**kwargs)
 
     def skip_if(self, condition: bool, default: Any = None) -> "Question":
         """Skip the question if flag is set and return the default instead.
@@ -103,7 +109,7 @@ class Question:
         self.default = default
         return self
 
-    async def unsafe_ask_async(self, patch_stdout: bool = False) -> Any:
+    async def unsafe_ask_async(self, patch_stdout: bool = False, **kwargs: Any) -> Any:
         """Ask the question using asyncio and return user response.
 
         Does not catch keyboard interrupts.
@@ -124,9 +130,9 @@ class Question:
 
         if patch_stdout:
             with prompt_toolkit.patch_stdout.patch_stdout():
-                r = self.application.run_async()
+                r = self.application.run_async(**kwargs)
         else:
-            r = self.application.run_async()
+            r = self.application.run_async(**kwargs)
 
         if utils.is_prompt_toolkit_3():
             return await r
