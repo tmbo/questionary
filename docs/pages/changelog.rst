@@ -4,6 +4,22 @@
 Changelog
 *********
 
+2.1.0 (2024-12-29)
+###################
+
+* Added support for ``prompt_toolkit`` versions 3.0.37 and above.
+* Added search functionality to ``select`` and ``checkbox`` prompts, allowing users to search for a prefix, with the list of options filtered accordingly.
+* Added ``description`` option to ``checkbox`` and ``select``.
+* Added explicit support for Python 3.12.
+* Ignore ``Separator`` when calculating the length of choices in ``select``, allowing full utilisation of the maximum number of keyboard shortcuts.
+* Fixed issue where setting ``Choice.shortcut_key`` or ``Choice.auto_shortcut`` did not update the other.
+* Fixed a bug where disabled ``Choice`` items could still be interacted with via keyboard shortcuts.
+* Moved newline in :kbd:`Ctrl+C` message to a constant, allowing users to customise or remove it if desired.
+* Updated ``autoflake`` pre-commit hook to the new official repository.
+* Removed the ``setup.cfg`` file as it is no longer needed with the current project configuration.
+* Fixed minor typos in autocomplete examples.
+* Updated dependencies.
+
 2.0.1 (2023-09-08)
 ###################
 
