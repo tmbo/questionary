@@ -7,11 +7,13 @@ from questionary.prompts import press_any_key_to_continue
 from questionary.prompts import rawselect
 from questionary.prompts import select
 from questionary.prompts import text
+from questionary.prompts import date
 
 AVAILABLE_PROMPTS = {
     "autocomplete": autocomplete.autocomplete,
     "confirm": confirm.confirm,
     "text": text.text,
+    "date": date.date,
     "select": select.select,
     "rawselect": rawselect.rawselect,
     "password": password.password,
