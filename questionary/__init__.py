@@ -23,6 +23,7 @@ from questionary.prompts.press_any_key_to_continue import press_any_key_to_conti
 from questionary.prompts.rawselect import rawselect
 from questionary.prompts.select import select
 from questionary.prompts.text import text
+from questionary.prompts.date import date
 from questionary.question import Question
 
 __version__ = questionary.version.__version__
@@ -39,6 +40,7 @@ __all__ = [
     "rawselect",
     "select",
     "text",
+    "date",
     # utility methods
     "print",
     "form",
