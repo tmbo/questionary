@@ -116,6 +116,8 @@ class Choice:
             return c
         elif isinstance(c, str):
             return Choice(c, c)
+        elif isinstance(c, (int, bool, float)):  # Ajout pour les types primitifs
+            return Choice(str(c), c)
         else:
             return Choice(
                 c.get("name"),
