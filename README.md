@@ -1,4 +1,4 @@
-# Questionary
+# Questionary 🤔
 
 [![Version](https://img.shields.io/pypi/v/questionary.svg)](https://pypi.org/project/questionary/)
 [![License](https://img.shields.io/pypi/l/questionary.svg)](#)
@@ -9,37 +9,37 @@
 
 ✨ Questionary is a Python library for effortlessly building pretty command line interfaces ✨
 
-* [Features](#features)
-* [Installation](#installation)
-* [Usage](#usage)
-* [Documentation](#documentation)
-* [Support](#support)
+* ✨ [Features](#features)           
+* 🔨 [Installation](#installation)   
+* 💻 [Usage](#usage)                 
+* 📕 [Documentation](#documentation) 
+* 💬 [Support](#support)             
 
 
 ![Example](https://raw.githubusercontent.com/tmbo/questionary/master/docs/images/example.gif)
 
 ```python3
-import questionary
+import questionary # import queustionary module
 
-questionary.text("What's your first name").ask()
-questionary.password("What's your secret?").ask()
-questionary.confirm("Are you amazed?").ask()
+questionary.text("What's your first name").ask()    # A regular text input
+questionary.password("What's your secret?").ask()   # A password/sectet input
+questionary.confirm("Are you amazed?").ask()        # A yes/no question
 
 questionary.select(
-    "What do you want to do?",
-    choices=["Order a pizza", "Make a reservation", "Ask for opening hours"],
+    "What do you want to do?",                                                  # The initial question asked
+    choices=["Order a pizza", "Make a reservation", "Ask for opening hours"],   # Choices can have unlimited amount of items
 ).ask()
 
 questionary.rawselect(
-    "What do you want to do?",
-    choices=["Order a pizza", "Make a reservation", "Ask for opening hours"],
+    "What do you want to do?",                                                  # Unlike normal lists, you use numbers to select the item.
+    choices=["Order a pizza", "Make a reservation", "Ask for opening hours"],   # Again, you can have unlimited amount of options here.
 ).ask()
 
 questionary.checkbox(
-    "Select toppings", choices=["foo", "bar", "bazz"]
+    "Select toppings", choices=["foo", "bar", "bazz"]                           # This allows users to select more than one choice using the given controls
 ).ask()
 
-questionary.path("Path to the projects version file").ask()
+questionary.path("Path to the projects version file").ask()                     # A path input
 ```
 
 Used and supported by
