@@ -271,3 +271,38 @@ def test_prompt_show_description():
     ]
     assert ic.pointed_at == 1
     assert ic._get_choice_tokens() == expected_tokens
+
+
+def test_non_string_choices_handling():
+    """Test selecting a choice from a list containing non-string items."""
+    ic = InquirerControl([1, 2.5, True, "String"])
+
+    expected_tokens = [
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "1"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "2.5"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "True"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "String"),
+    ]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    ic.select_next()
+    assert ic.get_pointed_at().value == 2.5
+
+    ic.select_next()
+    assert ic.get_pointed_at().value is True
+
+    ic.select_next()
+    assert ic.get_pointed_at().value == "String"
