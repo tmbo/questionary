@@ -192,7 +192,7 @@ def unsafe_prompt(
         if choices is not None and callable(choices):
             calculated_choices = choices(answers)
             question_config["choices"] = calculated_choices
-            kwargs["choices"] = calculated_choices
+            _kwargs["choices"] = calculated_choices
 
         if _filter:
             # at least a little sanity check!
