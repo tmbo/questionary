@@ -126,3 +126,16 @@ def test_advanced_workflow_example():
         "next_question": "questionary",
         "second_question": "Hello World",
     }
+
+
+def test_dependent_selects_example():
+    from examples.dependent_selects import ask_dictstyle
+
+    text = KeyInputs.DOWN + KeyInputs.ENTER + KeyInputs.DOWN + KeyInputs.ENTER
+
+    result_dict = ask_with_patched_input(ask_dictstyle, text)
+
+    assert result_dict == {
+        "key": "key2",
+        "value": "k2v2",
+    }
