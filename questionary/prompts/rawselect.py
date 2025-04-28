@@ -20,6 +20,7 @@ def rawselect(
     qmark: str = DEFAULT_QUESTION_PREFIX,
     pointer: Optional[str] = DEFAULT_SELECTED_POINTER,
     style: Optional[Style] = None,
+    keep_options_displayed: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select one item from a list of choices using shortcuts.
@@ -74,6 +75,7 @@ def rawselect(
         pointer,
         style,
         use_shortcuts=True,
-        use_arrow_keys=False,
+        use_arrow_keys=True,
+        keep_options_displayed=keep_options_displayed,
         **kwargs,
     )
