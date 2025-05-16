@@ -120,7 +120,7 @@ def checkbox(
 
         show_description: Display description of current selection if available.
 
-        cycle_list: When True, allows cursor to wrap from last item to first (and vice versa). 
+        cycle_list: When True, allows cursor to wrap from last item to first (and vice versa).
                     When False, cursor stops at the ends and does not wrap around.
                     Default is True.
 
@@ -284,11 +284,10 @@ def checkbox(
         if not cycle_list and ic.get_pointed_at() == ic.choices[0]:
             ic.select_previous()
             return
-        
+
         # Skipping over any separators or disabled items
         while not ic.is_selection_valid():
             ic.select_next()
-
 
     def move_cursor_up(event):
         # Stepping once

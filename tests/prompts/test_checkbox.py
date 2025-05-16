@@ -390,14 +390,23 @@ def test_select_filter_multiple_after_search():
     )
     assert result == ["foo", "buzz"]
 
+
 def test_does_not_wrap_down_when_cycle_list_false():
     message = "Test cycle_list=False"
     kwargs = {"choices": ["foo", "bar", "bazz"], "cycle_list": False}
 
-    text = KeyInputs.DOWN + KeyInputs.DOWN + KeyInputs.DOWN + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+    text = (
+        KeyInputs.DOWN
+        + KeyInputs.DOWN
+        + KeyInputs.DOWN
+        + KeyInputs.SPACE
+        + KeyInputs.ENTER
+        + "\r"
+    )
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["bazz"]
+
 
 def test_does_not_wrap_up_when_cycle_list_false():
     message = "Test cycle_list=False"
