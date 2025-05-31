@@ -195,7 +195,7 @@ def checkbox(
                         "(Use arrow keys to move, "
                         "<space> to select, "
                         f"<{'ctrl-a' if use_search_filter else 'a'}> to toggle, "
-                        f"<{'ctrl-a' if use_search_filter else 'i'}> to invert"
+                        f"<{'ctrl-i' if use_search_filter else 'i'}> to invert"
                         f"{', type to filter' if use_search_filter else ''})",
                     )
                 )
