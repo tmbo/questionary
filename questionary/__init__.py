@@ -8,7 +8,9 @@ from questionary.form import Form
 from questionary.form import FormField
 from questionary.form import form
 from questionary.prompt import prompt
+from questionary.prompt import prompt_async
 from questionary.prompt import unsafe_prompt
+from questionary.prompt import unsafe_prompt_async
 
 # import the shortcuts to create single question prompts
 from questionary.prompts.autocomplete import autocomplete
@@ -43,7 +45,9 @@ __all__ = [
     "print",
     "form",
     "prompt",
+    "prompt_async",
     "unsafe_prompt",
+    "unsafe_prompt_async",
     # commonly used classes
     "Form",
     "FormField",
