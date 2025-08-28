@@ -15,7 +15,7 @@ warn_unused_ignores = true
 
 [tool.poetry]
 name = "questionary"
-version = "2.1.0"
+version = "2.1.1"
 description = "Python library to build pretty command line user prompts ⭐️"
 authors = [ "Tom Bocklisch <tombocklisch@gmail.com>",]
 maintainers = [ "Tom Bocklisch <tombocklisch@gmail.com>", "Kian Cross <kian@kiancross.co.uk>"]
