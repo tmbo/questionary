@@ -41,6 +41,7 @@ def checkbox(
     use_search_filter: bool = False,
     instruction: Optional[str] = None,
     show_description: bool = True,
+    cycle_list: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -118,6 +119,10 @@ def checkbox(
         instruction: A message describing how to navigate the menu.
 
         show_description: Display description of current selection if available.
+
+        cycle_list: When True, allows cursor to wrap from last item to first (and vice versa).
+                    When False, cursor stops at the ends and does not wrap around.
+                    Default is True.
 
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
@@ -272,12 +277,28 @@ def checkbox(
         perform_validation(get_selected_values())
 
     def move_cursor_down(event):
+        # Stepping once
         ic.select_next()
+
+        # If wrap disabled and we wrapped back to the first element, undo it
+        if not cycle_list and ic.get_pointed_at() == ic.choices[0]:
+            ic.select_previous()
+            return
+
+        # Skipping over any separators or disabled items
         while not ic.is_selection_valid():
             ic.select_next()
 
     def move_cursor_up(event):
+        # Stepping once
         ic.select_previous()
+
+        # If wrap disabled and we wrapped back to the last element, undo it
+        if not cycle_list and ic.get_pointed_at() == ic.choices[-1]:
+            ic.select_next()
+            return
+
+        # Skipping over any separators or disabled items
         while not ic.is_selection_valid():
             ic.select_previous()
 
