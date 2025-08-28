@@ -18,6 +18,7 @@ from prompt_toolkit.layout import FormattedTextControl
 from prompt_toolkit.layout import HSplit
 from prompt_toolkit.layout import Layout
 from prompt_toolkit.layout import Window
+from prompt_toolkit.layout.controls import BufferControl
 from prompt_toolkit.layout.dimension import LayoutDimension
 from prompt_toolkit.styles import Style
 from prompt_toolkit.validation import ValidationError
@@ -585,13 +586,13 @@ def _fix_unecessary_blank_lines(ps: PromptSession) -> None:
     This assumes the layout of the default session doesn't change, if it
     does, this needs an update."""
 
-    default_container = ps.layout.container
-
-    default_buffer_window = (
-        default_container.get_children()[0].content.get_children()[1].content  # type: ignore[attr-defined]
+    default_buffer_window: Window = next(
+        win
+        for win in ps.layout.find_all_windows()
+        if isinstance(win.content, BufferControl)
+        and win.content.buffer.name == "DEFAULT_BUFFER"
     )
 
-    assert isinstance(default_buffer_window, Window)
     # this forces the main window to stay as small as possible, avoiding
     # empty lines in selections
     default_buffer_window.dont_extend_height = Always()
