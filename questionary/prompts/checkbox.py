@@ -41,6 +41,7 @@ def checkbox(
     use_search_filter: bool = False,
     instruction: Optional[str] = None,
     show_description: bool = True,
+    keep_options_displayed: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Ask the user to select from a list of items.
@@ -222,7 +223,9 @@ def checkbox(
 
         return valid
 
-    layout = common.create_inquirer_layout(ic, get_prompt_tokens, **kwargs)
+    layout = common.create_inquirer_layout(
+        ic, get_prompt_tokens, keep_options_displayed=keep_options_displayed, **kwargs
+    )
 
     bindings = KeyBindings()
 
