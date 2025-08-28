@@ -26,7 +26,7 @@ class PromptParameterException(ValueError):
 
 def parse_question_config(
     question_config, answers, patch_stdout, true_color, **kwargs: Any
-) -> tuple[Question, Callable[[Any], None]] | None:
+) -> Optional[tuple[Question, Callable[[Any], None]]]:
     """Create a question based on the configuration for a prompt
 
     Args:
@@ -93,7 +93,7 @@ def parse_question_config(
     if choices is not None and callable(choices):
         calculated_choices = choices(answers)
         question_config["choices"] = calculated_choices
-        kwargs["choices"] = calculated_choices
+        _kwargs["choices"] = calculated_choices
 
     if _filter:
         # at least a little sanity check!
