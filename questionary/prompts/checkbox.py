@@ -38,7 +38,7 @@ def checkbox(
     use_arrow_keys: bool = True,
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
-    use_search_filter: Union[str, bool, None] = False,
+    use_search_filter: bool = False,
     instruction: Optional[str] = None,
     show_description: bool = True,
     **kwargs: Any,
@@ -195,7 +195,7 @@ def checkbox(
                         "(Use arrow keys to move, "
                         "<space> to select, "
                         f"<{'ctrl-a' if use_search_filter else 'a'}> to toggle, "
-                        f"<{'ctrl-a' if use_search_filter else 'i'}> to invert"
+                        f"<{'ctrl-i' if use_search_filter else 'i'}> to invert"
                         f"{', type to filter' if use_search_filter else ''})",
                     )
                 )
