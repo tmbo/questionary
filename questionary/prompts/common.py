@@ -105,7 +105,9 @@ class Choice:
         """Create a choice object from different representations.
 
         Args:
-            c: Either a :obj:`str`, :class:`Choice` or :obj:`dict` with
+            c: Either a :obj:`str` (or an :obj:`int` / :obj:`bool` / 
+               :obj:`float` converted 
+               to :obj:`str`), :class:`Choice` or :obj:`dict` with
                ``name``, ``value``, ``disabled``, ``checked`` and
                ``key`` properties.
 
@@ -117,6 +119,8 @@ class Choice:
             return c
         elif isinstance(c, str):
             return Choice(c, c)
+        elif isinstance(c, (int, bool, float)):
+            return Choice(str(c), c)
         else:
             return Choice(
                 c.get("name"),
