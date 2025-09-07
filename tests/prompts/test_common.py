@@ -216,6 +216,19 @@ def test_print_with_style(monkeypatch):
             reverse=False,
             hidden=False,
         )
+    elif prompt_toolkit_version >= (3, 0, 52):
+        assert mock.method_calls[0][1][0] == Attrs(
+            color="8b0000",
+            bgcolor="",
+            bold=True,
+            underline=False,
+            italic=True,
+            blink=False,
+            reverse=False,
+            hidden=False,
+            strike=False,
+            dim=False,
+        )
     else:
         assert mock.method_calls[0][1][0] == Attrs(
             color="8b0000",
