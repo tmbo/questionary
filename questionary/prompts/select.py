@@ -243,6 +243,32 @@ def select(
         while not ic.is_selection_valid():
             ic.select_previous()
 
+    def move_cursor_page_down(event):
+        rows = event.app.output.get_size().rows - 1
+        current_row = ic.pointed_at % rows
+        for _ in range(rows):
+            ic.select_next()
+        for _ in range(rows - current_row - 1):
+            ic.select_next()
+        event.app._redraw()
+        for _ in range(rows - current_row - 1):
+            ic.select_previous()
+        while not ic.is_selection_valid():
+            ic.select_next()
+
+    def move_cursor_page_up(event):
+        rows = event.app.output.get_size().rows - 1
+        current_row = ic.pointed_at % rows
+        for _ in range(rows):
+            ic.select_previous()
+        for _ in range(current_row):
+            ic.select_previous()
+        event.app._redraw()
+        for _ in range(current_row):
+            ic.select_next()
+        while not ic.is_selection_valid():
+            ic.select_previous()
+
     if use_search_filter:
 
         def search_filter(event):
@@ -255,10 +281,16 @@ def select(
     if use_arrow_keys:
         bindings.add(Keys.Down, eager=True)(move_cursor_down)
         bindings.add(Keys.Up, eager=True)(move_cursor_up)
+        bindings.add(Keys.Right, eager=True)(move_cursor_page_down)
+        bindings.add(Keys.Left, eager=True)(move_cursor_page_up)
+        bindings.add(Keys.PageDown, eager=True)(move_cursor_page_down)
+        bindings.add(Keys.PageUp, eager=True)(move_cursor_page_up)
 
     if use_jk_keys:
         bindings.add("j", eager=True)(move_cursor_down)
         bindings.add("k", eager=True)(move_cursor_up)
+        bindings.add("l", eager=True)(move_cursor_page_down)
+        bindings.add("h", eager=True)(move_cursor_page_up)
 
     if use_emacs_keys:
         bindings.add(Keys.ControlN, eager=True)(move_cursor_down)
