@@ -39,6 +39,7 @@ def select(
     show_selected: bool = False,
     show_description: bool = True,
     instruction: Optional[str] = None,
+    initial_choice: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
     """A list of items to select **one** option from.
@@ -162,6 +163,11 @@ def select(
 
     merged_style = merge_styles_default([style])
 
+    if initial_choice is not None:
+        ic_initial_choice = initial_choice
+    else:
+        ic_initial_choice = default
+
     ic = InquirerControl(
         choices,
         default,
@@ -171,7 +177,7 @@ def select(
         show_selected=show_selected,
         show_description=show_description,
         use_arrow_keys=use_arrow_keys,
-        initial_choice=default,
+        initial_choice=ic_initial_choice,
     )
 
     def get_prompt_tokens():
