@@ -1,10 +1,8 @@
-from typing import Any
+from typing import TYPE_CHECKING
 from typing import Callable
-from typing import Dict
-from typing import Iterable
-from typing import Mapping
-from typing import Optional
-from typing import Union
+
+if TYPE_CHECKING:
+    from typing import Any, Dict, Iterable, Mapping, Optional, Union
 
 from prompt_toolkit.output import ColorDepth
 
@@ -68,7 +66,7 @@ def parse_question_config(
                     return None
             except Exception as exception:
                 raise ValueError(
-                    f"Problem in 'when' check of " f"{name} question: {exception}"
+                    f"Problem in 'when' check of {name} question: {exception}"
                 ) from exception
         else:
             raise ValueError("'when' needs to be function that accepts a dict argument")
@@ -124,8 +122,7 @@ def parse_question_config(
                     answer = _filter(answer)
                 except Exception as exception:
                     raise ValueError(
-                        f"Problem processing 'filter' of {name} "
-                        f"question: {exception}"
+                        f"Problem processing 'filter' of {name} question: {exception}"
                     ) from exception
             answers[name] = answer
 
@@ -137,7 +134,7 @@ async def prompt_async(
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
-    kbi_msg: str = DEFAULT_KBI_MESSAGE,
+    kbi_msg: Union[str, None] = DEFAULT_KBI_MESSAGE,
     **kwargs: Any,
 ) -> Dict[str, Any]:
     """Prompt the user for input on all the questions using asyncio.
@@ -168,6 +165,7 @@ async def prompt_async(
                       are printing to stdout.
 
         kbi_msg: The message to be printed on a keyboard interrupt.
+
         true_color: Use true color output.
 
         color_depth: Color depth to use. If ``true_color`` is set to true then this
@@ -189,7 +187,8 @@ async def prompt_async(
             questions, answers, patch_stdout, true_color, **kwargs
         )
     except KeyboardInterrupt:
-        print(kbi_msg)
+        if kbi_msg is not None:
+            print(kbi_msg)
         return {}
 
 
@@ -198,7 +197,7 @@ def prompt(
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
     true_color: bool = False,
-    kbi_msg: str = DEFAULT_KBI_MESSAGE,
+    kbi_msg: Union[str, None] = DEFAULT_KBI_MESSAGE,
     **kwargs: Any,
 ) -> Dict[str, Any]:
     """Prompt the user for input on all the questions.
@@ -229,6 +228,7 @@ def prompt(
                       are printing to stdout.
 
         kbi_msg: The message to be printed on a keyboard interrupt.
+
         true_color: Use true color output.
 
         color_depth: Color depth to use. If ``true_color`` is set to true then this
@@ -248,7 +248,8 @@ def prompt(
     try:
         return unsafe_prompt(questions, answers, patch_stdout, true_color, **kwargs)
     except KeyboardInterrupt:
-        print(kbi_msg)
+        if kbi_msg is not None:
+            print(kbi_msg)
         return {}
 
 
