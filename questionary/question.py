@@ -1,9 +1,6 @@
 import sys
-from typing import TYPE_CHECKING
 from typing import Any
-
-if TYPE_CHECKING:
-    from typing import Union
+from typing import Union
 
 import prompt_toolkit.patch_stdout
 from prompt_toolkit import Application

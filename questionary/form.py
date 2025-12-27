@@ -1,8 +1,8 @@
-from typing import TYPE_CHECKING
+from typing import Any
+from typing import Dict
 from typing import NamedTuple
-
-if TYPE_CHECKING:
-    from typing import Any, Dict, Sequence, Union
+from typing import Sequence
+from typing import Union
 
 from questionary.constants import DEFAULT_KBI_MESSAGE
 from questionary.question import Question

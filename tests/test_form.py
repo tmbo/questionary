@@ -1,3 +1,6 @@
+import asyncio
+from unittest.mock import patch
+
 from prompt_toolkit.output import DummyOutput
 from pytest import fail
 
@@ -75,5 +78,39 @@ def test_ask_should_catch_keyboard_exception():
             assert result == {}
         except KeyboardInterrupt:
             fail("Keyboard Interrupt should be caught by `ask()`")
+
+    execute_with_input_pipe(run)
+
+
+def test_no_keyboard_interrupt_message_in_ask() -> None:
+    """
+    Test no message printed when `kbi_msg` is None in `ask()`.
+    """
+    def run(inp):
+        inp.send_text(KeyInputs.CONTROLC)
+        f = example_form(inp)
+
+        with patch("builtins.print") as mock_print:
+            result = f.ask(kbi_msg=None)
+
+        mock_print.assert_not_called()
+        assert result == {}
+
+    execute_with_input_pipe(run)
+
+
+def test_no_keyboard_interrupt_message_in_ask_async() -> None:
+    """
+    Test no message printed when `kbi_msg` is None in `ask_async()`.
+    """
+    def run(inp):
+        inp.send_text(KeyInputs.CONTROLC)
+        f = example_form(inp)
+
+        with patch("builtins.print") as mock_print:
+            result = asyncio.run(f.ask_async(kbi_msg=None))
+
+        mock_print.assert_not_called()
+        assert result == {}
 
     execute_with_input_pipe(run)

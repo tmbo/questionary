@@ -1,8 +1,10 @@
-from typing import TYPE_CHECKING
+from typing import Any
 from typing import Callable
-
-if TYPE_CHECKING:
-    from typing import Any, Dict, Iterable, Mapping, Optional, Union
+from typing import Dict
+from typing import Iterable
+from typing import Mapping
+from typing import Optional
+from typing import Union
 
 from prompt_toolkit.output import ColorDepth
 
