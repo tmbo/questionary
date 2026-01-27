@@ -55,7 +55,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         promttoolkit: [3.*, 2.*]
         include:
           - promttoolkit: 3.0.29
@@ -96,6 +96,7 @@ jobs:
           COVERALLS_SERVICE_NAME: github
           COVERALLS_PARALLEL: true
         run: poetry run coveralls
+
   post-test:
     name: Signal test completion
     needs: test

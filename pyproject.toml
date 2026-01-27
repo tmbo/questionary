@@ -4,7 +4,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 88
-target-version = ["py38", "py39", "py310", "py311", "py312"]
+target-version = ["py310", "py311", "py312", "py313", "py314"]
 exclude = "((.eggs | .git | .pytype | .pytest_cache | build | dist))"
 
 [tool.mypy]
@@ -27,11 +27,11 @@ classifiers=[
     "License :: OSI Approved :: MIT License",
     # supported python versions
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries",
 ]
 keywords = [ "cli", "ui", "inquirer", "questions", "prompt",]
@@ -39,7 +39,7 @@ readme = "README.md"
 license = "MIT"
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.10"
 prompt_toolkit = ">=2.0,<4.0"
 
 [tool.poetry.group.docs]
