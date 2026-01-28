@@ -2,6 +2,7 @@ from typing import Any
 from typing import Dict
 from typing import NamedTuple
 from typing import Sequence
+from typing import Union
 
 from questionary.constants import DEFAULT_KBI_MESSAGE
 from questionary.question import Question
@@ -77,7 +78,9 @@ class Form:
         }
 
     def ask(
-        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+        self,
+        patch_stdout: bool = False,
+        kbi_msg: Union[str, None] = DEFAULT_KBI_MESSAGE,
     ) -> Dict[str, Any]:
         """Ask the questions synchronously and return user response.
 
@@ -93,11 +96,14 @@ class Form:
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
-            print(kbi_msg)
+            if kbi_msg is not None:
+                print(kbi_msg)
             return {}
 
     async def ask_async(
-        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+        self,
+        patch_stdout: bool = False,
+        kbi_msg: Union[str, None] = DEFAULT_KBI_MESSAGE,
     ) -> Dict[str, Any]:
         """Ask the questions using asyncio and return user response.
 
@@ -113,5 +119,6 @@ class Form:
         try:
             return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:
-            print(kbi_msg)
+            if kbi_msg is not None:
+                print(kbi_msg)
             return {}
