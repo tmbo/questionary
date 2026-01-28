@@ -86,6 +86,7 @@ def test_no_keyboard_interrupt_message_in_ask() -> None:
     """
     Test no message printed when `kbi_msg` is None in `ask()`.
     """
+
     def run(inp):
         inp.send_text(KeyInputs.CONTROLC)
         f = example_form(inp)
@@ -103,6 +104,7 @@ def test_no_keyboard_interrupt_message_in_ask_async() -> None:
     """
     Test no message printed when `kbi_msg` is None in `ask_async()`.
     """
+
     def run(inp):
         inp.send_text(KeyInputs.CONTROLC)
         f = example_form(inp)
