@@ -82,7 +82,7 @@ The printed output will have the following format:
 
   {'first': True, 'second': 'item2'}
 
-The :meth:`~questionary.prompt` function also allows you to ask a
+The :meth:`~questionary.safe_prompt` function also allows you to ask a
 collection of questions, however instead of taking :class:`~questionary.Question`
 instances, it takes a dictionary:
 
@@ -105,7 +105,7 @@ instances, it takes a dictionary:
     },
   ]
 
-  questionary.prompt(questions)
+  questionary.safe_prompt(questions)
 
 The format of the returned answers is the same as the one for
 :meth:`~questionary.form`. You can find more details on the configuration

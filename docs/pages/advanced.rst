@@ -104,7 +104,7 @@ Safe
 
 The following are safe (capture keyboard interrupts):
 
-* :meth:`~questionary.prompt`;
+* :meth:`~questionary.safe_prompt`;
 
 * :attr:`~questionary.Form.ask` on :class:`~questionary.Form` (returned by
   :meth:`~questionary.form`);
@@ -121,7 +121,7 @@ Here is an example:
 
     # Questionary handles keyboard interrupt and returns `None` if the
     # user hits e.g. `Ctrl+C`
-    prompt(...)
+    safe_prompt(...)
 
 Unsafe
 ******
@@ -136,7 +136,7 @@ The following are unsafe (do not catch keyboard interrupts):
 * :attr:`~questionary.Question.unsafe_ask` on :class:`~questionary.Question`,
   which is returned by the various prompt functions (e.g. :meth:`~questionary.text`,
   :meth:`~questionary.checkbox`).
-  
+
 As a caller you must handle keyboard interrupts yourself
 when calling these methods. Here is an example:
 
@@ -252,7 +252,7 @@ them using a configuration dictionary:
 
 .. code-block:: python3
 
-  from questionary import prompt
+  from questionary import safe_prompt
 
   questions = [
       {
@@ -268,7 +268,7 @@ them using a configuration dictionary:
       }
   ]
 
-  answers = prompt(questions)
+  answers = safe_prompt(questions)
 
 The questions will be prompted one after another and ``prompt`` will return
 as soon as all of them are answered. The returned ``answers``
@@ -314,9 +314,9 @@ add the following optional parameters:
 
 ``filter`` (optional)
   Receive the user input and return the filtered value to be
-  used inside the program. 
+  used inside the program.
 
-Further information can be found at the :class:`questionary.prompt`
+Further information can be found at the :class:`questionary.safe_prompt`
 documentation.
 
 .. _random_label:
@@ -345,14 +345,14 @@ Depending on the route the user took, the result will look like the following:
 
 .. code-block:: python3
 
-  { 
+  {
       'conditional_step': False,
       'second_question': 'Test input'   # Free form text
   }
 
 .. code-block:: python3
 
-  { 
+  {
       'conditional_step': True,
       'next_question': 'questionary',
       'second_question': 'Test input'   # Free form text
