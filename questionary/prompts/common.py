@@ -50,8 +50,8 @@ class Choice:
                is `None` or unset, then the value of `title` is used.
 
         disabled: If set, the choice can not be selected by the user. The
-                  provided text is used to explain, why the selection is
-                  disabled.
+                  provided text is used to explain why the selection is
+                  disabled or, if a boolean, no explanation is provided.
 
         checked: Preselect this choice when displaying the options.
 
