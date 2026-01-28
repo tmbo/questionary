@@ -18,36 +18,25 @@ from questionary.styles import merge_styles_default
 
 def confirm(
     message: str,
-    default: bool = True,
+    default: Optional[bool] = True,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
     auto_enter: bool = True,
     instruction: Optional[str] = None,
+    mandatory: bool = True,
     **kwargs: Any,
 ) -> Question:
     """A yes or no question. The user can either confirm or deny.
 
     This question type can be used to prompt the user for a confirmation
     of a yes-or-no question. If the user just hits enter, the default
-    value will be returned.
-
-    Example:
-        >>> import questionary
-        >>> questionary.confirm("Are you amazed?").ask()
-        ? Are you amazed? Yes
-        True
-
-    .. image:: ../images/confirm.gif
-
-    This is just a really basic example, the prompt can be customised using the
-    parameters.
-
+    value will be returned unless mandatory=True.
 
     Args:
         message: Question text.
 
-        default: Default value will be returned if the user just hits
-                 enter.
+        default: Default value will be returned if the user just hits enter,
+                 unless mandatory=True.
 
         qmark: Question prefix displayed in front of the question.
                By default this is a ``?``.
@@ -61,6 +50,10 @@ def confirm(
 
         instruction: A message describing how to proceed through the
                      confirmation prompt.
+
+        mandatory: If set to `True`, the user must type either 'y' or 'n';
+                   pressing Enter without input is not allowed.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -72,13 +65,16 @@ def confirm(
         tokens = []
 
         tokens.append(("class:qmark", qmark))
-        tokens.append(("class:question", " {} ".format(message)))
+        tokens.append(("class:question", f" {message} "))
 
         if instruction is not None:
             tokens.append(("class:instruction", instruction))
         elif not status["complete"]:
-            _instruction = YES_OR_NO if default else NO_OR_YES
-            tokens.append(("class:instruction", "{} ".format(_instruction)))
+            if mandatory:
+                tokens.append(("class:instruction", "(Type 'y' or 'n') "))
+            else:
+                _instruction = YES_OR_NO if default else NO_OR_YES
+                tokens.append(("class:instruction", f"{_instruction} "))
 
         if status["answer"] is not None:
             answer = YES if status["answer"] else NO
@@ -117,10 +113,13 @@ def confirm(
 
     @bindings.add(Keys.ControlM, eager=True)
     def set_answer(event):
-        if status["answer"] is None:
-            status["answer"] = default
-
-        exit_with_result(event)
+        if mandatory and status["answer"] is None:
+            # Prevent submission if answer is None and mandatory=True
+            event.app.invalidate()
+        else:
+            if status["answer"] is None:
+                status["answer"] = default
+            exit_with_result(event)
 
     @bindings.add(Keys.Any)
     def other(event):
