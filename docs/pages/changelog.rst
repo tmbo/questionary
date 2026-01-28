@@ -4,6 +4,12 @@
 Changelog
 *********
 
+2.1.1 (2025-08-28)
+###################
+
+* Fixed compatibility with ``prompt_toolkit`` 3.0.52. Previously that version raised ability
+  ``AttributeError: 'VSplit' object has no attribute 'content'`` error.
+
 2.1.0 (2024-12-29)
 ###################
 
