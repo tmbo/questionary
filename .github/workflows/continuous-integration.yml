@@ -62,6 +62,8 @@ jobs:
             os: ubuntu-latest
           - promttoolkit: 3.0.19
             os: ubuntu-latest
+          - promttoolkit: 3.0.52
+            os: ubuntu-latest
 
     steps:
       - name: Checkout git repository 🕝
