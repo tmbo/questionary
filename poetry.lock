@@ -1037,19 +1037,19 @@ rtd = ["ipython", "myst-nb", "sphinx", "sphinx-book-theme", "sphinx-examples"]
 
 [[package]]
 name = "sphinx-rtd-theme"
-version = "3.0.2"
+version = "3.1.0"
 description = "Read the Docs theme for Sphinx"
 optional = false
 python-versions = ">=3.8"
 groups = ["docs"]
 files = [
-    {file = "sphinx_rtd_theme-3.0.2-py2.py3-none-any.whl", hash = "sha256:422ccc750c3a3a311de4ae327e82affdaf59eb695ba4936538552f3b00f4ee13"},
-    {file = "sphinx_rtd_theme-3.0.2.tar.gz", hash = "sha256:b7457bc25dda723b20b086a670b9953c859eab60a2a03ee8eb2bb23e176e5f85"},
+    {file = "sphinx_rtd_theme-3.1.0-py2.py3-none-any.whl", hash = "sha256:1785824ae8e6632060490f67cf3a72d404a85d2d9fc26bce3619944de5682b89"},
+    {file = "sphinx_rtd_theme-3.1.0.tar.gz", hash = "sha256:b44276f2c276e909239a4f6c955aa667aaafeb78597923b1c60babc76db78e4c"},
 ]
 
 [package.dependencies]
-docutils = ">0.18,<0.22"
-sphinx = ">=6,<9"
+docutils = ">0.18,<0.23"
+sphinx = ">=6,<10"
 sphinxcontrib-jquery = ">=4,<5"
 
 [package.extras]
@@ -1526,4 +1526,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10"
-content-hash = "c12f1f4083d1a3e2f387b8dba992b52125ae7f28156662a40acf110378a7b55f"
+content-hash = "96b1d13d088feccb8b0964a0bdf1831a713ab92d0480b9cfc61f06d1e1ee8d1f"
