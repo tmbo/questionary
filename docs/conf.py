@@ -32,7 +32,7 @@ html_theme_options = {
 }
 
 intersphinx_mapping = {
-    "python": ("https://docs.python.org/3", None),
+    "python": ("https://docs.python.org/3.12", None),
     "prompt_toolkit": ("https://python-prompt-toolkit.readthedocs.io/en/3.0.36/", None),
 }
 

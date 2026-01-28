@@ -50,8 +50,8 @@ class Choice:
                is `None` or unset, then the value of `title` is used.
 
         disabled: If set, the choice can not be selected by the user. The
-                  provided text is used to explain, why the selection is
-                  disabled.
+                  provided text is used to explain why the selection is
+                  disabled or, if a boolean, no explanation is provided.
 
         checked: Preselect this choice when displaying the options.
 
@@ -66,7 +66,7 @@ class Choice:
     value: Optional[Any]
     """Value of the choice"""
 
-    disabled: Optional[str]
+    disabled: Optional[Union[str, bool]]
     """Whether the choice can be selected"""
 
     checked: Optional[bool]
@@ -81,7 +81,7 @@ class Choice:
         self,
         title: FormattedText,
         value: Optional[Any] = None,
-        disabled: Optional[str] = None,
+        disabled: Optional[Union[str, bool]] = None,
         checked: Optional[bool] = False,
         shortcut_key: Optional[Union[str, bool]] = True,
         description: Optional[str] = None,
@@ -501,7 +501,7 @@ class InquirerControl(FormattedTextControl):
         selected = self.choices[self.pointed_at]
         return isinstance(selected, Separator)
 
-    def is_selection_disabled(self) -> Optional[str]:
+    def is_selection_disabled(self) -> Optional[Union[str, bool]]:
         return self.choices[self.pointed_at].disabled
 
     def is_selection_valid(self) -> bool:
