@@ -82,7 +82,7 @@ The printed output will have the following format:
 
   {'first': True, 'second': 'item2'}
 
-The :meth:`~questionary.safe_prompt` function also allows you to ask a
+The :func:`~questionary.safe_prompt` function also allows you to ask a
 collection of questions, however instead of taking :class:`~questionary.Question`
 instances, it takes a dictionary:
 

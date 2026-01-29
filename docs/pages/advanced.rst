@@ -104,7 +104,7 @@ Safe
 
 The following are safe (capture keyboard interrupts):
 
-* :meth:`~questionary.safe_prompt`;
+* :func:`~questionary.safe_prompt`;
 
 * :attr:`~questionary.Form.ask` on :class:`~questionary.Form` (returned by
   :meth:`~questionary.form`);
@@ -270,7 +270,7 @@ them using a configuration dictionary:
 
   answers = safe_prompt(questions)
 
-The questions will be prompted one after another and ``prompt`` will return
+The questions will be prompted one after the other and ``safe_prompt`` will return
 as soon as all of them are answered. The returned ``answers``
 will be a dictionary containing the responses, e.g.
 
@@ -316,8 +316,7 @@ add the following optional parameters:
   Receive the user input and return the filtered value to be
   used inside the program.
 
-Further information can be found at the :class:`questionary.safe_prompt`
-documentation.
+Further information can be found in the :func:`~questionary.safe_prompt` documentation.
 
 .. _random_label:
 
