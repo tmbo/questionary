@@ -8,6 +8,7 @@ from typing import Sequence
 from typing import Union
 
 from prompt_toolkit.application import Application
+from prompt_toolkit.formatted_text import FormattedText as PTFormattedText
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style
@@ -24,7 +25,7 @@ from questionary.styles import merge_styles_default
 
 
 def select(
-    message: str,
+    message: Union[str, Dict[str, Any]],
     choices: Sequence[Union[str, Choice, Dict[str, Any]]],
     default: Optional[Union[str, Choice, Dict[str, Any]]] = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
@@ -176,7 +177,13 @@ def select(
 
     def get_prompt_tokens():
         # noinspection PyListCreation
-        tokens = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
+        tokens = [("class:qmark", qmark)]
+        if isinstance(message, (list, PTFormattedText)):
+            tokens += message
+        elif hasattr(message, "__pt_formatted_text__"):
+            tokens += list(message.__pt_formatted_text__())
+        else:
+            tokens.append(("class:question", " {} ".format(message)))
 
         if ic.is_answered:
             if isinstance(ic.get_pointed_at().title, list):
