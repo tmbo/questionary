@@ -5,7 +5,7 @@ import prompt_toolkit
 from prompt_toolkit.input.defaults import create_pipe_input
 from prompt_toolkit.output import DummyOutput
 
-from questionary import prompt
+from questionary import safe_prompt
 from questionary.prompts import prompt_by_name
 from questionary.utils import is_prompt_toolkit_3
 
@@ -72,7 +72,7 @@ def patched_prompt(questions, text, **kwargs):
     def run(inp):
         # noinspection PyUnresolvedReferences
         inp.send_text(text)
-        result = prompt(questions, input=inp, output=DummyOutput(), **kwargs)
+        result = safe_prompt(questions, input=inp, output=DummyOutput(), **kwargs)
         return result
 
     return execute_with_input_pipe(run)

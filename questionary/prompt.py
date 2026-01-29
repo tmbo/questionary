@@ -193,7 +193,7 @@ async def prompt_async(
         return {}
 
 
-def prompt(
+def safe_prompt(
     questions: Union[Dict[str, Any], Iterable[Mapping[str, Any]]],
     answers: Optional[Mapping[str, Any]] = None,
     patch_stdout: bool = False,
@@ -229,6 +229,7 @@ def prompt(
                       are printing to stdout.
 
         kbi_msg: The message to be printed on a keyboard interrupt.
+
         true_color: Use true color output.
 
         color_depth: Color depth to use. If ``true_color`` is set to true then this
@@ -244,7 +245,6 @@ def prompt(
     Returns:
         Dictionary of question answers.
     """
-
     try:
         return unsafe_prompt(questions, answers, patch_stdout, true_color, **kwargs)
     except KeyboardInterrupt:

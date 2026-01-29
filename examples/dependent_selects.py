@@ -1,6 +1,6 @@
 from pprint import pprint
 
-from questionary import prompt
+from questionary import safe_prompt
 
 OPTIONS = {"key1": ["k1v1", "k1v2"], "key2": ["k2v1", "k2v2"]}
 
@@ -20,7 +20,7 @@ def ask_dictstyle(**kwargs):
             "choices": lambda x: OPTIONS[x["key"]],
         },
     ]
-    return prompt(questions, **kwargs)
+    return safe_prompt(questions, **kwargs)
 
 
 if __name__ == "__main__":
