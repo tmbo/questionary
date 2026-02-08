@@ -63,7 +63,7 @@ Asking Multiple Questions
 
 You can use the :meth:`~questionary.form` function to ask a collection
 of :class:`Questions <questionary.Question>`. The questions will be asked in
-the order they are passed to `:meth:`~questionary.form``.
+the order they are passed to :meth:`~questionary.form`.
 
 .. code:: python3
 
