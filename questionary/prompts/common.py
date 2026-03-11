@@ -344,11 +344,11 @@ class InquirerControl(FormattedTextControl):
                     available_shortcuts.remove(c.shortcut_key)
                 else:
                     raise ValueError(
-                        "Invalid shortcut '{}'"
-                        "for choice '{}'. Shortcuts "
-                        "should be single characters or numbers. "
-                        "Make sure that all your shortcuts are "
-                        "unique.".format(c.shortcut_key, c.title)
+                        "Invalid shortcut '{}' for choice '{}'. "
+                        "Shortcuts must be a single lowercase letter (a-z) or "
+                        "digit (0-9), and must be unique.".format(
+                            c.shortcut_key, c.title
+                        )
                     )
 
         shortcut_idx = 0
