@@ -55,7 +55,8 @@ class Choice:
 
         checked: Preselect this choice when displaying the options.
 
-        shortcut_key: Key shortcut used to select this item.
+        shortcut_key: Key shortcut used to select this item. Must be a single
+            lowercase letter (a-z) or digit (0-9).
 
         description: Optional description of the item that can be displayed.
     """
@@ -129,7 +130,9 @@ class Choice:
 
     @property
     def shortcut_key(self) -> Optional[Union[str, bool]]:
-        """A shortcut key for the choice"""
+        """Shortcut key for this choice. Must be a single lowercase letter
+        (a-z) or digit (0-9).
+        """
         return self.__shortcut_key
 
     @shortcut_key.setter
