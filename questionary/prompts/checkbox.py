@@ -39,6 +39,7 @@ def checkbox(
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
     use_search_filter: bool = False,
+    search_filter_fn: Optional[Callable[[str, Choice], bool]] = None,
     instruction: Optional[str] = None,
     show_description: bool = True,
     cycle_list: bool = True,
@@ -116,6 +117,8 @@ def checkbox(
                            navigation as "j" and "k" can be part of a prefix and
                            therefore cannot be used for navigation
 
+        search_filter_fn: Custom matching function used in the search filter.
+
         instruction: A message describing how to navigate the menu.
 
         show_description: Display description of current selection if available.
@@ -158,6 +161,7 @@ def checkbox(
         pointer=pointer,
         initial_choice=initial_choice,
         show_description=show_description,
+        search_filter_fn=search_filter_fn,
     )
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:
