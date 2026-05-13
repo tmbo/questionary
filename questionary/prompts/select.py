@@ -176,7 +176,7 @@ def select(
 
     def get_prompt_tokens():
         # noinspection PyListCreation
-        tokens = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
+        tokens = common.format_question_tokens(qmark, message)
 
         if ic.is_answered:
             if isinstance(ic.get_pointed_at().title, list):

@@ -14,6 +14,7 @@ from questionary import Choice
 from questionary.prompts import common
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import build_validator
+from questionary.prompts.common import format_question_tokens
 from questionary.prompts.common import print_formatted_text
 from tests.utils import prompt_toolkit_version
 
@@ -284,3 +285,28 @@ def test_prompt_show_description():
     ]
     assert ic.pointed_at == 1
     assert ic._get_choice_tokens() == expected_tokens
+
+
+def test_format_question_tokens_with_qmark():
+    tokens = format_question_tokens("?", "What is your name?")
+    assert tokens == [
+        ("class:qmark", "?"),
+        ("class:question", " What is your name? "),
+    ]
+
+
+def test_format_question_tokens_omits_qmark_when_none():
+    tokens = format_question_tokens(None, "Press any key to continue...")
+    assert tokens == [
+        ("class:question", " Press any key to continue... "),
+    ]
+
+
+def test_format_question_tokens_passes_through_non_string_message():
+    formatted = [("class:question", "pre-styled")]
+    tokens = format_question_tokens("?", formatted)
+    # Non-string messages are not wrapped — they slot in as-is.
+    assert tokens == [
+        ("class:qmark", "?"),
+        ("class:question", f" {formatted} "),
+    ]

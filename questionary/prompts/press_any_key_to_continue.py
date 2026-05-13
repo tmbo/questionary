@@ -7,6 +7,7 @@ from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.styles import Style
 
+from questionary.prompts.common import format_question_tokens
 from questionary.question import Question
 from questionary.styles import merge_styles_default
 
@@ -39,11 +40,7 @@ def press_any_key_to_continue(
         message = "Press any key to continue..."
 
     def get_prompt_tokens():
-        tokens = []
-
-        tokens.append(("class:question", f" {message} "))
-
-        return to_formatted_text(tokens)
+        return to_formatted_text(format_question_tokens(None, message))
 
     def exit_with_result(event):
         event.app.exit(result=None)

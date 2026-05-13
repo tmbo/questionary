@@ -161,10 +161,7 @@ def checkbox(
     )
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:
-        tokens = []
-
-        tokens.append(("class:qmark", qmark))
-        tokens.append(("class:question", " {} ".format(message)))
+        tokens = common.format_question_tokens(qmark, message)
 
         if ic.is_answered:
             nbr_selected = len(ic.selected_options)

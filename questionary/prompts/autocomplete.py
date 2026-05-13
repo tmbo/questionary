@@ -19,6 +19,7 @@ from prompt_toolkit.styles import Style
 
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.prompts.common import build_validator
+from questionary.prompts.common import format_question_tokens
 from questionary.question import Question
 from questionary.styles import merge_styles_default
 
@@ -178,7 +179,7 @@ def autocomplete(
     merged_style = merge_styles_default([style])
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:
-        return [("class:qmark", qmark), ("class:question", " {} ".format(message))]
+        return format_question_tokens(qmark, message)
 
     def get_meta_style(meta: Optional[Dict[str, Any]]) -> Optional[Dict[str, Any]]:
         if meta:
