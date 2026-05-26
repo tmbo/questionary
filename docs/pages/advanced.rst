@@ -165,12 +165,15 @@ question using :mod:`python:asyncio`:
 
   answer = await questionary.text("What's your name?").ask_async()
 
+.. _advanced-themes-styling:
+
 Themes & Styling
 ################
 
 You can customize all the colors used for the prompts. Every part of the prompt
 has an identifier, which you can use to style it. Let's create your own custom
-style:
+style.
+For a complete token-by-token reference, see :ref:`theming-styling-reference`.
 
 .. code-block:: python3
 
