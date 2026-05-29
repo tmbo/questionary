@@ -4,7 +4,9 @@ from copy import copy
 import pytest
 
 from questionary import Choice
+from questionary import select
 from questionary import Separator
+from questionary.prompts.common import InquirerControl
 from tests.utils import KeyInputs
 from tests.utils import feed_cli_with_input
 from tests.utils import patched_prompt
@@ -508,3 +510,20 @@ def test_select_goes_back_to_top_after_filtering():
         **kwargs,
     )
     assert result == "jkl"
+
+
+def test_select_default_not_rendered_as_selected():
+    # Regression for #473: a single select must not mark its default as a
+    # persistently selected item. The default should only position the pointer
+    # (via initial_choice), not end up in selected_options (which renders with
+    # the inverted "class:selected" style).
+    question = select("Pick one", choices=["a", "b", "c"], default="b")
+    controls = [
+        c
+        for c in question.application.layout.find_all_controls()
+        if isinstance(c, InquirerControl)
+    ]
+    assert len(controls) == 1
+    ic = controls[0]
+    assert ic.selected_options == []
+    assert ic.get_pointed_at().value == "b"

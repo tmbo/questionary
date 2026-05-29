@@ -164,7 +164,6 @@ def select(
 
     ic = InquirerControl(
         choices,
-        default,
         pointer=pointer,
         use_indicator=use_indicator,
         use_shortcuts=use_shortcuts,
