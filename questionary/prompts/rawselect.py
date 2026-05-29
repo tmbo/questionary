@@ -75,5 +75,7 @@ def rawselect(
         style,
         use_shortcuts=True,
         use_arrow_keys=False,
+        use_jk_keys=False,
+        use_emacs_keys=False,
         **kwargs,
     )
