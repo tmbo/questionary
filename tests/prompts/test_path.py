@@ -4,6 +4,7 @@ import pytest
 from prompt_toolkit.completion import Completer
 from prompt_toolkit.completion import Completion
 
+from questionary.prompts.path import path as path_prompt
 from tests.utils import KeyInputs
 from tests.utils import feed_cli_with_input
 
@@ -141,8 +142,6 @@ def _resolve_completer(buffer_completer):
 )
 def test_min_input_len_forwarded_to_default_completer():
     """``min_input_len`` is passed through to the default completer."""
-    from questionary.prompts.path import path as path_prompt
-
     question = path_prompt("Pick your path", min_input_len=4)
     completer = _resolve_completer(question.application.current_buffer.completer)
     assert completer.min_input_len == 4
@@ -153,8 +152,6 @@ def test_min_input_len_forwarded_to_default_completer():
 )
 def test_min_input_len_default_is_zero():
     """Default behaviour is unchanged: ``min_input_len`` is 0."""
-    from questionary.prompts.path import path as path_prompt
-
     question = path_prompt("Pick your path")
     completer = _resolve_completer(question.application.current_buffer.completer)
     assert completer.min_input_len == 0

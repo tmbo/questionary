@@ -124,8 +124,8 @@ def path(
     only_directories: bool = False,
     get_paths: Optional[Callable[[], List[str]]] = None,
     file_filter: Optional[Callable[[str], bool]] = None,
-    min_input_len: int = 0,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
+    min_input_len: int = 0,
     **kwargs: Any,
 ) -> Question:
     """A text input for a file or directory path with autocompletion enabled.
