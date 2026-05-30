@@ -398,9 +398,7 @@ class InquirerControl(FormattedTextControl):
             return self.choices
 
         search_matcher = self.search_matcher or case_insensitive
-        filtered = [
-            c for c in self.choices if search_matcher(self.search_filter, c)
-        ]
+        filtered = [c for c in self.choices if search_matcher(self.search_filter, c)]
         self.found_in_search = len(filtered) > 0
         return filtered if self.found_in_search else self.choices
 
