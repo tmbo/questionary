@@ -55,7 +55,8 @@ class Choice:
 
         checked: Preselect this choice when displaying the options.
 
-        shortcut_key: Key shortcut used to select this item.
+        shortcut_key: Key shortcut used to select this item. Must be a single
+            lowercase letter (a-z) or digit (0-9).
 
         description: Optional description of the item that can be displayed.
     """
@@ -129,7 +130,9 @@ class Choice:
 
     @property
     def shortcut_key(self) -> Optional[Union[str, bool]]:
-        """A shortcut key for the choice"""
+        """Shortcut key for this choice. Must be a single lowercase letter
+        (a-z) or digit (0-9).
+        """
         return self.__shortcut_key
 
     @shortcut_key.setter
@@ -341,11 +344,11 @@ class InquirerControl(FormattedTextControl):
                     available_shortcuts.remove(c.shortcut_key)
                 else:
                     raise ValueError(
-                        "Invalid shortcut '{}'"
-                        "for choice '{}'. Shortcuts "
-                        "should be single characters or numbers. "
-                        "Make sure that all your shortcuts are "
-                        "unique.".format(c.shortcut_key, c.title)
+                        "Invalid shortcut '{}' for choice '{}'. "
+                        "Shortcuts must be a single lowercase letter (a-z) or "
+                        "digit (0-9), and must be unique.".format(
+                            c.shortcut_key, c.title
+                        )
                     )
 
         shortcut_idx = 0
