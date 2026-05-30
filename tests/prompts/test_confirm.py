@@ -101,3 +101,25 @@ def test_confirm_instruction():
         "confirm", message, text, instruction="Foo instruction"
     )
     assert result is True
+
+
+def test_confirm_placeholder():
+    message = "Foo message"
+    text = "Y" + "\r"
+    placeholder = "This is a placeholder"
+
+    result, cli = feed_cli_with_input(
+        "confirm", message, text, placeholder=placeholder
+    )
+    assert result is True
+
+
+def test_confirm_placeholder_disappears_on_input():
+    message = "Foo message"
+    text = "n" + KeyInputs.ENTER + "\r"
+    placeholder = "This should disappear"
+
+    result, cli = feed_cli_with_input(
+        "confirm", message, text, auto_enter=False, placeholder=placeholder
+    )
+    assert result is False
