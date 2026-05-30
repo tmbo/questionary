@@ -4,8 +4,8 @@ from copy import copy
 import pytest
 
 from questionary import Choice
-from questionary import select
 from questionary import Separator
+from questionary import select
 from questionary.prompts.common import InquirerControl
 from tests.utils import KeyInputs
 from tests.utils import feed_cli_with_input
