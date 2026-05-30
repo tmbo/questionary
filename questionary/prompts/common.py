@@ -388,7 +388,9 @@ class InquirerControl(FormattedTextControl):
             if isinstance(choice.title, str):
                 text = choice.title
             elif isinstance(choice.title, list):
-                text = choice.title[0][1]
+                text = "".join(fragment[1] for fragment in choice.title)
+            else:
+                text = ""
 
             return search_filter.lower() in text.lower()
 
