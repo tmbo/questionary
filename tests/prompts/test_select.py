@@ -443,6 +443,26 @@ def test_filter_prefix_one_letter():
     assert result == "ghi"
 
 
+def test_filter_custom_match():
+    message = "Foo message"
+    kwargs = {"choices": ["abc", "def", "ghi", "Ghi", "jkl"]}
+    text = "G" + KeyInputs.ENTER + "\r"
+
+    def case_sensitive(filter_text: str, c: Choice) -> bool:
+        return filter_text in c.title
+
+    result, cli = feed_cli_with_input(
+        "select",
+        message,
+        text,
+        use_search_filter=True,
+        search_matcher=case_sensitive,
+        use_jk_keys=False,
+        **kwargs,
+    )
+    assert result == "Ghi"
+
+
 def test_filter_prefix_multiple_letters():
     message = "Foo message"
     kwargs = {"choices": ["abc", "def", "ghi", "jkl", "jag", "jja"]}

@@ -416,3 +416,23 @@ def test_does_not_wrap_up_when_cycle_list_false():
 
     result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
     assert result == ["foo"]
+
+
+def test_filter_custom_match():
+    message = "Foo message"
+    kwargs = {"choices": ["abc", "def", "ghi", "Ghi", "jkl"]}
+    text = "G" + KeyInputs.SPACE + KeyInputs.ENTER + "\r"
+
+    def case_sensitive(filter_text: str, c: Choice) -> bool:
+        return filter_text in c.title
+
+    result, cli = feed_cli_with_input(
+        "checkbox",
+        message,
+        text,
+        use_search_filter=True,
+        search_matcher=case_sensitive,
+        use_jk_keys=False,
+        **kwargs,
+    )
+    assert result == ["Ghi"]
