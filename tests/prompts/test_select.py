@@ -2,12 +2,14 @@
 from copy import copy
 
 import pytest
+from prompt_toolkit.output import DummyOutput
 
 from questionary import Choice
 from questionary import Separator
 from questionary import select
 from questionary.prompts.common import InquirerControl
 from tests.utils import KeyInputs
+from tests.utils import execute_with_input_pipe
 from tests.utils import feed_cli_with_input
 from tests.utils import patched_prompt
 
@@ -517,13 +519,24 @@ def test_select_default_not_rendered_as_selected():
     # persistently selected item. The default should only position the pointer
     # (via initial_choice), not end up in selected_options (which renders with
     # the inverted "class:selected" style).
-    question = select("Pick one", choices=["a", "b", "c"], default="b")
-    controls = [
-        c
-        for c in question.application.layout.find_all_controls()
-        if isinstance(c, InquirerControl)
-    ]
-    assert len(controls) == 1
-    ic = controls[0]
-    assert ic.selected_options == []
-    assert ic.get_pointed_at().value == "b"
+    # Build the prompt with a pipe input + DummyOutput (like the other tests)
+    # so it does not require a real terminal.
+    def run(inp):
+        question = select(
+            "Pick one",
+            choices=["a", "b", "c"],
+            default="b",
+            input=inp,
+            output=DummyOutput(),
+        )
+        controls = [
+            c
+            for c in question.application.layout.find_all_controls()
+            if isinstance(c, InquirerControl)
+        ]
+        assert len(controls) == 1
+        ic = controls[0]
+        assert ic.selected_options == []
+        assert ic.get_pointed_at().value == "b"
+
+    execute_with_input_pipe(run)
