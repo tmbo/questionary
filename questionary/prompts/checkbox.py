@@ -118,6 +118,9 @@ def checkbox(
                            therefore cannot be used for navigation
 
         search_matcher: Custom matching function used in the search filter.
+                        Receives the search string and a :class:`Choice` and
+                        returns whether the choice matches. Only takes effect
+                        when ``use_search_filter`` is enabled.
 
         instruction: A message describing how to navigate the menu.
 
