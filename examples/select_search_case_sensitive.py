@@ -30,7 +30,7 @@ def ask_pystyle(**kwargs):
         style=custom_style_dope,
         use_jk_keys=False,
         use_search_filter=True,
-        search_filter_fn=lambda prom, c: prom in c.title,
+        search_matcher=lambda prom, c: prom in c.title,
         **kwargs,
     )
 

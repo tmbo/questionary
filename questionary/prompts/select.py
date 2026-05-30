@@ -37,7 +37,7 @@ def select(
     use_jk_keys: bool = True,
     use_emacs_keys: bool = True,
     use_search_filter: bool = False,
-    search_filter_fn: Optional[Callable[[str, Choice], bool]] = None,
+    search_matcher: Optional[Callable[[str, Choice], bool]] = None,
     show_selected: bool = False,
     show_description: bool = True,
     instruction: Optional[str] = None,
@@ -120,7 +120,7 @@ def select(
                            navigation as "j" and "k" can be part of a prefix and
                            therefore cannot be used for navigation
 
-        search_filter_fn: Custom matching function used in the search filter.
+        search_matcher: Custom matching function used in the search filter.
 
         show_selected: Display current selection choice at the bottom of list.
 
@@ -176,7 +176,7 @@ def select(
         show_description=show_description,
         use_arrow_keys=use_arrow_keys,
         initial_choice=default,
-        search_filter_fn=search_filter_fn,
+        search_matcher=search_matcher,
     )
 
     def get_prompt_tokens():

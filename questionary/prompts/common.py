@@ -259,7 +259,7 @@ class InquirerControl(FormattedTextControl):
         show_description: bool = True,
         use_arrow_keys: bool = True,
         initial_choice: Optional[Union[str, Choice, Dict[str, Any]]] = None,
-        search_filter_fn: Optional[Callable[[str, Choice], bool]] = None,
+        search_matcher: Optional[Callable[[str, Choice], bool]] = None,
         **kwargs: Any,
     ):
         self.use_indicator = use_indicator
@@ -313,7 +313,7 @@ class InquirerControl(FormattedTextControl):
         self.error_message = None
         self.selected_options = []
         self.found_in_search = False
-        self.search_filter_fn = search_filter_fn
+        self.search_matcher = search_matcher
 
         self._init_choices(choices, pointed_at)
         self._assign_shortcut_keys()
@@ -395,9 +395,9 @@ class InquirerControl(FormattedTextControl):
         if not self.search_filter:
             return self.choices
 
-        search_filter_fn = self.search_filter_fn or case_insensitive
+        search_matcher = self.search_matcher or case_insensitive
         filtered = [
-            c for c in self.choices if search_filter_fn(self.search_filter, c)
+            c for c in self.choices if search_matcher(self.search_filter, c)
         ]
         self.found_in_search = len(filtered) > 0
         return filtered if self.found_in_search else self.choices

@@ -452,7 +452,7 @@ def test_filter_custom_match():
         message,
         text,
         use_search_filter=True,
-        search_filter_fn=cave_sensitive,
+        search_matcher=cave_sensitive,
         use_jk_keys=False,
         **kwargs,
     )
