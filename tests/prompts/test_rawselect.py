@@ -112,3 +112,15 @@ def test_select_ctr_c():
 
     with pytest.raises(KeyboardInterrupt):
         feed_cli_with_input("rawselect", message, text, **kwargs)
+
+
+def test_jk_keys_act_as_shortcuts_not_navigation():
+    # With 20 choices, "j" is auto-assigned as the shortcut for the 20th choice.
+    # In rawselect it must select that choice, not move the cursor down one
+    # (vim-style navigation), which is what happened before (issue #409).
+    message = "Foo message"
+    choices = [f"choice-{i}" for i in range(1, 21)]
+    text = "j" + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("rawselect", message, text, choices=choices)
+    assert result == "choice-20"
