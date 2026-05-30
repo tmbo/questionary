@@ -143,8 +143,6 @@ def _resolve_completer(buffer_completer):
     prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
 )
 def test_min_input_len_forwarded_to_default_completer():
-    """``min_input_len`` is passed through to the default completer."""
-
     def run(inp):
         question = path_prompt(
             "Pick your path", min_input_len=4, input=inp, output=DummyOutput()
@@ -159,8 +157,6 @@ def test_min_input_len_forwarded_to_default_completer():
     prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
 )
 def test_min_input_len_default_is_zero():
-    """Default behaviour is unchanged: ``min_input_len`` is 0."""
-
     def run(inp):
         question = path_prompt("Pick your path", input=inp, output=DummyOutput())
         completer = _resolve_completer(question.application.current_buffer.completer)
