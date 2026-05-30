@@ -3,8 +3,11 @@ import prompt_toolkit
 import pytest
 from prompt_toolkit.completion import Completer
 from prompt_toolkit.completion import Completion
+from prompt_toolkit.output import DummyOutput
 
+from questionary.prompts.path import path as path_prompt
 from tests.utils import KeyInputs
+from tests.utils import execute_with_input_pipe
 from tests.utils import feed_cli_with_input
 
 
@@ -127,6 +130,39 @@ def test_get_paths_validation(path_completion_tree):
             get_paths=lambda: [str(path_completion_tree / "not_existing")],
         )
     assert "'get_paths' must return only existing directories" in str(excinfo)
+
+
+def _resolve_completer(buffer_completer):
+    get_completer = getattr(buffer_completer, "get_completer", None)
+    if get_completer is None:
+        return buffer_completer
+    return get_completer()
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_min_input_len_forwarded_to_default_completer():
+    def run(inp):
+        question = path_prompt(
+            "Pick your path", min_input_len=4, input=inp, output=DummyOutput()
+        )
+        completer = _resolve_completer(question.application.current_buffer.completer)
+        assert completer.min_input_len == 4
+
+    execute_with_input_pipe(run)
+
+
+@pytest.mark.skipif(
+    prompt_toolkit.__version__.startswith("2"), reason="requires prompt toolkit >= 3.0"
+)
+def test_min_input_len_default_is_zero():
+    def run(inp):
+        question = path_prompt("Pick your path", input=inp, output=DummyOutput())
+        completer = _resolve_completer(question.application.current_buffer.completer)
+        assert completer.min_input_len == 0
+
+    execute_with_input_pipe(run)
 
 
 @pytest.mark.skipif(

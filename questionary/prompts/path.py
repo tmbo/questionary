@@ -125,6 +125,7 @@ def path(
     get_paths: Optional[Callable[[], List[str]]] = None,
     file_filter: Optional[Callable[[str], bool]] = None,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
+    min_input_len: int = 0,
     **kwargs: Any,
 ) -> Question:
     """A text input for a file or directory path with autocompletion enabled.
@@ -184,6 +185,10 @@ def path(
                      filtering suggestions you also want to validate the result, use
                      ``validate`` in combination with the ``file_filter``.
 
+        min_input_len: Don't show autocompletions until the input string is at
+                       least this long. Defaults to 0. This option does not do
+                       anything if a custom ``completer`` is passed.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """  # noqa: W505, E501
@@ -198,6 +203,7 @@ def path(
         get_paths=get_paths,
         only_directories=only_directories,
         file_filter=file_filter,
+        min_input_len=min_input_len,
         expanduser=True,
     )
 
