@@ -444,7 +444,7 @@ def test_filter_custom_match():
     kwargs = {"choices": ["abc", "def", "ghi", "Ghi", "jkl"]}
     text = "G" + KeyInputs.ENTER + "\r"
 
-    def cave_sensitive(filter_text: str, c: Choice) -> bool:
+    def case_sensitive(filter_text: str, c: Choice) -> bool:
         return filter_text in c.title
 
     result, cli = feed_cli_with_input(
@@ -452,7 +452,7 @@ def test_filter_custom_match():
         message,
         text,
         use_search_filter=True,
-        search_matcher=cave_sensitive,
+        search_matcher=case_sensitive,
         use_jk_keys=False,
         **kwargs,
     )
