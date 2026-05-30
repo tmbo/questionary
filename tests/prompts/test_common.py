@@ -137,6 +137,44 @@ def test_prompt_highlight_coexist():
     assert ic._get_choice_tokens() == expected_tokens
 
 
+def test_prompt_highlight_selected_with_custom_styles():
+    # formatted-text (list) titles should keep their custom style and also
+    # pick up the highlighted/selected style (see #151)
+    ic = InquirerControl(
+        [
+            Choice(title=[("fg:red", "a")]),
+            Choice(title=[("fg:blue", "b")], checked=True),
+        ]
+    )
+
+    expected_tokens = [
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("fg:red class:highlighted", "a"),
+        ("", "\n"),
+        ("class:text", "   "),
+        ("class:selected", "● "),
+        ("fg:blue class:selected", "b"),
+    ]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    ic.select_next()
+    expected_tokens = [
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("fg:red", "a"),
+        ("", "\n"),
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:selected", "● "),
+        ("fg:blue class:selected", "b"),
+    ]
+    assert ic.pointed_at == 1
+    assert ic._get_choice_tokens() == expected_tokens
+
+
 def test_prompt_show_answer_with_shortcuts():
     ic = InquirerControl(
         ["a", Choice("b", shortcut_key=False), "c"],
