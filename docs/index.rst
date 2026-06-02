@@ -52,6 +52,7 @@ Copyright 2020 Tom Bocklisch.
    pages/quickstart
    pages/types
    pages/advanced
+   pages/theming_reference
    pages/api_reference
    pages/support
    Examples <https://github.com/tmbo/questionary/tree/master/examples>
