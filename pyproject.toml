@@ -56,6 +56,6 @@ sphinx-autodoc-typehints = ">=1.11.1,<4.0.0"
 pytest-cov = ">=5.0.0,<6"
 pytest = ">=7.0.1,<10.0.0"
 coveralls = "^3.3.1"
-mypy = "^1.2.0"
+mypy = ">=1.2,<3.0"
 toml = "^0.10.2"
 pre-commit = { version = ">=2.20,<5.0", python = ">=3.7,<4.0"}
