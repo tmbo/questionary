@@ -1,5 +1,6 @@
 import sys
 from typing import Any
+from typing import Union
 
 import prompt_toolkit.patch_stdout
 from prompt_toolkit import Application
@@ -24,7 +25,9 @@ class Question:
         self.default = None
 
     async def ask_async(
-        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+        self,
+        patch_stdout: bool = False,
+        kbi_msg: Union[str, None] = DEFAULT_KBI_MESSAGE,
     ) -> Any:
         """Ask the question using asyncio and return user response.
 
@@ -42,11 +45,14 @@ class Question:
             sys.stdout.flush()
             return await self.unsafe_ask_async(patch_stdout)
         except KeyboardInterrupt:
-            print("{}".format(kbi_msg))
+            if kbi_msg is not None:
+                print(f"{kbi_msg}")
             return None
 
     def ask(
-        self, patch_stdout: bool = False, kbi_msg: str = DEFAULT_KBI_MESSAGE
+        self,
+        patch_stdout: bool = False,
+        kbi_msg: Union[str, None] = DEFAULT_KBI_MESSAGE,
     ) -> Any:
         """Ask the question synchronously and return user response.
 
@@ -63,7 +69,8 @@ class Question:
         try:
             return self.unsafe_ask(patch_stdout)
         except KeyboardInterrupt:
-            print("{}".format(kbi_msg))
+            if kbi_msg is not None:
+                print(f"{kbi_msg}")
             return None
 
     def unsafe_ask(self, patch_stdout: bool = False) -> Any:

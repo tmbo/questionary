@@ -1,5 +1,6 @@
 import asyncio
 import platform
+from unittest.mock import patch
 
 import pytest
 from prompt_toolkit.output import DummyOutput
@@ -92,5 +93,41 @@ def test_multiline_text():
         question = text("Hello?", input=inp, output=DummyOutput(), multiline=True)
         response = question.ask()
         assert response == "Hello\nworld"
+
+    execute_with_input_pipe(run)
+
+
+def test_no_keyboard_interrupt_message_in_ask():
+    """
+    Test no message printed when `kbi_msg` is None in `ask()`.
+    """
+
+    def run(inp):
+        inp.send_text(KeyInputs.CONTROLC)
+        question = text("Hello?", input=inp, output=DummyOutput())
+
+        with patch("builtins.print") as mock_print:
+            result = question.ask(kbi_msg=None)
+
+        mock_print.assert_not_called()
+        assert result is None
+
+    execute_with_input_pipe(run)
+
+
+def test_no_keyboard_interrupt_message_in_ask_async():
+    """
+    Test no message printed when `kbi_msg` is None in `ask_async()`.
+    """
+
+    def run(inp):
+        inp.send_text(KeyInputs.CONTROLC)
+        question = text("Hello?", input=inp, output=DummyOutput())
+
+        with patch("builtins.print") as mock_print:
+            result = asyncio.run(question.ask_async(kbi_msg=None))
+
+        mock_print.assert_not_called()
+        assert result is None
 
     execute_with_input_pipe(run)
