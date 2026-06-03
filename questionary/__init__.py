@@ -7,8 +7,8 @@ import questionary.version
 from questionary.form import Form
 from questionary.form import FormField
 from questionary.form import form
-from questionary.prompt import prompt
 from questionary.prompt import prompt_async
+from questionary.prompt import safe_prompt
 from questionary.prompt import unsafe_prompt
 from questionary.prompt import unsafe_prompt_async
 
@@ -44,7 +44,7 @@ __all__ = [
     # utility methods
     "print",
     "form",
-    "prompt",
+    "safe_prompt",
     "prompt_async",
     "unsafe_prompt",
     "unsafe_prompt_async",

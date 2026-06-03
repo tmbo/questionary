@@ -21,6 +21,6 @@ API Reference
 
 .. automethod:: questionary::form
 
-.. automethod:: questionary::prompt
+.. automethod:: questionary::safe_prompt
 
 .. automethod:: questionary::unsafe_prompt

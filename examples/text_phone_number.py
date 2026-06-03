@@ -9,7 +9,7 @@ import questionary
 from examples import custom_style_dope
 from questionary import ValidationError
 from questionary import Validator
-from questionary import prompt
+from questionary import safe_prompt
 
 
 class PhoneNumberValidator(Validator):
@@ -50,7 +50,7 @@ def ask_dictstyle(**kwargs):
         }
     ]
 
-    return prompt(questions, style=custom_style_dope, **kwargs)
+    return safe_prompt(questions, style=custom_style_dope, **kwargs)
 
 
 if __name__ == "__main__":

@@ -6,7 +6,7 @@ from pprint import pprint
 
 import questionary
 from examples import custom_style_dope
-from questionary import prompt
+from questionary import safe_prompt
 
 
 def ask_pystyle(**kwargs):
@@ -24,7 +24,7 @@ def ask_dictstyle(**kwargs):
         {"type": "password", "message": "Enter your git password", "name": "password"}
     ]
 
-    return prompt(questions, style=custom_style_dope, **kwargs)
+    return safe_prompt(questions, style=custom_style_dope, **kwargs)
 
 
 if __name__ == "__main__":

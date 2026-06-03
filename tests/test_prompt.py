@@ -1,18 +1,18 @@
 import pytest
 
 from questionary.prompt import PromptParameterException
-from questionary.prompt import prompt
+from questionary.prompt import safe_prompt
 from tests.utils import patched_prompt
 
 
 def test_missing_message():
     with pytest.raises(PromptParameterException):
-        prompt([{"type": "confirm", "name": "continue", "default": True}])
+        safe_prompt([{"type": "confirm", "name": "continue", "default": True}])
 
 
 def test_missing_type():
     with pytest.raises(PromptParameterException):
-        prompt(
+        safe_prompt(
             [
                 {
                     "message": "Do you want to continue?",
@@ -25,7 +25,7 @@ def test_missing_type():
 
 def test_missing_name():
     with pytest.raises(PromptParameterException):
-        prompt(
+        safe_prompt(
             [
                 {
                     "type": "confirm",
@@ -38,7 +38,7 @@ def test_missing_name():
 
 def test_invalid_question_type():
     with pytest.raises(ValueError):
-        prompt(
+        safe_prompt(
             [
                 {
                     "type": "mytype",
@@ -53,7 +53,7 @@ def test_invalid_question_type():
 def test_missing_print_message():
     """Test 'print' raises exception if missing 'message'"""
     with pytest.raises(PromptParameterException):
-        prompt(
+        safe_prompt(
             [
                 {
                     "name": "test",

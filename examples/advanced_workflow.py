@@ -1,7 +1,7 @@
 from pprint import pprint
 
 from questionary import Separator
-from questionary import prompt
+from questionary import safe_prompt
 
 
 def ask_dictstyle(**kwargs):
@@ -51,7 +51,7 @@ def ask_dictstyle(**kwargs):
             "when": lambda x: x["second_question"] == "other",
         },
     ]
-    return prompt(questions, **kwargs)
+    return safe_prompt(questions, **kwargs)
 
 
 if __name__ == "__main__":

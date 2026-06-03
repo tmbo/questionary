@@ -8,7 +8,7 @@ import questionary
 from examples import custom_style_fancy
 from questionary import ValidationError
 from questionary import Validator
-from questionary import prompt
+from questionary import safe_prompt
 
 
 class PolyergusValidator(Validator):
@@ -81,7 +81,7 @@ def ask_dictstyle(**kwargs):
         }
     ]
 
-    return prompt(questions, style=custom_style_fancy, **kwargs)
+    return safe_prompt(questions, style=custom_style_fancy, **kwargs)
 
 
 if __name__ == "__main__":
