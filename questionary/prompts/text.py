@@ -12,6 +12,7 @@ from prompt_toolkit.styles import Style
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.constants import INSTRUCTION_MULTILINE
 from questionary.prompts.common import build_validator
+from questionary.prompts.common import format_question_tokens
 from questionary.question import Question
 from questionary.styles import merge_styles_default
 
@@ -83,7 +84,7 @@ def text(
         instruction = INSTRUCTION_MULTILINE
 
     def get_prompt_tokens() -> List[Tuple[str, str]]:
-        result = [("class:qmark", qmark), ("class:question", " {} ".format(message))]
+        result = format_question_tokens(qmark, message)
         if instruction:
             result.append(("class:instruction", " {} ".format(instruction)))
         return result

@@ -29,6 +29,7 @@ from questionary.constants import DEFAULT_STYLE
 from questionary.constants import INDICATOR_SELECTED
 from questionary.constants import INDICATOR_UNSELECTED
 from questionary.constants import INVALID_INPUT
+from questionary.utils import _wrap_message_to_terminal_width
 
 # This is a cut-down version of `prompt_toolkit.formatted_text.AnyFormattedText`
 # which does not exist in v2 of prompt_toolkit
@@ -580,6 +581,27 @@ class InquirerControl(FormattedTextControl):
             ),
             ("class:question-mark", "..."),
         ]
+
+
+def format_question_tokens(qmark: Optional[str], message: Any) -> List[Tuple[str, str]]:
+    """Build the leading formatted-text tokens for a prompt: the
+    question mark prefix (when qmark is given) followed by message.
+
+    The message is pre-wrapped to the current terminal width so long
+    help text wraps cleanly in narrow terminals; see
+    https://github.com/tmbo/questionary/issues/398.
+
+    Pass qmark=None to omit the prefix.
+    """
+    # qmark + leading separator space on the first line; just the
+    # leading space when there is no qmark.
+    prefix_width = (len(qmark) + 1) if qmark else 1
+    wrapped = _wrap_message_to_terminal_width(message, prefix_width=prefix_width)
+    tokens: List[Tuple[str, str]] = []
+    if qmark:
+        tokens.append(("class:qmark", qmark))
+    tokens.append(("class:question", f" {wrapped} "))
+    return tokens
 
 
 def build_validator(validate: Any) -> Optional[Validator]:

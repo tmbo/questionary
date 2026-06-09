@@ -12,6 +12,7 @@ from questionary.constants import NO
 from questionary.constants import NO_OR_YES
 from questionary.constants import YES
 from questionary.constants import YES_OR_NO
+from questionary.prompts.common import format_question_tokens
 from questionary.question import Question
 from questionary.styles import merge_styles_default
 
@@ -69,10 +70,7 @@ def confirm(
     status = {"answer": None, "complete": False}
 
     def get_prompt_tokens():
-        tokens = []
-
-        tokens.append(("class:qmark", qmark))
-        tokens.append(("class:question", " {} ".format(message)))
+        tokens = format_question_tokens(qmark, message)
 
         if instruction is not None:
             tokens.append(("class:instruction", instruction))

@@ -27,6 +27,9 @@ INDICATOR_UNSELECTED = "○"
 # Prefix displayed in front of questions
 DEFAULT_QUESTION_PREFIX = "?"
 
+# Width assumed when the terminal size cannot be queried (no tty, etc.)
+DEFAULT_TERMINAL_WIDTH = 80
+
 # Message shown when a user aborts a question prompt using CTRL-C
 DEFAULT_KBI_MESSAGE = "\nCancelled by user\n"
 
