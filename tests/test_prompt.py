@@ -2,6 +2,7 @@ import pytest
 
 from questionary.prompt import PromptParameterException
 from questionary.prompt import prompt
+from tests.utils import KeyInputs
 from tests.utils import patched_prompt
 
 
@@ -76,3 +77,10 @@ def test_print_with_name():
     questions = [{"name": "hello", "type": "print", "message": "Hello World"}]
     result = patched_prompt(questions, "")
     assert result == {"hello": None}
+
+
+def test_prompt_should_catch_keyboard_exception():
+    """`prompt` catches a keyboard interrupt and returns an empty dict."""
+    questions = [{"type": "text", "name": "first_name", "message": "First name"}]
+    result = patched_prompt(questions, KeyInputs.CONTROLC)
+    assert result == {}
