@@ -96,8 +96,9 @@ Keyboard Interrupts
 
 Prompts can be invoked in either a 'safe' or 'unsafe' way. The safe way
 captures keyboard interrupts and handles them by catching the interrupt
-and returning ``None`` for the asked question. If a question is asked
-using unsafe functions, the keyboard interrupts are not caught.
+and returning a value that signals the prompt was cancelled (see below).
+If a question is asked using unsafe functions, the keyboard interrupts are
+not caught.
 
 Safe
 ****
@@ -114,13 +115,17 @@ The following are safe (capture keyboard interrupts):
   :meth:`~questionary.checkbox`).
 
 When a keyboard interrupt is captured, the message ``"Cancelled by user"`` is
-displayed (or a custom message, if one is given) and ``None`` is returned.
-Here is an example:
+displayed (or a custom message, if one is given). The value that is returned
+depends on the method that was called: :attr:`~questionary.Question.ask`
+returns ``None``, while :meth:`~questionary.prompt` and
+:attr:`~questionary.Form.ask` return an empty ``dict``. Here is an example:
 
 .. code:: python3
 
-    # Questionary handles keyboard interrupt and returns `None` if the
-    # user hits e.g. `Ctrl+C`
+    # `Question.ask()` returns `None` if the user hits e.g. `Ctrl+C`
+    text("What's your name?").ask()
+
+    # `prompt()` and `Form.ask()` instead return an empty dict (`{}`)
     prompt(...)
 
 Unsafe
