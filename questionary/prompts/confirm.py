@@ -23,6 +23,7 @@ def confirm(
     style: Optional[Style] = None,
     auto_enter: bool = True,
     instruction: Optional[str] = None,
+    placeholder: Optional[str] = None,
     **kwargs: Any,
 ) -> Question:
     """A yes or no question. The user can either confirm or deny.
@@ -61,6 +62,10 @@ def confirm(
 
         instruction: A message describing how to proceed through the
                      confirmation prompt.
+
+        placeholder: Optional placeholder text shown when no answer is selected.
+                    The placeholder text will disappear once the user presses a key.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using `.ask()`).
     """
@@ -83,6 +88,8 @@ def confirm(
         if status["answer"] is not None:
             answer = YES if status["answer"] else NO
             tokens.append(("class:answer", answer))
+        elif placeholder is not None and not status["complete"]:
+            tokens.append(("class:placeholder", placeholder))
 
         return to_formatted_text(tokens)
 
