@@ -371,6 +371,36 @@ def test_jk_and_shortcut_conflict_avoided_by_disabling_ij_keys():
     feed_cli_with_input("select", message, text, **kwargs)
 
 
+def test_jk_and_auto_assigned_shortcut_conflict_fails():
+    # With 20 choices, "j" (the 20th shortcut key) is auto-assigned to the
+    # 20th choice, silently colliding with the j/k navigation keys. This
+    # must raise, just like an explicitly-set j/k shortcut does.
+    message = "Foo message"
+    kwargs = {
+        "choices": [f"choice-{i}" for i in range(1, 21)],
+        "use_shortcuts": True,
+        "use_arrow_keys": True,
+        "use_jk_keys": True,
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    with pytest.raises(ValueError):
+        feed_cli_with_input("select", message, text, **kwargs)
+
+
+def test_jk_and_auto_assigned_shortcut_conflict_avoided_by_disabling_jk_keys():
+    message = "Foo message"
+    kwargs = {
+        "choices": [f"choice-{i}" for i in range(1, 21)],
+        "use_shortcuts": True,
+        "use_arrow_keys": True,
+        "use_jk_keys": False,
+    }
+    text = KeyInputs.ENTER + "\r"
+
+    feed_cli_with_input("select", message, text, **kwargs)
+
+
 def test_select_shortcuts():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bazz"], "use_shortcuts": True}

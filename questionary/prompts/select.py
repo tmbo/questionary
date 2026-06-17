@@ -145,14 +145,6 @@ def select(
             "Cannot use j/k keys with prefix filter search, since j/k can be part of the prefix."
         )
 
-    if use_shortcuts and use_jk_keys:
-        if any(getattr(c, "shortcut_key", "") in ["j", "k"] for c in choices):
-            raise ValueError(
-                "A choice is trying to register j/k as a "
-                "shortcut key when they are in use as arrow keys "
-                "disable one or the other."
-            )
-
     if choices is None or len(choices) == 0:
         raise ValueError("A list of choices needs to be provided.")
 
@@ -180,6 +172,19 @@ def select(
         initial_choice=default,
         search_matcher=search_matcher,
     )
+
+    if use_shortcuts and use_jk_keys:
+        # j/k are also used as navigation keys, so they cannot double as
+        # selection shortcuts. Check the *final* shortcut keys (after
+        # auto-assignment) so the conflict is caught even when j/k are
+        # assigned automatically to the 20th/21st choice rather than set
+        # explicitly by the caller.
+        if any(c.shortcut_key in ("j", "k") for c in ic.choices):
+            raise ValueError(
+                "A choice is trying to register j/k as a "
+                "shortcut key when they are in use as arrow keys "
+                "disable one or the other."
+            )
 
     def get_prompt_tokens():
         # noinspection PyListCreation
