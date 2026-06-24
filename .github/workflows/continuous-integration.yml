@@ -30,7 +30,7 @@ jobs:
         uses: Gr1N/setup-poetry@v9
 
       - name: Load Poetry Cached Libraries ⬇
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -78,7 +78,7 @@ jobs:
         uses: Gr1N/setup-poetry@v9
 
       - name: Load Poetry Cached Libraries ⬇
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
@@ -129,7 +129,7 @@ jobs:
         uses: Gr1N/setup-poetry@v9
 
       - name: Load Poetry Cached Libraries ⬇
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pypoetry
           key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
