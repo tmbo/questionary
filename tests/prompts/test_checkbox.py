@@ -25,6 +25,17 @@ def test_select_first_choice():
     assert result == ["foo"]
 
 
+def test_select_first_choice_with_alt_enter():
+    # Alt-Enter (Meta+Enter) should submit like plain Enter and return the
+    # selected values, not the empty string (issue #324).
+    message = "Foo message"
+    kwargs = {"choices": ["foo", "bar", "bazz"]}
+    text = KeyInputs.SPACE + KeyInputs.ESCAPE + KeyInputs.ENTER + "\r"
+
+    result, cli = feed_cli_with_input("checkbox", message, text, **kwargs)
+    assert result == ["foo"]
+
+
 def test_select_with_instruction():
     message = "Foo message"
     kwargs = {"choices": ["foo", "bar", "bazz"], "instruction": "sample instruction"}
