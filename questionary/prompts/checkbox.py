@@ -332,7 +332,11 @@ def checkbox(
         bindings.add(Keys.ControlN, eager=True)(move_cursor_down)
         bindings.add(Keys.ControlP, eager=True)(move_cursor_up)
 
+    # `Keys.Escape, Keys.ControlM` is Alt-Enter (Meta+Enter). Route it through
+    # the same submission handler as plain Enter so it returns the selected
+    # values instead of falling through to the default (which returns "").
     @bindings.add(Keys.ControlM, eager=True)
+    @bindings.add(Keys.Escape, Keys.ControlM, eager=True)
     def set_answer(event):
         selected_values = get_selected_values()
         ic.submission_attempted = True
