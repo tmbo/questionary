@@ -32,65 +32,65 @@ with the available question types**:
 Text
 ####
 
-.. automethod:: questionary::text
+.. autofunction:: questionary::text
 
 .. _type_password:
 
 Password
 ########
 
-.. automethod:: questionary::password
+.. autofunction:: questionary::password
 
 .. _type_path:
 
 File Path
 #########
 
-.. automethod:: questionary::path
+.. autofunction:: questionary::path
 
 .. _type_confirm:
 
 Confirmation
 ############
 
-.. automethod:: questionary::confirm
+.. autofunction:: questionary::confirm
 
 .. _type_select:
 
 Select
 ######
 
-.. automethod:: questionary::select
+.. autofunction:: questionary::select
 
 .. _type_raw_select:
 
 Raw Select
 ##########
 
-.. automethod:: questionary::rawselect
+.. autofunction:: questionary::rawselect
 
 .. _type_checkbox:
 
 Checkbox
 ########
 
-.. automethod:: questionary::checkbox
+.. autofunction:: questionary::checkbox
 
 .. _type_autocomplete:
 
 Autocomplete
 ############
 
-.. automethod:: questionary::autocomplete
+.. autofunction:: questionary::autocomplete
 
 Printing Formatted Text
 #######################
 
-.. automethod:: questionary::print
+.. autofunction:: questionary::print
 
 .. _type_press_any_key_to_continue:
 
 Press Any Key To Continue
 #########################
 
-.. automethod:: questionary::press_any_key_to_continue
+.. autofunction:: questionary::press_any_key_to_continue

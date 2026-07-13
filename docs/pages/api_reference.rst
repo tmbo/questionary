@@ -19,8 +19,8 @@ API Reference
 .. autoclass:: questionary::FormField
    :members:
 
-.. automethod:: questionary::form
+.. autofunction:: questionary::form
 
-.. automethod:: questionary::prompt
+.. autofunction:: questionary::prompt
 
-.. automethod:: questionary::unsafe_prompt
+.. autofunction:: questionary::unsafe_prompt
