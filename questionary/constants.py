@@ -49,6 +49,10 @@ DEFAULT_STYLE = Style(
         ),  # submitted answer text behind the question
         ("pointer", ""),  # pointer used in select and checkbox prompts
         ("selected", ""),  # style for a selected item of a checkbox
+        # style added (on top of ``selected``) to a selected item that the
+        # cursor is currently pointing at; empty by default so the appearance
+        # is unchanged unless it is overridden
+        ("selected-highlighted", ""),
         ("separator", ""),  # separator in lists
         ("instruction", ""),  # user instructions for select, rawselect, checkbox
         ("text", ""),  # any other text

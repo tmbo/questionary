@@ -161,6 +161,8 @@ def test_prompt_highlight_selected_with_custom_styles():
     assert ic._get_choice_tokens() == expected_tokens
 
     ic.select_next()
+    # the cursor now points at the selected choice, which additionally picks up
+    # the ``selected-highlighted`` class (see #342)
     expected_tokens = [
         ("class:text", "   "),
         ("class:text", "○ "),
@@ -168,8 +170,44 @@ def test_prompt_highlight_selected_with_custom_styles():
         ("", "\n"),
         ("class:pointer", " » "),
         ("[SetCursorPosition]", ""),
+        ("class:selected class:selected-highlighted", "● "),
+        ("fg:blue class:selected class:selected-highlighted", "b"),
+    ]
+    assert ic.pointed_at == 1
+    assert ic._get_choice_tokens() == expected_tokens
+
+
+def test_prompt_selected_highlighted_class():
+    # a selected choice that the cursor points at gets both the ``selected`` and
+    # the ``selected-highlighted`` class, while a selected choice that is not
+    # pointed at keeps only ``selected`` (see #342)
+    ic = InquirerControl(["a", "b"], default="b")
+
+    # pointer starts on "a"; "b" is the selected/default choice but not pointed
+    expected_tokens = [
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:text", "○ "),
+        ("class:highlighted", "a"),
+        ("", "\n"),
+        ("class:text", "   "),
         ("class:selected", "● "),
-        ("fg:blue class:selected", "b"),
+        ("class:selected", "b"),
+    ]
+    assert ic.pointed_at == 0
+    assert ic._get_choice_tokens() == expected_tokens
+
+    # move the cursor onto the selected choice
+    ic.select_next()
+    expected_tokens = [
+        ("class:text", "   "),
+        ("class:text", "○ "),
+        ("class:text", "a"),
+        ("", "\n"),
+        ("class:pointer", " » "),
+        ("[SetCursorPosition]", ""),
+        ("class:selected class:selected-highlighted", "● "),
+        ("class:selected class:selected-highlighted", "b"),
     ]
     assert ic.pointed_at == 1
     assert ic._get_choice_tokens() == expected_tokens

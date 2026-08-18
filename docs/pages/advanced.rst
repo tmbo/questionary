@@ -183,6 +183,7 @@ style:
       ('pointer', 'fg:#673ab7 bold'),     # pointer used in select and checkbox prompts
       ('highlighted', 'fg:#673ab7 bold'), # pointed-at choice in select and checkbox prompts
       ('selected', 'fg:#cc5454'),         # style for a selected item of a checkbox
+      ('selected-highlighted', 'bold'),   # selected item the cursor points at (added on top of 'selected')
       ('separator', 'fg:#cc5454'),        # separator in lists
       ('instruction', ''),                # user instructions for select, rawselect, checkbox
       ('text', ''),                       # plain text
