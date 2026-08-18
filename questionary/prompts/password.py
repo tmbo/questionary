@@ -1,6 +1,8 @@
 from typing import Any
 from typing import Optional
 
+from prompt_toolkit.layout.processors import PasswordProcessor
+
 from questionary import Style
 from questionary.constants import DEFAULT_QUESTION_PREFIX
 from questionary.prompts import text
@@ -13,6 +15,7 @@ def password(
     validate: Any = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
+    echo: str = "*",
     **kwargs: Any,
 ) -> Question:
     """A text input where a user can enter a secret which won't be displayed on the CLI.
@@ -52,10 +55,29 @@ def password(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
+        echo: Character shown in place of each typed character. Defaults to
+              ``*``. Pass an empty string to hide the input entirely, so that
+              nothing is echoed while typing (similar to :func:`getpass.getpass`).
+              This keeps the length of the secret from being visible on screen
+              or in terminal logs.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
+    if echo == "*":
+        return text.text(
+            message, default, validate, qmark, style, is_password=True, **kwargs
+        )
+
+    processors = kwargs.pop("input_processors", None) or []
     return text.text(
-        message, default, validate, qmark, style, is_password=True, **kwargs
+        message,
+        default,
+        validate,
+        qmark,
+        style,
+        is_password=False,
+        input_processors=[*processors, PasswordProcessor(char=echo)],
+        **kwargs,
     )
