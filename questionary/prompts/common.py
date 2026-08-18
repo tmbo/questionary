@@ -415,8 +415,21 @@ class InquirerControl(FormattedTextControl):
         def append(index: int, choice: Choice):
             # use value to check if option has been selected
             selected = choice.value in self.selected_options
+            is_pointed_at = index == self.pointed_at
 
-            if index == self.pointed_at:
+            # A selected choice that the cursor is currently pointing at also
+            # gets the ``selected-highlighted`` class, so that its highlighted
+            # state can be styled independently from the plain ``selected`` one.
+            # The ``selected`` class is always kept as well, which means the
+            # default appearance is unchanged unless ``selected-highlighted`` is
+            # given an explicit style.
+            selected_style_class = (
+                "class:selected class:selected-highlighted"
+                if is_pointed_at
+                else "class:selected"
+            )
+
+            if is_pointed_at:
                 if self.pointer is not None:
                     tokens.append(("class:pointer", " {} ".format(self.pointer)))
                 else:
@@ -462,7 +475,7 @@ class InquirerControl(FormattedTextControl):
                     else:
                         indicator = ""
 
-                    tokens.append(("class:selected", "{}".format(indicator)))
+                    tokens.append((selected_style_class, "{}".format(indicator)))
                 else:
                     if self.use_indicator:
                         indicator = INDICATOR_UNSELECTED + " "
@@ -473,8 +486,8 @@ class InquirerControl(FormattedTextControl):
 
                 if isinstance(choice.title, list):
                     if selected:
-                        extra_style = " class:selected"
-                    elif index == self.pointed_at:
+                        extra_style = " " + selected_style_class
+                    elif is_pointed_at:
                         extra_style = " class:highlighted"
                     else:
                         extra_style = ""
@@ -484,9 +497,9 @@ class InquirerControl(FormattedTextControl):
                     )
                 elif selected:
                     tokens.append(
-                        ("class:selected", "{}{}".format(shortcut, choice.title))
+                        (selected_style_class, "{}{}".format(shortcut, choice.title))
                     )
-                elif index == self.pointed_at:
+                elif is_pointed_at:
                     tokens.append(
                         ("class:highlighted", "{}{}".format(shortcut, choice.title))
                     )
