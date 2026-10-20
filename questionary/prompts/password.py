@@ -1,5 +1,8 @@
 from typing import Any
 from typing import Optional
+from typing import Union
+
+from prompt_toolkit.filters import Filter
 
 from questionary import Style
 from questionary.constants import DEFAULT_QUESTION_PREFIX
@@ -13,6 +16,8 @@ def password(
     validate: Any = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
+    *,
+    validate_while_typing: Union[bool, Filter] = True,
     **kwargs: Any,
 ) -> Question:
     """A text input where a user can enter a secret which won't be displayed on the CLI.
@@ -52,10 +57,21 @@ def password(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
+        validate_while_typing: Validate while the user types. Set to ``False``
+                              for expensive validators to run only on submission.
+                              A prompt_toolkit filter is also accepted.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     return text.text(
-        message, default, validate, qmark, style, is_password=True, **kwargs
+        message,
+        default,
+        validate,
+        qmark,
+        style,
+        is_password=True,
+        validate_while_typing=validate_while_typing,
+        **kwargs,
     )

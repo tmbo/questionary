@@ -2,8 +2,10 @@ from typing import Any
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 from prompt_toolkit.document import Document
+from prompt_toolkit.filters import Filter
 from prompt_toolkit.lexers import Lexer
 from prompt_toolkit.lexers import SimpleLexer
 from prompt_toolkit.shortcuts.prompt import PromptSession
@@ -25,6 +27,8 @@ def text(
     multiline: bool = False,
     instruction: Optional[str] = None,
     lexer: Optional[Lexer] = None,
+    *,
+    validate_while_typing: Union[bool, Filter] = True,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.
@@ -70,6 +74,10 @@ def text(
         lexer: Supply a valid lexer to style the answer. Leave empty to
                use a simple one by default.
 
+        validate_while_typing: Validate while the user types. Set to ``False``
+                              for expensive validators to run only on submission.
+                              A prompt_toolkit filter is also accepted.
+
         kwargs: Additional arguments, they will be passed to prompt toolkit.
 
     Returns:
@@ -92,6 +100,7 @@ def text(
         get_prompt_tokens,
         style=merged_style,
         validator=validator,
+        validate_while_typing=validate_while_typing,
         lexer=lexer,
         multiline=multiline,
         **kwargs,

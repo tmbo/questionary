@@ -6,12 +6,14 @@ from typing import Iterable
 from typing import List
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 from prompt_toolkit.completion import CompleteEvent
 from prompt_toolkit.completion import Completion
 from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.completion.base import Completer
 from prompt_toolkit.document import Document
+from prompt_toolkit.filters import Filter
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.key_processor import KeyPressEvent
 from prompt_toolkit.keys import Keys
@@ -126,6 +128,8 @@ def path(
     file_filter: Optional[Callable[[str], bool]] = None,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     min_input_len: int = 0,
+    *,
+    validate_while_typing: Union[bool, Filter] = True,
     **kwargs: Any,
 ) -> Question:
     """A text input for a file or directory path with autocompletion enabled.
@@ -189,6 +193,10 @@ def path(
                        least this long. Defaults to 0. This option does not do
                        anything if a custom ``completer`` is passed.
 
+        validate_while_typing: Validate while the user types. Set to ``False``
+                              for expensive validators to run only on submission.
+                              A prompt_toolkit filter is also accepted.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """  # noqa: W505, E501
@@ -241,6 +249,7 @@ def path(
         style=merged_style,
         completer=completer,
         validator=validator,
+        validate_while_typing=validate_while_typing,
         complete_style=complete_style,
         key_bindings=bindings,
         **kwargs,

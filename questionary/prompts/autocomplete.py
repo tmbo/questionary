@@ -11,6 +11,7 @@ from prompt_toolkit.completion import CompleteEvent
 from prompt_toolkit.completion import Completer
 from prompt_toolkit.completion import Completion
 from prompt_toolkit.document import Document
+from prompt_toolkit.filters import Filter
 from prompt_toolkit.formatted_text import HTML
 from prompt_toolkit.lexers import SimpleLexer
 from prompt_toolkit.shortcuts.prompt import CompleteStyle
@@ -111,6 +112,8 @@ def autocomplete(
     complete_style: CompleteStyle = CompleteStyle.COLUMN,
     validate: Any = None,
     style: Optional[Style] = None,
+    *,
+    validate_while_typing: Union[bool, Filter] = True,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a message with autocomplete help.
@@ -172,6 +175,10 @@ def autocomplete(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
+        validate_while_typing: Validate while the user types. Set to ``False``
+                              for expensive validators to run only on submission.
+                              A prompt_toolkit filter is also accepted.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
@@ -206,6 +213,7 @@ def autocomplete(
         style=merged_style,
         completer=completer,
         validator=validator,
+        validate_while_typing=validate_while_typing,
         complete_style=complete_style,
         **kwargs,
     )
