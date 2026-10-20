@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+import os
+from pathlib import Path
+
 import prompt_toolkit
 import pytest
 from prompt_toolkit.completion import Completer
@@ -35,6 +38,39 @@ def test_path():
     text = "myfile.py" + KeyInputs.ENTER
     result, cli = feed_cli_with_input("path", message, text)
     assert result == "myfile.py"
+
+
+@pytest.mark.parametrize("use_default", [False, True])
+def test_path_preserves_root(use_default):
+    root = Path.cwd().anchor
+    kwargs = {"default": root} if use_default else {}
+    text = KeyInputs.ENTER if use_default else root + KeyInputs.ENTER * 2
+    result, _ = feed_cli_with_input("path", "Pick your path", text, **kwargs)
+    assert result == root
+
+
+@pytest.mark.parametrize("root", [os.path.sep] + (["//"] if os.name != "nt" else []))
+def test_path_preserves_separator_roots(root):
+    result, _ = feed_cli_with_input(
+        "path", "Pick your path", KeyInputs.ENTER, default=root
+    )
+    assert result == root
+
+
+@pytest.mark.skipif(os.name != "nt", reason="requires Windows path semantics")
+def test_path_preserves_unc_root():
+    root = "\\\\server\\share\\"
+    result, _ = feed_cli_with_input(
+        "path", "Pick your path", KeyInputs.ENTER, default=root
+    )
+    assert result == root
+
+
+def test_path_trims_non_root_separator(tmp_path):
+    result, _ = feed_cli_with_input(
+        "path", "Pick your path", KeyInputs.ENTER, default=str(tmp_path) + os.path.sep
+    )
+    assert result == str(tmp_path)
 
 
 @pytest.mark.skipif(

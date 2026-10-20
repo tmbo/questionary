@@ -216,7 +216,10 @@ def path(
         elif event.app.current_buffer.validate(set_cursor=True):
             # When the validation succeeded, accept the input.
             result_path = event.app.current_buffer.document.text
-            if result_path.endswith(os.path.sep):
+            if (
+                result_path.endswith(os.path.sep)
+                and result_path != Path(result_path).anchor
+            ):
                 result_path = result_path[:-1]
 
             event.app.exit(result=result_path)
