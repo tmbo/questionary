@@ -37,7 +37,7 @@ jobs:
           restore-keys: ${{ runner.os }}-poetry-
 
       - name: Install dependencies 🖥
-        run: poetry install --no-interaction
+        run: make install
 
       - name: Lint Code 🎎
         run: make lint
@@ -86,7 +86,7 @@ jobs:
 
       - name: Install dependencies 🖥
         run: |
-          poetry install --no-interaction
+          make install
           poetry run pip install prompt_toolkit==${{ matrix.promttoolkit }}
 
       - name: Test Code 🔍
@@ -136,7 +136,7 @@ jobs:
           restore-keys: ${{ runner.os }}-poetry
 
       - name: Install dependencies 🖥
-        run: poetry install --no-interaction --with=docs
+        run: make install
 
       - name: Build docs ⚒️
         run: make docs

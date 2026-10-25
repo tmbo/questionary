@@ -33,7 +33,7 @@ clean:
 	poetry run make -C docs clean
 
 install:
-	poetry install --with="docs"
+	poetry install --no-interaction --with="docs"
 
 develop: install
 	poetry run pre-commit install
