@@ -418,6 +418,20 @@ def test_does_not_wrap_up_when_cycle_list_false():
     assert result == ["foo"]
 
 
+@pytest.mark.parametrize("edge", [Choice("Unavailable", disabled=True), Separator()])
+@pytest.mark.parametrize("direction", [KeyInputs.UP, KeyInputs.DOWN])
+def test_noncycling_navigation_with_unselectable_edges(edge, direction):
+    choices = (
+        [edge, "foo", "bar"] if direction == KeyInputs.UP else ["foo", "bar", edge]
+    )
+    text = KeyInputs.DOWN if direction == KeyInputs.DOWN else ""
+    text += direction + KeyInputs.SPACE + KeyInputs.ENTER
+    result, _ = feed_cli_with_input(
+        "checkbox", "Pick", text, choices=choices, cycle_list=False
+    )
+    assert result == (["bar"] if direction == KeyInputs.DOWN else ["foo"])
+
+
 def test_filter_custom_match():
     message = "Foo message"
     kwargs = {"choices": ["abc", "def", "ghi", "Ghi", "jkl"]}

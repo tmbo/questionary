@@ -284,30 +284,28 @@ def checkbox(
         perform_validation(get_selected_values())
 
     def move_cursor_down(event):
+        previous = ic.pointed_at
         # Stepping once
         ic.select_next()
 
-        # If wrap disabled and we wrapped back to the first element, undo it
-        if not cycle_list and ic.get_pointed_at() == ic.choices[0]:
-            ic.select_previous()
-            return
-
         # Skipping over any separators or disabled items
         while not ic.is_selection_valid():
             ic.select_next()
 
+        if not cycle_list and ic.pointed_at <= previous:
+            ic.pointed_at = previous
+
     def move_cursor_up(event):
+        previous = ic.pointed_at
         # Stepping once
         ic.select_previous()
 
-        # If wrap disabled and we wrapped back to the last element, undo it
-        if not cycle_list and ic.get_pointed_at() == ic.choices[-1]:
-            ic.select_next()
-            return
-
         # Skipping over any separators or disabled items
         while not ic.is_selection_valid():
             ic.select_previous()
+
+        if not cycle_list and ic.pointed_at >= previous:
+            ic.pointed_at = previous
 
     if use_search_filter:
 
