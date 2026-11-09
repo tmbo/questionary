@@ -15,7 +15,22 @@ from questionary.prompts import common
 from questionary.prompts.common import InquirerControl
 from questionary.prompts.common import build_validator
 from questionary.prompts.common import print_formatted_text
+from tests.utils import feed_cli_with_input
 from tests.utils import prompt_toolkit_version
+
+
+@pytest.mark.parametrize("kind", ["select", "checkbox"])
+@pytest.mark.parametrize("has_enabled_match", [False, True])
+def test_search_does_not_select_disabled_choices(kind, has_enabled_match):
+    choices = [Choice("Offline", disabled=True), "alpha", Choice("beta", disabled=True)]
+    if has_enabled_match:
+        choices.append("betty")
+    text = "bet" + (" " if kind == "checkbox" else "") + "\r"
+    result, _ = feed_cli_with_input(
+        kind, "Pick", text, choices=choices, use_search_filter=True, use_jk_keys=False
+    )
+    expected = "betty" if has_enabled_match else "alpha"
+    assert result == ([expected] if kind == "checkbox" else expected)
 
 
 def test_to_many_choices_for_shortcut_assignment():
