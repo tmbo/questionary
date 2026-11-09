@@ -401,7 +401,11 @@ class InquirerControl(FormattedTextControl):
             return self.choices
 
         search_matcher = self.search_matcher or case_insensitive
-        filtered = [c for c in self.choices if search_matcher(self.search_filter, c)]
+        filtered = [
+            c
+            for c in self.choices
+            if not c.disabled and search_matcher(self.search_filter, c)
+        ]
         self.found_in_search = len(filtered) > 0
         return filtered if self.found_in_search else self.choices
 
@@ -522,11 +526,11 @@ class InquirerControl(FormattedTextControl):
         return tokens
 
     def is_selection_a_separator(self) -> bool:
-        selected = self.choices[self.pointed_at]
+        selected = self.get_pointed_at()
         return isinstance(selected, Separator)
 
     def is_selection_disabled(self) -> Optional[Union[str, bool]]:
-        return self.choices[self.pointed_at].disabled
+        return self.get_pointed_at().disabled
 
     def is_selection_valid(self) -> bool:
         return not self.is_selection_disabled() and not self.is_selection_a_separator()
@@ -560,6 +564,8 @@ class InquirerControl(FormattedTextControl):
 
         # Make sure that the selection is in the bounds of the filtered list
         self.pointed_at = 0
+        while not self.is_selection_valid():
+            self.select_next()
 
     def remove_search_character(self) -> None:
         if self.search_filter and len(self.search_filter) > 1:
