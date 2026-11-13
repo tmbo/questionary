@@ -13,6 +13,7 @@ def password(
     validate: Any = None,
     qmark: str = DEFAULT_QUESTION_PREFIX,
     style: Optional[Style] = None,
+    validate_while_typing: bool = True,
     **kwargs: Any,
 ) -> Question:
     """A text input where a user can enter a secret which won't be displayed on the CLI.
@@ -52,10 +53,21 @@ def password(
         style: A custom color and style for the question parts. You can
                configure colors as well as font types for different elements.
 
+        validate_while_typing: Whether to validate input while typing.
+                               Defaults to ``True``. Set to ``False`` for expensive
+                               validators to only execute on Enter.
+
     Returns:
         :class:`Question`: Question instance, ready to be prompted (using ``.ask()``).
     """
 
     return text.text(
-        message, default, validate, qmark, style, is_password=True, **kwargs
+        message,
+        default,
+        validate,
+        qmark,
+        style,
+        is_password=True,
+        validate_while_typing=validate_while_typing,
+        **kwargs,
     )

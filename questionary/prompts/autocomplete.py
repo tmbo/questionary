@@ -111,6 +111,7 @@ def autocomplete(
     complete_style: CompleteStyle = CompleteStyle.COLUMN,
     validate: Any = None,
     style: Optional[Style] = None,
+    validate_while_typing: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a message with autocomplete help.
@@ -206,6 +207,7 @@ def autocomplete(
         style=merged_style,
         completer=completer,
         validator=validator,
+        validate_while_typing=validate_while_typing,
         complete_style=complete_style,
         **kwargs,
     )
