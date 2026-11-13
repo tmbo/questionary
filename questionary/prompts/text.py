@@ -25,6 +25,7 @@ def text(
     multiline: bool = False,
     instruction: Optional[str] = None,
     lexer: Optional[Lexer] = None,
+    validate_while_typing: bool = True,
     **kwargs: Any,
 ) -> Question:
     """Prompt the user to enter a free text message.
@@ -70,6 +71,10 @@ def text(
         lexer: Supply a valid lexer to style the answer. Leave empty to
                use a simple one by default.
 
+        validate_while_typing: Whether to validate input while typing.
+                               Defaults to ``True``. Set to ``False`` for expensive
+                               validators to only execute on Enter.
+
         kwargs: Additional arguments, they will be passed to prompt toolkit.
 
     Returns:
@@ -94,6 +99,7 @@ def text(
         validator=validator,
         lexer=lexer,
         multiline=multiline,
+        validate_while_typing=validate_while_typing,
         **kwargs,
     )
     p.default_buffer.reset(Document(default))

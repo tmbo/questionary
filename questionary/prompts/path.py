@@ -126,6 +126,7 @@ def path(
     file_filter: Optional[Callable[[str], bool]] = None,
     complete_style: CompleteStyle = CompleteStyle.MULTI_COLUMN,
     min_input_len: int = 0,
+    validate_while_typing: bool = True,
     **kwargs: Any,
 ) -> Question:
     """A text input for a file or directory path with autocompletion enabled.
@@ -241,6 +242,7 @@ def path(
         style=merged_style,
         completer=completer,
         validator=validator,
+        validate_while_typing=validate_while_typing,
         complete_style=complete_style,
         key_bindings=bindings,
         **kwargs,

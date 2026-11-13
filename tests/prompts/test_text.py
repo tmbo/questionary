@@ -50,3 +50,25 @@ def test_text_validate_with_class():
 
     result, cli = feed_cli_with_input("text", message, text, validate=SimpleValidator)
     assert result == "001"
+
+
+def test_text_validate_while_typing():
+    validation_calls = []
+
+    def custom_validator(val):
+        validation_calls.append(val)
+        return True
+
+    message = "Enter text"
+    text = "abc\r"
+
+    result, cli = feed_cli_with_input(
+        "text",
+        message,
+        text,
+        validate=custom_validator,
+        validate_while_typing=False,
+    )
+    assert result == "abc"
+    assert len(validation_calls) > 0
+
